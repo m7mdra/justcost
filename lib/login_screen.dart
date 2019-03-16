@@ -1,0 +1,133 @@
+import 'package:flutter/material.dart';
+import 'package:justcost/main_screen.dart';
+import 'package:justcost/register_screen.dart';
+
+class LoginScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: <Widget>[
+              Align(
+                child: Text(
+                  'JUST COST',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Align(
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    hintText: 'Username',
+                    labelText: 'Username',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16))),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                    hintText: '**********',
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16))),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  MaterialButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () {},
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                onPressed: () {},
+                child: Text('Login'),
+                color: Theme.of(context).accentColor,
+              ),
+              const Divider(),
+              OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MainScreen()));
+                },
+                child: Text('Continue as guest'),
+              ),
+              OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RegisterScreen()));
+                },
+                child: Text('Register'),
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'About us',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                  Text(' | '),
+                  Text(
+                    'Get Help',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              Center(child: Text('Version 1.0')),
+              const SizedBox(
+                height: 2,
+              ),
+              Center(child: Text('Copyright © 2019, All Rights resereved.')),
+              const SizedBox(
+                height: 2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Privacy',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                  Text(' | '),
+                  Text(
+                    'Terms of Service',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
