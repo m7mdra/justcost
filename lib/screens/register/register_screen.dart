@@ -39,9 +39,10 @@ class RegisterScreen extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  hintText: 'E-mail address',
-                  labelText: 'mail@domain.com',
+                  hintText: 'mail@domain.com',
+                  labelText: 'E-mail address',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16))),
             ),
@@ -72,7 +73,9 @@ class RegisterScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8)),
               onPressed: () {},
               child: Text('Register'),
-              color: Theme.of(context).accentColor,
+              color: Theme
+                  .of(context)
+                  .accentColor,
             ),
           ],
         ),

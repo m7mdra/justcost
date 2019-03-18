@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/main_screen.dart';
-import 'package:justcost/register_screen.dart';
+import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/register/register_screen.dart';
+import 'package:justcost/screens/reset_password/reset_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -54,7 +55,10 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   MaterialButton(
                     padding: const EdgeInsets.all(0),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResetPasswordScreen()));
+                    },
                     child: Text(
                       'Forgot Password?',
                       style: TextStyle(decoration: TextDecoration.underline),

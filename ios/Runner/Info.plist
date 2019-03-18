@@ -41,5 +41,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Used to Capture Images/videos in posting an Ad</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to Record Images/videos in posting an Ad</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to Select Images/videos in posting an Ad</string>
 </dict>
 </plist>

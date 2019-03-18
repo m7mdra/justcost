@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/splash_screen.dart';
+import 'package:justcost/screens/splash/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,11 +10,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        backgroundColor: Colors.white,
-        accentColor: Colors.yellowAccent,
-      ),
+          backgroundColor: Colors.white,
+          primaryColor: Color(0xff3B3F4E),
+          primaryColorLight: Color(0xff666a7a),
+          accentColor: Color(0xffF9D413),
+          buttonColor: Color(0xffF9D413),
+          fontFamily: 'OpenSans',
+          primaryColorDark: Color(0xff141926)),
       home: SplashScreen(),
     );
   }
 }
-

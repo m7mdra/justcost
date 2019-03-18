@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/login_screen.dart';
+import 'package:justcost/screens/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
         child: Text(
           'JUST COST',
