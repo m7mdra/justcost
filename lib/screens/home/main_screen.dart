@@ -40,7 +40,11 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ),
-                Align(child: IconButton(icon:Icon(Icons.notifications),onPressed: (){},)),
+                Align(
+                    child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {},
+                )),
               ],
             )
           ],
@@ -73,15 +77,39 @@ class _MainScreenState extends State<MainScreen> {
           },
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text('Home')),
+                icon: Icon(Icons.home),
+                title: Text('Home'),
+                activeIcon: Icon(
+                  Icons.home,
+                  color: Theme.of(context).accentColor,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.search), title: Text('Search')),
+                icon: Icon(Icons.search),
+                title: Text('Search'),
+                activeIcon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).accentColor,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle), title: Text('Post add')),
+                icon: Icon(Icons.add_circle),
+                title: Text('Post Ad'),
+                activeIcon: Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.category), title: Text('Categories')),
+                icon: Icon(Icons.category),
+                title: Text('Categories'),
+                activeIcon: Icon(
+                  Icons.category,
+                  color: Theme.of(context).accentColor,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person), title: Text('profile')),
+                icon: Icon(Icons.person), title: Text('Profile'),
+                activeIcon: Icon(
+                  Icons.person,
+                  color: Theme.of(context).accentColor,
+                )),
           ],
           type: BottomNavigationBarType.fixed,
         ));

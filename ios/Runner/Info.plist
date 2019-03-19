@@ -49,5 +49,10 @@
     <string>Used to Record Images/videos in posting an Ad</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Used to Select Images/videos in posting an Ad</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
 </dict>
 </plist>

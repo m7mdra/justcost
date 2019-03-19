@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/widget/IconText.dart';
+import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
+import 'package:justcost/widget/icon_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
@@ -168,115 +169,121 @@ class FeaturedAdsWidget extends StatelessWidget {
 class RecentAdsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        children: <Widget>[
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-              ),
-              Container(
-                color: Colors.yellow,
-                child: Text('10% OFF'),
-              )
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Ad name'),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  IconText(
-                    icon: Icon(
-                      Icons.place,
-                      size: 16,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
+      },
+      child: Card(
+        child: Row(
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.centerLeft,
+              children: <Widget>[
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.red,
+                ),
+                Container(
+                  color: Colors.yellow,
+                  child: Text('10% OFF'),
+                )
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Ad name'),
+                    const SizedBox(
+                      height: 4,
                     ),
-                    text: Text(
-                      'Abu Dhabi',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  IconText(
-                    icon: Icon(
-                      Icons.access_time,
-                      size: 16,
-                    ),
-                    text: Text(
-                      '17 Feb 2010',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconText(
-                        icon: Icon(Icons.call, size: 13),
-                        text: Text(
-                          'Call ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: Colors.black),
-                        ),
+                    IconText(
+                      icon: Icon(
+                        Icons.place,
+                        size: 16,
                       ),
-                      IconText(
-                        icon: Icon(Icons.mode_comment, size: 13),
-                        text: Text(
-                          'Comment ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: Colors.black),
-                        ),
+                      text: Text(
+                        'Abu Dhabi',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: Colors.black),
                       ),
-                      IconText(
-                        icon: Icon(Icons.person, size: 13),
-                        text: Text(
-                          'Person ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: Colors.black),
-                        ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    IconText(
+                      icon: Icon(
+                        Icons.access_time,
+                        size: 16,
                       ),
-                    ],
-                  )
-                ],
+                      text: Text(
+                        '17 Feb 2010',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: Colors.black),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconText(
+                          icon: Icon(Icons.call, size: 13),
+                          text: Text(
+                            'Call ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(color: Colors.black),
+                          ),
+                        ),
+                        IconText(
+                          icon: Icon(Icons.mode_comment, size: 13),
+                          text: Text(
+                            'Comment ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(color: Colors.black),
+                          ),
+                        ),
+                        IconText(
+                          icon: Icon(Icons.person, size: 13),
+                          text: Text(
+                            'Person ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Column(
-            children: <Widget>[
-              Text(
-                '100 AED',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              ),
-            ],
-          )
-        ],
+            Column(
+              children: <Widget>[
+                Text(
+                  '100 AED',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
 
 void main() => runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
           buttonColor: Color(0xffF9D413),
           fontFamily: 'OpenSans',
           primaryColorDark: Color(0xff141926)),
-      home: SplashScreen(),
+      home: AdDetailsScreen(), //TODO: replace
     );
   }
 }
