@@ -27,6 +27,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               height: 40,
             ),
             TextField(
+              maxLines: 1,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   hintText: 'mail@domain.com',

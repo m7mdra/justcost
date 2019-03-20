@@ -20,6 +20,7 @@ class _SearchPageState extends State<SearchPage>
         Container(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            maxLines: 1,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
                 hintText: 'Search for...',

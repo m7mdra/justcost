@@ -40,7 +40,7 @@ class _PostAdPageState extends State<PostAdPage>
           ),
         ]),
         const Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: const EdgeInsets.only(left: 16.0, right: 16),
           child: Text(
             'Max media uploading is 10 for videos and photos',
             style: TextStyle(color: Colors.orange),
@@ -49,6 +49,7 @@ class _PostAdPageState extends State<PostAdPage>
         const Divider(),
         ListTile(
           dense: true,
+          contentPadding: EdgeInsets.only(left: 16, right: 16),
           title: Text('Where do you want to sell'),
           trailing: IconButton(
               icon: Icon(Icons.keyboard_arrow_right),
@@ -57,12 +58,14 @@ class _PostAdPageState extends State<PostAdPage>
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             trailing: IconButton(
                 icon: Icon(Icons.place), onPressed: _onLocationPickerPicked),
             title: Text('Location')),
         const Divider(),
         ListTile(
           dense: true,
+          contentPadding: EdgeInsets.only(left: 16, right: 16),
           title: Text('Select Category'),
           trailing: IconButton(
             icon: Icon(Icons.keyboard_arrow_right),
@@ -72,49 +75,75 @@ class _PostAdPageState extends State<PostAdPage>
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             title: TextField(
+              maxLines: 1,
               decoration: InputDecoration.collapsed(
                   hintText: 'Add Title for your ad', hintStyle: hintStyle),
             )),
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
+
             title: TextField(
+              maxLines: 1,
+              decoration: InputDecoration.collapsed(
+                  hintText: 'Keyword', hintStyle: hintStyle),
+            )),
+        const Divider(),
+        ListTile(
+            dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
+            title: TextField(
+              keyboardType: TextInputType.phone,
+              maxLines: 1,
               decoration: InputDecoration.collapsed(
                   hintText: 'Old price', hintStyle: hintStyle),
             )),
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             title: TextField(
+              maxLines: 1,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration.collapsed(
                   hintText: 'New price', hintStyle: hintStyle),
             )),
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             title: TextField(
+              maxLines: 1,
+              keyboardType: TextInputType.phone,
+
               decoration: InputDecoration.collapsed(
                   hintText: 'Phone Number', hintStyle: hintStyle),
             )),
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             title: TextField(
+              maxLines: 1,
               decoration: InputDecoration.collapsed(
                   hintText: 'E-mail Address', hintStyle: hintStyle),
             )),
         const Divider(),
         ListTile(
             dense: true,
+            contentPadding: EdgeInsets.only(left: 16, right: 16),
             title: TextField(
+              keyboardType: TextInputType.emailAddress,
               maxLines: 5,
               decoration: InputDecoration.collapsed(
                   hintText: 'more details about the Ad', hintStyle: hintStyle),
             )),
         const Divider(),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: RaisedButton(
             onPressed: () {},
             child: Text('Submit Ad'),
@@ -188,7 +217,7 @@ class _PostAdPageState extends State<PostAdPage>
           ),
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(16)),
         ),
         onTap: () {
           showDialog(
@@ -196,7 +225,7 @@ class _PostAdPageState extends State<PostAdPage>
               builder: (context) {
                 return AlertDialog(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                      borderRadius: BorderRadius.all(Radius.circular(16))),
                   title: Text('Select Media to add to the uploads'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,

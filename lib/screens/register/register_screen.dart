@@ -29,7 +29,10 @@ class RegisterScreen extends StatelessWidget {
               height: 80,
             ),
             TextField(
+              maxLines: 1,
               decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
+
                   hintText: 'Username',
                   labelText: 'Username',
                   border: OutlineInputBorder(
@@ -39,8 +42,11 @@ class RegisterScreen extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              maxLines: 1,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
+
                   hintText: 'mail@domain.com',
                   labelText: 'E-mail address',
                   border: OutlineInputBorder(
@@ -50,8 +56,10 @@ class RegisterScreen extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              maxLines: 1,
               obscureText: true,
               decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
                   hintText: '**********',
                   labelText: 'Password',
                   border: OutlineInputBorder(
@@ -61,8 +69,11 @@ class RegisterScreen extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              maxLines: 1,
               obscureText: true,
               decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
+
                   hintText: '**********',
                   labelText: 'Confirm password',
                   border: OutlineInputBorder(

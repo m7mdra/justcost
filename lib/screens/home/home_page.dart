@@ -70,14 +70,13 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         Container(
-          height: 225,
+          height: 215,
           child: ListView.builder(
             itemBuilder: (context, index) {
               return FeaturedAdsWidget();
             },
             itemCount: 10,
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
           ),
         ),
         Padding(
@@ -129,18 +128,19 @@ class FeaturedAdsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 140,
+        height: 150,
         width: 150,
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Stack(
                 alignment: Alignment.centerLeft,
                 children: <Widget>[
                   Container(
                     width: 150,
-                    height: 150,
+                    height: 140,
                     color: Colors.red,
                   ),
                   Container(

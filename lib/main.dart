@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           buttonColor: Color(0xffF9D413),
           fontFamily: 'OpenSans',
           primaryColorDark: Color(0xff141926)),
-      home: AdDetailsScreen(), //TODO: replace
+      home: SplashScreen(), //TODO: replace
     );
   }
 }
