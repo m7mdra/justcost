@@ -2,33 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatefulWidget {
+class CategoriesPage extends StatefulWidget {
   final Key key;
 
-  SearchPage({this.key}) : super(key: key);
+  CategoriesPage({this.key}) : super(key: key);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _CategoriesPageState createState() => _CategoriesPageState();
 }
 
-class _SearchPageState extends State<SearchPage>
-    with AutomaticKeepAliveClientMixin<SearchPage> {
+class _CategoriesPageState extends State<CategoriesPage>
+    with AutomaticKeepAliveClientMixin<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            maxLines: 1,
-            textInputAction: TextInputAction.search,
-            decoration: InputDecoration(
-                hintText: 'Search for...',
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-                suffixIcon: Icon(Icons.search)),
-          ),
-        ),
         Expanded(
           child: GridView(
             primary: false,

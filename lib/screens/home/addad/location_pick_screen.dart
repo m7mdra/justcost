@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -13,14 +14,12 @@ class _LocationPickerState extends State<LocationPicker> {
   bool _isCameraMoving = false;
   var markers = Set<Marker>();
   var marker = Marker(
-      markerId: MarkerId("marker"),
-      position: LatLng(25.276987, 55.296249));
+      markerId: MarkerId("marker"), position: LatLng(25.276987, 55.296249));
 
   @override
   void initState() {
     super.initState();
-    markers.add(marker);
-  }
+    markers.add(marker);}
 
   @override
   Widget build(BuildContext context) {

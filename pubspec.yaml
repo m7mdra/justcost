@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_slider: ^1.1.0
-  google_maps_flutter: ^0.4.0
+  google_maps_flutter: any
   cupertino_icons: ^0.1.2
   image_picker: 0.5.0+6
   video_player: ^0.10.0+2

@@ -4,6 +4,10 @@ import 'package:justcost/widget/icon_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
+  final ValueChanged<ScrollNotification> onScroll;
+
+  const HomePage({Key key, this.onScroll}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }

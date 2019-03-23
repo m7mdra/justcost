@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:justcost/screens/home/post_ad_page.dart';
-import 'home_page.dart';
-import 'search_page.dart';
-import 'profile_page.dart';
-import 'categories_page.dart';
+import 'package:flutter/rendering.dart';
+import 'package:justcost/screens/home/addad/post_ad_page.dart';
+import 'package:justcost/screens/home/home/home_page.dart';
+import 'package:justcost/screens/home/search/search_page.dart';
+import 'package:justcost/screens/home/profile/profile_page.dart';
+import 'package:justcost/screens/home/category/categories_page.dart';
+import 'package:justcost/screens/home/search/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,34 +25,80 @@ class _MainScreenState extends State<MainScreen> {
     _pageController = PageController(keepPage: true);
   }
 
+  List<Widget> _notificationWidget = List.generate(10, (generator) {
+    return ListTile(
+      dense: true,
+      leading: generator % 2 == 0
+          ? Icon(
+              Icons.thumb_up,
+              color: Colors.blue,
+            )
+          : Icon(
+              Icons.mode_comment,
+              color: Colors.green,
+            ),
+      title: Text(generator % 2 == 0
+          ? 'Ahmed Salah Liked your Ad'
+          : 'Ahmed Salah Commented your Ad'),
+      subtitle: Text('${Random().nextInt(60)} seconds ago'),
+    );
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
         key: _scaffoldKey,
-        endDrawer: Drawer(
-          child: ListView.separated(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return ListTile(
-                dense: true,
-                leading: index % 2 == 0
-                    ? Icon(
-                        Icons.thumb_up,
-                        color: Colors.blue,
-                      )
-                    : Icon(
-                        Icons.mode_comment,
-                        color: Colors.green,
+        endDrawer: SafeArea(
+          child: Drawer(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Notifications',
+                        style: Theme.of(context).textTheme.title,
                       ),
-                title: Text(index % 2 == 0
-                    ? 'Ahmed Salah Liked your Ad'
-                    : 'Ahmed Salah Commented your Ad'),
-                subtitle: Text('${Random().nextInt(60)} seconds ago'),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider();
-            },
+                      IconButton(
+                        icon: Icon(Icons.clear_all),
+                        onPressed: () {
+                          setState(() {
+                            _notificationWidget.clear();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(),
+                Expanded(
+                  child: ListView.separated(
+                    primary: true,
+                    itemCount: _notificationWidget.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        child: _notificationWidget[index],
+                        key: ObjectKey(
+                            "value${Random().nextInt(_notificationWidget.length)}"),
+                        onDismissed: (position) {
+                          setState(() {
+                            _notificationWidget.removeAt(index);
+                          });
+                        },
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         appBar: AppBar(
@@ -81,6 +129,16 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
             ),
+            _currentPage == 1
+                ? IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen()));
+                    })
+                : Container()
           ],
         ),
         body: SafeArea(

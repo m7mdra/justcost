@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/screens/home/location_pick_screen.dart';
-import 'package:justcost/screens/home/place_picker_screen.dart';
+import 'package:justcost/screens/home/addad/location_pick_screen.dart';
+import 'package:justcost/screens/home/addad/place_picker_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/widget/ad_image_view.dart';
