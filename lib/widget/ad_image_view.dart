@@ -24,11 +24,16 @@ class _AdImageViewState extends State<AdImageView> {
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
-        Image.file(
-          widget.file,
-          width: widget.size.width,
-          height: widget.size.height,
-          fit: BoxFit.cover,
+        ClipRRect(
+          borderRadius: new BorderRadius.circular(8.0),
+          child: Image.file(
+
+            widget.file,
+
+            width: widget.size.width,
+            height: widget.size.height,
+            fit: BoxFit.cover,
+          ),
         ),
         Positioned(
           left: 85,

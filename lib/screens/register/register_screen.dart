@@ -26,13 +26,31 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 80,
+              height: 16,
+            ),
+            Align(
+              child: ClipOval(
+                child: Image.network(
+                  'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Align(
+              child: OutlineButton(
+                child: Text('Select Profile Avatar'),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(
+              height: 8,
             ),
             TextField(
               maxLines: 1,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(16),
-
+                  contentPadding: EdgeInsets.all(10),
                   hintText: 'Username',
                   labelText: 'Username',
                   border: OutlineInputBorder(
@@ -45,8 +63,7 @@ class RegisterScreen extends StatelessWidget {
               maxLines: 1,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(16),
-
+                  contentPadding: EdgeInsets.all(10),
                   hintText: 'mail@domain.com',
                   labelText: 'E-mail address',
                   border: OutlineInputBorder(
@@ -57,11 +74,23 @@ class RegisterScreen extends StatelessWidget {
             ),
             TextField(
               maxLines: 1,
-              obscureText: true,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(16),
-                  hintText: '**********',
-                  labelText: 'Password',
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: 'Address',
+                  labelText: 'Address',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16))),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: '000-0000-0000',
+                  labelText: 'Phone Number',
+                  prefixText: '+',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16))),
             ),
@@ -72,21 +101,20 @@ class RegisterScreen extends StatelessWidget {
               maxLines: 1,
               obscureText: true,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(16),
-
+                  contentPadding: EdgeInsets.all(10),
                   hintText: '**********',
-                  labelText: 'Confirm password',
+                  labelText: 'Password',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16))),
             ),
+
+            
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               onPressed: () {},
               child: Text('Register'),
-              color: Theme
-                  .of(context)
-                  .accentColor,
+              color: Theme.of(context).accentColor,
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/home/search/search_screen.dart';
+import 'package:justcost/widget/sliver_app_bar_header.dart';
 
 class SearchPage extends StatefulWidget {
   final Key key;
@@ -16,57 +17,53 @@ class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              Container(
-                height: 100,
-                width: 100,
-                child: Card(
-                  child: Center(child: Text('For you')),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverPersistentHeader(
+          delegate: SliverAppBarHeaderDelegate(
+            minHeight: 100,
+            maxHeight: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Card(
+                    child: Center(child: Text('For you')),
+                  ),
                 ),
-              ),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-            ],
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+              ],
+            ),
           ),
         ),
-        Expanded(
-          child: GridView(
-            primary: false,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            children: <Widget>[
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-              OfferWidget(),
-            ],
-          ),
-        )
+        SliverGrid.count(crossAxisCount: 3,children: <Widget>[
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+          OfferWidget(),
+        ],)
       ],
     );
+
   }
 
   @override
@@ -81,18 +78,19 @@ class CategoryWidget extends StatelessWidget {
       height: 100,
       child: Card(
           child: GridTile(
-            child: Icon(
-              Icons.favorite,
-              size: 60,
-            ),
-            footer: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(child: Text('Category')),
-            ),
-          )),
+        child: Icon(
+          Icons.favorite,
+          size: 60,
+        ),
+        footer: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: Text('Category')),
+        ),
+      )),
     );
   }
 }
+
 class OfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -105,8 +103,11 @@ class OfferWidget extends StatelessWidget {
             color: Colors.red,
             child: Random().nextInt(2) == 1
                 ? Center(
-                    child: Icon(Icons.play_circle_filled,color: Colors.white,
-                    size: 30,),
+                    child: Icon(
+                      Icons.play_circle_filled,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   )
                 : Container(),
           ),

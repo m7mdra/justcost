@@ -39,7 +39,10 @@ class _AdVideoViewState extends State<AdVideoView> {
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
-          VideoPlayer(_videoPlayerController),
+          ClipRRect(
+            child: VideoPlayer(_videoPlayerController),
+            borderRadius: new BorderRadius.circular(8.0),
+          ),
           Align(
               child: IconButton(
                   icon: Icon(

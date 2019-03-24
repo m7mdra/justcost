@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/screens/home/addad/category_picker_screen.dart';
 import 'package:justcost/screens/home/addad/location_pick_screen.dart';
 import 'package:justcost/screens/home/addad/place_picker_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,14 +54,14 @@ class _PostAdPageState extends State<PostAdPage>
           title: Text('Where do you want to sell'),
           trailing: IconButton(
               icon: Icon(Icons.keyboard_arrow_right),
-              onPressed: _onPlacePickerPicked),
+              onPressed: _onPlacePickerClicked),
         ),
         const Divider(),
         ListTile(
             dense: true,
             contentPadding: EdgeInsets.only(left: 16, right: 16),
             trailing: IconButton(
-                icon: Icon(Icons.place), onPressed: _onLocationPickerPicked),
+                icon: Icon(Icons.place), onPressed: _onLocationPickerClicked),
             title: Text('Location')),
         const Divider(),
         ListTile(
@@ -69,7 +70,7 @@ class _PostAdPageState extends State<PostAdPage>
           title: Text('Select Category'),
           trailing: IconButton(
             icon: Icon(Icons.keyboard_arrow_right),
-            onPressed: null,
+            onPressed: _onCategoryPickerClicked,
           ),
         ),
         const Divider(),
@@ -85,7 +86,6 @@ class _PostAdPageState extends State<PostAdPage>
         ListTile(
             dense: true,
             contentPadding: EdgeInsets.only(left: 16, right: 16),
-
             title: TextField(
               maxLines: 1,
               decoration: InputDecoration.collapsed(
@@ -118,7 +118,6 @@ class _PostAdPageState extends State<PostAdPage>
             title: TextField(
               maxLines: 1,
               keyboardType: TextInputType.phone,
-
               decoration: InputDecoration.collapsed(
                   hintText: 'Phone Number', hintStyle: hintStyle),
             )),
@@ -163,7 +162,7 @@ class _PostAdPageState extends State<PostAdPage>
           padding: const EdgeInsets.all(2.0),
           child: media.type == Type.Image
               ? Padding(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(3),
                   child: AdImageView(
                     file: media.file,
                     size: Size(100, 100),
@@ -176,7 +175,7 @@ class _PostAdPageState extends State<PostAdPage>
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(3),
                   child: AdVideoView(
                     key: ObjectKey('object$index'),
                     file: media.file,
@@ -196,16 +195,6 @@ class _PostAdPageState extends State<PostAdPage>
   @override
   bool get wantKeepAlive => true;
 
-  Future _onPlacePickerPicked() async {
-    var place = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => PlacePickerScreen()));
-  }
-
-  Future _onLocationPickerPicked() async {
-    var location = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LocationPicker()));
-  }
-
   Widget _imagePicker() {
     return InkWell(
         child: Container(
@@ -217,7 +206,7 @@ class _PostAdPageState extends State<PostAdPage>
           ),
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(16)),
+              borderRadius: BorderRadius.circular(8)),
         ),
         onTap: () {
           showDialog(
@@ -295,5 +284,20 @@ class _PostAdPageState extends State<PostAdPage>
                 );
               });
         });
+  }
+
+  Future _onPlacePickerClicked() async {
+    var place = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => PlacePickerScreen()));
+  }
+
+  Future _onLocationPickerClicked() async {
+    var location = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LocationPickerScreen()));
+  }
+
+  Future _onCategoryPickerClicked() async {
+    var category = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
   }
 }

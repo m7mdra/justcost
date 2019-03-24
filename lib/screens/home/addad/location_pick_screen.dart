@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class LocationPicker extends StatefulWidget {
+class LocationPickerScreen extends StatefulWidget {
   @override
-  _LocationPickerState createState() => _LocationPickerState();
+  _LocationPickerScreenState createState() => _LocationPickerScreenState();
 }
 
-class _LocationPickerState extends State<LocationPicker> {
+class _LocationPickerScreenState extends State<LocationPickerScreen> {
   Completer<GoogleMapController> _controller = Completer();
   bool _isCameraMoving = false;
   var markers = Set<Marker>();

@@ -72,7 +72,6 @@ class _ProfilePageState extends State<ProfilePage>
           title: Text('Account Type'),
           subtitle: Text("Personal"),
           trailing: Icon(Icons.keyboard_arrow_right),
-
         ),
         const Divider(),
         ListTile(
@@ -80,7 +79,6 @@ class _ProfilePageState extends State<ProfilePage>
           title: Text('Total Ads'),
           subtitle: Text("20 ADS"),
           trailing: Icon(Icons.keyboard_arrow_right),
-
         ),
         const Divider(),
         ListTile(
@@ -112,7 +110,23 @@ class _ProfilePageState extends State<ProfilePage>
         ),
         ListTile(
           dense: true,
-          title: Text('Log out'),
+          title: Text('About us'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Get Help'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Privacy'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Term of Service'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Logout'),
         ),
       ],
     );
