@@ -1,6 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class RegisterScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class RegisterScreen extends StatefulWidget {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  File imageFile;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +39,67 @@ class RegisterScreen extends StatelessWidget {
             ),
             Align(
               child: ClipOval(
-                child: Image.network(
-                  'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
-                  height: 120,
-                  width: 120,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  child: imageFile == null
+                      ? Image.network(
+                          'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          imageFile,
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        )),
             ),
             Align(
-              child: OutlineButton(
-                child: Text('Select Profile Avatar'),
-                onPressed: () {},
+              child: OutlineButton.icon(
+                label: Text('Select Profile Avatar'),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
+                          title: Text('Select Media to add to the uploads'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                title: Text('Capture Image'),
+                                leading: Icon(Icons.camera_alt),
+                                dense: true,
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var image = await ImagePicker.pickImage(
+                                      source: ImageSource.camera);
+                                  setState(() {
+                                    imageFile = image;
+                                  });
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Pick Image from gallery'),
+                                leading: Icon(Icons.image),
+                                dense: true,
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var image = await ImagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  setState(() {
+                                    imageFile = image;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                },
+                icon: Icon(Icons.camera_alt),
               ),
             ),
             SizedBox(
@@ -107,8 +165,6 @@ class RegisterScreen extends StatelessWidget {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16))),
             ),
-
-            
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
