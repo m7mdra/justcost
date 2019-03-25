@@ -293,13 +293,14 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 height: MediaQuery
                     .of(context)
                     .size
-                    .height - 200,
+                    .height - 300,
                 width: MediaQuery
                     .of(context)
                     .size
                     .width,
                 child: ListView.separated(
                     primary: false,
+
                     itemBuilder: (context, index) {
                       return AdComment();
                     },

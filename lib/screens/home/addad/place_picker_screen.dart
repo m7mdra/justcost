@@ -15,7 +15,9 @@ class _PlacePickerScreenState extends State<PlacePickerScreen> {
       body: SafeArea(
           child: ListView(
         children: <Widget>[
-          ListTile(title: Text('Dubai')),
+          ListTile(title: Text('Dubai'),onTap: (){
+            Navigator.of(context).pop("Dubai");
+          },),
           ListTile(title: Text('Abu Dhabi')),
           ListTile(title: Text('Sharjah')),
           ListTile(title: Text('Ajman')),

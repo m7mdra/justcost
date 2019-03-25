@@ -3,7 +3,31 @@ import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/screens/reset_password/reset_password_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _userNameController;
+  TextEditingController _passwordController;
+  FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _userNameController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userNameController.dispose();
+    _passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,28 +55,56 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            TextField(
-              minLines: 1,
-              decoration: InputDecoration(
-                  hintText: 'Username',
-                  labelText: 'Username',
-                  contentPadding: EdgeInsets.all(10),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16))),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextField(
-              obscureText: true,
-              minLines: 1,
-              decoration: InputDecoration(
-                  hintText: '**********',
-                  labelText: 'Password',
-                  contentPadding: EdgeInsets.all(10),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16))),
-            ),
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      validator: (username) {
+                        return username.isEmpty
+                            ? "Username field can not be empty"
+                            : null;
+                      },
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(_passwordFocusNode);
+                      },
+                      textInputAction: TextInputAction.next,
+                      controller: _userNameController,
+                      minLines: 1,
+                      decoration: InputDecoration(
+                          hintText: 'Username',
+                          labelText: 'Username',
+                          contentPadding: EdgeInsets.all(10),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      focusNode: _passwordFocusNode,
+                      obscureText: true,
+                      validator: (password) {
+                        return password.isEmpty
+                            ? "password field can not be empty"
+                            : null;
+                      },
+                      onEditingComplete: () {
+                        var form = _formKey.currentState;
+                        attempLogin(form);
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      minLines: 1,
+                      decoration: InputDecoration(
+                          hintText: '**********',
+                          labelText: 'Password',
+                          contentPadding: EdgeInsets.all(10),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                  ],
+                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -72,7 +124,10 @@ class LoginScreen extends StatelessWidget {
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
-              onPressed: () {},
+              onPressed: () {
+                var form = _formKey.currentState;
+                attempLogin(form);
+              },
               child: Text('Login'),
               color: Theme.of(context).accentColor,
             ),
@@ -86,8 +141,8 @@ class LoginScreen extends StatelessWidget {
             ),
             OutlineButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegisterScreen()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => RegisterScreen()));
               },
               child: Text('Register'),
             ),
@@ -135,5 +190,16 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void attempLogin(FormState form) {
+    if (form.validate()) {
+      print(_userNameController);
+      print(_passwordController);
+    } else {
+      Future.delayed(Duration(seconds: 2)).then((_) {
+        _formKey.currentState.reset();
+      });
+    }
   }
 }
