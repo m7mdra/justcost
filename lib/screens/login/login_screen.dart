@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/screens/reset_password/reset_password_screen.dart';
+import 'package:justcost/widget/progress_dialog.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -125,8 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               onPressed: () {
-                var form = _formKey.currentState;
-                attempLogin(form);
+                /*  var form = _formKey.currentState;
+                attempLogin(form); */
+                showDialog(
+                    context: context,
+                    builder: (context) => ProgressDialog(title: "Please wait while trying to login...",));
               },
               child: Text('Login'),
               color: Theme.of(context).accentColor,

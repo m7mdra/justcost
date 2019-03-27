@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -80,10 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
+                        return RoundedAlertDialog(
+
                           title: Text('Select Media to add to the uploads'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,

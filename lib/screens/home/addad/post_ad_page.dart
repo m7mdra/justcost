@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class PostAdPage extends StatefulWidget {
   @override
@@ -274,7 +275,7 @@ class _PostAdPageState extends State<PostAdPage>
           focusNode: _adDetailsFocusNode,
           controller: _adDetailsController,
           keyboardType: TextInputType.text,
-          onEditingComplete: () =>validateEntries(),
+          onEditingComplete: () => validateEntries(),
           maxLines: 5,
           maxLength: 250,
           validator: (text) {
@@ -363,9 +364,7 @@ class _PostAdPageState extends State<PostAdPage>
           showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16))),
+                return RoundedAlertDialog(
                   title: Text('Select Media to add to the uploads'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,

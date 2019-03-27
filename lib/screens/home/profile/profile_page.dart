@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,8 +13,10 @@ class _ProfilePageState extends State<ProfilePage>
     return ListView(
       padding: const EdgeInsets.all(8),
       children: <Widget>[
-        Row(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             ClipOval(
               child: Image.network(
@@ -26,47 +29,58 @@ class _ProfilePageState extends State<ProfilePage>
             SizedBox(
               width: 10,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Ahmed Salah',
-                ),
-                Text('Membership: GOLDEN'),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Colors.grey)),
-                  child: Row(
-                    children: <Widget>[
-                      Text('Level 1'),
-                      Text(' | '),
-                      Text('Votes 199'),
-                    ],
+            Text(
+              'Ahmed Salah',
+            ),
+            Text('Membership: GOLDEN'),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  border: Border.all(color: Colors.grey)),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('Level '),
+                  Container(
+                    padding: const EdgeInsets.only(left: 4, right: 4),
+                    child: Text(
+                      ' 19 ',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                        color: Colors.black),
                   ),
-                )
-              ],
+                  Text(' | '),
+                  Text('Votes '),
+                  Container(
+                    padding: const EdgeInsets.only(left: 4, right: 4),
+                    child: Text(
+                      '1999',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                        color: Colors.green),
+                  ),
+                ],
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditProfileScreen()));
+              },
+              child: Text('Edit Profile'),
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: OutlineButton(
-            onPressed: () {},
-            child: Text('Edit Profile'),
-          ),
-        ),
         const Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Account Information',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
         ListTile(
           dense: true,
           title: Text('Account Type'),
@@ -92,6 +106,12 @@ class _ProfilePageState extends State<ProfilePage>
           dense: true,
           title: Text('Payed Ads'),
           subtitle: Text("20 ADS"),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Favorite Ads'),
+          subtitle: Text("80 ADS"),
           trailing: Icon(Icons.keyboard_arrow_right),
         ),
         const Divider(),
