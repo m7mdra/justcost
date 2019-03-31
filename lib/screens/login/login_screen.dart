@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 attempLogin(form); */
                 showDialog(
                     context: context,
-                    builder: (context) => ProgressDialog(title: "Please wait while trying to login...",));
+                    builder: (context) => ProgressDialog(message: "Please wait while trying to login...",));
               },
               child: Text('Login'),
               color: Theme.of(context).accentColor,

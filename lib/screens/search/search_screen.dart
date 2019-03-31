@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
+
 class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -62,8 +63,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Row(
       children: <Widget>[
         Icon(Icons.sort_by_alpha),
-        SizedBox(width: 2,),
-
+        SizedBox(
+          width: 2,
+        ),
         Text('sort'),
       ],
     );
@@ -73,20 +75,27 @@ class _SearchScreenState extends State<SearchScreen> {
     return Row(
       children: <Widget>[
         Icon(Icons.list),
-        SizedBox(width: 2,),
-
+        SizedBox(
+          width: 2,
+        ),
         Text('View'),
       ],
     );
   }
 
-  Row buildFilter() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.filter_list),
-        SizedBox(width: 2,),
-        Text('Filter'),
-      ],
+  Widget buildFilter() {
+    return InkWell(
+      onTap: () {},
+      splashColor: Theme.of(context).accentColor,
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.filter_list),
+          SizedBox(
+            width: 2,
+          ),
+          Text('Filter'),
+        ],
+      ),
     );
   }
 
@@ -98,14 +107,16 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Row buildCityDropDown() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.place),
-        Text('City name'),
-        Icon(Icons.arrow_drop_down)
-      ],
+  Widget buildCityDropDown() {
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.place),
+          Text('City name'),
+          Icon(Icons.arrow_drop_down)
+        ],
+      ),
     );
   }
 }
-

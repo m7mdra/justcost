@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:justcost/screens/home/search/search_screen.dart';
+import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
 
 class SearchPage extends StatefulWidget {

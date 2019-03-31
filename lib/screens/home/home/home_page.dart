@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
 import 'package:justcost/widget/icon_text.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
   final ValueChanged<ScrollNotification> onScroll;
@@ -14,39 +17,52 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
+  SwiperController _swiperController;
+
+  @override
+  void initState() {
+    super.initState();
+    _swiperController = SwiperController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _swiperController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        CarouselSlider(
-          autoPlay: true,
-          height: 200.0,
-          aspectRatio: 16 / 9,
-          enlargeCenterPage: true,
-          viewportFraction: 1.0,
-          initialPage: 0,
-          items: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              color: Colors.red,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              color: Colors.blue,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              color: Colors.yellow,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              color: Colors.green,
-            ),
-          ],
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 200,
+          child: Swiper(
+            autoplay: true,
+            pagination: SwiperPagination(),
+            viewportFraction: 0.9,
+            
+            indicatorLayout: PageIndicatorLayout.SCALE,
+            curve: Curves.fastOutSlowIn,
+            itemCount: 10,
+            duration: 500,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Container(
+
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  color: Color.fromARGB(
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255)),
+                ),
+              );
+            },
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -238,41 +254,6 @@ class RecentAdsWidget extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        IconText(
-                          icon: Icon(Icons.call, size: 13),
-                          text: Text(
-                            'Call ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .copyWith(color: Colors.black),
-                          ),
-                        ),
-                        IconText(
-                          icon: Icon(Icons.mode_comment, size: 13),
-                          text: Text(
-                            'Comment ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .copyWith(color: Colors.black),
-                          ),
-                        ),
-                        IconText(
-                          icon: Icon(Icons.person, size: 13),
-                          text: Text(
-                            'Person ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .copyWith(color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

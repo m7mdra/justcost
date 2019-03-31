@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class ProgressDialog extends StatelessWidget {
-  final String title;
+  final String message;
 
-  const ProgressDialog({Key key, this.title}) : super(key: key);
+  const ProgressDialog({Key key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,7 @@ class ProgressDialog extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          Text(
-            'Please wait while loging in...',
-            style: Theme.of(context).textTheme.body1,
-          )
+          Text(message, style: Theme.of(context).textTheme.body1)
         ],
       ),
     );

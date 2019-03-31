@@ -7,7 +7,7 @@ import 'package:justcost/screens/home/home/home_page.dart';
 import 'package:justcost/screens/home/search/search_page.dart';
 import 'package:justcost/screens/home/profile/profile_page.dart';
 import 'package:justcost/screens/home/category/categories_page.dart';
-import 'package:justcost/screens/home/search/search_screen.dart';
+import 'package:justcost/screens/search/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -48,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
         key: _scaffoldKey,
         endDrawer: SafeArea(
           child: Drawer(

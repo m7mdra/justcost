@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
+import 'package:justcost/screens/chat_screen.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
 
 void main() => runApp(MyApp());

@@ -12,19 +12,20 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: Text(
-          'JUST COST',
-          style: TextStyle(
-              color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+          child: Card(
+        child: Image.asset(
+          'assets/icon/android/logo-500.png',
+          width: 150,
+          height: 150,
         ),
-      ),
+      )),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2)).then((_) {
+     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LoginScreen()));
     });
