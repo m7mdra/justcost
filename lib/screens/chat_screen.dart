@@ -103,7 +103,7 @@ class _ChatScreenState extends State<ChatScreen> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(right: 8, left: 8, top: 4),
+          margin: const EdgeInsets.only(right: 8, left: 32, top: 4),
           padding: const EdgeInsets.all(8),
           child: Text(
             message.message,
@@ -114,13 +114,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(16))),
               color: Theme.of(context).splashColor),
         ),
-        Container(
-          margin: const EdgeInsets.only(right: 8, left: 8),
-          child: Text(
-            '${message.date}',
-            style: Theme.of(context).textTheme.caption,
-          ),
-        )
       ],
     );
   }
@@ -131,7 +124,7 @@ class _ChatScreenState extends State<ChatScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(left: 8, right: 8, top: 4),
+          margin: const EdgeInsets.only(left: 8, right: 32, top: 4),
           padding: const EdgeInsets.all(8),
           child: Text(
             message.message,
@@ -145,27 +138,24 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(16))),
               color: Theme.of(context).accentColor),
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 8),
-          child: Text(
-            '${message.date}',
-            style: Theme.of(context).textTheme.caption,
-          ),
-        )
+
       ],
     );
   }
 }
+
 class MessageBubble extends StatelessWidget {
   final Message message;
+  final bool isYour;
 
-  const MessageBubble({Key key, this.message}) : super(key: key);
+  const MessageBubble({Key key, this.message, this.isYour}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       margin: const EdgeInsets.only(left: 8, right: 8, top: 4),
       padding: const EdgeInsets.all(8),
+      alignment: isYour ? Alignment.topRight : Alignment.topLeft,
       child: Text(
         message.message,
         style: Theme.of(context).textTheme.body1.copyWith(fontSize: 14),
@@ -180,4 +170,3 @@ class MessageBubble extends StatelessWidget {
     );
   }
 }
-

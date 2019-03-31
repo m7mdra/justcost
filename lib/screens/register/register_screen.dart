@@ -3,6 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:justcost/screens/data/http_client.dart';
+import 'package:justcost/screens/data/user/user_repo.dart';
+import 'package:justcost/screens/data/user_sessions.dart';
+import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/register/register_bloc.dart';
+import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -25,10 +31,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _addressFocusNode = FocusNode();
   FocusNode _phoneNumberFocusNode = FocusNode();
+  RegisterBloc _registerBloc;
 
   @override
   void initState() {
     super.initState();
+    _registerBloc = RegisterBloc(UserSession(), UserRepository(Http.CLIENT));
+    _registerBloc.state.listen((state) {
+      if (state is RegisterLoading)
+        showDialog(
+            context: context,
+            builder: (context) => ProgressDialog(
+                  message: "Please wait while creating account...",
+                ));
+      else if (state is RegisterError) {
+        Navigator.of(context).pop();
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+                  title: Text('Error'),
+                  content: Text(state.message),
+                ));
+      } else if (state is RegisterSuccess) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+    });
     regex = new RegExp(pattern);
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
@@ -40,6 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     super.dispose();
+    _registerBloc.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
@@ -52,6 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          physics: ClampingScrollPhysics(),
           padding: const EdgeInsets.all(8),
           children: <Widget>[
             SizedBox(
@@ -60,8 +90,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Align(
               child: ClipOval(
                   child: imageFile == null
-                      ? Image.network(
-                          'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
+                      ? Image.asset(
+                          'assets/images/default-avatar.png',
                           height: 100,
                           width: 100,
                           fit: BoxFit.cover,
@@ -74,7 +104,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         )),
             ),
             Align(
-
               child: OutlineButton.icon(
                 label: Text('Select Profile Avatar'),
                 onPressed: () {
@@ -82,7 +111,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       context: context,
                       builder: (context) {
                         return RoundedAlertDialog(
-
                           title: Text('Select Media to add to the uploads'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -128,6 +156,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    scrollPadding: EdgeInsets.all(0),
                     maxLines: 1,
                     validator: (username) {
                       return username.isEmpty
@@ -140,10 +169,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        icon: Icon(Icons.person),
-
-                        contentPadding: EdgeInsets.all(10),
+                        prefixIcon: Icon(Icons.person),
+                        contentPadding: EdgeInsets.all(8),
                         hintText: 'Username',
+                        prefixText: '@',
                         labelText: 'Username',
                         errorMaxLines: 1,
                         filled: true,
@@ -172,13 +201,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        icon: Icon(Icons.mail),
-
-                        contentPadding: EdgeInsets.all(10),
+                        prefixIcon: Icon(Icons.mail),
+                        contentPadding: EdgeInsets.all(8),
                         hintText: 'mail@domain.com',
                         labelText: 'E-mail address',
                         errorMaxLines: 1,
                         filled: true,
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            gapPadding: 0.0,
+                            borderSide: BorderSide(
+                                color: Theme.of(context).errorColor)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -200,8 +233,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       FocusScope.of(context).requestFocus(_addressFocusNode);
                     },
                     decoration: InputDecoration(
-                      icon: Icon(Icons.phone),
-                        contentPadding: EdgeInsets.all(10),
+                        prefixIcon: Icon(Icons.phone),
+                        contentPadding: EdgeInsets.all(8),
                         hintText: '000-0000-0000',
                         labelText: 'Phone Number',
                         prefixText: '+',
@@ -227,9 +260,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       FocusScope.of(context).requestFocus(_passwordFocusNode);
                     },
                     decoration: InputDecoration(
-                        icon: Icon(Icons.location_on),
-
-                        contentPadding: EdgeInsets.all(10),
+                        prefixIcon: Icon(Icons.location_on),
+                        contentPadding: EdgeInsets.all(8),
                         hintText: 'Address',
                         labelText: 'Address',
                         filled: true,
@@ -255,10 +287,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     maxLines: 1,
                     obscureText: true,
                     decoration: InputDecoration(
-                      filled: true,
-                        icon: Icon(Icons.https),
+                        filled: true,
+                        prefixIcon: Icon(Icons.https),
                         errorMaxLines: 1,
-                        contentPadding: EdgeInsets.all(10),
+                        contentPadding: EdgeInsets.all(8),
                         hintText: '**********',
                         labelText: 'Password',
                         border: OutlineInputBorder(
@@ -268,15 +300,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               key: _formKey,
             ),
-
             Padding(
-              padding: const EdgeInsets.only(left: 16.0,right:16.0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
                 onPressed: _attemptRegister,
                 child: Text('REGISTER'),
-
                 color: Theme.of(context).accentColor,
               ),
             ),
@@ -288,13 +318,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _attemptRegister() {
     if (_formKey.currentState.validate()) {
-      print(_userNameController);
-      print(_passwordController);
-      print(_emailController);
-      print(_phoneNumberController);
-      print(_addressController);
-    }else {
-      Future.delayed(Duration(seconds: 2)).then((_){
+      _registerBloc.dispatch(UserRegister(
+          username: _userNameController.text.trim(),
+          address: _addressController.text.trim(),
+          email: _emailController.text.trim(),
+          messagingId: "34",
+          avatar: imageFile,
+          //TODO: implement messing token id
+          password: _passwordController.text.trim(),
+          phoneNumber: _phoneNumberController.text.trim()));
+    } else {
+      Future.delayed(Duration(seconds: 2)).then((_) {
         setState(() {
           _formKey.currentState.reset();
         });
