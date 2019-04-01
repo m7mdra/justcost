@@ -13,7 +13,7 @@ class TokenInterceptor extends Interceptor {
       if (token != null && token.isNotEmpty)
         options.headers
           ..putIfAbsent("authroization", () {
-            return token;
+            return "bearer $token";
           });
     }
     return options;
