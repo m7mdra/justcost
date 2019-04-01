@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:justcost/screens/data/http_client.dart';
+import 'package:justcost/main.dart';
 import 'package:justcost/screens/data/user/user_repo.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
 import 'package:justcost/widget/progress_dialog.dart';
@@ -36,15 +35,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = RegisterBloc(UserSession(), UserRepository(Http.CLIENT));
+    _registerBloc = RegisterBloc(getIt.get(), UserRepository(getIt.get()));
     _registerBloc.state.listen((state) {
       if (state is RegisterLoading)
         showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => ProgressDialog(
                   message: "Please wait while creating account...",
                 ));
-      else if (state is RegisterError) {
+      if (state is RegisterError) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
@@ -52,7 +52,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: Text('Error'),
                   content: Text(state.message),
                 ));
-      } else if (state is RegisterSuccess) {
+      }
+      if (state is RegisterSuccess) {
+        Navigator.of(context).pop();
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => MainScreen()));
       }
@@ -123,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Navigator.pop(context);
                                   var image = await ImagePicker.pickImage(
                                       source: ImageSource.camera);
+
                                   setState(() {
                                     imageFile = image;
                                   });

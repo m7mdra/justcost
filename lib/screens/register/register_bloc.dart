@@ -68,16 +68,40 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.password,
             event.messagingId,
-            event.address);
+            event.address,
+            event.avatar,
+            event.phoneNumber);
         print(response);
         if (response.status) {
           await userSession.save(response);
+          await Future.delayed(Duration(seconds: 1));
           yield RegisterSuccess();
         } else {
           yield RegisterError(response.message);
         }
       } on DioError catch (e) {
-        yield RegisterError(e.message);
+        switch (e.type) {
+          case DioErrorType.CONNECT_TIMEOUT:
+            yield RegisterError("Connection timedout, try again");
+            break;
+          case DioErrorType.SEND_TIMEOUT:
+            yield RegisterError("Connection timedout, try again");
+            break;
+          case DioErrorType.RECEIVE_TIMEOUT:
+            yield RegisterError("Connection timedout, try again");
+            break;
+          case DioErrorType.RESPONSE:
+            yield RegisterError(
+                "Server error, please try again or contact support team");
+
+            break;
+          case DioErrorType.CANCEL:
+            break;
+          case DioErrorType.DEFAULT:
+            yield RegisterError(
+                "Server error, please try again or contact support team");
+            break;
+        }
       }
     }
   }

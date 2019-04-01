@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:justcost/screens/data/user/model/auth_response.dart';
 import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:meta/meta.dart';
 
@@ -15,19 +14,6 @@ class AppStarted extends AuthenticationEvent {
   String toString() => 'AppStarted';
 }
 
-class LoggedIn extends AuthenticationEvent {
-  final AuthenticationResponse response;
-
-  LoggedIn({@required this.response}) : super([response]);
-
-  @override
-  String toString() => 'LoggedIn { token: ${response.toJson()} }';
-}
-
-class LoggedOut extends AuthenticationEvent {
-  @override
-  String toString() => 'LoggedOut';
-}
 
 class AuthenticationUninitialized extends AuthenticationState {
   @override
@@ -63,21 +49,13 @@ class AuthenticationBloc
       AuthenticationEvent event) async* {
     if (event is AppStarted) {
       yield AuthenticationLoading();
-      bool hasToken = await session.hasToken().catchError((error) {
-        print(error);
-      });
+      bool hasToken = await session.hasToken();
       await Future.delayed(Duration(seconds: 1));
 
       if (hasToken) {
         yield AuthenticationAuthenticated();
       } else
         yield AuthenticationUnauthenticated();
-    }
-    if (event is LoggedIn) {
-      await session.save(event.response);
-    }
-    if (event is LoggedOut) {
-      await session.clear();
     }
   }
 }

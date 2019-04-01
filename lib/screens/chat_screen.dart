@@ -77,7 +77,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     print('sending message $messages');
-
                     setState(() {
                       var message = _chatController.text;
                       if (message.isNotEmpty)
@@ -138,7 +137,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(16))),
               color: Theme.of(context).accentColor),
         ),
-
       ],
     );
   }

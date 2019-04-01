@@ -449,6 +449,7 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Future _onCategoryPickerClicked() async {
+    // ignore: unused_local_variable
     var category = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
   }

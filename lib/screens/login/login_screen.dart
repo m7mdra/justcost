@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:justcost/main.dart';
+import 'package:justcost/screens/data/user/user_repo.dart';
+import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/screens/reset_password/reset_password_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,12 +20,40 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _userNameController;
   TextEditingController _passwordController;
   FocusNode _passwordFocusNode = FocusNode();
+  LoginBloc _loginBloc;
+
+
 
   @override
   void initState() {
     super.initState();
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
+    _loginBloc =
+        LoginBloc(UserRepository(getIt.get()), getIt.get());
+    _loginBloc.state.listen((state) {
+      if (state is LoginLoading)
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => ProgressDialog(
+              message: "Please wait while trying to login...",
+            ));
+      if (state is LoginError) {
+        Navigator.of(context).pop();
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+              title: Text('Error'),
+              content: Text(state.message),
+            ));
+      }
+      if (state is LoginSuccess) {
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+    });
   }
 
   @override
@@ -127,11 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               onPressed: () {
-                /*  var form = _formKey.currentState;
-                attempLogin(form); */
-                showDialog(
-                    context: context,
-                    builder: (context) => ProgressDialog(message: "Please wait while trying to login...",));
+                var form = _formKey.currentState;
+                attempLogin(form);
               },
               child: Text('Login'),
               color: Theme.of(context).accentColor,
@@ -199,8 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void attempLogin(FormState form) {
     if (form.validate()) {
-      print(_userNameController);
-      print(_passwordController);
+      _loginBloc.dispatch(
+          UserLogin(_userNameController.text, _passwordController.text, "123"));
     } else {
       Future.delayed(Duration(seconds: 2)).then((_) {
         _formKey.currentState.reset();

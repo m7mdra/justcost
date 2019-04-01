@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:justcost/screens/data/user/model/auth_response.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +14,9 @@ class UserRepository {
       String password,
       String confirmPassword,
       String messagingId,
-      String address) async {
+      String address,
+      File file,
+      String phoneNumber) async {
     try {
       var response = await client.put('jc-member/signup', data: {
         "username": username,
@@ -21,7 +25,7 @@ class UserRepository {
         "cnf-password": password,
         "msg_id": messagingId,
         "address": address,
-
+//        "file": UploadFileInfo(file, "avatar.png")
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
@@ -30,7 +34,18 @@ class UserRepository {
     }
   }
 
-
-//  Future<AuthenticationResponse> login(String identifier, String password) {}
-
+  Future<AuthenticationResponse> login(
+      String identifier, String password, String messagingId) async {
+    try {
+      var response = await client.post('jc-member/login', data: {
+        "identifier": identifier,
+        "password": password,
+        "msg_id": messagingId
+      });
+      var authResponse = AuthenticationResponse.fromJson(response.data);
+      return authResponse;
+    } on DioError catch (error) {
+      throw error;
+    }
+  }
 }
