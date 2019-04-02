@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:meta/meta.dart';
 
 abstract class AuthenticationEvent extends Equatable {
@@ -14,6 +14,7 @@ class AppStarted extends AuthenticationEvent {
   String toString() => 'AppStarted';
 }
 
+class AccountNotVerified extends AuthenticationState {}
 
 class AuthenticationUninitialized extends AuthenticationState {
   @override
@@ -51,10 +52,9 @@ class AuthenticationBloc
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();
       await Future.delayed(Duration(seconds: 1));
-
-      if (hasToken) {
+      if (hasToken)
         yield AuthenticationAuthenticated();
-      } else
+      else
         yield AuthenticationUnauthenticated();
     }
   }

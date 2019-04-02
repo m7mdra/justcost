@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:justcost/screens/data/user/user_repo.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:dio/dio.dart';
+import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 abstract class RegisterState extends Equatable {}
 

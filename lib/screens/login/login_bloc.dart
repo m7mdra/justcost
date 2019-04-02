@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:justcost/screens/data/user/user_repo.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:dio/dio.dart';
+import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 abstract class LoginEvent extends Equatable {
   LoginEvent([List props = const []]) : super(props);
@@ -21,6 +21,7 @@ class LoginError extends LoginState {
 }
 
 class LoginSuccess extends LoginState {}
+class GuestLoginSuccess extends LoginState{}
 
 class UserLogin extends LoginEvent {
   final String identifier;
@@ -44,9 +45,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is GuestLogin) {
-      await session.guestLogin();
+       session.guestLogin();
       await Future.delayed(Duration(seconds: 1));
-      yield LoginSuccess();
+      yield GuestLoginSuccess();
     }
     if (event is UserLogin) {
       yield LoginLoading();

@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/main.dart';
-import 'package:justcost/screens/data/user/user_repo.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/screens/reset_password/reset_password_screen.dart';
@@ -22,37 +21,37 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode _passwordFocusNode = FocusNode();
   LoginBloc _loginBloc;
 
-
-
   @override
   void initState() {
     super.initState();
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
-    _loginBloc =
-        LoginBloc(UserRepository(getIt.get()), getIt.get());
+    _loginBloc = LoginBloc(UserRepository(getIt.get()), getIt.get());
     _loginBloc.state.listen((state) {
       if (state is LoginLoading)
         showDialog(
             barrierDismissible: false,
             context: context,
             builder: (context) => ProgressDialog(
-              message: "Please wait while trying to login...",
-            ));
+                  message: "Please wait while trying to login...",
+                ));
       if (state is LoginError) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-              title: Text('Error'),
-              content: Text(state.message),
-            ));
+                  title: Text('Error'),
+                  content: Text(state.message),
+                ));
       }
       if (state is LoginSuccess) {
         Navigator.of(context).pop();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
       }
+      if (state is GuestLoginSuccess)
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
     });
   }
 
@@ -169,8 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Divider(),
             OutlineButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MainScreen()));
+                _loginBloc.dispatch(GuestLogin());
               },
               child: Text('Continue as guest'),
             ),

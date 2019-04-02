@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/screens/data/token_interceptor.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
+import 'package:justcost/data/token_interceptor.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
 import 'package:get_it/get_it.dart';
@@ -23,6 +23,7 @@ void main() {
       requestBody: true,
       responseHeader: true));
   client.interceptors.add(TokenInterceptor(userSession));
+
   getIt.registerSingleton<UserSession>(userSession);
   getIt.registerSingleton<Dio>(client);
   runApp(MyApp());

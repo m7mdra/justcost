@@ -1,4 +1,4 @@
-import 'package:justcost/screens/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const USER_RESPONSE_KEY = "data";
@@ -18,10 +18,11 @@ const USER_TYPE_KEY = "userType";
 class UserSession {
   Future<void> save(AuthenticationResponse response) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString(USER_RESPONSE_KEY, USER_RESPONSE_KEY);
+    sharedPreferences.setString(
+        USER_RESPONSE_KEY, response.toJson().toString());
     sharedPreferences.setString(TOKEN_KEY, response.content.token);
     sharedPreferences.setString(USER_ID_KEY, response.content.payload.uid);
-    sharedPreferences.setString(USER_TYPE_KEY, "user");
+    sharedPreferences.setString(USER_TYPE_KEY, "member");
     sharedPreferences.setString(
         USERNAME_KEY, response.content.payload.username);
     sharedPreferences.setString(EMAIL_KEY, response.content.payload.email);
@@ -41,13 +42,23 @@ class UserSession {
 
   Future<bool> guestLogin() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.setString(USER_TYPE_KEY, "guest");
+    return sharedPreferences.setString(USER_TYPE_KEY, "guest");
+  }
+
+  Future<bool> isUserAGoat() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.getString(USER_TYPE_KEY) == "guest";
   }
 
   Future<bool> hasToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = await sharedPreferences.getString(TOKEN_KEY);
     return token != null && token.isNotEmpty;
+  }
+
+  Future<bool> isAccountVerified() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.getInt(ACCOUNT_STATUS_KEY) == 1;
   }
 
   Future<AuthenticationResponse> user() async {

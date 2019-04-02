@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/main.dart';
-import 'package:justcost/screens/data/user/user_repo.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
 import 'package:justcost/widget/progress_dialog.dart';
@@ -122,12 +123,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 leading: Icon(Icons.camera_alt),
                                 dense: true,
                                 onTap: () async {
-                                  Navigator.pop(context);
                                   var image = await ImagePicker.pickImage(
                                       source: ImageSource.camera);
+                                  var croppedImage = await Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                      builder: (context) =>
+                                          ImageCropperScreen(
+                                            imageFile: image,
+                                          )));
 
                                   setState(() {
-                                    imageFile = image;
+                                    imageFile = croppedImage;
                                   });
                                 },
                               ),
@@ -136,11 +142,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 leading: Icon(Icons.image),
                                 dense: true,
                                 onTap: () async {
-                                  Navigator.pop(context);
                                   var image = await ImagePicker.pickImage(
                                       source: ImageSource.gallery);
+                                  var croppedImage = await Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) =>
+                                              ImageCropperScreen(
+                                                imageFile: image,
+                                              )));
+
                                   setState(() {
-                                    imageFile = image;
+                                    imageFile = croppedImage;
                                   });
                                 },
                               ),

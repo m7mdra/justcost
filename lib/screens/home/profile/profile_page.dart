@@ -9,6 +9,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
   @override
+  void initState() {
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(8),
@@ -19,8 +24,8 @@ class _ProfilePageState extends State<ProfilePage>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             ClipOval(
-              child: Image.network(
-                'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
+              child: Image.asset(
+                'assets/images/default-avatar.png',
                 width: 90,
                 height: 90,
                 fit: BoxFit.cover,

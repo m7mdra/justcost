@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:justcost/screens/data/user_sessions.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 class TokenInterceptor extends Interceptor {
   final UserSession userSession;
