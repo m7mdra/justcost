@@ -16,7 +16,6 @@ class Message {
 
   @override
   String toString() {
-    // TODO: implement toString
     return "$date: $message";
   }
 }

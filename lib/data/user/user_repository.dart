@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/base_response.dart';
 
 class UserRepository {
   final Dio client;
@@ -49,11 +50,20 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> parse(String token) async {
+  Future<AuthenticationResponse> parse() async {
     try {
       var response = await client.get('jc-member/parse');
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
+    } on DioError catch (error) {
+      throw error;
+    }
+  }
+
+  Future<ResponseStatus> resendVerificationEmail() async {
+    try {
+      var response = await client.get('jc-member/activation/send');
+      return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
       throw error;
     }

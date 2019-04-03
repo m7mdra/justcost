@@ -8,7 +8,7 @@ class AuthenticationResponse {
   AuthenticationResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
     status = json['status'];
   }
 
@@ -21,10 +21,13 @@ class AuthenticationResponse {
     data['status'] = this.status;
     return data;
   }
+
   @override
   String toString() {
     return toJson().toString();
   }
+
+  bool isAccountVerified() => content.payload.accountStatus == 1;
 }
 
 class Content {
@@ -36,7 +39,7 @@ class Content {
   Content.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     payload =
-    json['payload'] != null ? new Payload.fromJson(json['payload']) : null;
+        json['payload'] != null ? new Payload.fromJson(json['payload']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class Content {
     }
     return data;
   }
+
   @override
   String toString() {
     return toJson().toString();
@@ -67,15 +71,15 @@ class Payload {
 
   Payload(
       {this.uid,
-        this.fullName,
-        this.gender,
-        this.email,
-        this.username,
-        this.photo,
-        this.msgTokenId,
-        this.accountStatus,
-        this.notBefore,
-        this.expiration});
+      this.fullName,
+      this.gender,
+      this.email,
+      this.username,
+      this.photo,
+      this.msgTokenId,
+      this.accountStatus,
+      this.notBefore,
+      this.expiration});
 
   Payload.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
@@ -104,6 +108,7 @@ class Payload {
     data['Expiration'] = this.expiration;
     return data;
   }
+
   @override
   String toString() {
     return toJson().toString();

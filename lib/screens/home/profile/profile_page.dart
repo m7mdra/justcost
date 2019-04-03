@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
+import 'package:justcost/screens/home/profile/profile_bloc.dart';
+import 'package:justcost/main.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -8,11 +12,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
+  UserProfileBloc _bloc;
+
   @override
   void initState() {
     super.initState();
-
+    _bloc = UserProfileBloc(resolve(), resolve());
   }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -23,13 +30,19 @@ class _ProfilePageState extends State<ProfilePage>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            ClipOval(
-              child: Image.asset(
-                'assets/images/default-avatar.png',
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
-              ),
+            BlocBuilder(
+              bloc: _bloc,
+              builder: (context, state) {
+                return ClipOval(
+                    child: state is ProfileLoadedSuccessState
+                        ? CachedNetworkImage(
+                            imageUrl: state.userPayload.photo,
+                            width: 90,
+                            height: 90,
+                          )
+                        : Image.asset('assets/images/default-avatar.png',
+                            width: 90, height: 90));
+              },
             ),
             SizedBox(
               width: 10,

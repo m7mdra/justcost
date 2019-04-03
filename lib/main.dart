@@ -2,19 +2,30 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/token_interceptor.dart';
+import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
+import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
 import 'package:get_it/get_it.dart';
 
-GetIt getIt = new GetIt();
+final GetIt getIt = GetIt();
 
+T resolve<T>() {
+  return getIt.get<T>();
+}
 
 void main() {
   final Dio client = Dio();
   final UserSession userSession = UserSession();
   final String _baseUrl = "http://jc-api.skilledtech.ae/";
-  client.options = BaseOptions(baseUrl: _baseUrl);
+  client.options = BaseOptions(
+    baseUrl: _baseUrl,
+    connectTimeout: 10000,
+    receiveTimeout: 10000,
+    responseType: ResponseType.json,
+  );
   client.interceptors.add(LogInterceptor(
       request: true,
       responseBody: true,
@@ -26,6 +37,9 @@ void main() {
 
   getIt.registerSingleton<UserSession>(userSession);
   getIt.registerSingleton<Dio>(client);
+  getIt.registerFactory(() {
+    return UserRepository(client);
+  });
   runApp(MyApp());
 }
 
@@ -44,8 +58,8 @@ class MyApp extends StatelessWidget {
           fontFamily: 'OpenSans',
           primaryColorDark: Color(0xff141926)),
       home: BlocProvider(
-        child: SplashScreen(),
-        bloc: AuthenticationBloc(session: UserSession()),
+        child: MainScreen(),
+        bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );
   }

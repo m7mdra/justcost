@@ -11,10 +11,7 @@ class TokenInterceptor extends Interceptor {
     if (await userSession.hasToken()) {
       var token = await userSession.token();
       if (token != null && token.isNotEmpty)
-        options.headers
-          ..putIfAbsent("authroization", () {
-            return "bearer $token";
-          });
+        options.headers['authorization'] = 'Bearer $token';
     }
     return options;
   }

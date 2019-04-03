@@ -32,6 +32,7 @@ dependencies:
   firebase_messaging: ^4.0.0+1
   get_it: ^1.0.3
   image_crop: 0.2.0
+  cached_network_image: ^0.7.0
 
 dev_dependencies:
   flutter_test:
