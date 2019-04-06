@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 abstract class VerificationState {}
 
@@ -9,56 +10,107 @@ abstract class VerificationEvent extends Equatable {}
 
 class ResendVerification extends VerificationEvent {}
 
+class SubmitVerificationCode extends VerificationEvent {
+  final String code;
+
+  SubmitVerificationCode(this.code);
+}
+
+class AccountVerifiedSuccessfully extends VerificationState {}
+
+class AccountVerificationFailed extends VerificationState {
+  final String message;
+
+  AccountVerificationFailed(this.message);
+}
+
 class VerificationLoading extends VerificationState {}
 
 class VerificationIdle extends VerificationState {}
 
-class VerificationError extends VerificationState {
+class ResendVerificationFailed extends VerificationState {
   final String message;
 
-  VerificationError(this.message);
+  ResendVerificationFailed(this.message);
 }
 
-class VerificationSuccess extends VerificationState {}
+class VerificationSentSuccess extends VerificationState {}
 
 class AccountVerificationBloc
     extends Bloc<VerificationEvent, VerificationState> {
   final UserRepository _userRepository;
+  final UserSession _session;
 
-  AccountVerificationBloc(this._userRepository);
+  AccountVerificationBloc(this._userRepository, this._session);
 
   @override
   VerificationState get initialState => VerificationIdle();
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
-    if (event is ResendVerification) {
+    if (event is SubmitVerificationCode) {
       yield VerificationLoading();
       try {
-        var response = await _userRepository.resendVerificationEmail();
+        var response = await _userRepository.submitActivationCode(event.code);
         if (response.status) {
-          yield VerificationSuccess();
-        } else
-          yield VerificationError(response.message);
+          await _session.save(response);
+          yield AccountVerifiedSuccessfully();
+        } else {
+          yield AccountVerificationFailed(response.message);
+        }
       } on DioError catch (error) {
         switch (error.type) {
           case DioErrorType.CONNECT_TIMEOUT:
-            yield VerificationError("Connection timedout, try again");
+            yield AccountVerificationFailed("Connection timedout, try again");
             break;
           case DioErrorType.SEND_TIMEOUT:
-            yield VerificationError("Connection timedout, try again");
+            yield AccountVerificationFailed("Connection timedout, try again");
             break;
           case DioErrorType.RECEIVE_TIMEOUT:
-            yield VerificationError("Connection timedout, try again");
+            yield AccountVerificationFailed("Connection timedout, try again");
             break;
           case DioErrorType.RESPONSE:
-            yield VerificationError(
+            yield AccountVerificationFailed(
                 "Server error, please try again or contact support team");
             break;
           case DioErrorType.CANCEL:
             break;
           case DioErrorType.DEFAULT:
-            yield VerificationError(
+            yield AccountVerificationFailed(
+                "Server error, please try again or contact support team");
+            break;
+        }
+      } catch (error) {
+        yield AccountVerificationFailed("Unknown error: $error}");
+      }
+    }
+    if (event is ResendVerification) {
+      yield VerificationLoading();
+      try {
+        var response = await _userRepository.resendVerificationEmail();
+        if (response.status) {
+          yield VerificationSentSuccess();
+        } else
+          yield ResendVerificationFailed(response.message);
+      } on DioError catch (error) {
+        switch (error.type) {
+          case DioErrorType.CONNECT_TIMEOUT:
+            yield ResendVerificationFailed("Connection timedout, try again");
+            break;
+          case DioErrorType.SEND_TIMEOUT:
+            yield ResendVerificationFailed("Connection timedout, try again");
+            break;
+          case DioErrorType.RECEIVE_TIMEOUT:
+            yield ResendVerificationFailed("Connection timedout, try again");
+            break;
+          case DioErrorType.RESPONSE:
+            yield ResendVerificationFailed(
+                "Server error, please try again or contact support team");
+            break;
+          case DioErrorType.CANCEL:
+            break;
+          case DioErrorType.DEFAULT:
+            yield ResendVerificationFailed(
                 "Server error, please try again or contact support team");
             break;
         }

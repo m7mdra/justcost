@@ -4,6 +4,7 @@ import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -30,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 150,
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(

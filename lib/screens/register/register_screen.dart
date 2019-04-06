@@ -8,8 +8,10 @@ import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/main.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
+import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:justcost/dependencies_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -17,7 +19,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  File imageFile;
   TextEditingController _userNameController;
   TextEditingController _passwordController;
   TextEditingController _emailController;
@@ -36,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = RegisterBloc(getIt.get(), UserRepository(getIt.get()));
+    _registerBloc = RegisterBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
     _registerBloc.state.listen((state) {
       if (state is RegisterLoading)
         showDialog(
@@ -52,12 +53,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
             builder: (context) => RoundedAlertDialog(
                   title: Text('Error'),
                   content: Text(state.message),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
                 ));
       }
       if (state is RegisterSuccess) {
         Navigator.of(context).pop();
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => MainScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => AccountVerificationScreen()));
       }
     });
     regex = new RegExp(pattern);
@@ -87,83 +96,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           physics: ClampingScrollPhysics(),
           padding: const EdgeInsets.all(8),
           children: <Widget>[
-            SizedBox(
-              height: 8,
-            ),
-            Align(
-              child: ClipOval(
-                  child: imageFile == null
-                      ? Image.asset(
-                          'assets/images/default-avatar.png',
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.file(
-                          imageFile,
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        )),
-            ),
-            Align(
-              child: OutlineButton.icon(
-                label: Text('Select Profile Avatar'),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return RoundedAlertDialog(
-                          title: Text('Select Media to add to the uploads'),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                title: Text('Capture Image'),
-                                leading: Icon(Icons.camera_alt),
-                                dense: true,
-                                onTap: () async {
-                                  var image = await ImagePicker.pickImage(
-                                      source: ImageSource.camera);
-                                  var croppedImage = await Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                      builder: (context) =>
-                                          ImageCropperScreen(
-                                            imageFile: image,
-                                          )));
-
-                                  setState(() {
-                                    imageFile = croppedImage;
-                                  });
-                                },
-                              ),
-                              ListTile(
-                                title: Text('Pick Image from gallery'),
-                                leading: Icon(Icons.image),
-                                dense: true,
-                                onTap: () async {
-                                  var image = await ImagePicker.pickImage(
-                                      source: ImageSource.gallery);
-                                  var croppedImage = await Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) =>
-                                              ImageCropperScreen(
-                                                imageFile: image,
-                                              )));
-
-                                  setState(() {
-                                    imageFile = croppedImage;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                },
-                icon: Icon(Icons.camera_alt),
-              ),
-            ),
             SizedBox(
               height: 8,
             ),
@@ -338,7 +270,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           address: _addressController.text.trim(),
           email: _emailController.text.trim(),
           messagingId: "34",
-          avatar: imageFile,
           //TODO: implement messing token id
           password: _passwordController.text.trim(),
           phoneNumber: _phoneNumberController.text.trim()));

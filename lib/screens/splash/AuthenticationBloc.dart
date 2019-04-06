@@ -10,8 +10,7 @@ abstract class AuthenticationEvent extends Equatable {
 
 abstract class AuthenticationState extends Equatable {}
 
-class AppStarted extends AuthenticationEvent {
-}
+class AppStarted extends AuthenticationEvent {}
 
 class AccountNotVerified extends AuthenticationState {}
 
@@ -54,11 +53,11 @@ class AuthenticationBloc
         } else {
           try {
             var parseResponse = await repository.parse();
-            if (parseResponse.status) {
-              if (parseResponse.isAccountVerified()) {
+            if (parseResponse != null) {
+              if (parseResponse.accountStatus == 1) {
                 /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                 /// OBSOLETE DATA
-                await session.save(parseResponse);
+                await session.saveUser(parseResponse);
                 yield UserAuthenticated();
               } else
                 yield AccountNotVerified();

@@ -20,8 +20,11 @@ class LoginError extends LoginState {
   LoginError(this.message);
 }
 
+class AccountNotVerified extends LoginState {}
+
 class LoginSuccess extends LoginState {}
-class GuestLoginSuccess extends LoginState{}
+
+class GuestLoginSuccess extends LoginState {}
 
 class UserLogin extends LoginEvent {
   final String identifier;
@@ -45,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is GuestLogin) {
-       session.guestLogin();
+      session.guestLogin();
       await Future.delayed(Duration(seconds: 1));
       yield GuestLoginSuccess();
     }
@@ -57,7 +60,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (authResponse.status) {
           await session.save(authResponse);
           await Future.delayed(Duration(seconds: 1));
-          yield LoginSuccess();
+          if (await session.isAccountVerified())
+            yield LoginSuccess();
+          else
+            yield AccountNotVerified();
         } else {
           yield LoginError(authResponse.message);
         }

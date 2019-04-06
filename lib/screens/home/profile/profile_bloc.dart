@@ -11,7 +11,7 @@ abstract class ProfileEvent extends Equatable {
   ProfileEvent([List props = const []]) : super(props);
 }
 
-class LoadLocalProfile extends ProfileEvent {}
+class LoadProfileEvent extends ProfileEvent {}
 
 class ProfileLoadedSuccessState extends ProfileState {
   final Payload userPayload;
@@ -49,21 +49,27 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     print(event);
-    if (event is LoadLocalProfile) {
+    if (event is LoadProfileEvent) {
       if (await _session.isUserAGoat()) {
         yield GuestUserState();
       } else {
         var user = await _session.user();
-        yield ProfileLoadedSuccessState(user.content.payload);
-        var response = await _repository.parse();
+        print("user: $user");
+
         try {
-          if (response.status) {
-            yield ProfileLoadedSuccessState(response.content.payload);
+          yield ProfileLoadedSuccessState(user.content.payload);
+          var response = await _repository.parse();
+          if (response!=null) {
+            yield ProfileLoadedSuccessState(response);
           } else {
-            yield ProfileLoadedSuccessState(user.content.payload);
+            yield ProfileReloadFailedState(user.content.payload);
           }
         } on DioError catch (error) {
-          yield ProfileLoadedSuccessState(user.content.payload);
+          print(error);
+          yield ProfileReloadFailedState(user.content.payload);
+        } catch (error) {
+          print(error);
+          yield ProfileReloadFailedState(user.content.payload);
         }
       }
     }

@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/main.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
-import 'package:justcost/screens/reset_password/reset_password_screen.dart';
+import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'login_bloc.dart';
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
-    _loginBloc = LoginBloc(UserRepository(getIt.get()), getIt.get());
+    _loginBloc = LoginBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
     _loginBloc.state.listen((state) {
       if (state is LoginLoading)
         showDialog(
@@ -40,9 +40,17 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Error'),
-                  content: Text(state.message),
-                ));
+              title: Text('Error'),
+              content: Text(state.message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
       if (state is LoginSuccess) {
         Navigator.of(context).pop();

@@ -4,6 +4,7 @@ import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:justcost/dependencies_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -17,7 +18,9 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
-    _bloc = UserProfileBloc(resolve(), resolve());
+    _bloc = UserProfileBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
+    _bloc.dispatch(LoadProfileEvent());
+
   }
 
   @override
@@ -34,14 +37,8 @@ class _ProfilePageState extends State<ProfilePage>
               bloc: _bloc,
               builder: (context, state) {
                 return ClipOval(
-                    child: state is ProfileLoadedSuccessState
-                        ? CachedNetworkImage(
-                            imageUrl: state.userPayload.photo,
-                            width: 90,
-                            height: 90,
-                          )
-                        : Image.asset('assets/images/default-avatar.png',
-                            width: 90, height: 90));
+                    child: Image.asset('assets/images/default-avatar.png',
+                        width: 90, height: 90));
               },
             ),
             SizedBox(
@@ -171,5 +168,5 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

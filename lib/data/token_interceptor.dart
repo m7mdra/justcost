@@ -12,7 +12,8 @@ class TokenInterceptor extends Interceptor {
       var token = await userSession.token();
       if (token != null && token.isNotEmpty)
         options.headers['authorization'] = 'Bearer $token';
-    }
+    } else
+      print("token not found,ignored.");
     return options;
   }
 }

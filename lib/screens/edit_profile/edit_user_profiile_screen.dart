@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -25,8 +27,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Align(
                 child: ClipOval(
                     child: imageFile == null
-                        ? Image.network(
-                            'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_960_720.png',
+                        ? Image.asset(
+                            'assets/images/default-avatar.png',
                             height: 100,
                             width: 100,
                             fit: BoxFit.cover,
@@ -39,97 +41,85 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           )),
               ),
               OutlineButton(
-                onPressed: () {},
-                child: Text('Upload Profile Avatar'),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return RoundedAlertDialog(
+                          title: Text('Select Media to add to the uploads'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                title: Text('Capture Image'),
+                                leading: Icon(Icons.camera_alt),
+                                dense: true,
+                                onTap: () async {
+                                  var image = await ImagePicker.pickImage(
+                                      source: ImageSource.camera);
+                                  var croppedImage = await Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) =>
+                                              ImageCropperScreen(
+                                                imageFile: image,
+                                              )));
+
+                                  setState(() {
+                                    imageFile = croppedImage;
+                                  });
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Pick Image from gallery'),
+                                leading: Icon(Icons.image),
+                                dense: true,
+                                onTap: () async {
+                                  var image = await ImagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  var croppedImage = await Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) =>
+                                              ImageCropperScreen(
+                                                imageFile: image,
+                                              )));
+
+                                  setState(() {
+                                    imageFile = croppedImage;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                },
+                child: Text('Update Profile Avatar'),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Personal Information'),
+                    FlatButton(onPressed: () {}, child: Text('Update'))
+                  ],
+                ),
+              ),
+              ListTile(
+                  dense: true,
+                  title: Text('Full name'),
+                  subtitle: Text('not added')),
+              ListTile(
+                  dense: true,
+                  title: Text('Full'),
+                  subtitle: Text('not added')),
+              ListTile(
+                  dense: true,
+                  title: Text('Address'),
+                  subtitle: Text('Provience, City, Address')),
+              buildDivider(),
             ],
           ),
-          ListTile(
-            title: Text('Full name'),
-            subtitle: Text('Person name'),
-            trailing: OutlineButton(
-              onPressed: () {},
-              child: Text('Change'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
-          ListTile(
-            title: Text('Password'),
-            subtitle: Text('*******'),
-            trailing: OutlineButton(
-              onPressed: () {},
-              child: Text('Change'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
-          ListTile(
-            title: Text('Phone Number'),
-            subtitle: Text('+123456879754'),
-            trailing: OutlineButton(
-              onPressed: () {},
-              child: Text('Change'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
-          ListTile(
-            title: Text('Email Address'),
-            subtitle: Text('Mail@domain.com'),
-            trailing: OutlineButton(
-              onPressed: () {},
-              child: Text('Change'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
-          ListTile(
-            title: Text('Upgrade Account'),
-            subtitle: Text('Personal account'),
-            trailing: OutlineButton(
-              onPressed: () {},
-              child: Text('Upgrade'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
-          ListTile(
-            title: Text('Address'),
-            subtitle:
-                Text('1st Street, Corniche Road 1435, Dar Al Salam Building'),
-            trailing: OutlineButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => RoundedAlertDialog(
-                          title: Text('Update your Address'),
-                          content: TextField(
-                            maxLines: 1,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: 'New Address',
-                                errorMaxLines: 1,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8))),
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Cancel')),
-                            FlatButton(onPressed: () {}, child: Text('Save')),
-                          ],
-                        ));
-              },
-              child: Text('Change'),
-            ),
-            dense: true,
-          ),
-          buildDivider(),
         ],
       )),
     );
