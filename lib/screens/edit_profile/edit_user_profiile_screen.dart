@@ -12,6 +12,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   File imageFile;
+  bool isUpdate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: SafeArea(
           child: ListView(
+        padding: const EdgeInsets.all(16),
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -95,29 +97,59 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
                 child: Text('Update Profile Avatar'),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Personal Information'),
-                    FlatButton(onPressed: () {}, child: Text('Update'))
-                  ],
-                ),
-              ),
+              buildDivider(),
+              buildTitle('Personal Information', () {}),
               ListTile(
+                  contentPadding: tilePadding(),
                   dense: true,
                   title: Text('Full name'),
-                  subtitle: Text('not added')),
+                  subtitle: Text('Mega son of himself')),
               ListTile(
-                  dense: true,
-                  title: Text('Full'),
-                  subtitle: Text('not added')),
+                  dense: true, title: Text('Gender'), subtitle: Text('Male')),
               ListTile(
+                  contentPadding: tilePadding(),
                   dense: true,
                   title: Text('Address'),
                   subtitle: Text('Provience, City, Address')),
               buildDivider(),
+              buildTitle('Account Information', () {}),
+              ListTile(
+                  contentPadding: tilePadding(),
+                  dense: true,
+                  title: Text('Username'),
+                  subtitle: Text('@Mega')),
+              ListTile(
+                  contentPadding: tilePadding(),
+                  dense: true,
+                  title: Text('Email Address'),
+                  subtitle: Text('mail@domain.com')),
+              buildTitle('Account Security ', () {
+                setState(() {
+                  isUpdate = !isUpdate;
+                });
+              }),
+              isUpdate
+                  ? Column(
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(hintText: 'New Password'),
+                        ),
+                        TextField(
+                          decoration:
+                              InputDecoration(hintText: 'Confirm New Password'),
+                        ),
+                        TextField(
+                          decoration:
+                              InputDecoration(hintText: 'Current Password'),
+                        ),
+                        RaisedButton(onPressed: () {})
+                      ],
+                    )
+                  : ListTile(
+                      dense: true,
+                      contentPadding: tilePadding(),
+                      title: Text('Password'),
+                      subtitle: Text('**********')),
             ],
           ),
         ],
@@ -125,9 +157,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  EdgeInsets tilePadding() =>
+      const EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 0);
+
+  Widget buildTitle(String sectionTitle, VoidCallback onPressed) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(sectionTitle),
+        FlatButton(onPressed: onPressed, child: Text('Update'))
+      ],
+    );
+  }
+
   Divider buildDivider() {
     return const Divider(
       height: 1,
+      indent: 0,
     );
   }
 }

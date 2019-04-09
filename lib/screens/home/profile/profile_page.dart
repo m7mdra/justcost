@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/login/login_screen.dart';
+import 'package:justcost/screens/register/register_screen.dart';
+import 'package:justcost/widget/guest_user_widget.dart';
+import 'package:justcost/widget/settings_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,155 +23,122 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
-    _bloc = UserProfileBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
+    _bloc = UserProfileBloc(
+        DependenciesProvide.provide(), DependenciesProvide.provide());
     _bloc.dispatch(LoadProfileEvent());
-
+    _bloc.state.listen((state) {
+      if (state is LogoutSuccessState)
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => LoginScreen()));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(8),
+    return BlocBuilder(
+      builder: (context, state) {
+/*
+        if (state is GuestUserState)
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                GuestUserWidget(),
+                Expanded(
+                    child: SettingsWidget(
+                  onLogout: _onLogout,
+                ))
+              ],
+            ),
+          );
+        if (state is ProfileLoadedSuccessState)
+          return _loadUsers(state.userPayload);
+        return Container();
+
+*/
+        return _loadUsers(null);
+      },
+      bloc: _bloc,
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  Widget _loadUsers(Payload userPayload) {
+    return Column(
       children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            BlocBuilder(
-              bloc: _bloc,
-              builder: (context, state) {
-                return ClipOval(
-                    child: Image.asset('assets/images/default-avatar.png',
-                        width: 90, height: 90));
-              },
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Ahmed Salah',
-            ),
-            Text('Membership: GOLDEN'),
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  border: Border.all(color: Colors.grey)),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text('Level '),
-                  Container(
-                    padding: const EdgeInsets.only(left: 4, right: 4),
-                    child: Text(
-                      ' 19 ',
-                      style: TextStyle(color: Colors.white),
+        ClipOval(
+            child: userPayload != null && userPayload.photo != null
+                ? CachedNetworkImage(
+                    imageUrl: userPayload.photo,
+                    width: 90,
+                    height: 90,
+                  )
+                : Image.asset('assets/images/default-avatar.png',
+                    width: 90, height: 90)),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          'Ahmed Salah',
+        ),
+        Text('Membership: GOLDEN'),
+        Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              border: Border.all(color: Colors.grey)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Level '),
+              Container(
+                padding: const EdgeInsets.only(left: 4, right: 4),
+                child: Text(
+                  ' 19 ',
+                  style: TextStyle(color: Colors.white),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                        color: Colors.black),
-                  ),
-                  Text(' | '),
-                  Text('Votes '),
-                  Container(
-                    padding: const EdgeInsets.only(left: 4, right: 4),
-                    child: Text(
-                      '1999',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(4),
-                        ),
-                        color: Colors.green),
-                  ),
-                ],
+                    color: Colors.black),
               ),
-            ),
-            OutlineButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EditProfileScreen()));
-              },
-              child: Text('Edit Profile'),
-            ),
-          ],
-        ),
-        const Divider(),
-        ListTile(
-          dense: true,
-          title: Text('Account Type'),
-          subtitle: Text("Personal"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          dense: true,
-          title: Text('Total Ads'),
-          subtitle: Text("20 ADS"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          dense: true,
-          title: Text('Active Ads'),
-          subtitle: Text("25 ADS"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          dense: true,
-          title: Text('Payed Ads'),
-          subtitle: Text("20 ADS"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-        ),
-        ListTile(
-          dense: true,
-          title: Text('Favorite Ads'),
-          subtitle: Text("80 ADS"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Settings',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold),
+              Text(' | '),
+              Text('Votes '),
+              Container(
+                padding: const EdgeInsets.only(left: 4, right: 4),
+                child: Text(
+                  '1999',
+                  style: TextStyle(color: Colors.white),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4),
+                    ),
+                    color: Colors.green),
+              ),
+            ],
           ),
         ),
-        ListTile(
-          dense: true,
-          title: Text('Notifications'),
+        OutlineButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditProfileScreen()));
+          },
+          child: Text('Edit Profile'),
         ),
-        ListTile(
-          dense: true,
-          title: Text('About us'),
-        ),
-        ListTile(
-          dense: true,
-          title: Text('Get Help'),
-        ),
-        ListTile(
-          dense: true,
-          title: Text('Privacy'),
-        ),
-        ListTile(
-          dense: true,
-          title: Text('Term of Service'),
-        ),
-        ListTile(
-          dense: true,
-          title: Text('Logout'),
+        Expanded(
+          child: SettingsWidget(
+            onLogout: _onLogout,
+          ),
         ),
       ],
     );
   }
 
-  @override
-  bool get wantKeepAlive => false;
+  void _onLogout() {
+    _bloc.dispatch(LogoutEvent());
+  }
 }

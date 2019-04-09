@@ -19,6 +19,10 @@ class ProfileLoadedSuccessState extends ProfileState {
   ProfileLoadedSuccessState(this.userPayload);
 }
 
+class LogoutSuccessState extends ProfileState {}
+
+class LogoutEvent extends ProfileEvent {}
+
 class ProfileReloadFailedState extends ProfileState {
   Payload userPayload;
 
@@ -48,7 +52,17 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    print(event);
+    if (event is LogoutEvent) {
+      if (await _session.isUserAGoat())
+        yield LogoutSuccessState();
+      else {
+        String token = await _session.token();
+        await _session.clear();
+        //await _repository.logout();
+        //TODO: call network api to terminate the token.
+        yield LogoutSuccessState();
+      }
+    }
     if (event is LoadProfileEvent) {
       if (await _session.isUserAGoat()) {
         yield GuestUserState();
@@ -59,7 +73,7 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           yield ProfileLoadedSuccessState(user.content.payload);
           var response = await _repository.parse();
-          if (response!=null) {
+          if (response != null) {
             yield ProfileLoadedSuccessState(response);
           } else {
             yield ProfileReloadFailedState(user.content.payload);
