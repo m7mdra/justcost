@@ -28,10 +28,9 @@
  
  ```
  
- cd $pdw/justcost
+ cd /justcost
  ```
- build the app using
- 
+ run flutter packages get to update dependencies.   
  ```
  flutter packages get
  ```
