@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 
@@ -58,7 +59,10 @@ class UserRepository {
       var payLoad = Payload.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
-      throw error;
+      if (error.response.statusCode == 504)
+        throw SessionExpired();
+      else
+        throw error;
     } catch (error) {
       throw error;
     }
@@ -69,7 +73,10 @@ class UserRepository {
       var response = await _client.get('jc-member/activation/send');
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
-      throw error;
+      if (error.response.statusCode == 504)
+        throw SessionExpired();
+      else
+        throw error;
     } catch (error) {
       throw error;
     }
@@ -77,11 +84,14 @@ class UserRepository {
 
   Future<AuthenticationResponse> submitActivationCode(String code) async {
     try {
-      var response =
-          await _client.post('jc-member/activate/account', data: {"code": code});
+      var response = await _client
+          .post('jc-member/activate/account', data: {"code": code});
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      throw error;
+      if (error.response.statusCode == 504)
+        throw SessionExpired();
+      else
+        throw error;
     } catch (error) {
       throw error;
     }
@@ -97,5 +107,10 @@ class UserRepository {
     } catch (error) {
       throw error;
     }
+  }
+
+  Future<ResponseStatus> logout() async {
+    var response = await _client.get('jc-member/logout');
+    return ResponseStatus.fromJson(response.data);
   }
 }

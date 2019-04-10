@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/user_sessions.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 
 abstract class VerificationState {}
 
@@ -23,6 +24,8 @@ class AccountVerificationFailed extends VerificationState {
 
   AccountVerificationFailed(this.message);
 }
+
+class SessionExpiredState extends VerificationState {}
 
 class VerificationLoading extends VerificationState {}
 
@@ -80,6 +83,8 @@ class AccountVerificationBloc
                 "Server error, please try again or contact support team");
             break;
         }
+      } on SessionExpired catch (error) {
+        yield SessionExpiredState();
       } catch (error) {
         yield AccountVerificationFailed("Unknown error: $error}");
       }
@@ -114,6 +119,11 @@ class AccountVerificationBloc
                 "Server error, please try again or contact support team");
             break;
         }
+      } on SessionExpired catch (error) {
+        yield SessionExpiredState();
+      } catch (e) {
+        yield ResendVerificationFailed(
+            "Server error, please try again or contact support team");
       }
     }
   }

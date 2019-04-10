@@ -9,6 +9,7 @@ import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/settings_widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -30,6 +31,17 @@ class _ProfilePageState extends State<ProfilePage>
       if (state is LogoutSuccessState)
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()));
+      if (state is SessionsExpiredState) {
+        showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => RoundedAlertDialog(
+                  content: Text('Session Expired, log in again'),
+                )).then((_) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
+      }
     });
   }
 
@@ -37,7 +49,6 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     return BlocBuilder(
       builder: (context, state) {
-/*
         if (state is GuestUserState)
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -54,9 +65,6 @@ class _ProfilePageState extends State<ProfilePage>
         if (state is ProfileLoadedSuccessState)
           return _loadUsers(state.userPayload);
         return Container();
-
-*/
-        return _loadUsers(null);
       },
       bloc: _bloc,
     );

@@ -64,6 +64,8 @@ class AuthenticationBloc
             }
           } on DioError catch (error) {
             yield AuthenticationFailed();
+          }catch(error){
+            yield AuthenticationFailed();
           }
         }
       } else

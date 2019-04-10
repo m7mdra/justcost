@@ -10,7 +10,7 @@ class DependenciesProvide {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://192.168.8.100:330/api/";
+    final String _baseUrl = "http://192.168.8.102:330/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       connectTimeout: 10000,

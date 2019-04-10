@@ -4,6 +4,7 @@ import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'package:dio/dio.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 
 abstract class ProfileState {}
 
@@ -22,6 +23,8 @@ class ProfileLoadedSuccessState extends ProfileState {
 class LogoutSuccessState extends ProfileState {}
 
 class LogoutEvent extends ProfileEvent {}
+
+class SessionsExpiredState extends ProfileState {}
 
 class ProfileReloadFailedState extends ProfileState {
   Payload userPayload;
@@ -56,11 +59,14 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (await _session.isUserAGoat())
         yield LogoutSuccessState();
       else {
-        String token = await _session.token();
-        await _session.clear();
-        //await _repository.logout();
-        //TODO: call network api to terminate the token.
-        yield LogoutSuccessState();
+        try {
+          await _session.clear();
+          await _repository.logout();
+          yield LogoutSuccessState();
+        } catch (error) {
+          await _session.clear();
+          yield LogoutSuccessState();
+        }
       }
     }
     if (event is LoadProfileEvent) {
@@ -81,6 +87,8 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         } on DioError catch (error) {
           print(error);
           yield ProfileReloadFailedState(user.content.payload);
+        } on SessionExpired catch (error) {
+          yield SessionsExpiredState();
         } catch (error) {
           print(error);
           yield ProfileReloadFailedState(user.content.payload);

@@ -1,0 +1,3 @@
+class SessionExpired extends Error{
+
+}

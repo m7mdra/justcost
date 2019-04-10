@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'account_verification_bloc.dart';
@@ -63,6 +64,17 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
                         },
                       )
                     ]));
+      }
+      if (state is SessionExpiredState) {
+        showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => RoundedAlertDialog(
+              content: Text('Session Expired, log in again'),
+            )).then((_) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
       }
     });
   }
