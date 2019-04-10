@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:justcost/dependencies_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   File imageFile;
+  File originalFile;
   bool isUpdate = false;
 
   @override
@@ -56,39 +59,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 title: Text('Capture Image'),
                                 leading: Icon(Icons.camera_alt),
                                 dense: true,
-                                onTap: () async {
-                                  var image = await ImagePicker.pickImage(
-                                      source: ImageSource.camera);
-                                  var croppedImage = await Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) =>
-                                              ImageCropperScreen(
-                                                imageFile: image,
-                                              )));
-
-                                  setState(() {
-                                    imageFile = croppedImage;
-                                  });
-                                },
+                                onTap: () async =>
+                                    onUpdateClick(ImageSource.camera),
                               ),
                               ListTile(
                                 title: Text('Pick Image from gallery'),
                                 leading: Icon(Icons.image),
                                 dense: true,
-                                onTap: () async {
-                                  var image = await ImagePicker.pickImage(
-                                      source: ImageSource.gallery);
-                                  var croppedImage = await Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) =>
-                                              ImageCropperScreen(
-                                                imageFile: image,
-                                              )));
-
-                                  setState(() {
-                                    imageFile = croppedImage;
-                                  });
-                                },
+                                onTap: () async =>
+                                    onUpdateClick(ImageSource.gallery),
                               ),
                             ],
                           ),
@@ -175,5 +154,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       height: 1,
       indent: 0,
     );
+  }
+
+  onUpdateClick(ImageSource source) async {
+    var image = await ImagePicker.pickImage(
+        source: source == ImageSource.camera
+            ? ImageSource.camera
+            : ImageSource.gallery);
+    var croppedImage =
+        await Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ImageCropperScreen(
+                  imageFile: image,
+                )));
+
+    setState(() {
+      imageFile = croppedImage;
+      originalFile = image;
+    });
+   await DependenciesProvide.provide<UserRepository>().updateProfileImage(originalFile, imageFile);
   }
 }

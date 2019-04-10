@@ -36,6 +36,14 @@ class _ProfilePageState extends State<ProfilePage>
             context: context,
             barrierDismissible: true,
             builder: (context) => RoundedAlertDialog(
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                )
+              ],
                   content: Text('Session Expired, log in again'),
                 )).then((_) {
           Navigator.of(context).pushReplacement(
@@ -63,6 +71,8 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           );
         if (state is ProfileLoadedSuccessState)
+          return _loadUsers(state.userPayload);
+        if (state is ProfileReloadFailedState)
           return _loadUsers(state.userPayload);
         return Container();
       },
