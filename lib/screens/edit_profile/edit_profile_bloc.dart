@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'package:dio/dio.dart';
@@ -33,9 +30,44 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       }
       if (event is UpdatePasswordEvent) {
         yield LoadingState();
-        var response=await _userRepository.updatePassword(event.newPassword, event.confirmNewPassword, event.currentPassword);
-        
+        var response = await _userRepository.updatePassword(
+            event.newPassword, event.confirmNewPassword, event.currentPassword);
       }
-    } on DioError catch (error) {} on SessionExpired catch (error) {} catch (error) {}
+      if (event is UpdateProfileAvatarEvent) {
+        yield LoadingState();
+
+        var response = await _userRepository.updateProfileImage(
+            event.originalImage, event.croppedImage);
+      }
+      if (event is UpdatePersonalInformationEvent) {
+        yield LoadingState();
+      }
+    } on DioError catch (error) {
+      switch (error.type) {
+        case DioErrorType.CONNECT_TIMEOUT:
+          yield ErrorState("Connection timedout, try again");
+          break;
+        case DioErrorType.SEND_TIMEOUT:
+          yield ErrorState("Connection timedout, try again");
+          break;
+        case DioErrorType.RECEIVE_TIMEOUT:
+          yield ErrorState("Connection timedout, try again");
+          break;
+        case DioErrorType.RESPONSE:
+          yield ErrorState(
+              "Server error, please try again or contact support team");
+          break;
+        case DioErrorType.CANCEL:
+          break;
+        case DioErrorType.DEFAULT:
+          yield ErrorState(
+              "Server error, please try again or contact support team");
+          break;
+      }
+    } on SessionExpired catch (error) {
+      yield SessionExpiredState();
+    } catch (error) {
+      yield ErrorState("Unknown error: $error}");
+    }
   }
 }

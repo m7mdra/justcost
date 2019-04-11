@@ -15,7 +15,7 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   File imageFile;
   File originalFile;
-  bool isUpdate = false;
+  String generGroupValue;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,62 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Text('Update Profile Avatar'),
               ),
               buildDivider(),
-              buildTitle('Personal Information', () {}),
+              Builder(
+                builder: (BuildContext context) {
+                  return buildTitle('Personal Information', () {
+                    showBottomSheet(
+                        builder: (BuildContext context) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextField(
+                                maxLines: 1,
+                                onEditingComplete: () {},
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    hintText: 'New Full name',
+                                    labelText: 'Full name',
+                                    errorMaxLines: 1,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                              ),
+                              RadioListTile<String>(
+                                value: 'male',
+                                onChanged: (String value) {
+                                  setState(() {
+                                    generGroupValue = value;
+                                  });
+                                },
+                                groupValue: generGroupValue,
+                                dense: true,
+                                title: Text('Male'),
+                              ),
+                              RadioListTile<String>(
+                                value: 'female',
+                                onChanged: (String value) {
+                                  setState(() {
+                                    generGroupValue = value;
+                                  });
+                                  print(generGroupValue);
+                                },
+                                groupValue: generGroupValue,
+                                dense: true,
+                                title: Text('Female'),
+                              ),
+                              RaisedButton(
+                                onPressed: () {},
+                                child: Text('Submit'),
+                              )
+                            ],
+                          );
+                        },
+                        context: context);
+                  });
+                },
+              ),
               ListTile(
                   contentPadding: tilePadding(),
                   dense: true,
@@ -103,32 +158,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   title: Text('Email Address'),
                   subtitle: Text('mail@domain.com')),
               buildTitle('Account Security ', () {
-                setState(() {
-                  isUpdate = !isUpdate;
-                });
+                setState(() {});
               }),
-              isUpdate
-                  ? Column(
-                      children: <Widget>[
-                        TextField(
-                          decoration: InputDecoration(hintText: 'New Password'),
-                        ),
-                        TextField(
-                          decoration:
-                              InputDecoration(hintText: 'Confirm New Password'),
-                        ),
-                        TextField(
-                          decoration:
-                              InputDecoration(hintText: 'Current Password'),
-                        ),
-                        RaisedButton(onPressed: () {})
-                      ],
-                    )
-                  : ListTile(
-                      dense: true,
-                      contentPadding: tilePadding(),
-                      title: Text('Password'),
-                      subtitle: Text('**********')),
+              ListTile(
+                  dense: true,
+                  contentPadding: tilePadding(),
+                  title: Text('Password'),
+                  subtitle: Text('**********')),
             ],
           ),
         ],
@@ -171,6 +207,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       imageFile = croppedImage;
       originalFile = image;
     });
-   await DependenciesProvide.provide<UserRepository>().updateProfileImage(originalFile, imageFile);
+    await DependenciesProvide.provide<UserRepository>()
+        .updateProfileImage(originalFile, imageFile);
   }
 }

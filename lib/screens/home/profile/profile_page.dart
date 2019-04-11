@@ -36,14 +36,14 @@ class _ProfilePageState extends State<ProfilePage>
             context: context,
             barrierDismissible: true,
             builder: (context) => RoundedAlertDialog(
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                )
-              ],
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
                   content: Text('Session Expired, log in again'),
                 )).then((_) {
           Navigator.of(context).pushReplacement(
@@ -99,7 +99,9 @@ class _ProfilePageState extends State<ProfilePage>
           width: 10,
         ),
         Text(
-          'Ahmed Salah',
+          userPayload.fullName == null || userPayload.fullName.isEmpty
+              ? '@${userPayload.username}'.toUpperCase()
+              : '${userPayload.fullName}',
         ),
         Text('Membership: GOLDEN'),
         Container(

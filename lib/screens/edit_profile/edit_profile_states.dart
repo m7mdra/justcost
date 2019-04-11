@@ -18,6 +18,12 @@ class PasswordUpdateSuccess extends EditProfileState {}
 
 class LoadingState extends EditProfileState {}
 
-class ErrorState extends EditProfileState {}
+class ErrorState extends EditProfileState {
+  final String message;
+
+  ErrorState(this.message);
+}
 
 class PasswordChangedSuccess extends EditProfileState {}
+
+class SessionExpiredState extends EditProfileState {}
