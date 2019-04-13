@@ -5,6 +5,7 @@ import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   AuthenticationBloc _authenticationBloc;
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,26 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    firebaseMessaging.onTokenRefresh.listen((newToken) {
+      //TODO: submit new token to server
+    });
+    firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, alert: true, badge: true));
+
+    firebaseMessaging.setAutoInitEnabled(true);
+    firebaseMessaging.configure(
+        onLaunch: (message) {
+          print("onLaunch: $message");
+        },
+        onMessage: (message) {
+          print("onMessage: $message");
+
+        },
+        onResume: (message) {
+          print("onResume: $message");
+
+        });
+    
     _authenticationBloc.dispatch(AppStarted());
     _authenticationBloc.state.listen((state) {
       if (state is UserAuthenticated)

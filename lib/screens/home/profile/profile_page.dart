@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
@@ -25,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage>
   void initState() {
     super.initState();
     _bloc = UserProfileBloc(
-        DependenciesProvide.provide(), DependenciesProvide.provide());
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _bloc.dispatch(LoadProfileEvent());
     _bloc.state.listen((state) {
       if (state is LogoutSuccessState)
@@ -143,9 +144,10 @@ class _ProfilePageState extends State<ProfilePage>
           ),
         ),
         OutlineButton(
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            bool shouldUpdate = await Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => EditProfileScreen()));
+            if (shouldUpdate) _bloc.dispatch(LoadProfileEvent());
           },
           child: Text('Edit Profile'),
         ),
@@ -158,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  void _onLogout() {
+  Future _onLogout()  {
     _bloc.dispatch(LogoutEvent());
   }
 }

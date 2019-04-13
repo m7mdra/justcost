@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "262738507787",
+    "firebase_url": "https://justcost-46bed.firebaseio.com",
+    "project_id": "justcost-46bed",
+    "storage_bucket": "justcost-46bed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262738507787:android:2fa7e457327b514d",
+        "android_client_info": {
+          "package_name": "just.cost.app.justcost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262738507787-mss468ebcr336n6he8triptv6uvfl4ol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "just.cost.app.justcost",
+            "certificate_hash": "f4889597899237b2fafaa0a651802c642fe1f171"
+          }
+        },
+        {
+          "client_id": "262738507787-tmmtrkvdrjr6kom4cggnn6b0lohvfaib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHdXhrU_Q3_LLOHUtwwHOk7ybJRXWMenY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262738507787-tmmtrkvdrjr6kom4cggnn6b0lohvfaib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

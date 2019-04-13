@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = RegisterBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
+    _registerBloc = RegisterBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
     _registerBloc.state.listen((state) {
       if (state is RegisterLoading)
         showDialog(
@@ -263,14 +264,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _attemptRegister() {
+  Future _attemptRegister() async {
     if (_formKey.currentState.validate()) {
       _registerBloc.dispatch(UserRegister(
           username: _userNameController.text.trim(),
           address: _addressController.text.trim(),
           email: _emailController.text.trim(),
-          messagingId: "34",
-          //TODO: implement messing token id
+          messagingId: await FirebaseMessaging().getToken(),
+
           password: _passwordController.text.trim(),
           phoneNumber: _phoneNumberController.text.trim()));
     } else {

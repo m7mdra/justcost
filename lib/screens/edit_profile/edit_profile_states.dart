@@ -8,15 +8,31 @@ class UserLoadedState extends EditProfileState {
   UserLoadedState(this.payload);
 }
 
-class AvatarUpdateSuccess extends EditProfileState {}
+class AvatarUpdateSuccess extends EditProfileState {
+  final Payload payload;
 
-class AccountInformationUpdateSuccessState extends EditProfileState {}
+  AvatarUpdateSuccess(this.payload);
+}
 
-class PersonalInformationUpdateSuccessState extends EditProfileState {}
+class AccountInformationUpdateSuccessState extends EditProfileState {
+  final Payload payload;
 
-class PasswordUpdateSuccess extends EditProfileState {}
+  AccountInformationUpdateSuccessState(this.payload);
+}
 
-class LoadingState extends EditProfileState {}
+class PersonalInformationUpdateSuccessState extends EditProfileState {
+  final Payload payload;
+
+  PersonalInformationUpdateSuccessState(this.payload);
+}
+
+
+class LoadingState extends EditProfileState {
+    final Payload payload;
+
+  LoadingState(this.payload);
+
+}
 
 class ErrorState extends EditProfileState {
   final String message;

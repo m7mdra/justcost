@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
@@ -60,8 +61,9 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         yield LogoutSuccessState();
       else {
         try {
-          await _session.clear();
           await _repository.logout();
+          await FirebaseMessaging().deleteInstanceID();
+          await _session.clear();
           yield LogoutSuccessState();
         } catch (error) {
           await _session.clear();

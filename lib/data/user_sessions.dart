@@ -15,6 +15,7 @@ const EXPIRATION_KEY = "expiration";
 const ACCOUNT_STATUS_KEY = "accountStatus";
 const NOT_BEFORE_KEY = "notBefore";
 const USER_TYPE_KEY = "userType";
+const ADDRESS_KEY = 'address';
 
 class UserSession {
   Future<void> save(AuthenticationResponse response) async {
@@ -39,6 +40,7 @@ class UserSession {
         ACCOUNT_STATUS_KEY, response.content.payload.accountStatus);
     sharedPreferences.setInt(
         NOT_BEFORE_KEY, response.content.payload.notBefore);
+    sharedPreferences.setString(ADDRESS_KEY, response.content.payload.address);
   }
 
   Future<void> saveUser(Payload payload) async {
@@ -50,6 +52,7 @@ class UserSession {
     sharedPreferences.setString(GENDER_KEY, payload.gender);
     sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, payload.msgTokenId);
     sharedPreferences.setString(AVATAR_URL_KEY, payload.photo);
+    sharedPreferences.setString(ADDRESS_KEY, payload.address);
     sharedPreferences.setInt(EXPIRATION_KEY, payload.expiration);
     sharedPreferences.setInt(ACCOUNT_STATUS_KEY, payload.accountStatus);
     sharedPreferences.setInt(NOT_BEFORE_KEY, payload.notBefore);

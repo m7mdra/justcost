@@ -64,6 +64,7 @@ class Payload {
   String email;
   String username;
   String photo;
+  String address;
   String msgTokenId;
   int accountStatus;
   int notBefore;
@@ -76,6 +77,7 @@ class Payload {
       this.email,
       this.username,
       this.photo,
+      this.address,
       this.msgTokenId,
       this.accountStatus,
       this.notBefore,
@@ -88,6 +90,7 @@ class Payload {
     email = json['email'];
     username = json['username'];
     photo = json['photo'];
+    address = json['address'];
     msgTokenId = json['msg_token_id'];
     accountStatus = json['account_status'];
     notBefore = json['notBefore'];
@@ -106,6 +109,7 @@ class Payload {
     data['account_status'] = this.accountStatus;
     data['notBefore'] = this.notBefore;
     data['Expiration'] = this.expiration;
+    data['address'] = this.address;
     return data;
   }
 

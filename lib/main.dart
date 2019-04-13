@@ -8,7 +8,7 @@ import 'dependencies_provider.dart';
 
 void main() {
 
-  DependenciesProvide.build();
+  DependenciesProvider.build();
   runApp(MyApp());
 }
 

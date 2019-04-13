@@ -18,7 +18,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {
     try {
       if (event is UpdateAccountInformationEvent) {
-        yield LoadingState();
+        yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updateAccountInformation(
             event.username, event.email, event.password);
         await _userSession.saveUser(response);
@@ -29,18 +29,30 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield UserLoadedState(user.content.payload);
       }
       if (event is UpdatePasswordEvent) {
-        yield LoadingState();
+        yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updatePassword(
             event.newPassword, event.confirmNewPassword, event.currentPassword);
       }
       if (event is UpdateProfileAvatarEvent) {
-        yield LoadingState();
-
+        yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updateProfileImage(
             event.originalImage, event.croppedImage);
+        if (response != null) {
+          await _userSession.saveUser(response);
+          yield AvatarUpdateSuccess(response);
+        } else
+          yield ErrorState("failed to update profile avatar");
       }
       if (event is UpdatePersonalInformationEvent) {
-        yield LoadingState();
+        yield LoadingState((await _userSession.user()).content.payload);
+        var response = await _userRepository.updatePersonalInformation(
+            event.fullName, event.gender, event.address);
+        if (response != null) {
+          await _userSession.saveUser(response);
+          yield PersonalInformationUpdateSuccessState(response);
+        } else {
+          yield ErrorState("failed to personal information");
+        }
       }
     } on DioError catch (error) {
       switch (error.type) {
@@ -64,10 +76,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
               "Server error, please try again or contact support team");
           break;
       }
+      dispatch(LoadUserDataEvent());
     } on SessionExpired catch (error) {
       yield SessionExpiredState();
     } catch (error) {
       yield ErrorState("Unknown error: $error}");
+      dispatch(LoadUserDataEvent());
     }
   }
 }

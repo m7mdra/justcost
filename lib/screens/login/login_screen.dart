@@ -8,6 +8,7 @@ import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'login_bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -26,7 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
-    _loginBloc = LoginBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
+    _loginBloc = LoginBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _loginBloc.state.listen((state) {
       if (state is LoginLoading)
         showDialog(
@@ -40,17 +42,17 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-              title: Text('Error'),
-              content: Text(state.message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ));
+                  title: Text('Error'),
+                  content: Text(state.message),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
       }
       if (state is LoginSuccess) {
         Navigator.of(context).pop();
@@ -132,11 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? "password field can not be empty"
                             : null;
                       },
-                      onEditingComplete: () {
-                        var form = _formKey.currentState;
-                        attempLogin(form);
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      },
+                      onEditingComplete: () => _attemptLogin(),
                       minLines: 1,
                       decoration: InputDecoration(
                           hintText: '**********',
@@ -166,10 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
-              onPressed: () {
-                var form = _formKey.currentState;
-                attempLogin(form);
-              },
+              onPressed: () => _attemptLogin(),
               child: Text('Login'),
               color: Theme.of(context).accentColor,
             ),
@@ -233,10 +228,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void attempLogin(FormState form) {
-    if (form.validate()) {
-      _loginBloc.dispatch(
-          UserLogin(_userNameController.text, _passwordController.text, "123"));
+  Future _attemptLogin() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+    if (_formKey.currentState.validate()) {
+      _loginBloc.dispatch(UserLogin(
+          _userNameController.text,
+          _passwordController.text,
+          await FirebaseMessaging().getToken()));
     } else {
       Future.delayed(Duration(seconds: 2)).then((_) {
         _formKey.currentState.reset();

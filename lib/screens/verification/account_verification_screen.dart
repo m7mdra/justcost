@@ -22,7 +22,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    _accountVerificationBloc = AccountVerificationBloc(DependenciesProvide.provide(), DependenciesProvide.provide());
+    _accountVerificationBloc = AccountVerificationBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
     _textEditingController = TextEditingController();
     _accountVerificationBloc.state.listen((state) {
       if (state is VerificationLoading)

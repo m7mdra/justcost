@@ -22,7 +22,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.initState();
     _textEditingController = TextEditingController();
     _formKey = GlobalKey<FormState>();
-    _bloc = ResetAccountBloc(DependenciesProvide.provide());
+    _bloc = ResetAccountBloc(DependenciesProvider.provide());
     _bloc.state.listen((state){
       if(state is ResetErrorState){
         showDialog(
