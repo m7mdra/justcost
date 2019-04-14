@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/screens/edit_profile/update_account_information_screen.dart';
+import 'package:justcost/screens/edit_profile/update_password_screen.dart';
+import 'package:justcost/screens/edit_profile/update_personal_information_screen.dart';
 
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'OpenSans',
           primaryColorDark: Color(0xff141926)),
       home: BlocProvider(
-        child: SplashScreen(),
+        child: UpdatePasswordScreen(),
         bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );

@@ -51,7 +51,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           await _userSession.saveUser(response);
           yield PersonalInformationUpdateSuccessState(response);
         } else {
-          yield ErrorState("failed to personal information");
+          yield ErrorState("failed to update personal information");
         }
       }
     } on DioError catch (error) {

@@ -118,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person),
-                        contentPadding: EdgeInsets.all(8),
+                        contentPadding: EdgeInsets.all(10),
                         hintText: 'Username',
                         prefixText: '@',
                         labelText: 'Username',
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.mail),
-                        contentPadding: EdgeInsets.all(8),
+                        contentPadding: EdgeInsets.all(10),
                         hintText: 'mail@domain.com',
                         labelText: 'E-mail address',
                         errorMaxLines: 1,

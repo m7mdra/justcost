@@ -7,13 +7,16 @@ import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_profile_events.dart';
+import 'package:justcost/screens/edit_profile/password.dart';
 import 'package:justcost/screens/edit_profile/personal_information.dart';
+import 'package:justcost/screens/edit_profile/update_account_information_screen.dart';
 import 'package:justcost/screens/edit_profile/update_personal_information_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/dependencies_provider.dart';
 
+import 'account_information.dart';
 import 'edit_profile_bloc.dart';
 import 'edit_profile_states.dart';
 
@@ -212,7 +215,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ? 'Not added'
                         : payload.address)),
             buildDivider(),
-            buildTitle('Account Information', () {}),
+            buildTitle('Account Information', () async {
+              AccountInformation information = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => UpdateAccountInformationScreen()));
+              if (information != null)
+                _bloc.dispatch(UpdateAccountInformationEvent(
+                    username: information.username,
+                    password: information.currentPassword,
+                    email: information.email));
+            }),
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
@@ -223,8 +235,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 dense: true,
                 title: Text('Email Address'),
                 subtitle: Text(payload.email)),
-            buildTitle('Account Security ', () {
-              setState(() {});
+            buildTitle('Account Security ', () async {
+              Password information = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => UpdateAccountInformationScreen()));
+              if (information != null)
+                _bloc.dispatch(UpdatePasswordEvent(
+                    confirmNewPassword: information.confrimPassword,
+                    currentPassword: information.currentPassword,
+                    newPassword: information.password));
             }),
             ListTile(
                 dense: true,
