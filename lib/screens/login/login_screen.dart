@@ -231,14 +231,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future _attemptLogin() async {
     FocusScope.of(context).requestFocus(FocusNode());
     if (_formKey.currentState.validate()) {
-      _loginBloc.dispatch(UserLogin(
-          _userNameController.text,
-          _passwordController.text,
-          await FirebaseMessaging().getToken()));
-    } else {
-      Future.delayed(Duration(seconds: 2)).then((_) {
-        _formKey.currentState.reset();
-      });
+      _loginBloc.dispatch(UserLogin(_userNameController.text,
+          _passwordController.text, await FirebaseMessaging().getToken()));
     }
   }
 }

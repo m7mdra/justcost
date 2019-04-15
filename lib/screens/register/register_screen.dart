@@ -38,7 +38,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = RegisterBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
+    _registerBloc = RegisterBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _registerBloc.state.listen((state) {
       if (state is RegisterLoading)
         showDialog(
@@ -271,15 +272,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           address: _addressController.text.trim(),
           email: _emailController.text.trim(),
           messagingId: await FirebaseMessaging().getToken(),
-
           password: _passwordController.text.trim(),
           phoneNumber: _phoneNumberController.text.trim()));
-    } else {
-      Future.delayed(Duration(seconds: 2)).then((_) {
-        setState(() {
-          _formKey.currentState.reset();
-        });
-      });
     }
   }
 }

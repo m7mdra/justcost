@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/edit_profile/password.dart';
+import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
   @override
@@ -37,6 +38,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
+            autovalidate: true,
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
@@ -104,8 +106,25 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
+                  OutlineButton(
+                    child: Text('Forgot password? Reset it now'),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResetPasswordScreen()));
+                    },
+                  ),
                   SizedBox(
-                    height: 16,
+                    height: 8,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                          'Changing password will terminate the current session',
+                          style: TextStyle(
+                            color: Theme.of(context).errorColor,
+                          ))),
+                  SizedBox(
+                    height: 8,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

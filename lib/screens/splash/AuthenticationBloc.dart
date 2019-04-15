@@ -12,6 +12,12 @@ abstract class AuthenticationState extends Equatable {}
 
 class AppStarted extends AuthenticationEvent {}
 
+class UpdateMessagingId extends AuthenticationEvent {
+  final String newToken;
+
+  UpdateMessagingId(this.newToken);
+}
+
 class AccountNotVerified extends AuthenticationState {}
 
 class AuthenticationUninitialized extends AuthenticationState {}
@@ -44,6 +50,9 @@ class AuthenticationBloc
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
+    if (event is UpdateMessagingId) {
+      await repository.updateMessagingId(event.newToken);
+    }
     if (event is AppStarted) {
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();
@@ -64,7 +73,7 @@ class AuthenticationBloc
             }
           } on DioError catch (error) {
             yield AuthenticationFailed();
-          }catch(error){
+          } catch (error) {
             yield AuthenticationFailed();
           }
         }

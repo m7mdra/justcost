@@ -10,7 +10,6 @@ import 'package:justcost/screens/splash/splash_screen.dart';
 import 'dependencies_provider.dart';
 
 void main() {
-
   DependenciesProvider.build();
   runApp(MyApp());
 }
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'OpenSans',
           primaryColorDark: Color(0xff141926)),
       home: BlocProvider(
-        child: UpdatePasswordScreen(),
+        child: SplashScreen(),
         bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );

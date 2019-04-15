@@ -26,19 +26,20 @@ class PersonalInformationUpdateSuccessState extends EditProfileState {
   PersonalInformationUpdateSuccessState(this.payload);
 }
 
-
 class LoadingState extends EditProfileState {
-    final Payload payload;
+  final Payload payload;
 
   LoadingState(this.payload);
-
 }
 
-class ErrorState extends EditProfileState {
+class ErrorState<T> extends EditProfileState {
   final String message;
-
-  ErrorState(this.message);
+  final ErrorType errorType;
+  final T event;
+  ErrorState(this.message, this.errorType, this.event);
 }
+
+enum ErrorType { avatar, password, personal, account, none }
 
 class PasswordChangedSuccess extends EditProfileState {}
 

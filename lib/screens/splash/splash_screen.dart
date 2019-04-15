@@ -6,6 +6,8 @@ import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:device_info/device_info.dart';
+import 'dart:io' show Platform;
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   AuthenticationBloc _authenticationBloc;
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
   @override
   Widget build(BuildContext context) {
@@ -50,27 +53,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     firebaseMessaging.onTokenRefresh.listen((newToken) {
-      //TODO: submit new token to server
+      _authenticationBloc.dispatch(UpdateMessagingId(newToken));
     });
     firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, alert: true, badge: true));
-
     firebaseMessaging.setAutoInitEnabled(true);
     firebaseMessaging.configure(
-        onLaunch: (message) {
-          print("onLaunch: $message");
-        },
-        onMessage: (message) {
-          print("onMessage: $message");
+      onLaunch: (Map<String, dynamic> message) {
+        print("onLaunch: $message");
+        //TODO: handle logic when notification is clicked in the tray
+      },
+      onMessage: (Map<String, dynamic> message) {
+        print("onMessage: $message");
+        //TODO: handle logic when is received when application is in foreground
+      },
+      onResume: (Map<String, dynamic> message) {
+        print("onResume: $message");
+        //TODO: handle logic when is received when application is in background
+      },
+    );
 
-        },
-        onResume: (message) {
-          print("onResume: $message");
-
-        });
-    
     _authenticationBloc.dispatch(AppStarted());
     _authenticationBloc.state.listen((state) {
       if (state is UserAuthenticated)

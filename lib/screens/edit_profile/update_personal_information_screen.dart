@@ -19,6 +19,8 @@ class _UpdatePersonalInformationScreenState
   String genderGroupValue;
   TextEditingController _fullNameController;
   TextEditingController _addressController;
+  FocusNode _fullNameNode = FocusNode();
+  FocusNode _addressNode = FocusNode();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -36,6 +38,8 @@ class _UpdatePersonalInformationScreenState
     super.dispose();
     _fullNameController.dispose();
     _addressController.dispose();
+    _fullNameNode.dispose();
+    _addressNode.dispose();
   }
 
   @override
@@ -56,11 +60,15 @@ class _UpdatePersonalInformationScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
+                  focusNode: _fullNameNode,
                   validator: (text) {
                     if (text.isEmpty) {
                       return 'Full name field is required.';
                     } else
                       return null;
+                  },
+                  onEditingComplete: () {
+                    FocusScope.of(context).requestFocus(_addressNode);
                   },
                   controller: _fullNameController,
                   minLines: 1,
@@ -76,12 +84,16 @@ class _UpdatePersonalInformationScreenState
                   height: 8,
                 ),
                 TextFormField(
+                  focusNode: _addressNode,
                   maxLines: 1,
                   controller: _addressController,
                   validator: (address) {
                     return address.isEmpty
                         ? "Address Field can not be empty"
                         : null;
+                  },
+                  onEditingComplete: (){
+                    FocusScope.of(context).requestFocus(FocusNode());
                   },
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -96,24 +108,28 @@ class _UpdatePersonalInformationScreenState
                 SizedBox(
                   height: 16,
                 ),
-                Text(
-                  'Gender',
-                  style: Theme.of(context).textTheme.subhead,
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Gender',
+                      style: Theme.of(context).textTheme.subhead,
+                    ),
+                    RadioListTile<String>(
+                        value: 'male',
+                        groupValue: genderGroupValue,
+                        title: Text('Male'),
+                        onChanged: (value) {
+                          setState(() => genderGroupValue = value);
+                        }),
+                    RadioListTile<String>(
+                        value: 'female',
+                        groupValue: genderGroupValue,
+                        title: Text('Female'),
+                        onChanged: (value) {
+                          setState(() => genderGroupValue = value);
+                        }),
+                  ],
                 ),
-                RadioListTile<String>(
-                    value: 'male',
-                    groupValue: genderGroupValue,
-                    title: Text('Male'),
-                    onChanged: (value) {
-                      setState(() => genderGroupValue = value);
-                    }),
-                RadioListTile<String>(
-                    value: 'female',
-                    groupValue: genderGroupValue,
-                    title: Text('Female'),
-                    onChanged: (value) {
-                      setState(() => genderGroupValue = value);
-                    }),
                 SizedBox(
                   height: 16,
                 ),

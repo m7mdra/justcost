@@ -41,7 +41,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           await _userSession.saveUser(response);
           yield AvatarUpdateSuccess(response);
         } else
-          yield ErrorState("failed to update profile avatar");
+          yield ErrorState<UpdateProfileAvatarEvent>(
+              "failed to update profile avatar", ErrorType.avatar, event);
       }
       if (event is UpdatePersonalInformationEvent) {
         yield LoadingState((await _userSession.user()).content.payload);
@@ -51,36 +52,46 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           await _userSession.saveUser(response);
           yield PersonalInformationUpdateSuccessState(response);
         } else {
-          yield ErrorState("failed to update personal information");
+          yield ErrorState<UpdatePersonalInformationEvent>(
+              "failed to update personal information",
+              ErrorType.personal,
+              event);
         }
       }
     } on DioError catch (error) {
       switch (error.type) {
         case DioErrorType.CONNECT_TIMEOUT:
-          yield ErrorState("Connection timedout, try again");
+          yield ErrorState(
+              "Connection timedout, try again", ErrorType.none, null);
           break;
         case DioErrorType.SEND_TIMEOUT:
-          yield ErrorState("Connection timedout, try again");
+          yield ErrorState(
+              "Connection timedout, try again", ErrorType.none, null);
           break;
         case DioErrorType.RECEIVE_TIMEOUT:
-          yield ErrorState("Connection timedout, try again");
+          yield ErrorState(
+              "Connection timedout, try again", ErrorType.none, null);
           break;
         case DioErrorType.RESPONSE:
           yield ErrorState(
-              "Server error, please try again or contact support team");
+              "Server error, please try again or contact support team",
+              ErrorType.none,
+              null);
           break;
         case DioErrorType.CANCEL:
           break;
         case DioErrorType.DEFAULT:
           yield ErrorState(
-              "Server error, please try again or contact support team");
+              "Server error, please try again or contact support team",
+              ErrorType.none,
+              null);
           break;
       }
       dispatch(LoadUserDataEvent());
     } on SessionExpired catch (error) {
       yield SessionExpiredState();
     } catch (error) {
-      yield ErrorState("Unknown error: $error}");
+      yield ErrorState("Unknown error: $error}", ErrorType.none, null);
       dispatch(LoadUserDataEvent());
     }
   }
