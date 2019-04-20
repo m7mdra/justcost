@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'reset_account_bloc.dart';
 
@@ -23,22 +24,23 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     _textEditingController = TextEditingController();
     _formKey = GlobalKey<FormState>();
     _bloc = ResetAccountBloc(DependenciesProvider.provide());
-    _bloc.state.listen((state){
-      if(state is ResetErrorState){
+    _bloc.state.listen((state) {
+      if (state is ResetErrorState) {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-              title: Text('Error'),
-              content: Text(state.message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ));
+                  title: Text(AppLocalizations.of(context).generalError),
+                  content: Text(state.message),
+                  actions: <Widget>[
+                    FlatButton(
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
       }
     });
     regex = new RegExp(pattern);
@@ -75,14 +77,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Center(
                         child: Icon(Icons.check_circle,
                             size: 80, color: Colors.green)),
-                    Text('Reset Account',
+                    Text(AppLocalizations.of(context).resetAccount,
                         style: Theme.of(context).textTheme.title),
-                    Text('An email was sent successfully to your account '),
+                    Text(AppLocalizations.of(context).resetAccountSuccess),
                     OutlineButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Continue'),
+                      child: Text(AppLocalizations.of(context).continueButton),
                     )
                   ],
                 );
@@ -102,10 +104,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           Icons.account_circle,
           size: 80,
         ),
-        Text('Reset Account', style: Theme.of(context).textTheme.title),
+        Text(AppLocalizations.of(context).resetAccount,
+            style: Theme.of(context).textTheme.title),
         Text(
-          'Type your e-mail address and will send you a mail'
-              ' containing the instructions to reset your password',
+          AppLocalizations.of(context).resetAccountInstruction,
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -117,9 +119,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             controller: _textEditingController,
             validator: (mail) {
               if (mail.isEmpty)
-                return "Email Field can not be empty";
+                return AppLocalizations.of(context).emailFieldEmptyError;
               else if (!regex.hasMatch(mail))
-                return "Invalid email address";
+                return AppLocalizations.of(context).emailFieldInvalidError;
               else
                 return null;
             },
@@ -127,7 +129,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
                 hintText: 'mail@domain.com',
-                labelText: 'E-mail address',
+                labelText: AppLocalizations.of(context).emailFieldHint,
                 contentPadding: const EdgeInsets.all(12),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16))),
@@ -138,13 +140,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           onPressed: () {
             var form = _formKey.currentState;
             var email = _textEditingController.text;
-            if (form.validate()) {
-              _bloc.dispatch(SubmitEmailEvent(email));
-            } else {
-              Future.delayed(Duration(seconds: 2)).then((_) => form.reset());
-            }
+            if (form.validate()) _bloc.dispatch(SubmitEmailEvent(email));
           },
-          child: Text('Submit'),
+          child: Text(AppLocalizations.of(context).submitButton),
           color: Theme.of(context).accentColor,
         ),
       ],

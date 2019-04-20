@@ -4,10 +4,7 @@ import 'package:justcost/screens/edit_profile/account_information.dart';
 class UpdateAccountInformationScreen extends StatefulWidget {
   final AccountInformation accountInformation;
 
-  const UpdateAccountInformationScreen(
-      [this.accountInformation = const AccountInformation(
-          "mega", "mail@domain.com",
-          currentPassword: 'password')])
+  const UpdateAccountInformationScreen([this.accountInformation])
       : super(key: const Key('value'));
   @override
   _UpdateAccountInformationScreenState createState() =>

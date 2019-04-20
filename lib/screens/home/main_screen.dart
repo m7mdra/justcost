@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:justcost/screens/home/addad/post_ad_page.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/home/home_page.dart';
+import 'package:justcost/screens/home/postad/post_ad_page.dart';
 import 'package:justcost/screens/home/search/search_page.dart';
 import 'package:justcost/screens/home/profile/profile_page.dart';
 import 'package:justcost/screens/home/category/categories_page.dart';
@@ -47,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         key: _scaffoldKey,
         endDrawer: SafeArea(
           child: Drawer(
@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Notifications',
+                        AppLocalizations.of(context).notificationPanel,
                         style: Theme.of(context).textTheme.title,
                       ),
                       IconButton(
@@ -101,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         appBar: AppBar(
-          title: Text('Just Cost'),
+          title: Text(AppLocalizations.of(context).appName),
           actions: <Widget>[
             Builder(
               builder: (context) {
@@ -169,35 +169,35 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                title: Text('Home'),
+                title: Text(AppLocalizations.of(context).homePageTitle),
                 activeIcon: Icon(
                   Icons.home,
                   color: Theme.of(context).accentColor,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                title: Text('Search'),
+                title: Text(AppLocalizations.of(context).searchPageTitle),
                 activeIcon: Icon(
                   Icons.search,
                   color: Theme.of(context).accentColor,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add_circle),
-                title: Text('Post Ad'),
+                title: Text(AppLocalizations.of(context).postAdPageTitle),
                 activeIcon: Icon(
                   Icons.add_circle,
                   color: Theme.of(context).accentColor,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.category),
-                title: Text('Categories'),
+                title: Text(AppLocalizations.of(context).categoriesPageTitle),
                 activeIcon: Icon(
                   Icons.category,
                   color: Theme.of(context).accentColor,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                title: Text('Profile'),
+                title: Text(AppLocalizations.of(context).profilePageTitle),
                 activeIcon: Icon(
                   Icons.person,
                   color: Theme.of(context).accentColor,

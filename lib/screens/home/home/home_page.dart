@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage>
             autoplay: true,
             pagination: SwiperPagination(),
             viewportFraction: 0.9,
-            
             indicatorLayout: PageIndicatorLayout.SCALE,
             curve: Curves.fastOutSlowIn,
             itemCount: 10,
@@ -50,7 +49,6 @@ class _HomePageState extends State<HomePage>
             itemBuilder: (context, index) {
               return Card(
                 child: Container(
-
                   width: MediaQuery.of(context).size.width,
                   height: 200,
                   color: Color.fromARGB(
@@ -114,6 +112,13 @@ class _HomePageState extends State<HomePage>
           itemCount: 10,
           shrinkWrap: true,
         ),
+        Icon(
+          Icons.more_horiz,
+          color: Colors.grey,
+        ),
+        const SizedBox(
+          height: 100,
+        )
       ],
     );
   }

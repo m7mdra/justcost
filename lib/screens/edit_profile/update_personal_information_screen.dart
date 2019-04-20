@@ -4,9 +4,7 @@ import 'package:justcost/screens/edit_profile/personal_information.dart';
 class UpdatePersonalInformationScreen extends StatefulWidget {
   final PersonalInformation personalInformation;
 
-  UpdatePersonalInformationScreen(
-      [this.personalInformation = const PersonalInformation(
-          "Mega son of himSelf", null, "address,address,address")])
+  UpdatePersonalInformationScreen([this.personalInformation])
       : super(key: Key('updatePersonalInformation'));
 
   @override
@@ -92,7 +90,7 @@ class _UpdatePersonalInformationScreenState
                         ? "Address Field can not be empty"
                         : null;
                   },
-                  onEditingComplete: (){
+                  onEditingComplete: () {
                     FocusScope.of(context).requestFocus(FocusNode());
                   },
                   textInputAction: TextInputAction.next,

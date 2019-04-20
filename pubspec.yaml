@@ -34,6 +34,10 @@ dependencies:
   image_crop: 0.2.0
   cached_network_image: ^0.7.0
   device_info: ^0.4.0+1
+  flutter_localizations:
+    sdk: flutter
+  intl:
+  intl_translation:
 
 dev_dependencies:
   flutter_test:

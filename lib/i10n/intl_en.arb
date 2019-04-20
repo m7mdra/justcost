@@ -1,0 +1,28 @@
+{
+  "@@last_modified": "2019-04-20T10:21:19.769510",
+  "loginLoadingMessage": "Please wait while trying to login",
+  "@loginLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "appName": "JustCost",
+  "@appName": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "usernameFieldHint": "Username",
+    "@usernameFieldHint": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "passwordFieldHint": "Password",
+    "@passwordFieldHint": {
+      "type": "text",
+      "placeholders": {}
+    },
+     "loginScreenName": "Login",
+      "@loginScreenName": {
+        "type": "text",
+        "placeholders": {}
+      }
+}

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:justcost/screens/home/addad/category_picker_screen.dart';
-import 'package:justcost/screens/home/addad/location_pick_screen.dart';
-import 'package:justcost/screens/home/addad/place_picker_screen.dart';
+import 'package:justcost/screens/home/postad/category_picker_screen.dart';
+import 'package:justcost/screens/home/postad/location_pick_screen.dart';
+import 'package:justcost/screens/home/postad/place_picker_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/widget/ad_image_view.dart';
@@ -60,6 +60,12 @@ class _PostAdPageState extends State<PostAdPage>
     _adPhoneNumberController.dispose();
     _adEmailController.dispose();
     _adDetailsController.dispose();
+    _adKeywordFocusNode.dispose();
+    _adOldPriceFocusNode.dispose();
+    _adNewPriceFocusNode.dispose();
+    _adPhoneNumberFocusNode.dispose();
+    _adEmailFocusNode.dispose();
+    _adDetailsFocusNode.dispose();
   }
 
   Widget build(BuildContext context) {

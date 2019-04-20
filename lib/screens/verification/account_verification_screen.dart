@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
@@ -22,7 +23,8 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    _accountVerificationBloc = AccountVerificationBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
+    _accountVerificationBloc = AccountVerificationBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _textEditingController = TextEditingController();
     _accountVerificationBloc.state.listen((state) {
       if (state is VerificationLoading)
@@ -30,18 +32,20 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             context: context,
             barrierDismissible: false,
             builder: (context) => ProgressDialog(
-                  message: "Please wait...",
+                  message:
+                      AppLocalizations.of(context).verificationLoadingMessage,
                 ));
       if (state is ResendVerificationFailed) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Error'),
+                  title: Text(AppLocalizations.of(context).generalError),
                   content: Text(state.message),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text('Ok'),
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -54,11 +58,12 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                    title: Text('Error'),
+                    title: Text(AppLocalizations.of(context).generalError),
                     content: Text(state.message),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text('Ok'),
+                        child: Text(
+                            MaterialLocalizations.of(context).okButtonLabel),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -70,8 +75,18 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             context: context,
             barrierDismissible: true,
             builder: (context) => RoundedAlertDialog(
-              content: Text('Session Expired, log in again'),
-            )).then((_) {
+                  actions: <Widget>[
+                    FlatButton(
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                  content:
+                      Text(AppLocalizations.of(context).sessionExpiredMessage),
+                )).then((_) {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => LoginScreen()));
         });
@@ -125,7 +140,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             height: 8,
           ),
           Text(
-            'Account Verified Successfully.',
+            AppLocalizations.of(context).accountVerifiedSuccess,
             style: Theme.of(context).textTheme.title,
           ),
           const SizedBox(
@@ -136,7 +151,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => MainScreen()));
             },
-            child: Text('Continue'),
+            child: Text(AppLocalizations.of(context).continueButton),
           )
         ],
       ),
@@ -152,14 +167,15 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             const SizedBox(
               height: 8,
             ),
-            Center(child: Text('Didnt receive email?')),
+            Center(
+                child: Text(AppLocalizations.of(context).didNotReceivedEmail)),
             const SizedBox(
               height: 8,
             ),
             Center(
               child: OutlineButton(
                 highlightedBorderColor: Colors.yellow,
-                child: Text('Resend'),
+                child: Text(AppLocalizations.of(context).resendButton),
                 onPressed: () {
                   _accountVerificationBloc.dispatch(ResendVerification());
                 },
@@ -186,14 +202,14 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
           height: 8,
         ),
         Text(
-          'Account Verficiation is required.',
+          AppLocalizations.of(context).accountVerificationHeading,
           style: Theme.of(context).textTheme.title,
         ),
         const SizedBox(
           height: 8,
         ),
         Text(
-          'An E-mail address was sent to your account containg instruction to verify you account',
+          AppLocalizations.of(context).accountVerificationSubhead,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.body1,
         ),
@@ -208,15 +224,17 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             child: TextFormField(
               validator: (text) {
                 if (text.isEmpty)
-                  return 'Verification code Field is Empty';
+                  return AppLocalizations.of(context)
+                      .verificationFieldEmptyError;
                 else
                   return null;
               },
               controller: _textEditingController,
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(12),
-                  labelText: 'Verification Code',
-                  hintText: '0000',
+                  labelText:
+                      AppLocalizations.of(context).verificationCodeFieldHint,
+                  hintText: '* * * *',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
             ),
@@ -230,12 +248,8 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             var code = _textEditingController.text;
             if (_formKey.currentState.validate())
               _accountVerificationBloc.dispatch(SubmitVerificationCode(code));
-            else {
-              Future.delayed(Duration(seconds: 2))
-                  .then((_) => _formKey.currentState.reset());
-            }
           },
-          child: Text('Submit Code'),
+          child: Text(AppLocalizations.of(context).submitButton),
         ),
       ],
     );

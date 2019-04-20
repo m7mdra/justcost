@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/main.dart';
 import 'package:justcost/screens/home/main_screen.dart';
@@ -46,18 +47,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             barrierDismissible: false,
             builder: (context) => ProgressDialog(
-                  message: "Please wait while creating account...",
+                  message:
+                      AppLocalizations.of(context).createAccountLoadingMessage,
                 ));
       if (state is RegisterError) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Error'),
+                  title: Text(AppLocalizations.of(context).generalError),
                   content: Text(state.message),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text('Ok'),
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -98,6 +101,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
           physics: ClampingScrollPhysics(),
           padding: const EdgeInsets.all(8),
           children: <Widget>[
+            Align(
+              child: Text(
+                'JUST COST',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Align(
+              child: Text(
+                AppLocalizations.of(context).accountCreation,
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+            ),
             SizedBox(
               height: 8,
             ),
@@ -109,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     maxLines: 1,
                     validator: (username) {
                       return username.isEmpty
-                          ? "Username field can not be empty"
+                          ? AppLocalizations.of(context).usernameFieldEmptyError
                           : null;
                     },
                     controller: _userNameController,
@@ -120,9 +140,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person),
                         contentPadding: EdgeInsets.all(10),
-                        hintText: 'Username',
+                        hintText:
+                            AppLocalizations.of(context).usernameFieldHint,
                         prefixText: '@',
-                        labelText: 'Username',
+                        labelText:
+                            AppLocalizations.of(context).usernameFieldHint,
                         errorMaxLines: 1,
                         filled: true,
                         border: OutlineInputBorder(
@@ -137,9 +159,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     maxLines: 1,
                     validator: (mail) {
                       if (mail.isEmpty)
-                        return "Email Field can not be empty";
+                        return AppLocalizations.of(context)
+                            .emailFieldEmptyError;
                       else if (!regex.hasMatch(mail))
-                        return "Invalid email address";
+                        return AppLocalizations.of(context)
+                            .emailFieldInvalidError;
                       else
                         return null;
                     },
@@ -152,8 +176,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.mail),
                         contentPadding: EdgeInsets.all(10),
-                        hintText: 'mail@domain.com',
-                        labelText: 'E-mail address',
+                        hintText: AppLocalizations.of(context).emailFieldHint,
+                        labelText: AppLocalizations.of(context).emailFieldHint,
                         errorMaxLines: 1,
                         filled: true,
                         errorBorder: OutlineInputBorder(
@@ -173,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     validator: (phone) {
                       return phone.isEmpty
-                          ? "Phone Number field can not be empty"
+                          ? AppLocalizations.of(context).phoneNumberEmptyError
                           : null;
                     },
                     keyboardType: TextInputType.phone,
@@ -184,8 +208,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.phone),
                         contentPadding: EdgeInsets.all(8),
-                        hintText: '000-0000-0000',
-                        labelText: 'Phone Number',
+                        hintText: '+000-0000-0000',
+                        labelText:
+                            AppLocalizations.of(context).phoneNumberField,
                         prefixText: '+',
                         errorMaxLines: 1,
                         filled: true,
@@ -201,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _addressController,
                     validator: (address) {
                       return address.isEmpty
-                          ? "Address Field can not be empty"
+                          ? AppLocalizations.of(context).addressFieldEmptyError
                           : null;
                     },
                     textInputAction: TextInputAction.next,
@@ -211,8 +236,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.location_on),
                         contentPadding: EdgeInsets.all(8),
-                        hintText: 'Address',
-                        labelText: 'Address',
+                        hintText: AppLocalizations.of(context).addressField,
+                        labelText: AppLocalizations.of(context).addressField,
                         filled: true,
                         errorMaxLines: 1,
                         border: OutlineInputBorder(
@@ -226,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordController,
                     validator: (password) {
                       return password.isEmpty
-                          ? "Password field can not be empty"
+                          ? AppLocalizations.of(context).passwordFieldEmptyError
                           : null;
                     },
                     onEditingComplete: () {
@@ -241,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         errorMaxLines: 1,
                         contentPadding: EdgeInsets.all(8),
                         hintText: '**********',
-                        labelText: 'Password',
+                        labelText: AppLocalizations.of(context).passwordFieldHint,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -255,7 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
                 onPressed: _attemptRegister,
-                child: Text('REGISTER'),
+                child: Text(AppLocalizations.of(context).createAccountButton),
                 color: Theme.of(context).accentColor,
               ),
             ),

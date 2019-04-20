@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
-
+import 'package:justcost/data/user/model/user_response.dart';
 class UserRepository {
   final Dio _client;
 
@@ -59,7 +59,7 @@ class UserRepository {
       var payLoad = Payload.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -73,7 +73,7 @@ class UserRepository {
       var response = await _client.get('jc-member/activation/send');
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -88,7 +88,7 @@ class UserRepository {
           .post('jc-member/activate/account', data: {"code": code});
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -109,7 +109,7 @@ class UserRepository {
     }
   }
 
-  Future<Payload> updateProfileImage(
+  Future<AuthenticationResponse> updateProfileImage(
       File originalFile, File downsampledFile) async {
     try {
       var response = await _client.post('jc-member/mpi/update',
@@ -119,9 +119,9 @@ class UserRepository {
             "upload_2": UploadFileInfo(
                 downsampledFile, "${DateTime.now()}_image_downsampled"),
           }));
-      return Payload.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -130,7 +130,7 @@ class UserRepository {
     }
   }
 
-  Future<Payload> updatePassword(
+  Future<ResponseStatus> updatePassword(
       String newPassword, String confirmNewPassword, String oldPassword) async {
     try {
       var response = await _client.post('jc-member/update/password', data: {
@@ -138,9 +138,9 @@ class UserRepository {
         "new-password": newPassword,
         "confrim-password": confirmNewPassword
       });
-      return Payload.fromJson(response.data);
+      return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -149,13 +149,13 @@ class UserRepository {
     }
   }
 
-  Future<Payload> updatePersonalInformation(fullName, gender, address) async {
+  Future<AuthenticationResponse> updatePersonalInformation(fullName, gender, address) async {
     try {
       var response = await _client.post('jc-member/update/profile',
           data: {"full_name": fullName, "gender": gender, "address": address});
-      return Payload.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;
@@ -164,13 +164,13 @@ class UserRepository {
     }
   }
 
-  Future<Payload> updateAccountInformation(username, email, password) async {
+  Future<AuthenticationResponse> updateAccountInformation(username, email, password) async {
     try {
       var response = await _client.post('jc-member/update/account',
           data: {"username": username, "email": email, "password": password});
-      return Payload.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 504)
+      if (error.response.statusCode == 550)
         throw SessionExpired();
       else
         throw error;

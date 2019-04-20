@@ -14,6 +14,8 @@ class AvatarUpdateSuccess extends EditProfileState {
   AvatarUpdateSuccess(this.payload);
 }
 
+class IdleState extends EditProfileState {}
+
 class AccountInformationUpdateSuccessState extends EditProfileState {
   final Payload payload;
 

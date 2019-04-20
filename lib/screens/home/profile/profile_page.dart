@@ -145,9 +145,12 @@ class _ProfilePageState extends State<ProfilePage>
         ),
         OutlineButton(
           onPressed: () async {
-            bool shouldUpdate = await Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditProfileScreen()));
-            if (shouldUpdate) _bloc.dispatch(LoadProfileEvent());
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return BlocProvider(
+                bloc: _bloc,
+                child: EditProfileScreen(),
+              );
+            }));
           },
           child: Text('Edit Profile'),
         ),
@@ -160,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Future _onLogout()  {
+  Future _onLogout() {
     _bloc.dispatch(LogoutEvent());
   }
 }

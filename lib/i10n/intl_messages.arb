@@ -1,0 +1,207 @@
+{
+  "@@last_modified": "2019-04-20T12:38:10.539905",
+  "loginLoadingMessage": "Please wait while trying to login.",
+  "@loginLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Continue": "Continue",
+  "@Continue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Reset Account": "Reset Account",
+  "@Reset Account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "An email was sent successfully to your account": "An email was sent successfully to your account",
+  "@An email was sent successfully to your account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your e-mail address and will send you a mail containing the instructions to reset your password": "Type your e-mail address and will send you a mail containing the instructions to reset your password",
+  "@Type your e-mail address and will send you a mail containing the instructions to reset your password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Didnt receive email?": "Didnt receive email?",
+  "@Didnt receive email?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Resend": "Resend",
+  "@Resend": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Verification code Field is Empty": "Verification code Field is Empty",
+  "@Verification code Field is Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Verficiation is required.": "Account Verficiation is required.",
+  "@Account Verficiation is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Verification Code": "Verification Code",
+  "@Verification Code": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "An E-mail address was sent to your account containg instruction to verify you account": "An E-mail address was sent to your account containg instruction to verify you account",
+  "@An E-mail address was sent to your account containg instruction to verify you account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "verificationLoadingMessage": "Please wait while trying to verify your account.",
+  "@verificationLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Submit": "Submit",
+  "@Submit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Verified Successfully.": "Account Verified Successfully.",
+  "@Account Verified Successfully.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Session Expired, log in again": "Session Expired, log in again",
+  "@Session Expired, log in again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone Number": "Phone Number",
+  "@Phone Number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Creation": "Account Creation",
+  "@Account Creation": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "createAccountLoadingMessage": "\"Please wait while creating account.\"",
+  "@createAccountLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "appName": "JustCost",
+  "@appName": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "usernameFieldHint": "Username",
+  "@usernameFieldHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone Number field can not be empty": "Phone Number field can not be empty",
+  "@Phone Number field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Username field can not be empty": "Username field can not be empty",
+  "@Username field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Email field can not be empty": "Email field can not be empty",
+  "@Email field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Email field is invalid": "Email field is invalid",
+  "@Email field is invalid": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "E-mail address": "E-mail address",
+  "@E-mail address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password field can not be empty": "Password field can not be empty",
+  "@Password field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Forgot Password?": "Forgot Password?",
+  "@Forgot Password?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Continue as guest": "Continue as guest",
+  "@Continue as guest": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Create account": "Create account",
+  "@Create account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "About us": "About us",
+  "@About us": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Get Help": "Get Help",
+  "@Get Help": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "type": "text",
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "passwordFieldHint": "Password",
+  "@passwordFieldHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginScreenName": "Login",
+  "@loginScreenName": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyRights": "Copyright © {date}, All Rights resereved",
+  "@copyRights": {
+    "type": "text",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "Privacy": "Privacy",
+  "@Privacy": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Term of Service": "Term of Service",
+  "@Term of Service": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Error Occurred": "Error Occurred",
+  "@Error Occurred": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Address Field can not be empty": "Address Field can not be empty",
+  "@Address Field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Address": "Address",
+  "@Address": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

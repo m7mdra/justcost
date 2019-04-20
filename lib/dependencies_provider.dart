@@ -11,7 +11,7 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://jc-api.skilledtech.ae/";
+    final String _baseUrl = "http://192.168.8.103:330/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       connectTimeout: 10000,
@@ -19,17 +19,18 @@ class DependenciesProvider {
       responseType: ResponseType.json,
     );
     client.interceptors.add(LogInterceptor(
-        request: true,
-        responseBody: true,
-        requestHeader: true,
-        error: true,
-        requestBody: true,
-        responseHeader: true));
+      request: true,
+      responseBody: true,
+      requestHeader: true,
+      error: true,
+      requestBody: true,
+      responseHeader: true,
+    ));
     client.interceptors.add(TokenInterceptor(userSession));
 
     getIt.registerSingleton<UserSession>(userSession);
     getIt.registerSingleton<Dio>(client);
-    getIt.registerFactory(() {
+    getIt.registerFactory<UserRepository>(() {
       return UserRepository(client);
     });
   }

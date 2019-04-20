@@ -10,12 +10,14 @@ import 'package:justcost/screens/edit_profile/edit_profile_events.dart';
 import 'package:justcost/screens/edit_profile/password.dart';
 import 'package:justcost/screens/edit_profile/personal_information.dart';
 import 'package:justcost/screens/edit_profile/update_account_information_screen.dart';
+import 'package:justcost/screens/edit_profile/update_password_screen.dart';
 import 'package:justcost/screens/edit_profile/update_personal_information_screen.dart';
+import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/dependencies_provider.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'account_information.dart';
 import 'edit_profile_bloc.dart';
 import 'edit_profile_states.dart';
@@ -34,10 +36,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     _bloc = EditProfileBloc(
-        DependenciesProvider.provide(), DependenciesProvider.provide());
+        DependenciesProvider.provide(),
+        DependenciesProvider.provide(),
+        BlocProvider.of<UserProfileBloc>(context));
+    _bloc.dispatch(LoadUserDataEvent());
     _bloc.state.listen((state) {
       if (state is ErrorState) {
-        Navigator.of(context).pop();
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -67,7 +71,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     FlatButton(
                       child: Text('Ok'),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => LoginScreen()));
                       },
                     )
                   ],
@@ -110,22 +115,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: BlocBuilder(
         bloc: _bloc,
         builder: (BuildContext context, EditProfileState state) {
-          if (state is UserLoadedState) buildListView(context, state.payload);
-          if (state is AccountInformationUpdateSuccessState)
-            buildListView(context, state.payload);
-          if (state is AvatarUpdateSuccess)
-            buildListView(context, state.payload);
-          if (state is PersonalInformationUpdateSuccessState)
-            buildListView(context, state.payload);
-          if (state is LoadingState) {
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => ProgressDialog(
-                      message: "Please wait while trying to update profile...",
-                    ));
+          if (state is UserLoadedState)
             return buildListView(context, state.payload);
+          if (state is AccountInformationUpdateSuccessState)
+            return buildListView(context, state.payload);
+          if (state is AvatarUpdateSuccess)
+            return buildListView(context, state.payload);
+          if (state is PersonalInformationUpdateSuccessState)
+            return buildListView(context, state.payload);
+          if (state is LoadingState) {
+            return Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 1,
+              ),
+            );
           }
+          return Container();
         },
       )),
     );
@@ -139,14 +144,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           children: <Widget>[
             Align(
               child: ClipOval(
-                  child: Image.asset(
-                payload != null && payload.photo != null
-                    ? payload.photo
-                    : 'assets/images/default-avatar.png',
-                height: 100,
-                width: 100,
-                fit: BoxFit.cover,
-              )),
+                  child: payload.photo != null && payload.photo.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: payload.photo,
+                          width: 100,
+                          height: 100,
+                          placeholder: (context, url) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1,
+                              ),
+                            );
+                          },
+                          errorWidget: (context, url, obj) {
+                            return Image.asset(
+                              'assets/images/default-avatar.png',
+                              width: 100,
+                              height: 100,
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          'assets/images/default-avatar.png',
+                          width: 100,
+                          height: 100,
+                        )),
             ),
             OutlineButton(
               onPressed: () {
@@ -218,7 +240,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             buildTitle('Account Information', () async {
               AccountInformation information = await Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => UpdateAccountInformationScreen()));
+                      builder: (context) => UpdateAccountInformationScreen(
+                          AccountInformation(
+                              payload.username, payload.email))));
               if (information != null)
                 _bloc.dispatch(UpdateAccountInformationEvent(
                     username: information.username,
@@ -238,7 +262,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             buildTitle('Account Security ', () async {
               Password information = await Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => UpdateAccountInformationScreen()));
+                      builder: (context) => UpdatePasswordScreen()));
               if (information != null)
                 _bloc.dispatch(UpdatePasswordEvent(
                     confirmNewPassword: information.confrimPassword,
@@ -288,10 +312,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     imageFile: image,
                   )));
 
-      setState(() {
-        imageFile = croppedImage;
-        originalFile = image;
-      });
+      imageFile = croppedImage;
+      originalFile = image;
+
       if (image != null && croppedImage != null) {
         _bloc.dispatch(UpdateProfileAvatarEvent(
             originalImage: image, croppedImage: croppedImage));

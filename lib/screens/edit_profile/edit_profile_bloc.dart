@@ -3,16 +3,24 @@ import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'edit_profile_events.dart';
 import 'edit_profile_states.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final UserSession _userSession;
   final UserRepository _userRepository;
-
-  EditProfileBloc(this._userSession, this._userRepository);
+  final UserProfileBloc userProfileBloc;
+  EditProfileBloc(
+      this._userSession, this._userRepository, this.userProfileBloc);
   @override
-  EditProfileState get initialState => EditProfileState();
+  EditProfileState get initialState => IdleState();
+  @override
+  void onTransition(Transition<EditProfileEvent, EditProfileState> transition) {
+    super.onTransition(transition);
+    print(transition);
+  }
 
   @override
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {
@@ -21,8 +29,15 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updateAccountInformation(
             event.username, event.email, event.password);
-        await _userSession.saveUser(response);
-        dispatch(LoadUserDataEvent());
+        if (response.status) {
+          await _userSession.save(response);
+          yield AccountInformationUpdateSuccessState(response.content.payload);
+          userProfileBloc.dispatch(LoadProfileEvent());
+        } else {
+          yield ErrorState<UpdateAccountInformationEvent>(
+              response.message, ErrorType.account, event);
+          dispatch(LoadUserDataEvent());
+        }
       }
       if (event is LoadUserDataEvent) {
         var user = await _userSession.user();
@@ -32,30 +47,41 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updatePassword(
             event.newPassword, event.confirmNewPassword, event.currentPassword);
+        if (response.status) {
+          yield PasswordChangedSuccess();
+        } else {
+          yield ErrorState<UpdatePasswordEvent>(
+              response.message, ErrorType.password, event);
+          dispatch(LoadUserDataEvent());
+        }
       }
       if (event is UpdateProfileAvatarEvent) {
         yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updateProfileImage(
             event.originalImage, event.croppedImage);
-        if (response != null) {
-          await _userSession.saveUser(response);
-          yield AvatarUpdateSuccess(response);
-        } else
+        if (response.status) {
+          await _userSession.save(response);
+          yield AvatarUpdateSuccess(response.content.payload);
+          userProfileBloc.dispatch(LoadProfileEvent());
+
+        } else {
           yield ErrorState<UpdateProfileAvatarEvent>(
-              "failed to update profile avatar", ErrorType.avatar, event);
+              response.message, ErrorType.avatar, event);
+          dispatch(LoadUserDataEvent());
+        }
       }
       if (event is UpdatePersonalInformationEvent) {
         yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updatePersonalInformation(
             event.fullName, event.gender, event.address);
-        if (response != null) {
-          await _userSession.saveUser(response);
-          yield PersonalInformationUpdateSuccessState(response);
+        if (response.status) {
+          await _userSession.save(response);
+          yield PersonalInformationUpdateSuccessState(response.content.payload);
+          userProfileBloc.dispatch(LoadProfileEvent());
         } else {
           yield ErrorState<UpdatePersonalInformationEvent>(
-              "failed to update personal information",
-              ErrorType.personal,
-              event);
+              response.message, ErrorType.personal, event);
+          dispatch(LoadUserDataEvent());
         }
       }
     } on DioError catch (error) {
@@ -79,7 +105,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
               null);
           break;
         case DioErrorType.CANCEL:
-          break;
         case DioErrorType.DEFAULT:
           yield ErrorState(
               "Server error, please try again or contact support team",
@@ -89,6 +114,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       }
       dispatch(LoadUserDataEvent());
     } on SessionExpired catch (error) {
+      await _userSession.clear();
+
       yield SessionExpiredState();
     } catch (error) {
       yield ErrorState("Unknown error: $error}", ErrorType.none, null);
