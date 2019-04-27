@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-04-20T12:38:10.539905",
+  "@@last_modified": "2019-04-27T10:57:49.661224",
   "loginLoadingMessage": "Please wait while trying to login.",
   "@loginLoadingMessage": {
     "type": "text",
@@ -7,6 +7,31 @@
   },
   "Continue": "Continue",
   "@Continue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Home": "Home",
+  "@Home": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Search": "Search",
+  "@Search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Post Ad": "Post Ad",
+  "@Post Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Categories": "Categories",
+  "@Categories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Profile": "Profile",
+  "@Profile": {
     "type": "text",
     "placeholders": {}
   },
@@ -181,6 +206,11 @@
   },
   "Privacy": "Privacy",
   "@Privacy": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Notifications": "Notifications",
+  "@Notifications": {
     "type": "text",
     "placeholders": {}
   },

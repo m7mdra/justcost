@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/main.dart';
 import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/legal/privacy_policy_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
@@ -146,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         labelText:
                             AppLocalizations.of(context).usernameFieldHint,
                         errorMaxLines: 1,
-                        filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -179,7 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: AppLocalizations.of(context).emailFieldHint,
                         labelText: AppLocalizations.of(context).emailFieldHint,
                         errorMaxLines: 1,
-                        filled: true,
                         errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             gapPadding: 0.0,
@@ -213,7 +213,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             AppLocalizations.of(context).phoneNumberField,
                         prefixText: '+',
                         errorMaxLines: 1,
-                        filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -238,7 +237,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         contentPadding: EdgeInsets.all(8),
                         hintText: AppLocalizations.of(context).addressField,
                         labelText: AppLocalizations.of(context).addressField,
-                        filled: true,
                         errorMaxLines: 1,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
@@ -261,12 +259,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     maxLines: 1,
                     obscureText: true,
                     decoration: InputDecoration(
-                        filled: true,
                         prefixIcon: Icon(Icons.https),
                         errorMaxLines: 1,
                         contentPadding: EdgeInsets.all(8),
                         hintText: '**********',
-                        labelText: AppLocalizations.of(context).passwordFieldHint,
+                        labelText:
+                            AppLocalizations.of(context).passwordFieldHint,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -274,6 +272,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               key: _formKey,
             ),
+            const SizedBox(
+              height: 8,
+            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        style: Theme.of(context).textTheme.caption,
+                        children: [
+                          TextSpan(
+                            text: 'By Registering you agree on ',
+                          ),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrivacyPolicyScreen()));
+                                },
+                              text: 'Terms of Conditions',
+                              style: TextStyle(
+                                  color: Colors.yellow[900],
+                                  decoration: TextDecoration.underline)),
+                          TextSpan(
+                            text: ' And',
+                          ),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrivacyPolicyScreen()));
+                                },
+                              text: ' Privacy Policy',
+                              style: TextStyle(
+                                  color: Colors.yellow[900],
+                                  decoration: TextDecoration.underline)),
+                        ]))),
             Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: RaisedButton(

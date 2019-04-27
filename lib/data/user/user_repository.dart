@@ -134,9 +134,9 @@ class UserRepository {
       String newPassword, String confirmNewPassword, String oldPassword) async {
     try {
       var response = await _client.post('jc-member/update/password', data: {
-        "old-password": oldPassword,
-        "new-password": newPassword,
-        "confrim-password": confirmNewPassword
+        "old_password": oldPassword,
+        "new_password": newPassword,
+        "confirm_password": confirmNewPassword
       });
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
