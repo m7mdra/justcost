@@ -27,7 +27,6 @@ class UserRegister extends RegisterEvent {
   final String password;
   final String email;
   final String messagingId;
-  final String address;
   final String phoneNumber;
 
   UserRegister(
@@ -35,7 +34,6 @@ class UserRegister extends RegisterEvent {
       this.password,
       this.email,
       this.messagingId,
-      this.address,
       this.phoneNumber});
 }
 
@@ -66,7 +64,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.password,
             event.messagingId,
-            event.address,
             event.phoneNumber);
         print(response);
         if (response.status) {

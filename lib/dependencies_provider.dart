@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:justcost/data/category/category_repository.dart';
 import 'package:justcost/data/token_interceptor.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
@@ -32,6 +33,10 @@ class DependenciesProvider {
     getIt.registerSingleton<Dio>(client);
     getIt.registerFactory<UserRepository>(() {
       return UserRepository(client);
+    });
+
+    getIt.registerFactory<CategoryRepository>(() {
+      return CategoryRepository(client);
     });
   }
 

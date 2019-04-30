@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         Container(
-          height: 215,
+          constraints: BoxConstraints.tight(Size(MediaQuery.of(context).size.width, 225)),
           child: ListView.builder(
             itemBuilder: (context, index) {
               return FeaturedAdsWidget();
@@ -152,8 +152,6 @@ class FeaturedAdsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 150,
-        width: 150,
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,16 +171,22 @@ class FeaturedAdsWidget extends StatelessWidget {
                   )
                 ],
               ),
-              Text('Ad name'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('100 AED'),
-                  IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () {},
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+                child: Text('Ad name'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text('100 AED'),
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
               )
             ],
           ),

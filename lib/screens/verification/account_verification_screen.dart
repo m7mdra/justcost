@@ -71,25 +71,9 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
                     ]));
       }
       if (state is SessionExpiredState) {
-        showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (context) => RoundedAlertDialog(
-                  actions: <Widget>[
-                    FlatButton(
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                  content:
-                      Text(AppLocalizations.of(context).sessionExpiredMessage),
-                )).then((_) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-        });
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(NavigationReason.session_expired)));
       }
     });
   }

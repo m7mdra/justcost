@@ -27,14 +27,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _passwordController;
   TextEditingController _emailController;
   TextEditingController _phoneNumberController;
-  TextEditingController _addressController;
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
   final _formKey = GlobalKey<FormState>();
   FocusNode _mailFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
-  FocusNode _addressFocusNode = FocusNode();
   FocusNode _phoneNumberFocusNode = FocusNode();
   RegisterBloc _registerBloc;
 
@@ -81,7 +79,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
     _phoneNumberController = TextEditingController();
-    _addressController = TextEditingController();
   }
 
   @override
@@ -92,7 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordController.dispose();
     _emailController.dispose();
     _phoneNumberController.dispose();
-    _addressController.dispose();
   }
 
   @override
@@ -203,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.phone,
                     controller: _phoneNumberController,
                     onEditingComplete: () {
-                      FocusScope.of(context).requestFocus(_addressFocusNode);
+                      FocusScope.of(context).requestFocus(_passwordFocusNode);
                     },
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.phone),
@@ -219,31 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  TextFormField(
-                    maxLines: 1,
-                    focusNode: _addressFocusNode,
-                    controller: _addressController,
-                    validator: (address) {
-                      return address.isEmpty
-                          ? AppLocalizations.of(context).addressFieldEmptyError
-                          : null;
-                    },
-                    textInputAction: TextInputAction.next,
-                    onEditingComplete: () {
-                      FocusScope.of(context).requestFocus(_passwordFocusNode);
-                    },
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.location_on),
-                        contentPadding: EdgeInsets.all(8),
-                        hintText: AppLocalizations.of(context).addressField,
-                        labelText: AppLocalizations.of(context).addressField,
-                        errorMaxLines: 1,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                 
                   TextFormField(
                     focusNode: _passwordFocusNode,
                     controller: _passwordController,
@@ -331,7 +303,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState.validate()) {
       _registerBloc.dispatch(UserRegister(
           username: _userNameController.text.trim(),
-          address: _addressController.text.trim(),
           email: _emailController.text.trim(),
           messagingId: await FirebaseMessaging().getToken(),
           password: _passwordController.text.trim(),

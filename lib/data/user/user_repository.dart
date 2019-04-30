@@ -16,7 +16,6 @@ class UserRepository {
       String password,
       String confirmPassword,
       String messagingId,
-      String address,
       String phoneNumber) async {
     try {
       var response = await _client.put('jc-member/signup', data: {
@@ -25,7 +24,6 @@ class UserRepository {
         "password": password,
         "cnf-password": password,
         "msg_id": messagingId,
-        "address": address,
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;

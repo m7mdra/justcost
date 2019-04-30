@@ -60,47 +60,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       }
       if (state is PasswordChangedSuccess) {
         Navigator.of(context).pop();
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => RoundedAlertDialog(
-                  title: Text('Password changed successfully'),
-                  content:
-                      Text("Log in again to continue using the application."),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Ok'),
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => LoginScreen()));
-                      },
-                    )
-                  ],
-                )).then((_) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-        });
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(NavigationReason.password_change)));
       }
 
       if (state is SessionExpiredState) {
         Navigator.of(context).pop();
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => RoundedAlertDialog(
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Ok'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                  content: Text('Session Expired, log in again'),
-                )).then((_) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-        });
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(NavigationReason.session_expired)));
       }
     });
   }

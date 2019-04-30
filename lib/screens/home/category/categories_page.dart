@@ -1,6 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/widget/network_error_widget.dart';
+import 'package:justcost/widget/no_data_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../dependencies_provider.dart';
 
 class CategoriesPage extends StatefulWidget {
   final Key key;
@@ -13,29 +20,42 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
+  CategoriesBloc _bloc;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = CategoriesBloc(DependenciesProvider.provide());
+    _bloc.dispatch(FetchCategoriesEvent());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: GridView(
-            primary: false,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            children: <Widget>[
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-              CategoryWidget(),
-            ],
-          ),
-        )
-      ],
+    return BlocBuilder(
+      bloc: _bloc,
+      builder: (BuildContext context, CategoriesState state) {
+        if (state is CategoriesError) {
+          return NetworkErrorWidget(
+            onRetry: () {
+              _bloc.dispatch(FetchCategoriesEvent());
+            },
+          );
+        }
+        if (state is CategoriesLoadingState)
+          return Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          );
+        if (state is NoCategorieState) return NoDataWidget();
+        if (state is CategoriesLoadedState) return Container();
+      },
     );
   }
 
@@ -44,41 +64,51 @@ class _CategoriesPageState extends State<CategoriesPage>
 }
 
 class CategoryWidget extends StatelessWidget {
+  final Category category;
+
+  const CategoryWidget({Key key, this.category}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 200,
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 200,
-              height: 140,
-              color: Colors.red,
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            Row(
+    return Card(
+      margin: const EdgeInsets.all(0),
+      child: Column(
+        children: <Widget>[
+          category.image == null || category.image.isEmpty
+              ? Container(
+                  width: 200,
+                  height: 135,
+                  color: Colors.red,
+                )
+              : CachedNetworkImage(
+                  imageUrl: category.image,
+                  width: 200,
+                  height: 135,
+                  placeholder: (context, url) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1,
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  },
+                ),
+          const SizedBox(
+            height: 2,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Category',
+                  category.name,
+                  style: Theme.of(context).textTheme.body1,
                 ),
-                Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text('${Random().nextInt(1000)}',
-                      style: TextStyle(color: Colors.white)),
-                )
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

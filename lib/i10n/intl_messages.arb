@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-04-27T10:57:49.661224",
+  "@@last_modified": "2019-04-29T12:14:34.594545",
   "loginLoadingMessage": "Please wait while trying to login.",
   "@loginLoadingMessage": {
     "type": "text",
@@ -231,6 +231,16 @@
   },
   "Address": "Address",
   "@Address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Logged out successfully": "Logged out successfully",
+  "@Logged out successfully": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password Changed successfully, login again.": "Password Changed successfully, login again.",
+  "@Password Changed successfully, login again.": {
     "type": "text",
     "placeholders": {}
   }

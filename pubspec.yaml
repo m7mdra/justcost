@@ -84,6 +84,9 @@ flutter:
     - family: OpenSans
       fonts:
        - asset: assets/fonts/OpenSans-Regular.ttf
+    - family: Tajawal
+      fonts:
+       - asset: assets/fonts/Tajawal-Medium.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

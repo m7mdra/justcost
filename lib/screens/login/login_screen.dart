@@ -12,27 +12,30 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'login_bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+enum NavigationReason { password_change, session_expired, logout, none }
+
 class LoginScreen extends StatefulWidget {
+  final NavigationReason navigationReason;
+
+  const LoginScreen([this.navigationReason = NavigationReason.none])
+      : super(key: const Key('m'));
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _userNameController;
   TextEditingController _passwordController;
   FocusNode _passwordFocusNode = FocusNode();
   LoginBloc _loginBloc;
-
   @override
-  void initState() {
-    super.initState();
-    _userNameController = TextEditingController();
-    _passwordController = TextEditingController();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loginBloc = LoginBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _loginBloc.state.listen((state) {
-      print(state);
       if (state is LoginLoading)
         showDialog(
             barrierDismissible: false,
@@ -74,16 +77,49 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    print(widget.navigationReason);
+    _userNameController = TextEditingController();
+    _passwordController = TextEditingController();
+    Future.delayed(Duration(microseconds: 100)).then((_) {
+      switch (widget.navigationReason) {
+        case NavigationReason.logout:
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context).logoutSuccessMessage),
+          ));
+          break;
+
+        case NavigationReason.password_change:
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content:
+                Text(AppLocalizations.of(context).passwordChangedSuccessfully),
+          ));
+          break;
+        case NavigationReason.session_expired:
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context).sessionExpiredMessage),
+          ));
+          break;
+        case NavigationReason.none:
+          break;
+      }
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
+    _passwordFocusNode.dispose();
     _loginBloc.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16.0),

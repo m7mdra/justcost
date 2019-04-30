@@ -28,14 +28,21 @@ class MyApp extends StatelessWidget {
         const Locale('ar', ''),
       ],
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          backgroundColor: Colors.white,
-          primaryColor: Color(0xff3B3F4E),
-          primaryColorLight: Color(0xff666a7a),
-          accentColor: Color(0xffF9D413),
-          buttonColor: Color(0xffF9D413),
-          fontFamily: 'OpenSans',
-          primaryColorDark: Color(0xff141926)),
+      builder: (context, navigator) {
+        return Theme(
+          data: ThemeData(
+              backgroundColor: Colors.white,
+              primaryColor: Color(0xff3B3F4E),
+              primaryColorLight: Color(0xff666a7a),
+              accentColor: Color(0xffF9D413),
+              buttonColor: Color(0xffF9D413),
+              primaryColorDark: Color(0xff141926),
+              fontFamily: Localizations.localeOf(context).languageCode == 'ar'
+                  ? 'Tajawal'
+                  : 'OpenSans'),
+          child: navigator,
+        );
+      },
       home: BlocProvider(
         child: SplashScreen(),
         bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),

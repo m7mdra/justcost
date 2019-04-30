@@ -47,7 +47,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield LoadingState((await _userSession.user()).content.payload);
         var response = await _userRepository.updatePassword(
             event.newPassword, event.confirmNewPassword, event.currentPassword);
+
         if (response.status) {
+          await _userSession.clear();
           yield PasswordChangedSuccess();
         } else {
           yield ErrorState<UpdatePasswordEvent>(
@@ -63,7 +65,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           await _userSession.save(response);
           yield AvatarUpdateSuccess(response.content.payload);
           userProfileBloc.dispatch(LoadProfileEvent());
-
         } else {
           yield ErrorState<UpdateProfileAvatarEvent>(
               response.message, ErrorType.avatar, event);

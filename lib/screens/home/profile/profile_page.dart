@@ -9,6 +9,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
+import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/settings_widget.dart';
@@ -30,26 +31,12 @@ class _ProfilePageState extends State<ProfilePage>
     _bloc.dispatch(LoadProfileEvent());
     _bloc.state.listen((state) {
       if (state is LogoutSuccessState)
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => LoginScreen(NavigationReason.logout)));
       if (state is SessionsExpiredState) {
-        showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (context) => RoundedAlertDialog(
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Ok'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                  content: Text('Session Expired, log in again'),
-                )).then((_) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-        });
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(NavigationReason.session_expired)));
       }
     });
   }
@@ -72,9 +59,9 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           );
         if (state is ProfileLoadedSuccessState)
-          return _loadUsers(state.userPayload);
+          return _loadUser(state.userPayload);
         if (state is ProfileReloadFailedState)
-          return _loadUsers(state.userPayload);
+          return _loadUser(state.userPayload);
         return Container();
       },
       bloc: _bloc,
@@ -84,18 +71,23 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   bool get wantKeepAlive => true;
 
-  Widget _loadUsers(Payload userPayload) {
+  Widget _loadUser(Payload userPayload) {
     return Column(
       children: <Widget>[
         ClipOval(
             child: userPayload != null && userPayload.photo != null
-                ? CachedNetworkImage(
-                    imageUrl: userPayload.photo,
+                ? Image.network(
+                    userPayload.photo,
                     width: 90,
                     height: 90,
+                    /* placeholder: (context, url) {
+                      return DefaultUserAvatarWidget();
+                    },
+                    errorWidget: (context, url, error) {
+                      return DefaultUserAvatarWidget();
+                    }, */
                   )
-                : Image.asset('assets/images/default-avatar.png',
-                    width: 90, height: 90)),
+                : DefaultUserAvatarWidget()),
         SizedBox(
           width: 10,
         ),

@@ -31,8 +31,6 @@ class AppLocalizations {
   String get categoriesPageTitle => Intl.message('Categories');
   String get profilePageTitle => Intl.message('Profile');
 
-
-
   String get resetAccount => Intl.message('Reset Account');
 
   String get resetAccountSuccess =>
@@ -131,13 +129,16 @@ class AppLocalizations {
       Intl.message("Address Field can not be empty");
 
   String get addressField => Intl.message('Address');
+  String get logoutSuccessMessage => Intl.message('Logged out successfully');
+  String get passwordChangedSuccessfully =>
+      Intl.message('Password Changed successfully, login again.');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'ar'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => [ 'en','ar'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) => AppLocalizations.load(locale);

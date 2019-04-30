@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
 
@@ -16,11 +15,14 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Card(
           child: TextField(
             decoration: InputDecoration.collapsed(hintText: 'Search').copyWith(
-                contentPadding: const EdgeInsets.all(10),
-                icon: Icon(Icons.search),
-                isDense: true),
+              contentPadding: const EdgeInsets.all(10),
+              icon: Icon(Icons.search),
+            ),
           ),
         ),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.filter_list), onPressed: () {},)
+        ],
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

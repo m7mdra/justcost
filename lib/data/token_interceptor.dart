@@ -10,8 +10,10 @@ class TokenInterceptor extends Interceptor {
   onRequest(RequestOptions options) async {
     if (await userSession.hasToken()) {
       var token = await userSession.token();
-      if (token != null && token.isNotEmpty)
+      if (token != null && token.isNotEmpty) {
         options.headers['authorization'] = 'Bearer $token';
+        print("token found.");
+      }
     } else
       print("token not found,ignored.");
     return options;
