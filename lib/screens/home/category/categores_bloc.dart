@@ -42,7 +42,7 @@ class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
       try {
         CategoryResponse response = await _repository.getCategories();
         if (response.status) {
-          if (response.content != null || response.content.isEmpty)
+          if (response.content == null || response.content.isEmpty)
             yield NoCategorieState();
           else
             yield CategoriesLoadedState(response.content);

@@ -7,7 +7,7 @@ class CategoryRepository {
   CategoryRepository(this._client);
   Future<CategoryResponse> getCategories() async {
     try {
-      var response = await _client.get('jc-category/category/all');
+      var response = await _client.get('jc-category/all');
       return CategoryResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -16,7 +16,7 @@ class CategoryRepository {
 
   Future<CategoryResponse> getCategoryDescendant(String categoryId) async {
     try {
-      var response = await _client.get('jc-category/category/$categoryId');
+      var response = await _client.get('jc-category/$categoryId');
       return CategoryResponse.fromJson(response.data);
     } on DioError catch (error) {
       throw error;

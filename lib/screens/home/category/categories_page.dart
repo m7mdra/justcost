@@ -54,7 +54,21 @@ class _CategoriesPageState extends State<CategoriesPage>
             ),
           );
         if (state is NoCategorieState) return NoDataWidget();
-        if (state is CategoriesLoadedState) return Container();
+        if (state is CategoriesLoadedState)
+          return GridView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: state.categories.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8),
+            itemBuilder: (BuildContext context, int index) {
+              return CategoryWidget(
+                category: state.categories[index],
+                onClick: (category) {
+                  print(category.toJson());
+                },
+              );
+            },
+          );
       },
     );
   }
@@ -65,50 +79,57 @@ class _CategoriesPageState extends State<CategoriesPage>
 
 class CategoryWidget extends StatelessWidget {
   final Category category;
+  final ValueChanged<Category> onClick;
 
-  const CategoryWidget({Key key, this.category}) : super(key: key);
+  const CategoryWidget({Key key, this.category, this.onClick})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(0),
-      child: Column(
-        children: <Widget>[
-          category.image == null || category.image.isEmpty
-              ? Container(
-                  width: 200,
-                  height: 135,
-                  color: Colors.red,
-                )
-              : CachedNetworkImage(
-                  imageUrl: category.image,
-                  width: 200,
-                  height: 135,
-                  placeholder: (context, url) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                    );
-                  },
-                ),
-          const SizedBox(
-            height: 2,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  category.name,
-                  style: Theme.of(context).textTheme.body1,
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        onClick(category);
+      },
+      child: Card(
+        margin: const EdgeInsets.all(0),
+        child: Column(
+          children: <Widget>[
+            category.image == null || category.image.isEmpty
+                ? Container(
+                    width: 200,
+                    height: 135,
+                    color: Colors.red,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: category.image,
+                    width: 200,
+                    height: 135,
+                    placeholder: (context, url) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                      );
+                    },
+                  ),
+            const SizedBox(
+              height: 2,
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    category.name,
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
