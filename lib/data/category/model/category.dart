@@ -51,6 +51,7 @@ class Category {
     order = json['order'];
     added = json['added'];
   }
+  bool hasDescendants() => lastDescendant != 0;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

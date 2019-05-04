@@ -42,27 +42,29 @@ class _SearchPageState extends State<SearchPage>
             ),
           ),
         ),
-        SliverGrid.count(crossAxisCount: 3,children: <Widget>[
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-          OfferWidget(),
-        ],)
+        SliverGrid.count(
+          crossAxisCount: 3,
+          children: <Widget>[
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+            OfferWidget(),
+          ],
+        )
       ],
     );
-
   }
 
   @override

@@ -18,8 +18,7 @@ class CategoryPickerScreen extends StatelessWidget {
             title: Text("Mobile - Tablet"),
             dense: true,
           ),
-          const Divider(
-          ),
+          const Divider(),
           ListTile(
             title: Text("Videso Games & Consoles"),
             dense: true,
@@ -61,7 +60,6 @@ class CategoryPickerScreen extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-
             title: Text("Computers"),
             dense: true,
           ),

@@ -5,7 +5,6 @@ import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/main.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';

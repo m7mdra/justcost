@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/widget/category_widget.dart';
+import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../dependencies_provider.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
   CategoriesBloc _bloc;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -39,12 +43,17 @@ class _CategoriesPageState extends State<CategoriesPage>
     return BlocBuilder(
       bloc: _bloc,
       builder: (BuildContext context, CategoriesState state) {
-        if (state is CategoriesError) {
+        if (state is CategoriesNetworkError) {
           return NetworkErrorWidget(
             onRetry: () {
               _bloc.dispatch(FetchCategoriesEvent());
             },
           );
+        }
+        if (state is CategoriesError) {
+          return GeneralErrorWidget(onRetry: () {
+            _bloc.dispatch(FetchCategoriesEvent());
+          });
         }
         if (state is CategoriesLoadingState)
           return Center(
@@ -55,18 +64,31 @@ class _CategoriesPageState extends State<CategoriesPage>
           );
         if (state is NoCategorieState) return NoDataWidget();
         if (state is CategoriesLoadedState)
-          return GridView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: state.categories.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8),
-            itemBuilder: (BuildContext context, int index) {
-              return CategoryWidget(
-                category: state.categories[index],
-                onClick: (category) {
-                  print(category.toJson());
-                },
-              );
+          return RefreshIndicator(
+            key: _refreshIndicatorKey,
+            child: GridView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: state.categories.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8),
+              itemBuilder: (BuildContext context, int index) {
+                return CategoryWidget(
+                  category: state.categories[index],
+                  onClick: (category) {
+                    if (category.hasDescendants())
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CategoryDetailsScreen(
+                                category: category,
+                              )));
+                    else {
+                      print('go to category\'s ads');
+                    }
+                  },
+                );
+              },
+            ),
+            onRefresh: () {
+              _bloc.dispatch(FetchCategoriesEvent());
             },
           );
       },
@@ -75,62 +97,4 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class CategoryWidget extends StatelessWidget {
-  final Category category;
-  final ValueChanged<Category> onClick;
-
-  const CategoryWidget({Key key, this.category, this.onClick})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onClick(category);
-      },
-      child: Card(
-        margin: const EdgeInsets.all(0),
-        child: Column(
-          children: <Widget>[
-            category.image == null || category.image.isEmpty
-                ? Container(
-                    width: 200,
-                    height: 135,
-                    color: Colors.red,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: category.image,
-                    width: 200,
-                    height: 135,
-                    placeholder: (context, url) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1,
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    },
-                  ),
-            const SizedBox(
-              height: 2,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    category.name,
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

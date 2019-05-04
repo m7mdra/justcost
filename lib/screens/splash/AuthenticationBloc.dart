@@ -34,7 +34,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserSession session;
   final UserRepository repository;
- 
+
   AuthenticationBloc({this.repository, this.session});
 
   @override
@@ -50,7 +50,6 @@ class AuthenticationBloc
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
-    
     if (event is AppStarted) {
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();

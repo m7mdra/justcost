@@ -12,9 +12,17 @@ abstract class CategoriesState {}
 
 class FetchCategoriesEvent extends CategriesEvent {}
 
+class FetchCategoriesDescendant extends CategriesEvent {
+  final String categoryId;
+
+  FetchCategoriesDescendant(this.categoryId);
+}
+
 class CategoriesLoadingState extends CategoriesState {}
 
 class CategoriesError extends CategoriesState {}
+
+class CategoriesNetworkError extends CategoriesState {}
 
 class NoCategorieState extends CategoriesState {}
 
@@ -37,6 +45,27 @@ class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
   Stream<CategoriesState> mapEventToState(
     CategriesEvent event,
   ) async* {
+    if (event is FetchCategoriesDescendant) {
+      yield CategoriesLoadingState();
+      try {
+        CategoryResponse response =
+            await _repository.getCategoryDescendants(event.categoryId);
+        if (response.status) {
+          if (response.content == null || response.content.isEmpty)
+            yield NoCategorieState();
+          else
+            yield CategoriesLoadedState(response.content);
+        } else {
+          yield CategoriesError();
+        }
+      } on DioError catch (error) {
+        print(error);
+        yield CategoriesNetworkError();
+      } catch (error) {
+        print("general error: $error");
+        yield CategoriesError();
+      }
+    }
     if (event is FetchCategoriesEvent) {
       yield CategoriesLoadingState();
       try {
@@ -50,7 +79,7 @@ class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
           yield CategoriesError();
         }
       } on DioError catch (error) {
-        yield CategoriesError();
+        yield CategoriesNetworkError();
       } catch (error) {
         yield CategoriesError();
       }

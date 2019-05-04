@@ -17,7 +17,6 @@ import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/dependencies_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'account_information.dart';
 import 'edit_profile_bloc.dart';
 import 'edit_profile_states.dart';
@@ -114,24 +113,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Align(
               child: ClipOval(
                   child: payload.photo != null && payload.photo.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: payload.photo,
+                      ? Image.network(
+                          payload.photo,
                           width: 100,
                           height: 100,
-                          placeholder: (context, url) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                              ),
-                            );
-                          },
-                          errorWidget: (context, url, obj) {
-                            return Image.asset(
-                              'assets/images/default-avatar.png',
-                              width: 100,
-                              height: 100,
-                            );
-                          },
                         )
                       : Image.asset(
                           'assets/images/default-avatar.png',

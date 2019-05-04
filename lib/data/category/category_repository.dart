@@ -14,12 +14,10 @@ class CategoryRepository {
     }
   }
 
-  Future<CategoryResponse> getCategoryDescendant(String categoryId) async {
+  Future<CategoryResponse> getCategoryDescendants(String categoryId) async {
     try {
       var response = await _client.get('jc-category/$categoryId');
       return CategoryResponse.fromJson(response.data);
-    } on DioError catch (error) {
-      throw error;
     } catch (error) {
       throw error;
     }

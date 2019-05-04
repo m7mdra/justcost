@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class NetworkErrorWidget extends StatelessWidget {
+class GeneralErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
-  const NetworkErrorWidget({Key key, this.onRetry}) : super(key: key);
+  const GeneralErrorWidget({Key key, this.onRetry}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -11,20 +11,21 @@ class NetworkErrorWidget extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
-              Icons.cloud_off,
+              Icons.error,
               size: 80,
             ),
             Text(
-              'No Internet Connection',
+              'Unknown Error occured',
               style: Theme.of(context).textTheme.title,
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
-              'No internet connection found, check your connection or tap on Try again',
+              'try again or contact support.',
               textAlign: TextAlign.center,
             ),
             const SizedBox(

@@ -215,7 +215,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                 
                   TextFormField(
                     focusNode: _passwordFocusNode,
                     controller: _passwordController,

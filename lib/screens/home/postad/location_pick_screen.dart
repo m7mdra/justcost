@@ -29,9 +29,11 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _isCameraMoving ? null : () {
-          Navigator.pop(context, marker.position);
-        },
+        onPressed: _isCameraMoving
+            ? null
+            : () {
+                Navigator.pop(context, marker.position);
+              },
         label: Text('Select Location'),
         icon: Icon(Icons.check),
       ),
@@ -61,7 +63,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
             });
           },
           initialCameraPosition:
-          CameraPosition(target: LatLng(25.276987, 55.296249), zoom: 12),
+              CameraPosition(target: LatLng(25.276987, 55.296249), zoom: 12),
         ),
       ),
     );

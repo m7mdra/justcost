@@ -18,7 +18,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       node.text,
                       style: Theme.of(context).textTheme.display1,
                     );
-                
                 }
               }
             },

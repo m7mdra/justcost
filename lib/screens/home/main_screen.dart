@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with  AutomaticKeepAliveClientMixin<MainScreen>{
   PageController _pageController;
   var _currentPage = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -140,22 +140,22 @@ class _MainScreenState extends State<MainScreen> {
                 : Container()
           ],
         ),
-        body: SafeArea(
-            child: PageView(
+        body: PageView.builder(
           controller: _pageController,
+          itemCount: 5,
           onPageChanged: (index) {
             setState(() {
               _currentPage = index;
             });
           },
-          children: <Widget>[
-            HomePage(),
-            SearchPage(),
-            PostAdPage(),
-            CategoriesPage(),
-            ProfilePage()
-          ],
-        )),
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) return HomePage();
+            if (index == 1) return SearchPage();
+            if (index == 2) return PostAdPage();
+            if (index == 3) return CategoriesPage();
+            if (index == 4) return ProfilePage();
+          },
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentPage,
           onTap: (index) {
@@ -164,7 +164,7 @@ class _MainScreenState extends State<MainScreen> {
               _currentPage = index;
             });
             _pageController.animateToPage(_currentPage,
-                duration: Duration(milliseconds: 100), curve: Curves.easeIn);
+                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
           },
           items: [
             BottomNavigationBarItem(
@@ -206,4 +206,7 @@ class _MainScreenState extends State<MainScreen> {
           type: BottomNavigationBarType.fixed,
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

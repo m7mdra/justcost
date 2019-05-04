@@ -20,16 +20,13 @@ class AdImageView extends StatefulWidget {
 class _AdImageViewState extends State<AdImageView> {
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
         ClipRRect(
           borderRadius: new BorderRadius.circular(8.0),
           child: Image.file(
-
             widget.file,
-
             width: widget.size.width,
             height: widget.size.height,
             fit: BoxFit.cover,

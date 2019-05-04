@@ -87,7 +87,8 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         Container(
-          constraints: BoxConstraints.tight(Size(MediaQuery.of(context).size.width, 225)),
+          constraints: BoxConstraints.tight(
+              Size(MediaQuery.of(context).size.width, 225)),
           child: ListView.builder(
             itemBuilder: (context, index) {
               return FeaturedAdsWidget();
@@ -153,44 +154,44 @@ class FeaturedAdsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Stack(
+            alignment: Alignment.centerLeft,
             children: <Widget>[
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: <Widget>[
-                  Container(
-                    width: 150,
-                    height: 140,
-                    color: Colors.red,
-                  ),
-                  Container(
-                    color: Colors.yellowAccent,
-                    child: Text('10% OFF'),
-                  )
-                ],
+              Container(
+                width: 150,
+                height: 140,
+                color: Colors.red,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                child: Text('Ad name'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text('100 AED'),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      onPressed: () {},
-                    )
-                  ],
-                ),
+              Container(
+                color: Colors.yellowAccent,
+                child: Text('10% OFF'),
               )
             ],
           ),
-        ));
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: Text('Ad name'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('100 AED'),
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  onPressed: () {},
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
 

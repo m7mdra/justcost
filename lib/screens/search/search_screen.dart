@@ -21,7 +21,10 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {},)
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {},
+          )
         ],
       ),
       body: NestedScrollView(

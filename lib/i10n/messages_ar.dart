@@ -19,11 +19,14 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "appName" : MessageLookupByLibrary.simpleMessage("JustCost"),
-    "loginLoadingMessage" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار بينما يتم تسجيل الدخول"),
-    "loginScreenName" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
-    "passwordFieldHint" : MessageLookupByLibrary.simpleMessage("كلمة المرور"),
-    "usernameFieldHint" : MessageLookupByLibrary.simpleMessage("اسم المستخدم")
-  };
+  static _notInlinedMessages(_) => <String, Function>{
+        "appName": MessageLookupByLibrary.simpleMessage("JustCost"),
+        "loginLoadingMessage": MessageLookupByLibrary.simpleMessage(
+            "الرجاء الانتظار بينما يتم تسجيل الدخول"),
+        "loginScreenName": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "passwordFieldHint":
+            MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "usernameFieldHint":
+            MessageLookupByLibrary.simpleMessage("اسم المستخدم")
+      };
 }

@@ -5,6 +5,7 @@ import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 import 'package:justcost/data/user/model/user_response.dart';
+
 class UserRepository {
   final Dio _client;
 
@@ -147,7 +148,8 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> updatePersonalInformation(fullName, gender, address) async {
+  Future<AuthenticationResponse> updatePersonalInformation(
+      fullName, gender, address) async {
     try {
       var response = await _client.post('jc-member/update/profile',
           data: {"full_name": fullName, "gender": gender, "address": address});
@@ -162,7 +164,8 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> updateAccountInformation(username, email, password) async {
+  Future<AuthenticationResponse> updateAccountInformation(
+      username, email, password) async {
     try {
       var response = await _client.post('jc-member/update/account',
           data: {"username": username, "email": email, "password": password});

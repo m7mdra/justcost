@@ -6,7 +6,6 @@ import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'edit_profile_events.dart';
 import 'edit_profile_states.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final UserSession _userSession;
