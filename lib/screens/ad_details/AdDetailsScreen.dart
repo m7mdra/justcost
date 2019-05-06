@@ -22,26 +22,32 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             color: Colors.red,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:
+                const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 IconText(
+                  onPressed: () {},
                   icon: Icon(Icons.flag),
                   text: Text('Report'),
                 ),
                 IconText(
+                  onPressed: () {},
                   icon: Icon(Icons.favorite),
                   text: Text('Save'),
                 ),
                 IconText(
+                  onPressed: () {},
                   icon: Icon(Icons.share),
                   text: Text('Share'),
                 ),
               ],
             ),
           ),
-          Divider(),
+          Divider(
+            height: 0,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -270,7 +276,13 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             child: ListView.separated(
                 primary: false,
                 itemBuilder: (context, index) {
-                  return AdComment();
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      AdComment(),
+                    ],
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return Divider();

@@ -23,7 +23,7 @@ class UserRepository {
         "username": username,
         "email": email,
         "password": password,
-        "cnf-password": password,
+        "cnf_password": password,
         "msg_id": messagingId,
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);

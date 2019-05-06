@@ -204,7 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.phone),
                         contentPadding: EdgeInsets.all(8),
-                        hintText: '+000-0000-0000',
+                        hintText: '000-0000-0000',
                         labelText:
                             AppLocalizations.of(context).phoneNumberField,
                         prefixText: '+',
