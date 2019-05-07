@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.36.2"
+    version: "0.36.3"
   archive:
     dependency: transitive
     description:
@@ -192,7 +192,7 @@ packages:
       name: front_end
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.17"
+    version: "0.1.18"
   get_it:
     dependency: "direct main"
     description:
@@ -213,7 +213,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.11+1"
+    version: "0.5.12"
   html:
     dependency: transitive
     description:
@@ -262,7 +262,7 @@ packages:
       name: kernel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.17"
+    version: "0.3.18"
   matcher:
     dependency: transitive
     description:

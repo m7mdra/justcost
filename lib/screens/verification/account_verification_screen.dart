@@ -166,6 +166,21 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
                 splashColor: Theme.of(context).accentColor,
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
+            Center(
+              child: FlatButton(
+                child: Text('Logout'),
+                onPressed: () {
+                  _accountVerificationBloc.dispatch(LogoutEvent());
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          LoginScreen(NavigationReason.logout)));
+                },
+                splashColor: Theme.of(context).accentColor,
+              ),
+            ),
           ],
         ),
       ),

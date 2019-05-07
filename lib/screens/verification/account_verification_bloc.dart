@@ -17,6 +17,8 @@ class SubmitVerificationCode extends VerificationEvent {
   SubmitVerificationCode(this.code);
 }
 
+class LogoutEvent extends VerificationEvent {}
+
 class AccountVerifiedSuccessfully extends VerificationState {}
 
 class AccountVerificationFailed extends VerificationState {
@@ -51,6 +53,10 @@ class AccountVerificationBloc
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
+    if (event is LogoutEvent) {
+      await _session.clear();
+      await _userRepository.logout();
+    }
     if (event is SubmitVerificationCode) {
       yield VerificationLoading();
       try {

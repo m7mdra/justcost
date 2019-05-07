@@ -69,7 +69,7 @@ class UserRepository {
 
   Future<ResponseStatus> resendVerificationEmail() async {
     try {
-      var response = await _client.get('jc-member/activation/send');
+      var response = await _client.post('jc-member/activation/send');
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 550)
