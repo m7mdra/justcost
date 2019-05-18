@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
+import 'package:justcost/screens/category_products/category_products_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
@@ -23,7 +24,7 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
   CategoriesBloc _bloc;
-  
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -73,14 +74,15 @@ class _CategoriesPageState extends State<CategoriesPage>
                 return CategoryWidget(
                   category: state.categories[index],
                   onClick: (category) {
-
                     if (category.hasDescendants())
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CategoryDetailsScreen(
                                 category: category,
                               )));
                     else {
-                      print('go to category\'s ads');
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              CategoryProductsScreen(category: category)));
                     }
                   },
                 );

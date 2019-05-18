@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:justcost/data/category/category_repository.dart';
+import 'package:justcost/data/product/product_repository.dart';
 import 'package:justcost/data/token_interceptor.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
@@ -12,7 +13,7 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://192.168.8.103/js/public/api";
+    final String _baseUrl = "http://admin.just-cost.com/api";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       connectTimeout: 10000,
@@ -37,6 +38,9 @@ class DependenciesProvider {
 
     getIt.registerFactory<CategoryRepository>(() {
       return CategoryRepository(client);
+    });
+    getIt.registerFactory<ProductRepository>(() {
+      return ProductRepository(client);
     });
   }
 

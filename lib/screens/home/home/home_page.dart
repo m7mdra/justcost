@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage>
           primary: false,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            return RecentAdsWidget();
+            return AdWidget();
           },
           itemCount: 10,
           shrinkWrap: true,
@@ -195,7 +195,7 @@ class FeaturedAdsWidget extends StatelessWidget {
   }
 }
 
-class RecentAdsWidget extends StatelessWidget {
+class AdWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -227,39 +227,30 @@ class RecentAdsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Ad name'),
+                    Text('Ad name',style: Theme.of(context)
+                            .textTheme
+                            .subhead
+                            .copyWith(color: Colors.black)),
                     const SizedBox(
                       height: 4,
                     ),
-                    IconText(
-                      icon: Icon(
-                        Icons.place,
-                        size: 16,
-                      ),
-                      text: Text(
+                  Text(
                         'Abu Dhabi',
                         style: Theme.of(context)
                             .textTheme
                             .caption
                             .copyWith(color: Colors.black),
                       ),
-                    ),
                     const SizedBox(
                       height: 4,
                     ),
-                    IconText(
-                      icon: Icon(
-                        Icons.access_time,
-                        size: 16,
-                      ),
-                      text: Text(
+                    Text(
                         '17 Feb 2010',
                         style: Theme.of(context)
                             .textTheme
                             .caption
                             .copyWith(color: Colors.black),
                       ),
-                    ),
                     const SizedBox(
                       height: 4,
                     ),
@@ -267,14 +258,13 @@ class RecentAdsWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              children: <Widget>[
-                Text(
-                  '100 AED',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '100 AED',
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
             )
           ],
         ),

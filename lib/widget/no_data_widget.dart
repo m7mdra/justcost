@@ -11,11 +11,11 @@ class NoDataWidget extends StatelessWidget {
           children: <Widget>[
             Icon(
               Icons.cloud,
-              size: 80,
+              size: 70,
             ),
             Text(
               'No Data found at the moment.',
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.subhead,
             ),
             const SizedBox(
               height: 8,

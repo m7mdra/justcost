@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/screens/category_products/category_products_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
@@ -81,7 +82,9 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                                   category: category,
                                 )));
                       else {
-                        print('go to category\'s ads');
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                CategoryProductsScreen(category: category)));
                       }
                     },
                   );
