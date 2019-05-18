@@ -23,8 +23,7 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
   CategoriesBloc _bloc;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -65,7 +64,6 @@ class _CategoriesPageState extends State<CategoriesPage>
         if (state is NoCategorieState) return NoDataWidget();
         if (state is CategoriesLoadedState)
           return RefreshIndicator(
-            key: _refreshIndicatorKey,
             child: GridView.builder(
               padding: const EdgeInsets.all(8),
               itemCount: state.categories.length,
@@ -75,6 +73,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                 return CategoryWidget(
                   category: state.categories[index],
                   onClick: (category) {
+
                     if (category.hasDescendants())
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CategoryDetailsScreen(

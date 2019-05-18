@@ -46,16 +46,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginState get initialState => LoginIdle();
   @override
   void onTransition(Transition<LoginEvent, LoginState> transition) {
-    // TODO: implement onTransition
     super.onTransition(transition);
-    print(transition);
   }
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is GuestLogin) {
       session.guestLogin();
-      await Future.delayed(Duration(seconds: 1));
       yield GuestLoginSuccess();
     }
     if (event is UserLogin) {
@@ -74,7 +71,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           yield LoginError(authResponse.message);
         }
       } on DioError catch (e) {
-        print(e);
         switch (e.type) {
           case DioErrorType.CONNECT_TIMEOUT:
             yield LoginError("Connection timedout, try again");

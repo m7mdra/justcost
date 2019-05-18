@@ -7,10 +7,10 @@ class CategoryResponse {
 
   CategoryResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    status = json['status'];
-    if (json['content'] != null) {
+    status = json['success'];
+    if (json['data'] != null) {
       content = new List<Category>();
-      json['content'].forEach((v) {
+      json['data'].forEach((v) {
         content.add(new Category.fromJson(v));
       });
     }
@@ -19,37 +19,36 @@ class CategoryResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['message'] = this.message;
-    data['status'] = this.status;
+    data['success'] = this.status;
     if (this.content != null) {
-      data['content'] = this.content.map((v) => v.toJson()).toList();
+      data['data'] = this.content.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Category {
-  String id;
+  int id;
   String name;
   int lastDescendant;
   String image;
   int order;
-  String added;
-
+  int parentId;
   Category(
       {this.id,
       this.name,
       this.lastDescendant,
       this.image,
       this.order,
-      this.added});
+      this.parentId});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    lastDescendant = json['final'];
+    lastDescendant = json['flag'];
     image = json['image'];
-    order = json['order'];
-    added = json['added'];
+    order = json['sort_order'];
+    parentId = json['parent_id'];
   }
   bool hasDescendants() => lastDescendant != 0;
 
@@ -57,10 +56,10 @@ class Category {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['final'] = this.lastDescendant;
+    data['flag'] = this.lastDescendant;
     data['image'] = this.image;
-    data['order'] = this.order;
-    data['added'] = this.added;
+    data['sort_order'] = this.order;
+    data['parent_id'] = this.parentId;
     return data;
   }
 }

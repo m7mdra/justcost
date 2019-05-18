@@ -13,7 +13,7 @@ abstract class CategoriesState {}
 class FetchCategoriesEvent extends CategriesEvent {}
 
 class FetchCategoriesDescendant extends CategriesEvent {
-  final String categoryId;
+  final int categoryId;
 
   FetchCategoriesDescendant(this.categoryId);
 }

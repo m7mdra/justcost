@@ -49,14 +49,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   @override
   void onTransition(Transition<RegisterEvent, RegisterState> transition) {
     super.onTransition(transition);
-    print(transition);
   }
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
     if (event is UserRegister) {
       yield RegisterLoading();
-
       try {
         var response = await userRepository.createAccount(
             event.username,
@@ -65,10 +63,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.messagingId,
             event.phoneNumber);
-        print(response);
         if (response.status) {
           await userSession.save(response);
-          await Future.delayed(Duration(seconds: 1));
           yield RegisterSuccess();
         } else {
           yield RegisterError(response.message);
@@ -87,7 +83,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           case DioErrorType.RESPONSE:
             yield RegisterError(
                 "Server error, please try again or contact support team");
-
             break;
           case DioErrorType.CANCEL:
             break;
