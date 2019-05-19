@@ -7,7 +7,6 @@ import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'account_verification_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/main.dart';
 
 class AccountVerificationScreen extends StatefulWidget {
   @override

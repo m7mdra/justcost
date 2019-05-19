@@ -55,7 +55,7 @@ class AdWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      '${DateTime.fromMicrosecondsSinceEpoch(product.postedOn).toUtc()}',
+                      '${DateTime.fromMicrosecondsSinceEpoch(product.postedOn)}',
                       style: Theme.of(context)
                           .textTheme
                           .caption

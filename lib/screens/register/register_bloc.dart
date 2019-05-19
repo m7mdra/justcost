@@ -23,6 +23,7 @@ class RegisterIdle extends RegisterState {}
 class RegisterSuccess extends RegisterState {}
 
 class UserRegister extends RegisterEvent {
+  final String name;
   final String username;
   final String password;
   final String email;
@@ -30,7 +31,8 @@ class UserRegister extends RegisterEvent {
   final String phoneNumber;
 
   UserRegister(
-      {this.username,
+      {this.name,
+      this.username,
       this.password,
       this.email,
       this.messagingId,
@@ -57,12 +59,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       yield RegisterLoading();
       try {
         var response = await userRepository.createAccount(
+            event.name,
             event.username,
             event.email,
             event.password,
             event.password,
             event.messagingId,
-            event.phoneNumber);
+            event.phoneNumber,
+            1);
         if (response.status) {
           await userSession.save(response);
           yield RegisterSuccess();

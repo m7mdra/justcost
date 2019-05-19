@@ -27,10 +27,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _passwordController;
   TextEditingController _emailController;
   TextEditingController _phoneNumberController;
+  TextEditingController _nameController;
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
   final _formKey = GlobalKey<FormState>();
+  FocusNode _usernameFocusNode = FocusNode();
   FocusNode _mailFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _phoneNumberFocusNode = FocusNode();
@@ -76,6 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     regex = new RegExp(pattern);
     _userNameController = TextEditingController();
+    _nameController = TextEditingController();
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
     _phoneNumberController = TextEditingController();
@@ -84,7 +87,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     super.dispose();
+
     _registerBloc.dispose();
+    _usernameFocusNode.dispose();
+    _mailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _phoneNumberFocusNode.dispose();
+
+    _nameController.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
@@ -123,8 +133,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                      maxLines: 1,
+                      controller: _nameController,
+                      onEditingComplete: () => FocusScope.of(context)
+                          .requestFocus(_usernameFocusNode),
+                      validator: (name) {
+                        if (name.isEmpty)
+                          return 'Name field can not be empty';
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          contentPadding: EdgeInsets.all(10),
+                          labelText: 'Full Name',
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)))),
+                  TextFormField(
                     scrollPadding: EdgeInsets.all(0),
                     maxLines: 1,
+                    focusNode: _usernameFocusNode,
                     validator: (username) {
                       return username.isEmpty
                           ? AppLocalizations.of(context).usernameFieldEmptyError
@@ -219,9 +249,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     focusNode: _passwordFocusNode,
                     controller: _passwordController,
                     validator: (password) {
-                      return password.isEmpty
-                          ? AppLocalizations.of(context).passwordFieldEmptyError
-                          : null;
+                      if (password.isEmpty)
+                        return AppLocalizations.of(context)
+                            .passwordFieldEmptyError;
+                      else if (password.length < 6)
+                        return 'Password can not be less than 6 characters';
+                      else
+                        return null;
                     },
                     onEditingComplete: () {
                       FocusScope.of(context).requestFocus(FocusNode());
@@ -301,6 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future _attemptRegister() async {
     if (_formKey.currentState.validate()) {
       _registerBloc.dispatch(UserRegister(
+          name: _nameController.text.trim(),
           username: _userNameController.text.trim(),
           email: _emailController.text.trim(),
           messagingId: await FirebaseMessaging().getToken(),

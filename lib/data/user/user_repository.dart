@@ -12,18 +12,22 @@ class UserRepository {
   UserRepository(this._client);
 
   Future<AuthenticationResponse> createAccount(
+    String name,
       String username,
       String email,
       String password,
       String confirmPassword,
       String messagingId,
-      String phoneNumber) async {
+      String phoneNumber,int city) async {
     try {
-      var response = await _client.put('jc-member/signup', data: {
+      var response = await _client.post('/customer/register', data: {
         "username": username,
+        "name": name,
         "email": email,
         "password": password,
-        "cnf_password": password,
+        "mobile":phoneNumber,
+        'city':city,
+        "c_password": password,
         "msg_id": messagingId,
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);
