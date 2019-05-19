@@ -23,29 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Card(
-              child: Image.asset(
-                'assets/icon/android/logo-500.png',
-                width: 150,
-                height: 150,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                child: LinearProgressIndicator(),
-                width: 150,
-                height: 2,
-              ),
-            )
-          ],
-        ),
+      body: BlocBuilder(bloc: _authenticationBloc, builder: (BuildContext context, AuthenticationState state) {
+        if(state is AuthenticationFailed){
+          return SplashFailedWidget(onPressed: (){
+                _authenticationBloc.dispatch(AppStarted());
+
+          },);
+        }
+        return SplashLoadingWidget();
+      },
       ),
     );
   }
@@ -96,5 +82,76 @@ class _SplashScreenState extends State<SplashScreen> {
   void dispose() {
     super.dispose();
     _authenticationBloc.dispose();
+  }
+}
+
+class SplashLoadingWidget extends StatelessWidget {
+  const SplashLoadingWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            child: Image.asset(
+              'assets/icon/android/logo-500.png',
+              width: 150,
+              height: 150,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              child: LinearProgressIndicator(),
+              width: 150,
+              height: 2,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+class SplashFailedWidget extends StatelessWidget {
+  final VoidCallback onPressed;
+  const SplashFailedWidget({
+    Key key, this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            child: Image.asset(
+              'assets/icon/android/logo-500.png',
+              width: 150,
+              height: 150,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Text('Failed to update data'),
+                RaisedButton(onPressed: onPressed,
+                child: Text('Retry'),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

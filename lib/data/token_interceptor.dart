@@ -15,7 +15,7 @@ class TokenInterceptor extends Interceptor {
         print("token found.");
       }
     } else
-      print("token not found,ignored.");
+      print("token not found,ignored. probably a guest.");
     return options;
   }
 }

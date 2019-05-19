@@ -60,7 +60,7 @@ class AuthenticationBloc
           try {
             var parseResponse = await repository.parse();
             if (parseResponse != null) {
-              if (parseResponse.accountStatus == 1) {
+              if (parseResponse.isVerified ) {
                 /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                 /// OBSOLETE DATA
                 await session.saveUser(parseResponse);

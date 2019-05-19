@@ -4,31 +4,32 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
-import 'package:justcost/data/user/model/user_response.dart';
 
 class UserRepository {
   final Dio _client;
+  final int UNAUTHORIZED_CODE = 401;
 
   UserRepository(this._client);
 
   Future<AuthenticationResponse> createAccount(
-    String name,
+      String name,
       String username,
       String email,
       String password,
       String confirmPassword,
       String messagingId,
-      String phoneNumber,int city) async {
+      String phoneNumber,
+      int city) async {
     try {
       var response = await _client.post('/customer/register', data: {
         "username": username,
         "name": name,
         "email": email,
         "password": password,
-        "mobile":phoneNumber,
-        'city':city,
+        "mobile": phoneNumber,
+        'city': city,
         "c_password": password,
-        "msg_id": messagingId,
+        "firebaseToken": messagingId,
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
@@ -58,11 +59,11 @@ class UserRepository {
 
   Future<Payload> parse() async {
     try {
-      var response = await _client.get('jc-member/parse');
+      var response = await _client.get('/jc-member/parse');
       var payLoad = Payload.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -76,7 +77,7 @@ class UserRepository {
       var response = await _client.post('jc-member/activation/send');
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -91,7 +92,7 @@ class UserRepository {
           .post('jc-member/activate/account', data: {"code": code});
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -124,7 +125,7 @@ class UserRepository {
           }));
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -143,7 +144,7 @@ class UserRepository {
       });
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -159,7 +160,7 @@ class UserRepository {
           data: {"full_name": fullName, "gender": gender, "address": address});
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;
@@ -175,7 +176,7 @@ class UserRepository {
           data: {"username": username, "email": email, "password": password});
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 550)
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
       else
         throw error;

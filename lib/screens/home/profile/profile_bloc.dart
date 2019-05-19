@@ -79,22 +79,22 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         print("user: $user");
 
         try {
-          yield ProfileLoadedSuccessState(user.content.payload);
+          yield ProfileLoadedSuccessState(user.data.payload);
           var response = await _repository.parse();
           if (response != null) {
             yield ProfileLoadedSuccessState(response);
           } else {
-            yield ProfileReloadFailedState(user.content.payload);
+            yield ProfileReloadFailedState(user.data.payload);
           }
         } on DioError catch (error) {
           print(error);
-          yield ProfileReloadFailedState(user.content.payload);
+          yield ProfileReloadFailedState(user.data.payload);
         } on SessionExpired catch (error) {
           await _session.clear();
           yield SessionsExpiredState();
         } catch (error) {
           print(error);
-          yield ProfileReloadFailedState(user.content.payload);
+          yield ProfileReloadFailedState(user.data.payload);
         }
       }
     }

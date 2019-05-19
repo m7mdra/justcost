@@ -151,6 +151,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           errorMaxLines: 1,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)))),
+                  SizedBox(
+                    height: 8,
+                  ),
                   TextFormField(
                     scrollPadding: EdgeInsets.all(0),
                     maxLines: 1,

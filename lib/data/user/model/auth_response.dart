@@ -1,120 +1,107 @@
 class AuthenticationResponse {
+  bool success;
+  Data data;
   String message;
-  Content content;
-  bool status;
 
-  AuthenticationResponse({this.message, this.content, this.status});
+  AuthenticationResponse({this.success, this.data, this.message});
 
   AuthenticationResponse.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    content =
-        json['content'] != null ? new Content.fromJson(json['content']) : null;
-    status = json['status'];
+    success = json['success'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    message = json['Message'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content.toJson();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
     }
-    data['status'] = this.status;
+    data['Message'] = this.message;
     return data;
   }
-
-  @override
-  String toString() {
-    return toJson().toString();
-  }
-
-  bool isAccountVerified() => content.payload.accountStatus == 1;
 }
 
-class Content {
+class Data {
   String token;
   Payload payload;
 
-  Content({this.token, this.payload});
+  Data({this.token, this.payload});
 
-  Content.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     token = json['token'];
-    payload =
-        json['payload'] != null ? new Payload.fromJson(json['payload']) : null;
+    payload = json['userInfo'] != null
+        ? new Payload.fromJson(json['userInfo'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['token'] = this.token;
     if (this.payload != null) {
-      data['payload'] = this.payload.toJson();
+      data['userInfo'] = this.payload.toJson();
     }
     return data;
-  }
-
-  @override
-  String toString() {
-    return toJson().toString();
   }
 }
 
 class Payload {
-  String uid;
-  String fullName;
-  String gender;
+  int id;
   String email;
   String username;
-  String photo;
-  String address;
-  String msgTokenId;
-  int accountStatus;
-  int notBefore;
-  int expiration;
+  String name;
+  String mobile;
+  int city;
+  int gender;
+  bool isVerified;
+  String firebaseToken;
+  String createdAt;
+  String updatedAt;
+  String deletedAt;
 
   Payload(
-      {this.uid,
-      this.fullName,
-      this.gender,
+      {this.id,
       this.email,
       this.username,
-      this.photo,
-      this.address,
-      this.msgTokenId,
-      this.accountStatus,
-      this.notBefore,
-      this.expiration});
+      this.name,
+      this.mobile,
+      this.city,
+      this.gender,
+      this.isVerified,
+      this.firebaseToken,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   Payload.fromJson(Map<String, dynamic> json) {
-    uid = json['uid'];
-    fullName = json['full_name'];
-    gender = json['gender'];
+    id = json['id'];
     email = json['email'];
     username = json['username'];
-    photo = json['photo'];
-    address = json['address'];
-    msgTokenId = json['msg_token_id'];
-    accountStatus = json['account_status'];
-    notBefore = json['notBefore'];
-    expiration = json['Expiration'];
+    name = json['name'];
+    mobile = json['mobile'];
+    city = json['city'];
+    gender = json['gender'];
+    isVerified = json['isVerified'];
+    firebaseToken = json['firebaseToken'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uid'] = this.uid;
-    data['full_name'] = this.fullName;
-    data['gender'] = this.gender;
+    data['id'] = this.id;
     data['email'] = this.email;
     data['username'] = this.username;
-    data['photo'] = this.photo;
-    data['msg_token_id'] = this.msgTokenId;
-    data['account_status'] = this.accountStatus;
-    data['notBefore'] = this.notBefore;
-    data['Expiration'] = this.expiration;
-    data['address'] = this.address;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['city'] = this.city;
+    data['gender'] = this.gender;
+    data['isVerified'] = this.isVerified;
+    data['firebaseToken'] = this.firebaseToken;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
-  }
-
-  @override
-  String toString() {
-    return toJson().toString();
   }
 }

@@ -74,7 +74,8 @@ class _ProfilePageState extends State<ProfilePage>
     return Column(
       children: <Widget>[
         ClipOval(
-            child: userPayload != null && userPayload.photo != null
+            child:
+                /* userPayload != null && userPayload.photo != null
                 ? Image.network(
                     userPayload.photo,
                     width: 90,
@@ -86,15 +87,12 @@ class _ProfilePageState extends State<ProfilePage>
                       return DefaultUserAvatarWidget();
                     }, */
                   )
-                : DefaultUserAvatarWidget()),
+                : */
+                DefaultUserAvatarWidget()),
         SizedBox(
           width: 10,
         ),
-        Text(
-          userPayload.fullName == null || userPayload.fullName.isEmpty
-              ? '@${userPayload.username}'.toUpperCase()
-              : '${userPayload.fullName}',
-        ),
+        Text(userPayload.name),
         Text('Membership: GOLDEN'),
         Container(
           padding: const EdgeInsets.all(4),

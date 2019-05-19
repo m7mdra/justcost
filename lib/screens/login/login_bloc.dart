@@ -60,7 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         var authResponse = await repository.login(
             event.identifier, event.password, event.messagingId);
-        if (authResponse.status) {
+        if (authResponse.success) {
           await session.save(authResponse);
           await Future.delayed(Duration(seconds: 1));
           if (await session.isAccountVerified())

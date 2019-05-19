@@ -22,40 +22,35 @@ class UserSession {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(
         USER_RESPONSE_KEY, jsonEncode(response.toJson()));
-    sharedPreferences.setString(TOKEN_KEY, response.content.token);
+    sharedPreferences.setString(TOKEN_KEY, response.data.token);
     sharedPreferences.setString(USER_TYPE_KEY, "member");
-    sharedPreferences.setString(USER_ID_KEY, response.content.payload.uid);
+    sharedPreferences.setInt(USER_ID_KEY, response.data.payload.id);
     sharedPreferences.setString(
-        USERNAME_KEY, response.content.payload.username);
-    sharedPreferences.setString(EMAIL_KEY, response.content.payload.email);
+        USERNAME_KEY, response.data.payload.username);
+    sharedPreferences.setString(EMAIL_KEY, response.data.payload.email);
     sharedPreferences.setString(
-        FULL_NAME_KEY, response.content.payload.fullName);
-    sharedPreferences.setString(GENDER_KEY, response.content.payload.gender);
+        FULL_NAME_KEY, response.data.payload.name);
+    sharedPreferences.setInt(GENDER_KEY, response.data.payload.gender);
     sharedPreferences.setString(
-        MESSAGING_TOKEN_ID_KEY, response.content.payload.msgTokenId);
-    sharedPreferences.setString(AVATAR_URL_KEY, response.content.payload.photo);
-    sharedPreferences.setInt(
-        EXPIRATION_KEY, response.content.payload.expiration);
-    sharedPreferences.setInt(
-        ACCOUNT_STATUS_KEY, response.content.payload.accountStatus);
-    sharedPreferences.setInt(
-        NOT_BEFORE_KEY, response.content.payload.notBefore);
-    sharedPreferences.setString(ADDRESS_KEY, response.content.payload.address);
+        MESSAGING_TOKEN_ID_KEY, response.data.payload.firebaseToken);
+  
+    sharedPreferences.setBool(
+        ACCOUNT_STATUS_KEY, response.data.payload.isVerified);
+  
+    sharedPreferences.setInt(ADDRESS_KEY, response.data.payload.city);
   }
 
   Future<void> saveUser(Payload payload) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString(USER_ID_KEY, payload.uid);
+    sharedPreferences.setInt(USER_ID_KEY, payload.id);
     sharedPreferences.setString(USERNAME_KEY, payload.username);
     sharedPreferences.setString(EMAIL_KEY, payload.email);
-    sharedPreferences.setString(FULL_NAME_KEY, payload.fullName);
-    sharedPreferences.setString(GENDER_KEY, payload.gender);
-    sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, payload.msgTokenId);
-    sharedPreferences.setString(AVATAR_URL_KEY, payload.photo);
-    sharedPreferences.setString(ADDRESS_KEY, payload.address);
-    sharedPreferences.setInt(EXPIRATION_KEY, payload.expiration);
-    sharedPreferences.setInt(ACCOUNT_STATUS_KEY, payload.accountStatus);
-    sharedPreferences.setInt(NOT_BEFORE_KEY, payload.notBefore);
+    sharedPreferences.setString(FULL_NAME_KEY, payload.name);
+    sharedPreferences.setInt(GENDER_KEY, payload.gender);
+    sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, payload.firebaseToken);
+    // sharedPreferences.setString(AVATAR_URL_KEY, payload.photo);
+    sharedPreferences.setInt(ADDRESS_KEY, payload.city);
+    sharedPreferences.setBool(ACCOUNT_STATUS_KEY, payload.isVerified);
   }
 
   Future<bool> guestLogin() async {
@@ -76,7 +71,7 @@ class UserSession {
 
   Future<bool> isAccountVerified() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.getInt(ACCOUNT_STATUS_KEY) == 1;
+    return await sharedPreferences.getBool(ACCOUNT_STATUS_KEY) ;
   }
 
   Future<AuthenticationResponse> user() async {

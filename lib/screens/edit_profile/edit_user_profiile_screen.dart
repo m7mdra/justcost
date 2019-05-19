@@ -110,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       children: <Widget>[
         Column(
           children: <Widget>[
-            Align(
+           /*  Align(
               child: ClipOval(
                   child: payload.photo != null && payload.photo.isNotEmpty
                       ? Image.network(
@@ -227,7 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 dense: true,
                 contentPadding: tilePadding(),
                 title: Text('Chnage Password'),
-                subtitle: Text('**********')),
+                subtitle: Text('**********')), */
           ],
         ),
       ],

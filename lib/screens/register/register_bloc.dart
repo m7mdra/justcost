@@ -67,7 +67,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.messagingId,
             event.phoneNumber,
             1);
-        if (response.status) {
+        if (response.success) {
           await userSession.save(response);
           yield RegisterSuccess();
         } else {

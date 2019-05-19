@@ -16,8 +16,7 @@ class DependenciesProvider {
     final String _baseUrl = "http://admin.just-cost.com/api";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
-      connectTimeout: 10000,
-      receiveTimeout: 10000,
+
       responseType: ResponseType.json,
     );
     client.interceptors.add(LogInterceptor(
