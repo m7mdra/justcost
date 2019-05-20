@@ -62,7 +62,15 @@ class AccountVerificationBloc
       try {
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
-          await _session.save(response);
+          var data=response.data;
+          await _session.saveUser(id: data.id,
+                name: data.name,
+                email: data.email,
+                username: data.username,
+                isVerified: data.isVerified,
+                gender: data.gender,
+                firebaseToken: data.firebaseToken,
+                city: data.city);
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);

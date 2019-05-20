@@ -54,16 +54,24 @@ class AuthenticationBloc
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();
       if (hasToken) {
-        if (await session.isAccountVerified()) {
+        if (false) {
           yield UserAuthenticated();
         } else {
           try {
             var parseResponse = await repository.parse();
             if (parseResponse != null) {
-              if (parseResponse.isVerified ) {
+              if (false) {
                 /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                 /// OBSOLETE DATA
-                await session.saveUser(parseResponse);
+                await session.saveUser(
+                    id: parseResponse.id,
+                    name: parseResponse.name,
+                    email: parseResponse.email,
+                    username: parseResponse.username,
+                    isVerified: parseResponse.isVerified,
+                    gender: parseResponse.gender,
+                    firebaseToken: parseResponse.firebaseToken,
+                    city: parseResponse.city);
                 yield UserAuthenticated();
               } else
                 yield AccountNotVerified();

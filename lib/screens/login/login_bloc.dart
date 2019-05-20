@@ -62,7 +62,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             event.identifier, event.password, event.messagingId);
         if (authResponse.success) {
           await session.save(authResponse);
-          await Future.delayed(Duration(seconds: 1));
           if (await session.isAccountVerified())
             yield LoginSuccess();
           else

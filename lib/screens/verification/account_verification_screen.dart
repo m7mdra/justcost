@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
@@ -52,6 +53,8 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
                   ],
                 ));
       }
+      if (state is VerificationSentSuccess) Navigator.of(context).pop();
+
       if (state is AccountVerificationFailed) {
         Navigator.of(context).pop();
         showDialog(
@@ -150,8 +153,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             const SizedBox(
               height: 8,
             ),
-            Center(
-                child: Text(AppLocalizations.of(context).didNotReceivedEmail)),
+            Center(child: Text('Didnt receive verification?')),
             const SizedBox(
               height: 8,
             ),
@@ -206,20 +208,27 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
         const SizedBox(
           height: 8,
         ),
-        Text(
-          AppLocalizations.of(context).accountVerificationSubhead,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.body1,
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+          child: Text(
+            'An Sms was sent to your phone number containing the code',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.body1,
+          ),
         ),
         SizedBox(
           height: 16,
         ),
         Padding(
           padding:
-              const EdgeInsets.only(right: 16, left: 16, top: 8, bottom: 8),
+              const EdgeInsets.only(right: 64, left: 64, top: 8, bottom: 8),
           child: Form(
             key: _formKey,
             child: TextFormField(
+              maxLines: 1,
+              maxLengthEnforced: true,
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
               validator: (text) {
                 if (text.isEmpty)
                   return AppLocalizations.of(context)
@@ -227,12 +236,17 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
                 else
                   return null;
               },
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(6),
+                WhitelistingTextInputFormatter(RegExp('[0-9]'))
+              ],
               controller: _textEditingController,
               decoration: InputDecoration(
+                  alignLabelWithHint: true,
                   contentPadding: const EdgeInsets.all(12),
                   labelText:
                       AppLocalizations.of(context).verificationCodeFieldHint,
-                  hintText: '* * * *',
+                  hintText: '******',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
             ),

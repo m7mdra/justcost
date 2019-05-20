@@ -23,15 +23,18 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: BlocBuilder(bloc: _authenticationBloc, builder: (BuildContext context, AuthenticationState state) {
-        if(state is AuthenticationFailed){
-          return SplashFailedWidget(onPressed: (){
+      body: BlocBuilder(
+        bloc: _authenticationBloc,
+        builder: (BuildContext context, AuthenticationState state) {
+          if (state is AuthenticationFailed) {
+            return SplashFailedWidget(
+              onPressed: () {
                 _authenticationBloc.dispatch(AppStarted());
-
-          },);
-        }
-        return SplashLoadingWidget();
-      },
+              },
+            );
+          }
+          return SplashLoadingWidget();
+        },
       ),
     );
   }
@@ -118,10 +121,12 @@ class SplashLoadingWidget extends StatelessWidget {
     );
   }
 }
+
 class SplashFailedWidget extends StatelessWidget {
   final VoidCallback onPressed;
   const SplashFailedWidget({
-    Key key, this.onPressed,
+    Key key,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -144,8 +149,9 @@ class SplashFailedWidget extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text('Failed to update data'),
-                RaisedButton(onPressed: onPressed,
-                child: Text('Retry'),
+                RaisedButton(
+                  onPressed: onPressed,
+                  child: Text('Retry'),
                 ),
               ],
             ),

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
+import 'package:justcost/data/user/model/verification_response.dart';
 
 class UserRepository {
   final Dio _client;
@@ -21,7 +22,7 @@ class UserRepository {
       String phoneNumber,
       int city) async {
     try {
-      var response = await _client.post('/customer/register', data: {
+      var response = await _client.post('customer/register', data: {
         "username": username,
         "name": name,
         "email": email,
@@ -43,23 +44,26 @@ class UserRepository {
   Future<AuthenticationResponse> login(
       String identifier, String password, String messagingId) async {
     try {
-      var response = await _client.post('jc-member/login', data: {
-        "identifier": identifier,
+      var response = await _client.post('customer/login', data: {
+        "username": identifier,
         "password": password,
-        "msg_id": messagingId
+        "firebaseToken": messagingId
       });
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
     } on DioError catch (error) {
+      print(error);
       throw error;
     } catch (error) {
+      print(error);
+
       throw error;
     }
   }
 
   Future<Payload> parse() async {
     try {
-      var response = await _client.get('/jc-member/parse');
+      var response = await _client.get('user-by-token');
       var payLoad = Payload.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
@@ -74,7 +78,7 @@ class UserRepository {
 
   Future<ResponseStatus> resendVerificationEmail() async {
     try {
-      var response = await _client.post('jc-member/activation/send');
+      var response = await _client.post('customer/verificationresend');
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
@@ -86,11 +90,11 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> submitActivationCode(String code) async {
+  Future<VerificationResponse> submitActivationCode(String code) async {
     try {
       var response = await _client
-          .post('jc-member/activate/account', data: {"code": code});
-      return AuthenticationResponse.fromJson(response.data);
+          .post('customer/verificationcode', data: {"verificationCode": code});
+      return VerificationResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();

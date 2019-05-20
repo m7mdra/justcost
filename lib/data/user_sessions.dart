@@ -1,4 +1,5 @@
 import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/verification_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -25,32 +26,38 @@ class UserSession {
     sharedPreferences.setString(TOKEN_KEY, response.data.token);
     sharedPreferences.setString(USER_TYPE_KEY, "member");
     sharedPreferences.setInt(USER_ID_KEY, response.data.payload.id);
-    sharedPreferences.setString(
-        USERNAME_KEY, response.data.payload.username);
+    sharedPreferences.setString(USERNAME_KEY, response.data.payload.username);
     sharedPreferences.setString(EMAIL_KEY, response.data.payload.email);
-    sharedPreferences.setString(
-        FULL_NAME_KEY, response.data.payload.name);
+    sharedPreferences.setString(FULL_NAME_KEY, response.data.payload.name);
     sharedPreferences.setInt(GENDER_KEY, response.data.payload.gender);
     sharedPreferences.setString(
         MESSAGING_TOKEN_ID_KEY, response.data.payload.firebaseToken);
-  
+
     sharedPreferences.setBool(
         ACCOUNT_STATUS_KEY, response.data.payload.isVerified);
-  
+
     sharedPreferences.setInt(ADDRESS_KEY, response.data.payload.city);
   }
 
-  Future<void> saveUser(Payload payload) async {
+  Future<void> saveUser(
+      {int id,
+      String username,
+      String email,
+      String name,
+      int gender,
+      String firebaseToken,
+      int city,
+      bool isVerified}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt(USER_ID_KEY, payload.id);
-    sharedPreferences.setString(USERNAME_KEY, payload.username);
-    sharedPreferences.setString(EMAIL_KEY, payload.email);
-    sharedPreferences.setString(FULL_NAME_KEY, payload.name);
-    sharedPreferences.setInt(GENDER_KEY, payload.gender);
-    sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, payload.firebaseToken);
+    sharedPreferences.setInt(USER_ID_KEY, id);
+    sharedPreferences.setString(USERNAME_KEY, username);
+    sharedPreferences.setString(EMAIL_KEY, email);
+    sharedPreferences.setString(FULL_NAME_KEY, name);
+    sharedPreferences.setInt(GENDER_KEY, gender);
+    sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, firebaseToken);
     // sharedPreferences.setString(AVATAR_URL_KEY, payload.photo);
-    sharedPreferences.setInt(ADDRESS_KEY, payload.city);
-    sharedPreferences.setBool(ACCOUNT_STATUS_KEY, payload.isVerified);
+    sharedPreferences.setInt(ADDRESS_KEY, city);
+    sharedPreferences.setBool(ACCOUNT_STATUS_KEY, isVerified);
   }
 
   Future<bool> guestLogin() async {
@@ -71,7 +78,7 @@ class UserSession {
 
   Future<bool> isAccountVerified() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.getBool(ACCOUNT_STATUS_KEY) ;
+    return await sharedPreferences.getBool(ACCOUNT_STATUS_KEY);
   }
 
   Future<AuthenticationResponse> user() async {

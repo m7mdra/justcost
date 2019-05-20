@@ -5,13 +5,13 @@ class ResponseStatus {
   ResponseStatus(this.message, this.status);
 
   factory ResponseStatus.fromJson(Map<String, dynamic> json) {
-    return ResponseStatus(json['message'], json['status']);
+    return ResponseStatus(json['message'], json['success']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['message'] = this.message;
-    data['status'] = this.status;
+    data['success'] = this.status;
     return data;
   }
 
