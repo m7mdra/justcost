@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:justcost/data/category/category_repository.dart';
+import 'package:justcost/data/home/home_repository.dart';
 import 'package:justcost/data/product/product_repository.dart';
 import 'package:justcost/data/token_interceptor.dart';
 import 'package:justcost/data/user/user_repository.dart';
@@ -40,6 +41,9 @@ class DependenciesProvider {
     });
     getIt.registerFactory<ProductRepository>(() {
       return ProductRepository(client);
+    });
+    getIt.registerFactory<HomeRepository>(() {
+      return HomeRepository(client);
     });
   }
 

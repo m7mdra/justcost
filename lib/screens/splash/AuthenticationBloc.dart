@@ -54,13 +54,13 @@ class AuthenticationBloc
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();
       if (hasToken) {
-        if (false) {
+        if (await session.isAccountVerified()) {
           yield UserAuthenticated();
         } else {
           try {
             var parseResponse = await repository.parse();
             if (parseResponse != null) {
-              if (false) {
+              if (parseResponse.isVerified) {
                 /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                 /// OBSOLETE DATA
                 await session.saveUser(

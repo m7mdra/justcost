@@ -71,7 +71,12 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 padding: const EdgeInsets.all(8),
                 itemCount: state.categories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height *0.65),
+                ),
                 itemBuilder: (BuildContext context, int index) {
                   return CategoryWidget(
                     category: state.categories[index],

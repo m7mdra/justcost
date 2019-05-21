@@ -33,15 +33,9 @@ class CategoryWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    category.name,
-                    style: Theme.of(context).textTheme.caption.copyWith(color: Colors.black),
-                  ),
-                ],
+              child: Text(
+                category.name,
+                style: Theme.of(context).textTheme.caption.copyWith(color: Colors.black),
               ),
             )
           ],

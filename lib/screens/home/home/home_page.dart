@@ -1,7 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/category/model/category.dart' as prefix0;
+import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
+import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/screens/home/home/slider_bloc.dart';
+import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
@@ -18,6 +25,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
   SwiperController _swiperController;
+  SliderBloc _bloc;
+  CategoriesBloc _categoriesBloc;
 
   @override
   void initState() {
@@ -26,9 +35,20 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = SliderBloc(DependenciesProvider.provide());
+    _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
+    _bloc.dispatch(LoadSlider());
+    _categoriesBloc.dispatch(FetchCategoriesEvent());
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _swiperController.dispose();
+    _bloc.dispose();
+    _categoriesBloc.dispose();
   }
 
   @override
@@ -36,27 +56,63 @@ class _HomePageState extends State<HomePage>
     return ListView(
       children: <Widget>[
         Container(
+          key: UniqueKey(),
           width: MediaQuery.of(context).size.width,
           height: 200,
-          child: Swiper(
-            autoplay: true,
-            pagination: SwiperPagination(),
-            viewportFraction: 0.9,
-            indicatorLayout: PageIndicatorLayout.SCALE,
-            curve: Curves.fastOutSlowIn,
-            itemCount: 10,
-            duration: 500,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
-                  color: Color.fromARGB(
-                      Random().nextInt(255),
-                      Random().nextInt(255),
-                      Random().nextInt(255),
-                      Random().nextInt(255)),
-                ),
+          child: BlocBuilder(
+            bloc: _bloc,
+            builder: (BuildContext context, SliderState state) {
+              print(state);
+              if (state is SliderLoaded) {
+                return Swiper(
+                  autoplay: true,
+                  pagination: SwiperPagination(),
+                  viewportFraction: 0.9,
+                  indicatorLayout: PageIndicatorLayout.SCALE,
+                  curve: Curves.fastOutSlowIn,
+                  itemCount: 3,
+                  duration: 500,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Image.network(
+                        state.sliders[index],
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                );
+              }
+              if (state is SliderError) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Failed to load Data'),
+                    OutlineButton(
+                      onPressed: () {
+                        _bloc.dispatch(LoadSlider());
+                      },
+                      child: Text('Retry'),
+                    )
+                  ],
+                );
+              }
+
+              return Swiper(
+                autoplay: true,
+                pagination: SwiperPagination(),
+                viewportFraction: 0.9,
+                indicatorLayout: PageIndicatorLayout.SCALE,
+                curve: Curves.fastOutSlowIn,
+                itemCount: 10,
+                duration: 500,
+                itemBuilder: (context, index) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    strokeWidth: 1,
+                  ));
+                },
               );
             },
           ),
@@ -68,16 +124,22 @@ class _HomePageState extends State<HomePage>
             style: TextStyle(fontSize: 18),
           ),
         ),
-        Container(
-          height: 120,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return FeatureCategoryWidget();
-            },
-            itemCount: 10,
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-          ),
+        BlocBuilder(
+          bloc: _categoriesBloc,
+          builder: (BuildContext context, CategoriesState state) {
+            if(state is CategoriesLoadedState)
+            return Container(
+              height: 120,
+              
+              child: ListView.builder(itemBuilder: (BuildContext context, int index) {
+                return FeatureCategoryWidget(category:state.categories[index]);
+              },
+              itemCount: state.categories.length,
+             scrollDirection: Axis.horizontal,
+              ),
+            );
+            return Container();
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -129,20 +191,25 @@ class _HomePageState extends State<HomePage>
 }
 
 class FeatureCategoryWidget extends StatelessWidget {
+  final Category category;
+
+  const FeatureCategoryWidget({Key key, this.category}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: 120,
+      height: 120,
       child: Card(
           child: GridTile(
-        child: Icon(
-          Icons.favorite,
-          size: 70,
-        ),
+        child: category.image == null || category.image.isEmpty
+            ? Container(
+                height: 70,
+                width: 70,
+              )
+            : Image.network(category.image),
         footer: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text('Category')),
+          child: Center(child: Text(category.name,textAlign: TextAlign.center,)),
         ),
       )),
     );
@@ -227,30 +294,31 @@ class AdWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Ad name',style: Theme.of(context)
+                    Text('Ad name',
+                        style: Theme.of(context)
                             .textTheme
                             .subhead
                             .copyWith(color: Colors.black)),
                     const SizedBox(
                       height: 4,
                     ),
-                  Text(
-                        'Abu Dhabi',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: Colors.black),
-                      ),
+                    Text(
+                      'Abu Dhabi',
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(color: Colors.black),
+                    ),
                     const SizedBox(
                       height: 4,
                     ),
                     Text(
-                        '17 Feb 2010',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: Colors.black),
-                      ),
+                      '17 Feb 2010',
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(color: Colors.black),
+                    ),
                     const SizedBox(
                       height: 4,
                     ),

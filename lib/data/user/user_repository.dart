@@ -190,7 +190,7 @@ class UserRepository {
   }
 
   Future<ResponseStatus> logout() async {
-    var response = await _client.get('jc-member/logout');
+    var response = await _client.post('customer/logout');
     return ResponseStatus.fromJson(response.data);
   }
 
