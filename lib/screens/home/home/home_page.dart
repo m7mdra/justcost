@@ -7,7 +7,9 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
+import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -24,32 +26,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
-  SwiperController _swiperController;
   SliderBloc _bloc;
   CategoriesBloc _categoriesBloc;
+  RecentAdsBloc _recentAdsBloc;
+  SwiperController _controller;
 
   @override
   void initState() {
     super.initState();
-    _swiperController = SwiperController();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+    _controller=SwiperController();
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
+    _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadSlider());
     _categoriesBloc.dispatch(FetchCategoriesEvent());
+    _recentAdsBloc.dispatch(LoadRecentAds());
   }
 
   @override
   void dispose() {
     super.dispose();
-    _swiperController.dispose();
     _bloc.dispose();
     _categoriesBloc.dispose();
+    _recentAdsBloc.dispose();
+    _controller.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +65,9 @@ class _HomePageState extends State<HomePage>
             bloc: _bloc,
             builder: (BuildContext context, SliderState state) {
               print(state);
-              if (state is SliderLoaded) {
+              /*if (state is SliderLoaded) {
                 return Swiper(
+                  controller: SwiperController(),
                   autoplay: true,
                   pagination: SwiperPagination(),
                   viewportFraction: 0.9,
@@ -81,7 +84,7 @@ class _HomePageState extends State<HomePage>
                     );
                   },
                 );
-              }
+              }*/
               if (state is SliderError) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,46 +101,43 @@ class _HomePageState extends State<HomePage>
                 );
               }
 
-              return Swiper(
-                autoplay: true,
-                pagination: SwiperPagination(),
-                viewportFraction: 0.9,
-                indicatorLayout: PageIndicatorLayout.SCALE,
-                curve: Curves.fastOutSlowIn,
-                itemCount: 10,
-                duration: 500,
-                itemBuilder: (context, index) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    strokeWidth: 1,
-                  ));
-                },
-              );
+              return Center(
+                  child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+                strokeWidth: 1,
+              ));
             },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Featured Categories',
-            style: TextStyle(fontSize: 18),
           ),
         ),
         BlocBuilder(
           bloc: _categoriesBloc,
           builder: (BuildContext context, CategoriesState state) {
-            if(state is CategoriesLoadedState)
-            return Container(
-              height: 120,
-              
-              child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-                return FeatureCategoryWidget(category:state.categories[index]);
-              },
-              itemCount: state.categories.length,
-             scrollDirection: Axis.horizontal,
-              ),
-            );
+            if (state is CategoriesLoadedState)
+              return Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        'Featured Categories',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 120,
+                    child: ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        return FeatureCategoryWidget(
+                            category: state.categories[index]);
+                      },
+                      itemCount: state.categories.length,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                ],
+              );
             return Container();
           },
         ),
@@ -159,21 +159,43 @@ class _HomePageState extends State<HomePage>
             scrollDirection: Axis.horizontal,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Recent Ads',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        ListView.builder(
-          primary: false,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return AdWidget();
+        BlocBuilder(
+          bloc: _recentAdsBloc,
+          builder: (BuildContext context, RecentAdsState state) {
+            if (state is RecentAdsLoaded) {
+              return Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment:Alignment.centerLeft,
+                      child: Text(
+                        'Recent Ads',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return AdWidget(
+                        product: state.products[index],
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AdDetailsScreen()));
+                        },
+                      );
+                    },
+                    itemCount: state.products.length,
+                    shrinkWrap: true,
+                  ),
+                ],
+              );
+            }
+            return Container();
           },
-          itemCount: 10,
-          shrinkWrap: true,
         ),
         Icon(
           Icons.more_horiz,
@@ -194,6 +216,7 @@ class FeatureCategoryWidget extends StatelessWidget {
   final Category category;
 
   const FeatureCategoryWidget({Key key, this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -209,7 +232,11 @@ class FeatureCategoryWidget extends StatelessWidget {
             : Image.network(category.image),
         footer: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text(category.name,textAlign: TextAlign.center,)),
+          child: Center(
+              child: Text(
+            category.name,
+            textAlign: TextAlign.center,
+          )),
         ),
       )),
     );
@@ -259,84 +286,5 @@ class FeaturedAdsWidget extends StatelessWidget {
         ],
       ),
     ));
-  }
-}
-
-class AdWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
-      },
-      child: Card(
-        child: Row(
-          children: <Widget>[
-            Stack(
-              alignment: Alignment.centerLeft,
-              children: <Widget>[
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                ),
-                Container(
-                  color: Colors.yellow,
-                  child: Text('10% OFF'),
-                )
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Ad name',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subhead
-                            .copyWith(color: Colors.black)),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'Abu Dhabi',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      '17 Feb 2010',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '100 AED',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -26,8 +26,8 @@ class _CategoriesPageState extends State<CategoriesPage>
   CategoriesBloc _bloc;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
     _bloc.dispatch(FetchCategoriesEvent());
   }
@@ -82,6 +82,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                     if (category.hasDescendants())
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CategoryDetailsScreen(
+                                false,
                                 category: category,
                               )));
                     else {

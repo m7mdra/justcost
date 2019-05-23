@@ -1,5 +1,4 @@
 import 'package:justcost/data/user/model/auth_response.dart';
-import 'package:justcost/data/user/model/verification_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -67,18 +66,18 @@ class UserSession {
 
   Future<bool> isUserAGoat() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.getString(USER_TYPE_KEY) == "guest";
+    return sharedPreferences.getString(USER_TYPE_KEY) == "guest";
   }
 
   Future<bool> hasToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = await sharedPreferences.getString(TOKEN_KEY);
+    var token = sharedPreferences.getString(TOKEN_KEY);
     return token != null && token.isNotEmpty;
   }
 
   Future<bool> isAccountVerified() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.getBool(ACCOUNT_STATUS_KEY);
+    return sharedPreferences.getBool(ACCOUNT_STATUS_KEY);
   }
 
   Future<AuthenticationResponse> user() async {

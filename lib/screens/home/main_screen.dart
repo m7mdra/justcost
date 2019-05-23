@@ -18,7 +18,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> with  AutomaticKeepAliveClientMixin<MainScreen>{
   PageController _pageController;
   var _currentPage = 0;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,7 +47,6 @@ class _MainScreenState extends State<MainScreen> with  AutomaticKeepAliveClientM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         endDrawer: SafeArea(
           child: Drawer(
             child: Column(

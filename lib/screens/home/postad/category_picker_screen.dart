@@ -1,69 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/category_details/category_details.dart';
+import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/widget/category_widget.dart';
+import 'package:justcost/widget/general_error.dart';
+import 'package:justcost/widget/network_error_widget.dart';
+import 'package:justcost/widget/no_data_widget.dart';
 
-class CategoryPickerScreen extends StatelessWidget {
+class CategoryPickerScreen extends StatefulWidget {
+  @override
+  _CategoryPickerScreenState createState() => _CategoryPickerScreenState();
+}
+
+class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
+  CategoriesBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = CategoriesBloc(DependenciesProvider.provide());
+    _bloc.dispatch(FetchCategoriesEvent());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Select Category")),
-      body: ListView(
-        padding: EdgeInsets.all(8),
-        children: <Widget>[
-          ListTile(
-            title: Text("Cars"),
-            dense: true,
-            onTap: () {},
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Mobile - Tablet"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Videso Games & Consoles"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Electronics"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Real Estate for Sale"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Real Estate for rent"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Furnitures"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Womenr's Fashion"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Men's Fashion"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Services"),
-            dense: true,
-          ),
-          const Divider(),
-          ListTile(
-            title: Text("Computers"),
-            dense: true,
-          ),
-        ],
+      body: SafeArea(
+        child: BlocBuilder(
+          bloc: _bloc,
+          builder: (BuildContext context, CategoriesState state) {
+            if (state is CategoriesNetworkError) {
+              return NetworkErrorWidget(
+                onRetry: () {
+                  _bloc.dispatch(FetchCategoriesEvent());
+                },
+              );
+            }
+            if (state is CategoriesError) {
+              return GeneralErrorWidget(onRetry: () {
+                _bloc.dispatch(FetchCategoriesEvent());
+              });
+            }
+            if (state is CategoriesLoadingState)
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              );
+            if (state is NoCategorieState) return NoDataWidget();
+            if (state is CategoriesLoadedState)
+              return RefreshIndicator(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: state.categories.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height * 0.55),
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return CategoryWidget(
+                      category: state.categories[index],
+                      onClick: (category) async {
+                        if (category.hasDescendants()) {
+                          var cat = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CategoryDetailsScreen(
+                                        true,
+                                        category: category,
+                                      )));
+                          Navigator.of(context).pop(cat);
+                        }
+                        else {
+                          Navigator.of(context).pop(category);
+                        }
+                      },
+                    );
+                  },
+                ),
+                onRefresh: () {
+                  _bloc.dispatch(FetchCategoriesEvent());
+                },
+              );
+          },
+        ),
       ),
     );
   }

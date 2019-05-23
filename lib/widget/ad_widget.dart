@@ -55,7 +55,7 @@ class AdWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      '${DateTime.fromMicrosecondsSinceEpoch(product.postedOn)}',
+                      product.postedOn,
                       style: Theme.of(context)
                           .textTheme
                           .caption
@@ -78,9 +78,7 @@ class AdWidget extends StatelessWidget {
                         color: Colors.red, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
-                    icon: Icon(product.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border),
+                    icon: Icon(Icons.favorite_border),
                     onPressed: () {},
                   )
                 ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/home/postad/category_picker_screen.dart';
 import 'package:justcost/screens/home/postad/location_pick_screen.dart';
-import 'package:justcost/screens/home/postad/place_picker_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/widget/ad_image_view.dart';
@@ -24,8 +26,8 @@ class _PostAdPageState extends State<PostAdPage>
   TextEditingController _adPhoneNumberController;
   TextEditingController _adEmailController;
   TextEditingController _adDetailsController;
-  String adCity;
   LatLng location;
+  City city;
   FocusNode _adKeywordFocusNode = FocusNode();
   FocusNode _adOldPriceFocusNode = FocusNode();
   FocusNode _adNewPriceFocusNode = FocusNode();
@@ -36,6 +38,8 @@ class _PostAdPageState extends State<PostAdPage>
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
   final _formKey = GlobalKey<FormState>();
+
+  Category category;
 
   @override
   void initState() {
@@ -94,26 +98,24 @@ class _PostAdPageState extends State<PostAdPage>
             style: TextStyle(color: Colors.orange),
           ),
         ),
-        const Divider(),
+        divider(),
         ListTile(
           dense: true,
           title: Text('Where do you want to sell'),
-          subtitle: Text(adCity == null ? "" : adCity),
+          subtitle: Text(city == null ? '' : city.name),
           trailing: IconButton(
               icon: Icon(Icons.keyboard_arrow_right),
               onPressed: _onPlacePickerClicked),
         ),
-        const Divider(),
+        divider(),
         ListTile(
           dense: true,
           trailing: IconButton(
               icon: Icon(Icons.place), onPressed: _onLocationPickerClicked),
           title: Text('Location'),
-          subtitle: location != null
-              ? Text("Location Selected.",
-                  style: TextStyle(
-                      color: Colors.green, fontWeight: FontWeight.bold))
-              : Container(),
+          subtitle: Text(location != null ? "Location Selected." : '',
+              style:
+                  TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
         ),
         divider(),
         ListTile(
@@ -121,6 +123,7 @@ class _PostAdPageState extends State<PostAdPage>
           title: Text(
             'Select Category',
           ),
+          subtitle: Text(category != null ? category.name : ''),
           trailing: IconButton(
             icon: Icon(Icons.keyboard_arrow_right),
             onPressed: _onCategoryPickerClicked,
@@ -307,6 +310,7 @@ class _PostAdPageState extends State<PostAdPage>
   Divider divider() {
     return const Divider(
       height: 1,
+      indent: 1,
     );
   }
 
@@ -367,85 +371,93 @@ class _PostAdPageState extends State<PostAdPage>
               borderRadius: BorderRadius.circular(8)),
         ),
         onTap: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return RoundedAlertDialog(
-                  title: Text('Select Media to add to the uploads'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text('Capture Image'),
-                        leading: Icon(Icons.camera_alt),
-                        dense: true,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          var image = await ImagePicker.pickImage(
-                              source: ImageSource.camera);
-                          if (image != null)
-                            setState(() {
-                              mediaList
-                                  .add(Media(file: image, type: Type.Image));
-                            });
-                        },
-                      ),
-                      ListTile(
-                        title: Text('Pick Image from gallery'),
-                        leading: Icon(Icons.image),
-                        dense: true,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          var image = await ImagePicker.pickImage(
-                              source: ImageSource.gallery);
-                          if (image != null)
-                            setState(() {
-                              mediaList
-                                  .add(Media(file: image, type: Type.Image));
-                            });
-                        },
-                      ),
-                      ListTile(
-                        title: Text('Capture Video'),
-                        leading: Icon(Icons.videocam),
-                        dense: true,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          var video = await ImagePicker.pickVideo(
-                              source: ImageSource.camera);
-                          if (video != null)
-                            setState(() {
-                              mediaList
-                                  .add(Media(file: video, type: Type.Video));
-                            });
-                        },
-                      ),
-                      ListTile(
-                        title: Text('Pick Video from gallery'),
-                        leading: Icon(Icons.video_library),
-                        dense: true,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          var video = await ImagePicker.pickVideo(
-                              source: ImageSource.gallery);
-                          if (video != null)
-                            setState(() {
-                              mediaList
-                                  .add(Media(file: video, type: Type.Video));
-                            });
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              });
+          if (mediaList.length == 4) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('Max media upload is 4'),
+              duration: Duration(seconds: 1),
+            ));
+          } else
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return RoundedAlertDialog(
+                    title: Text('Select Media to add to the uploads'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          title: Text('Capture Image'),
+                          leading: Icon(Icons.camera_alt),
+                          dense: true,
+                          onTap: () async {
+                            Navigator.pop(context);
+                            var image = await ImagePicker.pickImage(
+                                source: ImageSource.camera);
+                            if (image != null)
+                              setState(() {
+                                mediaList
+                                    .add(Media(file: image, type: Type.Image));
+                              });
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Pick Image from gallery'),
+                          leading: Icon(Icons.image),
+                          dense: true,
+                          onTap: () async {
+                            Navigator.pop(context);
+                            var image = await ImagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image != null)
+                              setState(() {
+                                mediaList
+                                    .add(Media(file: image, type: Type.Image));
+                              });
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Capture Video'),
+                          leading: Icon(Icons.videocam),
+                          dense: true,
+                          onTap: () async {
+                            Navigator.pop(context);
+                            var video = await ImagePicker.pickVideo(
+                                source: ImageSource.camera);
+                            if (video != null)
+                              setState(() {
+                                mediaList
+                                    .add(Media(file: video, type: Type.Video));
+                              });
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Pick Video from gallery'),
+                          leading: Icon(Icons.video_library),
+                          dense: true,
+                          onTap: () async {
+                            Navigator.pop(context);
+                            var video = await ImagePicker.pickVideo(
+                                source: ImageSource.gallery);
+                            if (video != null)
+                              setState(() {
+                                mediaList
+                                    .add(Media(file: video, type: Type.Video));
+                              });
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                });
         });
   }
 
   Future _onPlacePickerClicked() async {
-    adCity = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => PlacePickerScreen()));
-    setState(() {});
+    City city = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CityPickerScreen()));
+    setState(() {
+      this.city = city;
+    });
   }
 
   Future _onLocationPickerClicked() async {
@@ -455,9 +467,12 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Future _onCategoryPickerClicked() async {
-    // ignore: unused_local_variable
-    var category = await Navigator.of(context)
+    Category category = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
+    if (category != null)
+      setState(() {
+        this.category = category;
+      });
   }
 
   validateEntries() {

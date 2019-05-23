@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:justcost/data/product/model/product_details.dart';
 import 'model/product.dart';
 
 class ProductRepository {
@@ -19,6 +20,15 @@ class ProductRepository {
     try {
       var response = await _client.get('products');
       return ProductResponse.fromJson(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<ProductDeatilsResponse> getProductDetails(int id) async {
+    try {
+      var response = await _client.get('products/$id');
+      return ProductDeatilsResponse.fromJson(response.data);
     } catch (error) {
       throw error;
     }

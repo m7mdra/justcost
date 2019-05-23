@@ -1,16 +1,16 @@
-class ProductResponse {
+class ProductDeatilsResponse {
   bool success;
-  List<Product> data;
+  List<ProductDeatils> data;
   String message;
 
-  ProductResponse({this.success, this.data, this.message});
+  ProductDeatilsResponse({this.success, this.data, this.message});
 
-  ProductResponse.fromJson(Map<String, dynamic> json) {
+  ProductDeatilsResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
-      data = new List<Product>();
+      data = new List<ProductDeatils>();
       json['data'].forEach((v) {
-        data.add(new Product.fromJson(v));
+        data.add(new ProductDeatils.fromJson(v));
       });
     }
     message = json['message'];
@@ -26,74 +26,87 @@ class ProductResponse {
     return data;
   }
 }
-class Product {
-  int productId;
-  String title;
+
+class ProductDeatils {
   int customerId;
   String customerName;
+  String customerMobile;
+  String customerLocation;
+  int productId;
+  String title;
   String description;
-  String mobile;
   String location;
   int regPrice;
   int salePrice;
   String city;
-  String brand;
-  List<String> media;
   String postedOn;
+  double rating;
+  String brand;
+  String brandImage;
+  List<String> media;
 
-  Product(
-      {this.productId,
-      this.title,
-      this.customerId,
+  ProductDeatils(
+      {this.customerId,
       this.customerName,
+      this.customerMobile,
+      this.customerLocation,
+      this.productId,
+      this.title,
       this.description,
-      this.mobile,
       this.location,
       this.regPrice,
       this.salePrice,
       this.city,
+      this.postedOn,
+      this.rating,
       this.brand,
-      this.media,
-      this.postedOn});
+      this.brandImage,
+      this.media});
 
-  Product.fromJson(Map<String, dynamic> json) {
-    productId = json['productId'];
-    title = json['title'];
+  ProductDeatils.fromJson(Map<String, dynamic> json) {
     customerId = json['customerId'];
     customerName = json['customerName'];
+    customerMobile = json['customerMobile'];
+    customerLocation = json['customerLocation'];
+    productId = json['productId'];
+    title = json['title'];
     description = json['description'];
-    mobile = json['mobile'];
     location = json['location'];
     regPrice = json['reg_price'];
     salePrice = json['sale_price'];
     city = json['city'];
+    postedOn = json['postedOn'];
+    rating = json['rating'];
     brand = json['brand'];
+    brandImage = json['brand_image'];
     if (json['media'] != null) {
-      media = new List<String>();
+      media =  List();
       json['media'].forEach((v) {
         media.add(v);
       });
     }
-    postedOn = json['postedOn'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productId'] = this.productId;
-    data['title'] = this.title;
     data['customerId'] = this.customerId;
     data['customerName'] = this.customerName;
+    data['customerMobile'] = this.customerMobile;
+    data['customerLocation'] = this.customerLocation;
+    data['productId'] = this.productId;
+    data['title'] = this.title;
     data['description'] = this.description;
-    data['mobile'] = this.mobile;
     data['location'] = this.location;
     data['reg_price'] = this.regPrice;
     data['sale_price'] = this.salePrice;
     data['city'] = this.city;
+    data['postedOn'] = this.postedOn;
+    data['rating'] = this.rating;
     data['brand'] = this.brand;
+    data['brand_image'] = this.brandImage;
     if (this.media != null) {
       data['media'] = this.media;
     }
-    data['postedOn'] = this.postedOn;
     return data;
   }
 }

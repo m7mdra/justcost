@@ -12,8 +12,11 @@ import '../../dependencies_provider.dart';
 
 class CategoryDetailsScreen extends StatefulWidget {
   final Category category;
+  final bool pickMode;
 
-  const CategoryDetailsScreen({Key key, this.category}) : super(key: key);
+  const CategoryDetailsScreen(this.pickMode, {Key key, this.category})
+      : super(key: key);
+
   @override
   _CategoryDetailsScreenState createState() => _CategoryDetailsScreenState();
 }
@@ -22,6 +25,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   CategoriesBloc _bloc;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -75,21 +79,29 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                   childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height *0.65),
+                      (MediaQuery.of(context).size.height * 0.65),
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return CategoryWidget(
                     category: state.categories[index],
-                    onClick: (category) {
-                      if (category.hasDescendants())
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CategoryDetailsScreen(
-                                  category: category,
-                                )));
+                    onClick: (category) async {
+                      if (category.hasDescendants()) {
+                        var cat = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CategoryDetailsScreen(
+                                      widget.pickMode,
+                                      category: category,
+                                    )));
+                        Navigator.of(context).pop(cat);
+                      }
                       else {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                CategoryProductsScreen(category: category)));
+                        if (widget.pickMode)
+                          Navigator.of(context).pop(category);
+                        else
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  CategoryProductsScreen(category: category)));
                       }
                     },
                   );
