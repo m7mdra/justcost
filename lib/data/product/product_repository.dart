@@ -8,11 +8,19 @@ class ProductRepository {
 
   Future<ProductResponse> getProductsFromCategory(int categoryId) async {
     try {
-      var response = await _client.get('/categoryproudects/7');
-      return ProductResponse.fromJson(response.data as Map);
+      var response = await _client.get('categoryproudects/$categoryId');
+      return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
     }
   }
-  
+
+  Future<ProductResponse> getProducts() async {
+    try {
+      var response = await _client.get('products');
+      return ProductResponse.fromJson(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

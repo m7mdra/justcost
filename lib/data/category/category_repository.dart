@@ -10,9 +10,9 @@ class CategoryRepository {
     try {
       var response = await _client.get('/categories');
       return CategoryResponse.fromJson(response.data);
-    } catch (error) {
-            print(error);
-
+    }on DioError catch(error){
+      throw error;
+    }catch (error) {
       throw error;
     }
   }

@@ -10,6 +10,8 @@ class HomeRepository {
     try {
       var response = await _client.get('sliders');
       return SliderResponse.fromJson(response.data);
+    } on DioError catch (error) {
+      throw error;
     } catch (err) {
       throw err;
     }

@@ -28,7 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   bloc:
     dependency: transitive
     description:
@@ -121,7 +121,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.5"
   equatable:
     dependency: "direct main"
     description:
@@ -325,7 +325,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   rxdart:
     dependency: transitive
     description:
@@ -386,7 +386,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4"
+    version: "0.2.5"
   transformer_page_view:
     dependency: transitive
     description:
