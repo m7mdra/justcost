@@ -1,174 +1,191 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
+import 'package:justcost/screens/ad_details/comment_bloc.dart';
+import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
+import 'package:justcost/dependencies_provider.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:justcost/widget/network_error_widget.dart';
 
 class AdDetailsScreen extends StatefulWidget {
+  final Product product;
+
+  const AdDetailsScreen({Key key, this.product}) : super(key: key);
+
   @override
   _AdDetailsScreenState createState() => _AdDetailsScreenState();
 }
 
 class _AdDetailsScreenState extends State<AdDetailsScreen> {
+  Product product;
+  AdDetailsBloc _bloc;
+  CommentsBloc _commentsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    product = widget.product;
+    _bloc = AdDetailsBloc(DependenciesProvider.provide());
+    _commentsBloc = CommentsBloc(DependenciesProvider.provide());
+    _commentsBloc.dispatch(LoadComments(product.productId));
+    _bloc.dispatch(LoadEvent(product.productId));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.dispose();
+    _commentsBloc.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Ad Details'),
-      ),
       body: SafeArea(
           child: ListView(
         children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            color: Colors.red,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconText(
-                  onPressed: () {},
-                  icon: Icon(Icons.flag),
-                  text: Text('Report'),
+          Stack(
+            children: <Widget>[
+              Container(
+                height: product.media.isEmpty ? 30 : 200,
+                child: Swiper(
+                  itemCount: product.media.length,
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      product.media[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
-                IconText(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite),
-                  text: Text('Save'),
-                ),
-                IconText(
-                  onPressed: () {},
-                  icon: Icon(Icons.share),
-                  text: Text('Share'),
-                ),
-              ],
-            ),
+              ),
+              BackButton(
+                color: Colors.black,
+              ),
+            ],
           ),
-          Divider(
-            height: 0,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconText(
+                onPressed: () {},
+                icon: Icon(Icons.flag),
+                text: Text('Report'),
+              ),
+              IconText(
+                onPressed: () {},
+                icon: Icon(Icons.favorite),
+                text: Text('Save'),
+              ),
+              IconText(
+                onPressed: () {},
+                icon: Icon(Icons.share),
+                text: Text('Share'),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Mobile & Tabs',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                    Text(
-                      'Mobile',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                    Text(
-                      'OPPO',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ],
-                ),
-                Text('12 Feb, 2018')
-              ],
-            ),
+          const Divider(
+            height: 1,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'OPPO Find X Automobile Lamborghini Edition',
-                    style: Theme.of(context).textTheme.title,
-                    maxLines: 2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Mobile & Tabs',
+                    style: Theme.of(context).textTheme.caption,
                   ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 16,
+                    color: Colors.grey,
+                  ),
+                  Text(
+                    'Mobile',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 16,
+                    color: Colors.grey,
+                  ),
+                  Text(
+                    'OPPO',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+              Text(product.postedOn)
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  product.title,
+                  style: Theme.of(context).textTheme.title,
+                  maxLines: 2,
                 ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 4, bottom: 4),
-                      color: Theme.of(context).accentColor,
-                      child: Text(
-                        '25% OFF',
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, top: 4, bottom: 4),
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      '${((product.regPrice - product.salePrice) / product.regPrice * 100).round()}% OFF',
+                      style: Theme.of(context).textTheme.subhead,
                     ),
-                    Text(
-                      '600 AED',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                )
-              ],
-            ),
+                  ),
+                  Text(
+                    '${product.salePrice} AED',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-                "OPPO Find X is the world’s first panoramic designed phone,"
-                " embracing the beauty of nature into a leading technology product."
-                " OPPO Find X combines two seamless pieces of glass with the front screen"
-                " featuring a gorgeous panoramic view."),
+          Text(product.description),
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Model'),
+              Text('Find X'),
+            ],
           ),
           const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(right: 32.0, left: 32, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Model'),
-                Text('Find X'),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Brand'),
+              Text('OPPO'),
+            ],
           ),
           const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(right: 32.0, left: 32, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Brand'),
-                Text('OPPO'),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Condition'),
+              Text('NEW'),
+            ],
           ),
           const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(right: 32.0, left: 32, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Condition'),
-                Text('NEW'),
-              ],
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(right: 32.0, left: 32, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Usage'),
-                Text('Never used'),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Usage'),
+              Text('Never used'),
+            ],
           ),
           const Divider(),
           Row(
@@ -179,12 +196,11 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   Icons.person,
                   size: 30,
                 ),
-                text: Text('Mohamed Ali'),
+                text: Text(product.customerName),
               ),
               Column(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -194,7 +210,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         color: Colors.white,
                       ),
                       text: Text(
-                        ' +2499123456789 ',
+                        ' ${product.mobile} ',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -203,7 +219,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                     height: 2,
                   ),
                   Container(
-                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -223,165 +238,138 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             ],
           ),
           const Divider(),
-          /* Container(
-            width: MediaQuery.of(context).size.width,
-            height: 180,
-            child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(25.276987, 55.296249), zoom: 13)),
-          ),*/
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: <Widget>[
-                Text('Rate'),
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-              ],
+          Text('Write a comment'),
+          TextField(
+            keyboardType: TextInputType.multiline,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                  borderSide: BorderSide(color: Colors.grey, width: 0.1)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Write a comment'),
+          FlutterRatingBar(
+            initialRating: 0,
+            fillColor: Theme.of(context).accentColor,
+            borderColor: Theme.of(context).accentColor.withAlpha(60),
+            allowHalfRating: true,
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                    borderSide: BorderSide(color: Colors.grey, width: 0.5)),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RaisedButton(
-              onPressed: () {},
-              child: Text('post'),
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height - 300,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.separated(
-                primary: false,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      AdComment(),
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider();
-                },
-                itemCount: 3),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          Align(
+            alignment: Alignment.centerRight,
             child: OutlineButton(
               onPressed: () {},
-              child: Text('View more comments'),
+              child: Text('POST'),
             ),
+          ),
+          BlocBuilder(
+            bloc: _commentsBloc,
+            builder: (BuildContext context, CommentsState state) {
+              if (state is CommentsLoading)
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              if (state is CommentsError)
+                return GeneralErrorWidget(
+                  onRetry: () {
+                    _commentsBloc.dispatch(LoadComments(product.productId));
+                  },
+                );
+              if (state is CommentsNetworkError)
+                return NetworkErrorWidget(
+                  onRetry: () {
+                    _commentsBloc.dispatch(LoadComments(product.productId));
+                  },
+                );
+              if (state is NoComments)
+                return Column(
+                  children: <Widget>[
+                    Icon(Icons.mode_comment),
+                    Text('No Comments added, be the first to comment')
+                  ],
+                );
+              if (state is CommentsLoaded)
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: <Widget>[
+                        CircleAvatar(
+                          child: Text('U'),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(state.comments[index].customerName),
+                            FlutterRatingBarIndicator(
+                              fillColor: Theme.of(context).accentColor,
+                              rating:
+                                  state.comments[index].rate[0].rate.toDouble(),
+                              itemSize: 15,
+                              itemCount: 5,
+                              emptyColor:
+                                  Theme.of(context).accentColor.withAlpha(60),
+                              itemPadding: const EdgeInsets.all(0),
+                            ),
+                            Text(state.comments[index].comment),
+                            ListView.builder(
+                              
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      child: Text('U'),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(state.comments[index]
+                                            .replies[index].customerName),
+                                        FlutterRatingBarIndicator(
+                                          fillColor:
+                                              Theme.of(context).accentColor,
+                                          rating: state.comments[index]
+                                              .replies[index].rate[0].rate
+                                              .toDouble(),
+                                          itemSize: 15,
+                                          itemCount: 5,
+                                          emptyColor: Theme.of(context)
+                                              .accentColor
+                                              .withAlpha(60),
+                                          itemPadding: const EdgeInsets.all(0),
+                                        ),
+                                        Text(state.comments[index]
+                                            .replies[index].comment),
+                                      ],
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                    )
+                                  ],
+                                );
+                              },
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.all(16),
+                              itemCount: state.comments[index].replies.length,
+                            )
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                  itemCount: state.comments.length,
+                );
+            },
           )
         ],
       )),
-    );
-  }
-}
-
-class AdComment extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      leading: CircleAvatar(
-        child: Icon(Icons.person),
-      ),
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('user name'),
-          Text(
-            '12 Feb, 2017',
-            style: Theme.of(context).textTheme.caption,
-          )
-        ],
-      ),
-      subtitle: Text(
-        'Ever wish you could get the '
-        'Cliff Notes for writing popular posts? ',
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 15,
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 15,
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 15,
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 15,
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.grey,
-            size: 15,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AdCommentReplay extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      leading: CircleAvatar(
-        child: Icon(Icons.person),
-      ),
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('user name'),
-          Text(
-            '12 Feb, 2017',
-            style: Theme.of(context).textTheme.caption,
-          )
-        ],
-      ),
-      subtitle: Text(
-        'Ever wish you could get the '
-        'Cliff Notes for writing popular posts? ',
-      ),
     );
   }
 }

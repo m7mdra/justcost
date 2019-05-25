@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage>
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  AdDetailsScreen()));
+                                  AdDetailsScreen(product: state.products[index],)));
                         },
                       );
                     },

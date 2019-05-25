@@ -118,14 +118,14 @@ class UserRepository {
   }
 
   Future<AuthenticationResponse> updateProfileImage(
-      File originalFile, File downsampledFile) async {
+      File originalFile, File downSampledFile) async {
     try {
       var response = await _client.post('jc-member/mpi/update',
           data: FormData.from({
             "upload": UploadFileInfo(
                 originalFile, "${DateTime.now()}_image_original"),
             "upload_2": UploadFileInfo(
-                downsampledFile, "${DateTime.now()}_image_downsampled"),
+                downSampledFile, "${DateTime.now()}_image_downsampled"),
           }));
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {

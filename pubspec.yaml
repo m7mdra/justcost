@@ -34,10 +34,12 @@ dependencies:
   image_crop: 0.2.0
   device_info: ^0.4.0+1
   flutter_html: ^0.9.6
+  flutter_rating_bar: ^1.1.0
   flutter_localizations:
     sdk: flutter
   intl:
   intl_translation:
+
 
 dev_dependencies:
   flutter_test:

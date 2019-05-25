@@ -25,7 +25,7 @@ class AdWidget extends StatelessWidget {
                 Container(
                   color: Colors.yellow,
                   child: Text(
-                      '${((product.regPrice - product.salePrice) / product.regPrice * 100)}% OFF'),
+                      '${((product.regPrice - product.salePrice) / product.regPrice * 100).round()}% OFF'),
                 )
               ],
             ),
