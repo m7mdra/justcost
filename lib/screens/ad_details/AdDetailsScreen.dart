@@ -56,7 +56,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   itemCount: product.media.length,
                   itemBuilder: (context, index) {
                     return Image.network(
-                      product.media[index],
+                      product.media[index].url,
                       fit: BoxFit.cover,
                     );
                   },
@@ -296,6 +296,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         CircleAvatar(
                           child: Text('U'),
@@ -318,46 +319,36 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                               itemPadding: const EdgeInsets.all(0),
                             ),
                             Text(state.comments[index].comment),
-                            ListView.builder(
-                              
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      child: Text('U'),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(state.comments[index]
-                                            .replies[index].customerName),
-                                        FlutterRatingBarIndicator(
-                                          fillColor:
-                                              Theme.of(context).accentColor,
-                                          rating: state.comments[index]
-                                              .replies[index].rate[0].rate
-                                              .toDouble(),
-                                          itemSize: 15,
-                                          itemCount: 5,
-                                          emptyColor: Theme.of(context)
-                                              .accentColor
-                                              .withAlpha(60),
-                                          itemPadding: const EdgeInsets.all(0),
-                                        ),
-                                        Text(state.comments[index]
-                                            .replies[index].comment),
-                                      ],
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                    )
-                                  ],
-                                );
-                              },
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.all(16),
-                              itemCount: state.comments[index].replies.length,
+                            Container(
+                              width:MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        child: Text('U'),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(state.comments[index]
+                                              .replies[index].customerName),
+
+                                          Text(state.comments[index]
+                                              .replies[index].comment),
+                                        ],
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                      )
+                                    ],
+                                  );
+                                },
+                                shrinkWrap: true,
+                                itemCount: state.comments[index].replies.length,
+                              ),
                             )
                           ],
                         )

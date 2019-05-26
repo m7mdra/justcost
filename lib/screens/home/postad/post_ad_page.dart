@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/product/model/post_ad.dart';
 import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/home/postad/category_picker_screen.dart';
 import 'package:justcost/screens/home/postad/location_pick_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
+import 'package:justcost/screens/home/postad/post_ad_bloc.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
+import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:justcost/dependencies_provider.dart';
 
 class PostAdPage extends StatefulWidget {
   @override
@@ -28,6 +33,7 @@ class _PostAdPageState extends State<PostAdPage>
   TextEditingController _adDetailsController;
   LatLng location;
   City city;
+  PostAdBloc _bloc;
   FocusNode _adKeywordFocusNode = FocusNode();
   FocusNode _adOldPriceFocusNode = FocusNode();
   FocusNode _adNewPriceFocusNode = FocusNode();
@@ -45,6 +51,9 @@ class _PostAdPageState extends State<PostAdPage>
   void initState() {
     super.initState();
     regex = new RegExp(pattern);
+    _bloc = PostAdBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
+    _bloc.dispatch(CheckIfUserIsNotAGoat());
     _adTitleController = TextEditingController();
     _adKeywordController = TextEditingController();
     _adOldPriceController = TextEditingController();
@@ -73,6 +82,21 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Widget build(BuildContext context) {
+    return BlocBuilder(
+      bloc: _bloc,
+      builder: (BuildContext context, PostAdStatus state) {
+        print(state);
+        if (state is GoatUser)
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GuestUserWidget(),
+          );
+        return postAdForm();
+      },
+    );
+  }
+
+  Widget postAdForm() {
     var hintStyle =
         Theme.of(context).textTheme.body1.copyWith(color: Colors.grey);
     return ListView(
@@ -461,9 +485,11 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Future _onLocationPickerClicked() async {
-    location = await Navigator.of(context)
+    var location = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LocationPickerScreen()));
-    setState(() {});
+    setState(() {
+      this.location = location;
+    });
   }
 
   Future _onCategoryPickerClicked() async {
@@ -477,11 +503,87 @@ class _PostAdPageState extends State<PostAdPage>
 
   validateEntries() {
     FocusScope.of(context).requestFocus(FocusNode());
-    if (_formKey.currentState.validate()) {
+    var adTitle = _adTitleController.text.trim();
+    var adKeyword = _adKeywordController.text.trim();
+    var adOldPrice = _adOldPriceController.text.trim();
+    var adNewPrice = _adNewPriceController.text.trim();
+    var adPhoneNumber = _adPhoneNumberController.text.trim();
+    var adEmail = _adEmailController.text.trim();
+    var adDescription = _adDetailsController.text.trim();
+    if (adTitle.isEmpty) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Title field is required.')));
       return;
-    } else {
-      Future.delayed(Duration(seconds: 2))
-          .then((_) => _formKey.currentState.reset());
     }
+    if (adEmail.isEmpty) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Email field is required.')));
+      return;
+    }
+    if (!regex.hasMatch(adEmail)) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Email field is invalid.')));
+      return;
+    }
+    if (adKeyword.isEmpty) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Keyword field is required.')));
+      return;
+    }
+    if (adOldPrice.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('old price field is required.')));
+      return;
+    }
+    if (adNewPrice.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('new price field is required.')));
+      return;
+    }
+    if (adPhoneNumber.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('Phone number field is required.')));
+      return;
+    }
+    if (adDescription.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('Description field is required.')));
+      return;
+    }
+    if (mediaList.isEmpty) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Media is empty, add atleast one image or video')));
+      return;
+    }
+    if (city == null) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Select the place of the ad')));
+      return;
+    }
+    if (location == null) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('Select the location of the ad')));
+      return;
+    }
+    if (category == null) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('Select the category of the ad')));
+      return;
+    }
+    _bloc.dispatch(SubmitAd(PostAd(
+      media: mediaList.map((f) => f.file).toList(),
+      image: mediaList[0].file,
+      category: category,
+      regularPrice: double.parse(adOldPrice),
+      salePrice: double.parse(adNewPrice),
+      isPaid: 1,
+      keyword: adKeyword,
+      isWholeSale: 1,
+      status: 1,
+      title: adTitle,
+      city: city,
+      description: adDescription,
+      brandId: 1,
+    )));
   }
 }

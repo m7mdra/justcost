@@ -10,6 +10,7 @@ import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
 import 'package:justcost/widget/ad_widget.dart';
+import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _controller=SwiperController();
+    _controller = SwiperController();
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
@@ -52,11 +53,11 @@ class _HomePageState extends State<HomePage>
     _controller.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+        CommentWidget(),
         Container(
           key: UniqueKey(),
           width: MediaQuery.of(context).size.width,
@@ -168,7 +169,7 @@ class _HomePageState extends State<HomePage>
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Align(
-                      alignment:Alignment.centerLeft,
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         'Recent Ads',
                         style: TextStyle(fontSize: 18),
@@ -184,7 +185,9 @@ class _HomePageState extends State<HomePage>
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  AdDetailsScreen(product: state.products[index],)));
+                                  AdDetailsScreen(
+                                    product: state.products[index],
+                                  )));
                         },
                       );
                     },

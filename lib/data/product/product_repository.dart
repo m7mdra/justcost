@@ -36,7 +36,7 @@ class ProductRepository {
     }
   }
 
-  Future postAd(PostAd ad) async {
+  Future<PostAdResponse> postAd(PostAd ad) async {
     try {
       var data = FormData.from({
         'image': UploadFileInfo(
@@ -48,14 +48,18 @@ class ProductRepository {
         'sale_price': ad.salePrice,
         'cityId': ad.city.id,
         'brand_id': ad.brandId,
-        'ispaided':1,
-        'iswholesale':1,
-        'status':1,
-        'media':ad.media.map((f)=>UploadFileInfo(f,"${f.path}"))
+        'ispaided': 1,
+        'iswholesale': 1,
+        'status': 1,
+        'media[]': ad.media.map((f) => UploadFileInfo(f, "${f.path}")).toList()
       });
       var response = await _client.post('products', data: data);
+      return PostAdResponse.fromJson(response.data);
     } on DioError catch (error) {
-      if (error.response.statusCode == 401) throw SessionExpired();
+      if (error.response.statusCode == 401)
+        throw SessionExpired();
+      else
+        throw error;
     } catch (error) {
       throw error;
     }

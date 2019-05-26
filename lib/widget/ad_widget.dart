@@ -36,7 +36,7 @@ class AdWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(product.title,
+                    Text(product.title==null?'':product.title,
                         style: Theme.of(context)
                             .textTheme
                             .subhead

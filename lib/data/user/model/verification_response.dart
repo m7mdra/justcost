@@ -28,7 +28,7 @@ class Data {
   String name;
   String mobile;
   int city;
-  int gender;
+  bool gender;
   bool isVerified;
   String firebaseToken;
   String createdAt;

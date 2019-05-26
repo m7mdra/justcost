@@ -28,7 +28,7 @@ class UserSession {
     sharedPreferences.setString(USERNAME_KEY, response.data.payload.username);
     sharedPreferences.setString(EMAIL_KEY, response.data.payload.email);
     sharedPreferences.setString(FULL_NAME_KEY, response.data.payload.name);
-    sharedPreferences.setInt(GENDER_KEY, response.data.payload.gender);
+    sharedPreferences.setBool(GENDER_KEY, response.data.payload.gender);
     sharedPreferences.setString(
         MESSAGING_TOKEN_ID_KEY, response.data.payload.firebaseToken);
 
@@ -43,7 +43,7 @@ class UserSession {
       String username,
       String email,
       String name,
-      int gender,
+      bool gender,
       String firebaseToken,
       int city,
       bool isVerified}) async {
@@ -52,7 +52,7 @@ class UserSession {
     sharedPreferences.setString(USERNAME_KEY, username);
     sharedPreferences.setString(EMAIL_KEY, email);
     sharedPreferences.setString(FULL_NAME_KEY, name);
-    sharedPreferences.setInt(GENDER_KEY, gender);
+    sharedPreferences.setBool(GENDER_KEY, gender);
     sharedPreferences.setString(MESSAGING_TOKEN_ID_KEY, firebaseToken);
     // sharedPreferences.setString(AVATAR_URL_KEY, payload.photo);
     sharedPreferences.setInt(ADDRESS_KEY, city);
