@@ -38,6 +38,7 @@ class ErrorState<T> extends EditProfileState {
   final String message;
   final ErrorType errorType;
   final T event;
+
   ErrorState(this.message, this.errorType, this.event);
 }
 

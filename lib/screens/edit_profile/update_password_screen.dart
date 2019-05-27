@@ -12,6 +12,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   TextEditingController _currentPasswordController;
   TextEditingController _passwordController;
   TextEditingController _confirmPasswordController;
+
   @override
   void initState() {
     super.initState();

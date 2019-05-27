@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/data/product/model/post_ad.dart';
-import 'package:justcost/screens/city/city_picker_screen.dart';
-import 'package:justcost/screens/home/postad/category_picker_screen.dart';
-import 'package:justcost/screens/home/postad/location_pick_screen.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/model/media.dart';
-import 'package:justcost/screens/home/postad/post_ad_bloc.dart';
+import 'package:justcost/screens/brand/brand_page.dart';
+import 'package:justcost/screens/city/city_picker_screen.dart';
+import 'package:justcost/screens/postad/category_picker_screen.dart';
+import 'package:justcost/screens/postad/location_pick_screen.dart';
+import 'package:justcost/screens/postad/post_ad_bloc.dart';
+import 'package:justcost/util/tuple.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-import 'package:justcost/dependencies_provider.dart';
 
 class PostAdPage extends StatefulWidget {
   @override
   _PostAdPageState createState() => _PostAdPageState();
 }
 
-class _PostAdPageState extends State<PostAdPage>
-    with AutomaticKeepAliveClientMixin<PostAdPage> {
+class _PostAdPageState extends State<PostAdPage> {
   List<Media> mediaList = List<Media>();
   TextEditingController _adTitleController;
   TextEditingController _adKeywordController;
@@ -40,17 +42,19 @@ class _PostAdPageState extends State<PostAdPage>
   FocusNode _adPhoneNumberFocusNode = FocusNode();
   FocusNode _adEmailFocusNode = FocusNode();
   FocusNode _adDetailsFocusNode = FocusNode();
-  Pattern pattern =
+  Pattern _pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
   final _formKey = GlobalKey<FormState>();
 
-  Category category;
+  Category _category;
+  Category _parentCategory;
+  Brand _brand;
 
   @override
   void initState() {
     super.initState();
-    regex = new RegExp(pattern);
+    regex = new RegExp(_pattern);
     _bloc = PostAdBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _bloc.dispatch(CheckIfUserIsNotAGoat());
@@ -82,17 +86,90 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: _bloc,
-      builder: (BuildContext context, PostAdStatus state) {
-        print(state);
-        if (state is GoatUser)
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GuestUserWidget(),
-          );
-        return postAdForm();
-      },
+    return Scaffold(
+      body: SafeArea(
+        child: BlocBuilder(
+          bloc: _bloc,
+          builder: (BuildContext context, PostAdStatus state) {
+            print(state);
+            if (state is GoatUser) return buildGuestUserWidget();
+            if (state is PostAdLoading) return buildLoadingWidget();
+            if (state is PostAdSuccess) return buildSuccessWidget(context);
+            if (state is PostAdFailed) {
+              Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to post ad, try again')));
+              return postAdForm();
+            }
+            if (state is PostAdError) {
+              Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to post ad, try again')));
+              return postAdForm();
+            }
+            if (state is PostAdNetworkError) {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('No Active network found, check you wifi.')));
+              return postAdForm();
+            }
+            return postAdForm();
+          },
+        ),
+      ),
+    );
+  }
+
+  Padding buildGuestUserWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: GuestUserWidget(),
+    );
+  }
+
+  Center buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          CircularProgressIndicator(),
+          Text('Please wait while trying to post your ad...')
+        ],
+      ),
+    );
+  }
+
+  Center buildSuccessWidget(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 60,
+            ),
+            Text(
+              'Ad Submited Successfully',
+              style: Theme.of(context).textTheme.title,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              'your Ad is under approval, you will be notified once the AD is approved.',
+              textAlign: TextAlign.center,
+            ),
+            OutlineButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Continue'),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -147,10 +224,22 @@ class _PostAdPageState extends State<PostAdPage>
           title: Text(
             'Select Category',
           ),
-          subtitle: Text(category != null ? category.name : ''),
+          subtitle: Text(_category != null ? _category.name : ''),
           trailing: IconButton(
             icon: Icon(Icons.keyboard_arrow_right),
             onPressed: _onCategoryPickerClicked,
+          ),
+        ),
+        divider(),
+        ListTile(
+          dense: true,
+          title: Text(
+            'Select Brand',
+          ),
+          subtitle: Text(_brand != null ? _brand.name : ''),
+          trailing: IconButton(
+            icon: Icon(Icons.keyboard_arrow_right),
+            onPressed: _onBrandPickerClicked,
           ),
         ),
         divider(),
@@ -493,12 +582,31 @@ class _PostAdPageState extends State<PostAdPage>
   }
 
   Future _onCategoryPickerClicked() async {
-    Category category = await Navigator.of(context)
+    Tuple2 category = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
-    if (category != null)
+    setState(() {
+      _parentCategory = category.item1;
+
+      if (category.item2 == null)
+        this._category = category.item1;
+      else
+        this._category = category.item2;
+    });
+  }
+
+  _onBrandPickerClicked() async {
+    if (_category == null)
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('select Category first')));
+    else {
+      Brand brand = await Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BrandPage(
+                categoryId: _parentCategory.id,
+              )));
       setState(() {
-        this.category = category;
+        this._brand = brand;
       });
+    }
   }
 
   validateEntries() {
@@ -565,7 +673,7 @@ class _PostAdPageState extends State<PostAdPage>
           SnackBar(content: Text('Select the location of the ad')));
       return;
     }
-    if (category == null) {
+    if (_category == null) {
       Scaffold.of(context).showSnackBar(
           SnackBar(content: Text('Select the category of the ad')));
       return;
@@ -573,17 +681,17 @@ class _PostAdPageState extends State<PostAdPage>
     _bloc.dispatch(SubmitAd(PostAd(
       media: mediaList.map((f) => f.file).toList(),
       image: mediaList[0].file,
-      category: category,
+      category: _category,
       regularPrice: double.parse(adOldPrice),
       salePrice: double.parse(adNewPrice),
-      isPaid: 1,
+      isPaid: 0,
       keyword: adKeyword,
-      isWholeSale: 1,
+      isWholeSale: 0,
       status: 1,
       title: adTitle,
       city: city,
       description: adDescription,
-      brandId: 1,
+      brandId: _brand.id,
     )));
   }
 }

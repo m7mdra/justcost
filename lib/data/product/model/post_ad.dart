@@ -33,6 +33,7 @@ class PostAd {
       this.keyword,
       this.title});
 }
+
 class PostAdResponse {
   bool success;
   String message;
@@ -51,4 +52,3 @@ class PostAdResponse {
     return data;
   }
 }
-

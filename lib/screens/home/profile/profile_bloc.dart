@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
-import 'package:dio/dio.dart';
-import 'package:justcost/data/exception/exceptions.dart';
 
 abstract class ProfileState {}
 

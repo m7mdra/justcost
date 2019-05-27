@@ -9,17 +9,19 @@ import 'package:justcost/data/token_interceptor.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
+import 'data/brand/brand_repository.dart';
+
 GetIt getIt = GetIt();
 
 class DependenciesProvider {
   DependenciesProvider._();
+
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
     final String _baseUrl = "http://admin.just-cost.com/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
-
       responseType: ResponseType.json,
     );
     client.interceptors.add(LogInterceptor(
@@ -52,6 +54,9 @@ class DependenciesProvider {
     });
     getIt.registerFactory<CommentRepository>(() {
       return CommentRepository(client);
+    });
+    getIt.registerFactory<BrandRepository>(() {
+      return BrandRepository(client);
     });
   }
 

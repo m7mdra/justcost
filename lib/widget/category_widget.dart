@@ -7,6 +7,7 @@ class CategoryWidget extends StatelessWidget {
 
   const CategoryWidget({Key key, this.category, this.onClick})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -19,13 +20,13 @@ class CategoryWidget extends StatelessWidget {
           children: <Widget>[
             category.image == null || category.image.isEmpty
                 ? Container(
-                    width: 200,
+                    width: 150,
                     height: 135,
                     color: Colors.red,
                   )
                 : Image.network(
                     category.image,
-                    width: 200,
+                    width: 150,
                     height: 135,
                   ),
             const SizedBox(
@@ -35,7 +36,10 @@ class CategoryWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: Text(
                 category.name,
-                style: Theme.of(context).textTheme.caption.copyWith(color: Colors.black),
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(color: Colors.black),
               ),
             )
           ],

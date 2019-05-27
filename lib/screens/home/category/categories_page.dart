@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/category_products/category_products_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
@@ -10,6 +7,7 @@ import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
+
 import '../../../dependencies_provider.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -40,6 +38,7 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder(
       bloc: _bloc,
       builder: (BuildContext context, CategoriesState state) {

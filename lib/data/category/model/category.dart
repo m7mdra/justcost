@@ -34,6 +34,7 @@ class Category {
   String image;
   int order;
   int parentId;
+
   Category(
       {this.id,
       this.name,
@@ -50,6 +51,7 @@ class Category {
     order = json['sort_order'];
     parentId = json['parent_id'];
   }
+
   bool hasDescendants() => lastDescendant != 0;
 
   Map<String, dynamic> toJson() {
@@ -61,5 +63,9 @@ class Category {
     data['sort_order'] = this.order;
     data['parent_id'] = this.parentId;
     return data;
+  }
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }

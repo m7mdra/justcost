@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
+
 import 'dependencies_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   DependenciesProvider.build();

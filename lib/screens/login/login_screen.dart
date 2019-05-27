@@ -1,16 +1,15 @@
-import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/main.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+
 import 'login_bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 enum NavigationReason { password_change, session_expired, logout, none }
 
@@ -19,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 
   const LoginScreen([this.navigationReason = NavigationReason.none])
       : super(key: const Key('m'));
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController;
   FocusNode _passwordFocusNode = FocusNode();
   LoginBloc _loginBloc;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

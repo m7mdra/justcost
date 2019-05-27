@@ -80,7 +80,7 @@ class ProductDeatils {
     brand = json['brand'];
     brandImage = json['brand_image'];
     if (json['media'] != null) {
-      media =  List();
+      media = List();
       json['media'].forEach((v) {
         media.add(v);
       });

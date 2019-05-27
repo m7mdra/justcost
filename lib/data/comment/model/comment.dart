@@ -38,12 +38,12 @@ class Comment {
 
   Comment(
       {this.commentId,
-        this.commentPic,
-        this.comment,
-        this.customerName,
-        this.postedOn,
-        this.rate,
-        this.replies});
+      this.commentPic,
+      this.comment,
+      this.customerName,
+      this.postedOn,
+      this.rate,
+      this.replies});
 
   Comment.fromJson(Map<String, dynamic> json) {
     commentId = json['commentId'];
@@ -111,11 +111,11 @@ class Replay {
 
   Replay(
       {this.commentId,
-        this.commentPic,
-        this.comment,
-        this.customerName,
-        this.postedOn,
-        this.rate});
+      this.commentPic,
+      this.comment,
+      this.customerName,
+      this.postedOn,
+      this.rate});
 
   Replay.fromJson(Map<String, dynamic> json) {
     commentId = json['commentId'];

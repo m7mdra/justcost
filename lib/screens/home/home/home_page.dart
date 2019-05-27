@@ -1,20 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/data/category/model/category.dart' as prefix0;
+import 'package:flutter_page_indicator/flutter_page_indicator.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
 import 'package:justcost/widget/ad_widget.dart';
-import 'package:justcost/widget/comment_widget.dart';
-import 'package:justcost/widget/general_error.dart';
-import 'package:justcost/widget/icon_text.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
   final ValueChanged<ScrollNotification> onScroll;
@@ -30,12 +25,10 @@ class _HomePageState extends State<HomePage>
   SliderBloc _bloc;
   CategoriesBloc _categoriesBloc;
   RecentAdsBloc _recentAdsBloc;
-  SwiperController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = SwiperController();
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
@@ -50,14 +43,13 @@ class _HomePageState extends State<HomePage>
     _bloc.dispose();
     _categoriesBloc.dispose();
     _recentAdsBloc.dispose();
-    _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView(
       children: <Widget>[
-        CommentWidget(),
         Container(
           key: UniqueKey(),
           width: MediaQuery.of(context).size.width,
@@ -65,8 +57,7 @@ class _HomePageState extends State<HomePage>
           child: BlocBuilder(
             bloc: _bloc,
             builder: (BuildContext context, SliderState state) {
-              print(state);
-              /*if (state is SliderLoaded) {
+              if (state is SliderLoaded) {
                 return Swiper(
                   controller: SwiperController(),
                   autoplay: true,
@@ -85,7 +76,7 @@ class _HomePageState extends State<HomePage>
                     );
                   },
                 );
-              }*/
+              }
               if (state is SliderError) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,23 +133,48 @@ class _HomePageState extends State<HomePage>
             return Container();
           },
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Featured Ads',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        Container(
-          constraints: BoxConstraints.tight(
-              Size(MediaQuery.of(context).size.width, 225)),
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return FeaturedAdsWidget();
-            },
-            itemCount: 10,
-            scrollDirection: Axis.horizontal,
-          ),
+        BlocBuilder(
+          bloc: _recentAdsBloc,
+          builder: (BuildContext context, RecentAdsState state) {
+            if (state is RecentAdsLoaded) {
+              return Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Featured Ads',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 240,
+                    child: ListView.builder(
+                      primary: false,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return FeaturedAdsWidget(
+                          product: state.products[index],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AdDetailsScreen(
+                                      product: state.products[index],
+                                    )));
+                          },
+                        );
+                      },
+                      itemCount: state.products.length,
+                      shrinkWrap: true,
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Container();
+          },
         ),
         BlocBuilder(
           bloc: _recentAdsBloc,
@@ -226,31 +242,35 @@ class FeatureCategoryWidget extends StatelessWidget {
       width: 120,
       height: 120,
       child: Card(
-          child: GridTile(
-        child: category.image == null || category.image.isEmpty
-            ? Container(
-                height: 70,
-                width: 70,
-              )
-            : Image.network(category.image),
-        footer: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-              child: Text(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          category.image == null || category.image.isEmpty
+              ? Container(
+                  height: 70,
+                  width: 70,
+                )
+              : Image.network(category.image),
+          Text(
             category.name,
             textAlign: TextAlign.center,
-          )),
-        ),
+          )
+        ],
       )),
     );
   }
 }
 
 class FeaturedAdsWidget extends StatelessWidget {
+  final Product product;
+  final VoidCallback onTap;
+
+  const FeaturedAdsWidget({Key key, this.product, this.onTap})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Card(
+    return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -258,29 +278,30 @@ class FeaturedAdsWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.centerLeft,
             children: <Widget>[
-              Container(
-                width: 150,
-                height: 140,
-                color: Colors.red,
+              Image.network(
+                product.media[0].url,
+                width: 130,
+                fit: BoxFit.cover,
               ),
               Container(
                 color: Colors.yellowAccent,
-                child: Text('10% OFF'),
+                child: Text(
+                    "${((product.regPrice - product.salePrice) / product.regPrice * 100).round()}% OFF"),
               )
             ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-            child: Text('Ad name'),
+            child: Text(product.title),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('100 AED'),
+                Text('${product.salePrice} AED'),
                 IconButton(
-                  icon: Icon(Icons.favorite),
+                  icon: Icon(Icons.favorite_border),
                   onPressed: () {},
                 )
               ],
@@ -288,6 +309,6 @@ class FeaturedAdsWidget extends StatelessWidget {
           )
         ],
       ),
-    ));
+    );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
-import 'package:justcost/data/user/user_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:justcost/data/user_sessions.dart';
+import 'package:equatable/equatable.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 abstract class VerificationState {}
 
@@ -62,15 +62,16 @@ class AccountVerificationBloc
       try {
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
-          var data=response.data;
-          await _session.saveUser(id: data.id,
-                name: data.name,
-                email: data.email,
-                username: data.username,
-                isVerified: data.isVerified,
-                gender: data.gender,
-                firebaseToken: data.firebaseToken,
-                city: data.city);
+          var data = response.data;
+          await _session.saveUser(
+              id: data.id,
+              name: data.name,
+              email: data.email,
+              username: data.username,
+              isVerified: data.isVerified,
+              gender: data.gender,
+              firebaseToken: data.firebaseToken,
+              city: data.city);
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);

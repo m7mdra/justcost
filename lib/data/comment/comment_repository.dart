@@ -14,6 +14,4 @@ class CommentRepository {
       throw error;
     }
   }
-
-
 }

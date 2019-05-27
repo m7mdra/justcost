@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -22,6 +20,7 @@ class IdleState extends CategoryProductsState {}
 
 class CategoryProductsLoaded extends CategoryProductsState {
   final List<Product> products;
+
   CategoryProductsLoaded(this.products);
 }
 
@@ -40,9 +39,9 @@ class RetryEvent extends CategoryProductsEvent {
 class CategoryProductsBloc
     extends Bloc<CategoryProductsEvent, CategoryProductsState> {
   final ProductRepository repository;
-  
 
   CategoryProductsBloc(this.repository);
+
   @override
   CategoryProductsState get initialState => LoadingState();
 
@@ -63,13 +62,12 @@ class CategoryProductsBloc
           yield ErrorState();
         }
       } on DioError catch (error) {
-              print(error);
+        print(error);
 
         yield NetworkErrorState();
       } catch (error) {
         yield ErrorState();
-              print(error);
-
+        print(error);
       }
     }
   }

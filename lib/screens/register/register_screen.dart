@@ -1,21 +1,14 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/image_cropper_screen.dart';
-import 'package:justcost/main.dart';
-import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/legal/privacy_policy_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-import 'package:justcost/dependencies_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override

@@ -81,7 +81,7 @@ class Product {
       });
     }
     if (json['media'] != null) {
-      media = new List<Media >();
+      media = new List<Media>();
       json['media'].forEach((v) {
         media.add(new Media.fromJson(v));
       });

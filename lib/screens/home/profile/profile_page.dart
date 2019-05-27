@@ -1,16 +1,12 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
-import 'package:justcost/main.dart';
-import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/login/login_screen.dart';
-import 'package:justcost/screens/register/register_screen.dart';
 import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
-import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/settings_widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -42,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder(
       builder: (context, state) {
         if (state is GuestUserState)

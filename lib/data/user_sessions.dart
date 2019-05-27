@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 const USER_RESPONSE_KEY = "data";
 const TOKEN_KEY = "token";

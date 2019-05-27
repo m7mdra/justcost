@@ -8,6 +8,7 @@ class DefaultUserAvatarWidget extends StatelessWidget {
       [this.source = 'assets/images/default-avatar.png',
       this.size = const Size(90, 90)])
       : super(key: Key(''));
+
   @override
   Widget build(BuildContext context) {
     return Image.asset(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/util/tuple.dart';
 import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
@@ -67,24 +68,22 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                     childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height * 0.55),
+                        (MediaQuery.of(context).size.height * 0.65),
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return CategoryWidget(
                       category: state.categories[index],
                       onClick: (category) async {
                         if (category.hasDescendants()) {
-                          var cat = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CategoryDetailsScreen(
+                          var cat = await Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) => CategoryDetailsScreen(
                                         true,
                                         category: category,
                                       )));
-                          Navigator.of(context).pop(cat);
-                        }
-                        else {
-                          Navigator.of(context).pop(category);
+                          Navigator.of(context).pop(Tuple2(category, cat));
+                        } else {
+                          Navigator.of(context).pop(Tuple2(category, null));
                         }
                       },
                     );

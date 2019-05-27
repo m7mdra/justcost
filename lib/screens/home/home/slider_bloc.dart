@@ -24,6 +24,7 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
   final HomeRepository repository;
 
   SliderBloc(this.repository);
+
   @override
   SliderState get initialState => SliderIdle();
 
@@ -33,8 +34,10 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
       try {
         yield SliderLoading();
         var response = await repository.getHomeSlider();
-        if (response.success) yield SliderLoaded(response.data);
-        else yield SliderError();
+        if (response.success)
+          yield SliderLoaded(response.data);
+        else
+          yield SliderError();
       } on DioError catch (error) {
         yield SliderError();
       } catch (err) {

@@ -1,6 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/category_products/category_products_bloc.dart';
@@ -13,12 +12,14 @@ class CategoryProductsScreen extends StatefulWidget {
   final Category category;
 
   const CategoryProductsScreen({Key key, this.category}) : super(key: key);
+
   @override
   _CategoryProductsScreenState createState() => _CategoryProductsScreenState();
 }
 
 class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   CategoryProductsBloc _bloc;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

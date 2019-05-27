@@ -26,9 +26,13 @@ class AppLocalizations {
   String get continueButton => Intl.message('Continue');
 
   String get homePageTitle => Intl.message('Home');
+
   String get searchPageTitle => Intl.message('Search');
+
   String get postAdPageTitle => Intl.message('Post Ad');
+
   String get categoriesPageTitle => Intl.message('Categories');
+
   String get profilePageTitle => Intl.message('Profile');
 
   String get resetAccount => Intl.message('Reset Account');
@@ -129,7 +133,9 @@ class AppLocalizations {
       Intl.message("Address Field can not be empty");
 
   String get addressField => Intl.message('Address');
+
   String get logoutSuccessMessage => Intl.message('Logged out successfully');
+
   String get passwordChangedSuccessfully =>
       Intl.message('Password Changed successfully, login again.');
 }

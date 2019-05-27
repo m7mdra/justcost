@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/product/model/product_details.dart';
+
 import 'model/post_ad.dart';
 import 'model/product.dart';
 
@@ -39,11 +40,10 @@ class ProductRepository {
   Future<PostAdResponse> postAd(PostAd ad) async {
     try {
       var data = FormData.from({
-        'image': UploadFileInfo(
-            ad.image, "${ad.title}-${ad.category.id}-${ad.category.name}"),
+        'title': ad.title,
         'category_id': ad.category.id,
         'description': ad.description,
-        'keywordsId': ad.keyword,
+        'keywordsId': 1,
         'reg_price': ad.regularPrice,
         'sale_price': ad.salePrice,
         'cityId': ad.city.id,
@@ -53,6 +53,7 @@ class ProductRepository {
         'status': 1,
         'media[]': ad.media.map((f) => UploadFileInfo(f, "${f.path}")).toList()
       });
+      print(data.toString());
       var response = await _client.post('products', data: data);
       return PostAdResponse.fromJson(response.data);
     } on DioError catch (error) {

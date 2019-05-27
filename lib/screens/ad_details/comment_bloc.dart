@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:justcost/data/comment/comment_repository.dart';
 import 'package:justcost/data/comment/model/comment.dart';
-import 'package:dio/dio.dart';
 
 abstract class CommentsEvent {}
 

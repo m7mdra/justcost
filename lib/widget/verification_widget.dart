@@ -14,11 +14,11 @@ class VerificationCodeWidget extends StatefulWidget {
 
   const VerificationCodeWidget(this.count,
       {Key key,
-        this.onCodeChange,
-        this.onComplete,
-        this.cellsInputDecoration,
-        this.cellsTextStyle,
-        this.obscureText})
+      this.onCodeChange,
+      this.onComplete,
+      this.cellsInputDecoration,
+      this.cellsTextStyle,
+      this.obscureText})
       : super(key: key);
 
   @override

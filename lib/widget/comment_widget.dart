@@ -16,12 +16,15 @@ class CommentWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
             children: <Widget>[
               CircleAvatar(
-                child: Text('A'),
+                child: comment.commentPic == null
+                    ? Image.asset('assets/images/default-avatar.png')
+                    : Image.network(comment.commentPic),
               ),
               const SizedBox(
                 width: 4,
@@ -34,34 +37,33 @@ class CommentWidget extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text('Name of Name'),
+                      Text(comment.customerName),
                       const SizedBox(
                         width: 16,
                       ),
                       Column(
                         children: <Widget>[
                           FlutterRatingBarIndicator(
-                            rating: 3,
+                            rating: comment.rate[0].rate.toDouble(),
                             itemSize: 12,
                             emptyColor:
                                 Theme.of(context).accentColor.withAlpha(40),
                             itemPadding: const EdgeInsets.all(0),
                           ),
-                          Text('150 Ratings'),
+                          Text('${comment.rate[0].ratings} Ratings'),
                         ],
                       ),
                     ],
                   ),
                   Text(
-                    '12 Feb, 2017',
+                    comment.postedOn,
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],
               ),
             ],
           ),
-          Text(
-              'Ever wish you could get the Cliff Notes for writing popular posts?'),
+          Text(comment.comment),
           Row(
             children: <Widget>[
               OutlineButton(onPressed: () {}, child: Text('Replay')),
@@ -72,12 +74,15 @@ class CommentWidget extends StatelessWidget {
             ],
           ),
           ListView.separated(
+            primary: false,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return ReplayWidget();
+              return ReplayWidget(
+                replay: comment.replies[index],
+              );
             },
-            itemCount: 2,
+            itemCount: comment.replies.length,
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
                 height: 4,
@@ -98,12 +103,14 @@ class ReplayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           children: <Widget>[
             CircleAvatar(
-              child: Text('A'),
-            ),
+                child: replay.commentPic == null
+                    ? Image.asset('assets/images/default-avatar.png')
+                    : Image.network(replay.commentPic)),
             const SizedBox(
               width: 4,
             ),
@@ -112,20 +119,19 @@ class ReplayWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text('Name of Name'),
+                Text(replay.customerName),
                 const SizedBox(
                   width: 16,
                 ),
                 Text(
-                  '12 Feb, 2017',
+                  replay.postedOn,
                   style: Theme.of(context).textTheme.caption,
                 ),
               ],
             ),
           ],
         ),
-        Text(
-            'Ever wish you could get the Cliff Notes for writing popular posts?'),
+        Text(replay.comment),
       ],
     );
   }

@@ -31,6 +31,7 @@ class AdDetailsBloc extends Bloc<AdDetailsEvent, AdDetailsState> {
   final ProductRepository repository;
 
   AdDetailsBloc(this.repository);
+
   @override
   AdDetailsState get initialState => AdsDetailsLoading();
 

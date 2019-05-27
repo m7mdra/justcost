@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/product/model/post_ad.dart';
 import 'package:justcost/data/product/product_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
-import 'package:dio/dio.dart';
-import 'package:justcost/data/exception/exceptions.dart';
 
 abstract class PostAdEvent {}
 
@@ -30,7 +30,8 @@ class PostAdSuccess extends PostAdStatus {}
 class UserSessionExpired extends PostAdStatus {}
 
 class GoatUser extends PostAdStatus {}
-class NormalUser extends PostAdStatus{}
+
+class NormalUser extends PostAdStatus {}
 
 class PostAdBloc extends Bloc<PostAdEvent, PostAdStatus> {
   final ProductRepository _repository;

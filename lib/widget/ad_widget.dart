@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/data/product/model/product.dart';
-import 'dart:math';
 
 class AdWidget extends StatelessWidget {
   final VoidCallback onTap;
   final Product product;
 
   const AdWidget({Key key, this.onTap, this.product}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -17,11 +17,7 @@ class AdWidget extends StatelessWidget {
             Stack(
               alignment: Alignment.centerLeft,
               children: <Widget>[
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                ),
+               Image.network(product.media[0].url,height: 100,width: 100,),
                 Container(
                   color: Colors.yellow,
                   child: Text(
@@ -36,7 +32,7 @@ class AdWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(product.title==null?'':product.title,
+                    Text(product.title == null ? '' : product.title,
                         style: Theme.of(context)
                             .textTheme
                             .subhead

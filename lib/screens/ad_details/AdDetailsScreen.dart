@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
+import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
-import 'package:justcost/dependencies_provider.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 
 class AdDetailsScreen extends StatefulWidget {
@@ -47,12 +47,15 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     return Scaffold(
       body: SafeArea(
           child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: <Widget>[
           Stack(
             children: <Widget>[
               Container(
                 height: product.media.isEmpty ? 30 : 200,
                 child: Swiper(
+                  autoplay: true,
+                  duration: 500,
                   itemCount: product.media.length,
                   itemBuilder: (context, index) {
                     return Image.network(
@@ -292,68 +295,10 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 );
               if (state is CommentsLoaded)
                 return ListView.builder(
-                  padding: const EdgeInsets.all(8),
                   shrinkWrap: true,
+                  primary: false,
                   itemBuilder: (context, index) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        CircleAvatar(
-                          child: Text('U'),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(state.comments[index].customerName),
-                            FlutterRatingBarIndicator(
-                              fillColor: Theme.of(context).accentColor,
-                              rating:
-                                  state.comments[index].rate[0].rate.toDouble(),
-                              itemSize: 15,
-                              itemCount: 5,
-                              emptyColor:
-                                  Theme.of(context).accentColor.withAlpha(60),
-                              itemPadding: const EdgeInsets.all(0),
-                            ),
-                            Text(state.comments[index].comment),
-                            Container(
-                              width:MediaQuery.of(context).size.width,
-                              child: ListView.builder(
-
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        child: Text('U'),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text(state.comments[index]
-                                              .replies[index].customerName),
-
-                                          Text(state.comments[index]
-                                              .replies[index].comment),
-                                        ],
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                      )
-                                    ],
-                                  );
-                                },
-                                shrinkWrap: true,
-                                itemCount: state.comments[index].replies.length,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    );
+                    return CommentWidget(comment: state.comments[index]);
                   },
                   itemCount: state.comments.length,
                 );

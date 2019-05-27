@@ -5,6 +5,7 @@ import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 import 'package:justcost/data/user/model/verification_response.dart';
+
 const UNAUTHORIZED_CODE = 401;
 
 class UserRepository {

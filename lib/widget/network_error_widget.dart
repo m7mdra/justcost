@@ -4,6 +4,7 @@ class NetworkErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
   const NetworkErrorWidget({Key key, this.onRetry}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

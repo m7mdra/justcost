@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
-import 'package:justcost/data/user/user_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
+import 'package:justcost/data/user/user_repository.dart';
 
 abstract class ResetEvent extends Equatable {}
 

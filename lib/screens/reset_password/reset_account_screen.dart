@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+
 import 'reset_account_bloc.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

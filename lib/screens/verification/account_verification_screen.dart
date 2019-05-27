@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+
 import 'account_verification_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountVerificationScreen extends StatefulWidget {
   @override

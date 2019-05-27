@@ -21,6 +21,7 @@ class _UpdatePersonalInformationScreenState
   FocusNode _addressNode = FocusNode();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();

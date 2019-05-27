@@ -11,18 +11,18 @@
     "placeholders": {}
   },
   "usernameFieldHint": "اسم المستخدم",
-    "@usernameFieldHint": {
-      "type": "text",
-      "placeholders": {}
-    },
-    "passwordFieldHint": "كلمة المرور",
-    "@passwordFieldHint": {
-      "type": "text",
-      "placeholders": {}
-    },
-     "loginScreenName": "تسجيل الدخول",
-      "@loginScreenName": {
-        "type": "text",
-        "placeholders": {}
-      }
+  "@usernameFieldHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordFieldHint": "كلمة المرور",
+  "@passwordFieldHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginScreenName": "تسجيل الدخول",
+  "@loginScreenName": {
+    "type": "text",
+    "placeholders": {}
+  }
 } 

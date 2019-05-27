@@ -16,6 +16,7 @@ class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin<SearchPage> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverPersistentHeader(

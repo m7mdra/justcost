@@ -1,13 +1,11 @@
+import 'package:device_info/device_info.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
-import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:device_info/device_info.dart';
-import 'dart:io' show Platform;
+import 'package:justcost/screens/verification/account_verification_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -124,6 +122,7 @@ class SplashLoadingWidget extends StatelessWidget {
 
 class SplashFailedWidget extends StatelessWidget {
   final VoidCallback onPressed;
+
   const SplashFailedWidget({
     Key key,
     this.onPressed,

@@ -4,6 +4,7 @@ class GeneralErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
   const GeneralErrorWidget({Key key, this.onRetry}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

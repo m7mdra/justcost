@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/category/category_repository.dart';
 import 'package:justcost/data/category/model/category.dart';
-import 'package:dio/dio.dart';
 
 abstract class CategriesEvent extends Equatable {
   CategriesEvent([List props = const []]) : super(props);
@@ -38,6 +38,7 @@ class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
   final CategoryRepository _repository;
 
   CategoriesBloc(this._repository);
+
   @override
   CategoriesState get initialState => CategoriesLoadingState();
 

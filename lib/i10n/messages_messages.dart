@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static m1(date) => "Copyright © ${date}, All Rights resereved";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static _notInlinedMessages(_) => <String, Function>{
         "About us": MessageLookupByLibrary.simpleMessage("About us"),
         "Account Creation":

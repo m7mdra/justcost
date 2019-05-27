@@ -21,6 +21,7 @@ class VerificationResponse {
     return data;
   }
 }
+
 class Data {
   int id;
   String email;

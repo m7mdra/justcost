@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -44,6 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   LoginState get initialState => LoginIdle();
+
   @override
   void onTransition(Transition<LoginEvent, LoginState> transition) {
     super.onTransition(transition);

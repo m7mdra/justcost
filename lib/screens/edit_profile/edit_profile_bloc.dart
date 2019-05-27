@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:justcost/data/user/user_repository.dart';
-import 'package:justcost/data/user_sessions.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/user/user_repository.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
+
 import 'edit_profile_events.dart';
 import 'edit_profile_states.dart';
 
@@ -11,10 +12,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final UserSession _userSession;
   final UserRepository _userRepository;
   final UserProfileBloc userProfileBloc;
+
   EditProfileBloc(
       this._userSession, this._userRepository, this.userProfileBloc);
+
   @override
   EditProfileState get initialState => IdleState();
+
   @override
   void onTransition(Transition<EditProfileEvent, EditProfileState> transition) {
     super.onTransition(transition);
