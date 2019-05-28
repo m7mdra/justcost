@@ -4,8 +4,8 @@ import 'package:justcost/data/comment/model/comment.dart';
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;
-  final VoidCallback onReplayClick;
-  final VoidCallback onReportClick;
+  final ValueChanged<Comment> onReplayClick;
+  final ValueChanged<Comment> onReportClick;
 
   const CommentWidget(
       {Key key, this.comment, this.onReplayClick, this.onReportClick})
@@ -21,11 +21,13 @@ class CommentWidget extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              CircleAvatar(
-                child: comment.commentPic == null
-                    ? Image.asset('assets/images/default-avatar.png')
-                    : Image.network(comment.commentPic),
-              ),
+              comment.commentPic == null
+                  ? Image.asset(
+                      'assets/images/default-avatar.png',
+                      width: 50,
+                      height: 50,
+                    )
+                  : Image.network(comment.commentPic),
               const SizedBox(
                 width: 4,
               ),
@@ -41,17 +43,11 @@ class CommentWidget extends StatelessWidget {
                       const SizedBox(
                         width: 16,
                       ),
-                      Column(
-                        children: <Widget>[
-                          FlutterRatingBarIndicator(
-                            rating: comment.rate[0].rate.toDouble(),
-                            itemSize: 12,
-                            emptyColor:
-                                Theme.of(context).accentColor.withAlpha(40),
-                            itemPadding: const EdgeInsets.all(0),
-                          ),
-                          Text('${comment.rate[0].ratings} Ratings'),
-                        ],
+                      FlutterRatingBarIndicator(
+                        rating: comment.rate[0].rate.toDouble(),
+                        itemSize: 12,
+                        emptyColor: Theme.of(context).accentColor.withAlpha(40),
+                        itemPadding: const EdgeInsets.all(0),
                       ),
                     ],
                   ),
@@ -59,19 +55,27 @@ class CommentWidget extends StatelessWidget {
                     comment.postedOn,
                     style: Theme.of(context).textTheme.caption,
                   ),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 120,
+                    child: Text(
+                      comment.comment,
+                      style: Theme.of(context).textTheme.body2,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.visible,
+                      maxLines: null,
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          Text(comment.comment),
-          Row(
-            children: <Widget>[
-              OutlineButton(onPressed: () {}, child: Text('Replay')),
-              const SizedBox(
-                width: 8,
-              ),
-              OutlineButton(onPressed: () {}, child: Text('Report')),
-            ],
+          OutlineButton(
+              onPressed: () {
+                onReplayClick(comment);
+              },
+              child: Text('Replay')),
+          const SizedBox(
+            width: 8,
           ),
           ListView.separated(
             primary: false,
@@ -107,10 +111,13 @@ class ReplayWidget extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            CircleAvatar(
-                child: replay.commentPic == null
-                    ? Image.asset('assets/images/default-avatar.png')
-                    : Image.network(replay.commentPic)),
+            replay.commentPic == null
+                ? Image.asset(
+                    'assets/images/default-avatar.png',
+                    width: 50,
+                    height: 50,
+                  )
+                : Image.network(replay.commentPic),
             const SizedBox(
               width: 4,
             ),
@@ -127,11 +134,19 @@ class ReplayWidget extends StatelessWidget {
                   replay.postedOn,
                   style: Theme.of(context).textTheme.caption,
                 ),
-              ],
+                Container(
+                  width: MediaQuery.of(context).size.width - 150,
+                  child: Text(
+                    replay.comment,
+                    style: Theme.of(context).textTheme.body2,
+                    textAlign: TextAlign.justify,
+                    overflow: TextOverflow.visible,
+                    maxLines: null,
+                  ),
+                ),              ],
             ),
           ],
         ),
-        Text(replay.comment),
       ],
     );
   }

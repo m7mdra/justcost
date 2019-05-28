@@ -17,6 +17,7 @@ class GuestUserWidget extends StatelessWidget {
         Text(
           'You are using guest account, login or create account to view this page',
           textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.subhead,
         ),
         const SizedBox(
           height: 16,

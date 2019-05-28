@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/comment/comment_repository.dart';
 import 'package:justcost/data/comment/model/comment.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 
 abstract class CommentsEvent {}
 
@@ -12,6 +13,7 @@ class LoadComments extends CommentsEvent {
 
   LoadComments(this.id);
 }
+
 
 class CommentsLoading extends CommentsState {}
 

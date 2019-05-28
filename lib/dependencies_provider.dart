@@ -19,7 +19,7 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://admin.just-cost.com/api/";
+    final String _baseUrl = "http://somocars-001-site3.itempurl.com/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       responseType: ResponseType.json,

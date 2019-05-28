@@ -30,6 +30,7 @@ class ProductResponse {
 class Product {
   int productId;
   String title;
+  bool liked;
   String category;
   int customerId;
   String customerName;
@@ -56,6 +57,7 @@ class Product {
       this.regPrice,
       this.salePrice,
       this.city,
+      this.liked,
       this.brand,
       this.comments,
       this.media,

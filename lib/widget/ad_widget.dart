@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/data/product/model/product.dart';
 
+import 'discount_badge_widget.dart';
+
 class AdWidget extends StatelessWidget {
   final VoidCallback onTap;
   final Product product;
@@ -12,17 +14,29 @@ class AdWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Row(
           children: <Widget>[
             Stack(
               alignment: Alignment.centerLeft,
               children: <Widget>[
-               Image.network(product.media[0].url,height: 100,width: 100,),
-                Container(
-                  color: Colors.yellow,
-                  child: Text(
-                      '${((product.regPrice - product.salePrice) / product.regPrice * 100).round()}% OFF'),
-                )
+                ClipRRect(
+                  child: Image.network(
+                    product.media[0].url,
+                    height: 120,
+                    width: 120,
+                  ),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                ),
+                DiscountPercentageBannerWidget(
+                  regularPrice: product.regPrice,
+                  salePrice: product.salePrice,
+                  onLike: (){
+
+                  },
+                ),
               ],
             ),
             Expanded(
@@ -71,12 +85,21 @@ class AdWidget extends StatelessWidget {
                   Text(
                     '${product.salePrice} AED',
                     style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+                        color: Colors.red,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.favorite_border),
-                    onPressed: () {},
-                  )
+                  Container(
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
                 ],
               ),
             )

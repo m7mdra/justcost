@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/comment/model/comment.dart';
+import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/ad_details/comment_bloc.dart';
+import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
+import 'package:justcost/widget/comment_widget.dart';
+
+class CommentReplayScreen extends StatefulWidget {
+  final Comment comment;
+  final Product product;
+
+  const CommentReplayScreen({Key key, this.comment, this.product})
+      : super(key: key);
+
+  @override
+  _CommentReplayScreenState createState() => _CommentReplayScreenState();
+}
+
+class _CommentReplayScreenState extends State<CommentReplayScreen> {
+  FocusNode _formNode;
+  PostCommentBloc _bloc;
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  TextEditingController _commentTextEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _formNode = FocusNode();
+    _commentTextEditingController = TextEditingController();
+    _bloc = PostCommentBloc(DependenciesProvider.provide());
+    _bloc.state.listen((state) {
+      if (state is PostCommentSuccess) {
+        _commentTextEditingController.clear();
+        BlocProvider.of<CommentsBloc>(context)
+            .dispatch(LoadComments(widget.product.productId));
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _commentTextEditingController.dispose();
+    _formNode.dispose();
+    _bloc.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _globalKey,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: <Widget>[
+              CommentWidget(
+                comment: widget.comment,
+                onReplayClick: (commnet) {
+                  FocusScope.of(context).requestFocus(_formNode);
+                },
+              ),
+              BlocBuilder(
+                bloc: _bloc,
+                builder: (BuildContext context, PostState state) {
+                  if (state is PostCommentLoading)
+                    return IgnorePointer(
+                      ignoring: true,
+                      child: Opacity(
+                        opacity: 0.3,
+                        child: commentBox(),
+                      ),
+                    );
+                  if (state is PostCommentFailed)
+                    return Column(
+                      children: <Widget>[
+                        commentBox(),
+                        Text(
+                          'Failed to post comment',
+                          style: TextStyle(color: Theme.of(context).errorColor),
+                        )
+                      ],
+                    );
+                  return commentBox();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget commentBox() {
+    return Column(
+      children: <Widget>[
+        Text('Write a comment'),
+        TextField(
+          keyboardType: TextInputType.multiline,
+          controller: _commentTextEditingController,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+                borderSide: BorderSide(color: Colors.grey, width: 0.1)),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: OutlineButton(
+            onPressed: () {
+              _bloc.dispatch(PostComment(
+                  widget.product.productId,
+                  widget.comment.commentId,
+                  _commentTextEditingController.text.trim()));
+            },
+            child: Text('POST'),
+          ),
+        ),
+      ],
+    );
+  }
+}

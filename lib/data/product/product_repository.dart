@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/product/model/like.dart';
 import 'package:justcost/data/product/model/product_details.dart';
 
 import 'model/post_ad.dart';
@@ -22,6 +23,16 @@ class ProductRepository {
   Future<ProductResponse> getProducts() async {
     try {
       var response = await _client.get('products');
+      return ProductResponse.fromJson(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<ProductResponse> findProductsByName(String name) async {
+    try {
+      var response =
+          await _client.get('products', queryParameters: {'search': name});
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -56,6 +67,34 @@ class ProductRepository {
       print(data.toString());
       var response = await _client.post('products', data: data);
       return PostAdResponse.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == 401)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<LikeResponse> likeProductById(int id) async {
+    try {
+      var response = await _client.post('like', data: {'Product_id': id});
+      return LikeResponse.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == 401)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<LikeResponse> unlikeProductById(int id) async {
+    try {
+      var response = await _client.delete('like', data: {'Product_id': id});
+      return LikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)
         throw SessionExpired();

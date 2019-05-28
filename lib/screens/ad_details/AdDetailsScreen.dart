@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:justcost/bloc/like_product_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
+import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
+
+import '../comment_replay_screen.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
@@ -24,15 +27,27 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   Product product;
   AdDetailsBloc _bloc;
   CommentsBloc _commentsBloc;
+  PostCommentBloc _postCommentBloc;
+  TextEditingController _commentTextEditingController;
+  LikeProductBloc _likeProductBloc;
 
   @override
   void initState() {
     super.initState();
     product = widget.product;
+    _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
     _commentsBloc.dispatch(LoadComments(product.productId));
+    _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadEvent(product.productId));
+    _likeProductBloc = LikeProductBloc(DependenciesProvider.provide());
+    _postCommentBloc.state.listen((state) {
+      if (state is PostCommentSuccess) {
+        _commentTextEditingController.clear();
+        _commentsBloc.dispatch(LoadComments(product.productId));
+      }
+    });
   }
 
   @override
@@ -40,6 +55,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     super.dispose();
     _bloc.dispose();
     _commentsBloc.dispose();
+    _likeProductBloc.dispose();
+    _postCommentBloc.dispose();
   }
 
   @override
@@ -79,7 +96,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 text: Text('Report'),
               ),
               IconText(
-                onPressed: () {},
+                onPressed: () {
+                  _likeProductBloc.dispatch(ToggleLike(product));
+                },
                 icon: Icon(Icons.favorite),
                 text: Text('Save'),
               ),
@@ -241,38 +260,39 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             ],
           ),
           const Divider(),
-          Text('Write a comment'),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(0)),
-                  borderSide: BorderSide(color: Colors.grey, width: 0.1)),
-            ),
-          ),
-          FlutterRatingBar(
-            initialRating: 0,
-            fillColor: Theme.of(context).accentColor,
-            borderColor: Theme.of(context).accentColor.withAlpha(60),
-            allowHalfRating: true,
-            onRatingUpdate: (rating) {
-              print(rating);
+          BlocBuilder(
+            bloc: _postCommentBloc,
+            builder: (BuildContext context, PostState state) {
+              if (state is PostCommentLoading)
+                return IgnorePointer(
+                  ignoring: true,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: commentBox(),
+                  ),
+                );
+              if (state is PostCommentFailed)
+                return Column(
+                  children: <Widget>[
+                    commentBox(),
+                    Text(
+                      'Failed to post comment',
+                      style: TextStyle(color: Theme.of(context).errorColor),
+                    )
+                  ],
+                );
+              return commentBox();
             },
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlineButton(
-              onPressed: () {},
-              child: Text('POST'),
-            ),
           ),
           BlocBuilder(
             bloc: _commentsBloc,
             builder: (BuildContext context, CommentsState state) {
               if (state is CommentsLoading)
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               if (state is CommentsError)
                 return GeneralErrorWidget(
@@ -287,25 +307,78 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   },
                 );
               if (state is NoComments)
-                return Column(
-                  children: <Widget>[
-                    Icon(Icons.mode_comment),
-                    Text('No Comments added, be the first to comment')
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Icon(
+                        Icons.add_comment,
+                        size: 60,
+                      ),
+                      Text('No Comments added, be the first to comment')
+                    ],
+                  ),
                 );
               if (state is CommentsLoaded)
-                return ListView.builder(
+                return ListView.separated(
                   shrinkWrap: true,
                   primary: false,
                   itemBuilder: (context, index) {
-                    return CommentWidget(comment: state.comments[index]);
+                    return CommentWidget(
+                      comment: state.comments[index],
+                      onReplayClick: (comment) async {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => BlocProvider<CommentsBloc>(
+                                  child: CommentReplayScreen(
+                                    comment: comment,
+                                    product: product,
+                                  ),
+                                  bloc: _commentsBloc,
+                                )));
+                      },
+                    );
                   },
-                  itemCount: state.comments.length,
+                  itemCount:
+                      state.comments.length < 4 ? state.comments.length : 4,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 1,
+                    );
+                  },
                 );
             },
           )
         ],
       )),
+    );
+  }
+
+  Widget commentBox() {
+    return Column(
+      children: <Widget>[
+        Text('Write a comment'),
+        TextField(
+          keyboardType: TextInputType.multiline,
+          maxLines: 3,
+          controller: _commentTextEditingController,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+                borderSide: BorderSide(color: Colors.grey, width: 0.1)),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: OutlineButton(
+            onPressed: () {
+              _postCommentBloc.dispatch(PostComment(product.productId, null,
+                  _commentTextEditingController.text.trim()));
+            },
+            child: Text('POST'),
+          ),
+        ),
+      ],
     );
   }
 }

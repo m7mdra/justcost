@@ -92,7 +92,20 @@ class _PostAdPageState extends State<PostAdPage> {
           bloc: _bloc,
           builder: (BuildContext context, PostAdStatus state) {
             print(state);
-            if (state is GoatUser) return buildGuestUserWidget();
+            if (state is GoatUser)
+              return Stack(
+                children: <Widget>[
+                  Opacity(
+                    opacity: 0.2,
+                    child: IgnorePointer(child: postAdForm(),ignoring: true,),
+                  ),
+                  Container(
+                    child: buildGuestUserWidget(),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                  ),
+                ],
+              );
             if (state is PostAdLoading) return buildLoadingWidget();
             if (state is PostAdSuccess) return buildSuccessWidget(context);
             if (state is PostAdFailed) {
