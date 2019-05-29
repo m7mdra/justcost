@@ -24,6 +24,7 @@ class LikeNetworkError extends LikeState {}
 class LikeToggled extends LikeState {}
 
 class UserSessionExpired extends LikeState {}
+class LikeIdle extends LikeState{}
 
 class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   final ProductRepository _repository;
@@ -31,7 +32,7 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   LikeProductBloc(this._repository);
 
   @override
-  LikeState get initialState => null;
+  LikeState get initialState => LikeIdle();
 
   @override
   Stream<LikeState> mapEventToState(LikeEvent event) async* {

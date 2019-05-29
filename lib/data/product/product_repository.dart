@@ -79,7 +79,7 @@ class ProductRepository {
 
   Future<LikeResponse> likeProductById(int id) async {
     try {
-      var response = await _client.post('like', data: {'Product_id': id});
+      var response = await _client.post('likes', data: {'product_id': id});
       return LikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)
@@ -93,7 +93,7 @@ class ProductRepository {
 
   Future<LikeResponse> unlikeProductById(int id) async {
     try {
-      var response = await _client.delete('like', data: {'Product_id': id});
+      var response = await _client.delete('likes', data: {'product_id': id});
       return LikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)

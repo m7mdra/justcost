@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/search/search_bloc.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -16,6 +19,9 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   SearchBloc _bloc;
   TextEditingController _searchTextEditingController;
+  City city;
+  int sortType;
+  String sortName;
 
   @override
   void initState() {
@@ -40,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: TextField(
             controller: _searchTextEditingController,
             onChanged: (value) {
-              _bloc.dispatch(SearchProductByName(value));
+              if (value.isNotEmpty) _bloc.dispatch(SearchProductByName(value));
             },
             decoration: InputDecoration.collapsed(hintText: 'Search').copyWith(
               contentPadding: const EdgeInsets.all(10),
@@ -92,16 +98,19 @@ class _SearchScreenState extends State<SearchScreen> {
               if (state is SearchError)
                 return Center(
                   child: GeneralErrorWidget(
-                    onRetry: () => retrySearch,
+                    onRetry: () {
+                      retrySearch();
+                    },
                   ),
                 );
               if (state is SearchNoResult) return NoDataWidget();
               if (state is SearchNetworkError)
                 return NetworkErrorWidget(
-                  onRetry: () => retrySearch,
+                  onRetry: () {
+                    retrySearch();
+                  },
                 );
-              if(state is SearchIdle)
-                return Container();
+              if (state is SearchIdle) return Container();
               if (state is SearchFound)
                 return ListView.builder(
                   itemBuilder: (context, index) {
@@ -119,22 +128,73 @@ class _SearchScreenState extends State<SearchScreen> {
   void retrySearch() => _bloc
       .dispatch(SearchProductByName(_searchTextEditingController.text.trim()));
 
-  Row buildSort() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.sort_by_alpha),
-        SizedBox(
-          width: 2,
-        ),
-        Text('sort'),
-      ],
+  Widget buildSort() {
+    return InkWell(
+      onTap: () async {
+        var sortType = await showDialog(
+            context: context,
+            builder: (context) {
+              return RoundedAlertDialog(
+                title: Text('Sort Search Result'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.sort_by_alpha),
+                      title: Text('Name - Ascending'),
+                      onTap: () {
+                        Navigator.of(context).pop(1);
+                      },
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.sort_by_alpha),
+                      title: Text('Name - Descending'),
+                      onTap: () {
+                        Navigator.of(context).pop(2);
+                      },
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.attach_money),
+                      title: Text('Price - Ascending'),
+                      onTap: () {
+                        Navigator.of(context).pop(3);
+                      },
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.attach_money),
+                      title: Text('Price - Descending'),
+                      onTap: () {
+                        Navigator.of(context).pop(4);
+                      },
+                    ),
+
+                  ],
+                ),
+              );
+            });
+        _handleSortType(sortType);
+      },
+      splashColor: Theme.of(context).accentColor,
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.sort),
+          SizedBox(
+            width: 2,
+          ),
+          Text(sortType != null ? sortName : 'Sort'),
+        ],
+      ),
     );
   }
 
   Row buildChangeView() {
     return Row(
       children: <Widget>[
-        Icon(Icons.list),
+        Icon(Icons.grid_on),
         SizedBox(
           width: 2,
         ),
@@ -159,24 +219,64 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Container buildVerticalDivider() {
-    return Container(
-      height: 60,
-      width: 1,
-      color: Colors.grey,
-    );
+  Widget buildVerticalDivider() {
+    return VerticalDivider();
   }
 
   Widget buildCityDropDown() {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        City city = await showDialog(
+            context: context,
+            builder: (context) {
+              return CityPickerScreen();
+            });
+        if (city != null)
+          setState(() {
+            this.city = city;
+          });
+        print(this.city);
+      },
       child: Row(
         children: <Widget>[
           Icon(Icons.place),
-          Text('City name'),
-          Icon(Icons.arrow_drop_down)
+          Text(city != null ? city.name : 'Filter by City'),
         ],
       ),
     );
+  }
+
+  _handleSortType(int sortType) {
+    setState(() {
+      this.sortType = sortType;
+
+      switch (sortType) {
+        case 1:
+          sortName = 'Name';
+          _bloc.dispatch(SortByNameAscending());
+          break;
+        case 2:
+          sortName = 'Name';
+          _bloc.dispatch(SortByNameDescending());
+          break;
+        case 3:
+          sortName = 'Price';
+          _bloc.dispatch(SortByPriceAscending());
+          break;
+        case 4:
+          sortName = 'Price';
+          _bloc.dispatch(SortByPriceDescending());
+          break;
+        case 5:
+          sortName = 'Rate';
+          _bloc.dispatch(SortByRateAscending());
+          break;
+        case 6:
+          sortName = 'Rate';
+          _bloc.dispatch(SortByRateDescending());
+
+          break;
+      }
+    });
   }
 }

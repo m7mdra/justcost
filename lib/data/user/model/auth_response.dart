@@ -52,26 +52,25 @@ class Payload {
   String name;
   String mobile;
   int city;
+  String image;
   bool gender;
   bool isVerified;
   String firebaseToken;
   String createdAt;
   String updatedAt;
-  String deletedAt;
 
-  Payload(
-      {this.id,
-      this.email,
-      this.username,
-      this.name,
-      this.mobile,
-      this.city,
-      this.gender,
-      this.isVerified,
-      this.firebaseToken,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Payload({this.id,
+    this.email,
+    this.username,
+    this.name,
+    this.mobile,
+    this.city,
+    this.gender,
+    this.isVerified,
+    this.firebaseToken,
+    this.createdAt,
+    this.image,
+    this.updatedAt,});
 
   Payload.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -79,13 +78,13 @@ class Payload {
     username = json['username'];
     name = json['name'];
     mobile = json['mobile'];
+    image = json['image'];
     city = json['city'];
     gender = json['gender'];
     isVerified = json['isVerified'];
     firebaseToken = json['firebaseToken'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -96,12 +95,12 @@ class Payload {
     data['name'] = this.name;
     data['mobile'] = this.mobile;
     data['city'] = this.city;
+    data['image'] = this.image;
     data['gender'] = this.gender;
     data['isVerified'] = this.isVerified;
     data['firebaseToken'] = this.firebaseToken;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }

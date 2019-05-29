@@ -89,7 +89,7 @@ class AdWidget extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontSize: 16),
                   ),
-                  Container(
+                  /*Container(
                     child: Icon(
                       Icons.favorite_border,
                       color: Colors.white,
@@ -99,7 +99,7 @@ class AdWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Theme.of(context).accentColor,
                         borderRadius: BorderRadius.circular(8)),
-                  ),
+                  ),*/
                 ],
               ),
             )

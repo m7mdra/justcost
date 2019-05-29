@@ -66,6 +66,7 @@ class AccountVerificationBloc
           await _session.saveUser(
               id: data.id,
               name: data.name,
+              image: data.image,
               email: data.email,
               username: data.username,
               isVerified: data.isVerified,

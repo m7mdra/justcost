@@ -90,6 +90,7 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           print(error);
           yield ProfileReloadFailedState(user.data.payload);
         } on SessionExpired catch (error) {
+          print(error);
           await _session.clear();
           yield SessionsExpiredState();
         } catch (error) {

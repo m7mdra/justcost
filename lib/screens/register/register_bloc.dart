@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -27,6 +28,7 @@ class UserRegister extends RegisterEvent {
   final String email;
   final String messagingId;
   final String phoneNumber;
+  final City city;
 
   UserRegister(
       {this.name,
@@ -34,7 +36,8 @@ class UserRegister extends RegisterEvent {
       this.password,
       this.email,
       this.messagingId,
-      this.phoneNumber});
+      this.phoneNumber,
+      this.city});
 }
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -64,7 +67,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.messagingId,
             event.phoneNumber,
-            1);
+            event.city.id);
         if (response.success) {
           await userSession.save(response);
           yield RegisterSuccess();

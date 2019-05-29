@@ -47,6 +47,7 @@ class AuthenticationBloc
     print(transition);
   }
 
+
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
@@ -70,6 +71,7 @@ class AuthenticationBloc
                     username: parseResponse.username,
                     isVerified: parseResponse.isVerified,
                     gender: parseResponse.gender,
+                    image: parseResponse.image,
                     firebaseToken: parseResponse.firebaseToken,
                     city: parseResponse.city);
                 yield UserAuthenticated();

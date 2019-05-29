@@ -19,6 +19,31 @@ class _SearchPageState extends State<SearchPage>
     super.build(context);
     return CustomScrollView(
       slivers: <Widget>[
+
+        SliverPersistentHeader(
+          delegate: SliverAppBarHeaderDelegate(
+            minHeight: 100,
+            maxHeight: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Card(
+                    child: Center(child: Text('For you')),
+                  ),
+                ),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+                CategoryWidget(),
+              ],
+            ),
+          ),
+        ),
         SliverPersistentHeader(
           delegate: SliverAppBarHeaderDelegate(
             minHeight: 100,
@@ -116,7 +141,10 @@ class OfferWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              child: Text('${Random().nextInt(100)}% OFF'),
+              child: Text(
+                '${Random().nextInt(100)}% OFF',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               color: Colors.yellow,
             ),
           ),

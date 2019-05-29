@@ -6,13 +6,12 @@ import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
+import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
-
-import '../comment_replay_screen.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
@@ -46,6 +45,12 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
       if (state is PostCommentSuccess) {
         _commentTextEditingController.clear();
         _commentsBloc.dispatch(LoadComments(product.productId));
+      }
+    });
+    _likeProductBloc.state.listen((state) {
+      if (state is LikeToggled) {
+        product.liked = true;
+        setState(() {});
       }
     });
   }
@@ -99,7 +104,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 onPressed: () {
                   _likeProductBloc.dispatch(ToggleLike(product));
                 },
-                icon: Icon(Icons.favorite),
+                icon: Icon(
+                    product.liked ? Icons.favorite : Icons.favorite_border),
                 text: Text('Save'),
               ),
               IconText(
@@ -320,31 +326,47 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   ),
                 );
               if (state is CommentsLoaded)
-                return ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) {
-                    return CommentWidget(
-                      comment: state.comments[index],
-                      onReplayClick: (comment) async {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BlocProvider<CommentsBloc>(
-                                  child: CommentReplayScreen(
-                                    comment: comment,
-                                    product: product,
-                                  ),
-                                  bloc: _commentsBloc,
-                                )));
+                return Column(
+                  children: <Widget>[
+                    ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemBuilder: (context, index) {
+                        return CommentWidget(
+                          comment: state.comments[index],
+                          onReplayClick: (comment) async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    BlocProvider<CommentsBloc>(
+                                      child: CommentReplayScreen(
+                                        comment: comment,
+                                        product: product,
+                                      ),
+                                      bloc: _commentsBloc,
+                                    )));
+                          },
+                        );
                       },
-                    );
-                  },
-                  itemCount:
-                      state.comments.length < 4 ? state.comments.length : 4,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 1,
-                    );
-                  },
+                      itemCount: state
+                          .comments.length/*< 4 ? state.comments.length : 4*/,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          height: 1,
+                        );
+                      },
+                    ),
+                    /*                  state.comments.length > 4
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: OutlineButton(
+                              onPressed: () {
+
+                              },
+                              child: Text('Show more comments'),
+                            ),
+                          )
+                        : Container()*/
+                  ],
                 );
             },
           )

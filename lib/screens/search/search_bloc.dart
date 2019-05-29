@@ -12,6 +12,18 @@ class SearchProductByName extends SearchEvent {
   SearchProductByName(this.name);
 }
 
+class SortByNameAscending extends SearchEvent {}
+
+class SortByNameDescending extends SearchEvent {}
+
+class SortByPriceAscending extends SearchEvent {}
+
+class SortByPriceDescending extends SearchEvent {}
+
+class SortByRateDescending extends SearchEvent {}
+
+class SortByRateAscending extends SearchEvent {}
+
 abstract class SearchState {}
 
 class SearchLoading extends SearchState {}
@@ -46,7 +58,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   @override
+  void onTransition(Transition<SearchEvent, SearchState> transition) {
+    super.onTransition(transition);
+    print(transition);
+  }
+
+  @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
+
     if (event is SearchProductByName) {
       yield SearchLoading();
       try {
@@ -54,8 +73,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         if (response.success) {
           if (response.data.isEmpty)
             yield SearchNoResult();
-          else
+          else {
+            print(response.data.map((f) => f.productId));
+
             yield SearchFound(response.data);
+          }
         } else {
           yield SearchError();
         }
@@ -63,6 +85,40 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         yield SearchNetworkError();
       } catch (error) {
         yield SearchError();
+      }
+    }
+    if (event is SortByRateAscending) {}
+    if (event is SortByRateDescending) {}
+    if (event is SortByNameAscending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) => p1.title.compareTo(p2.title));
+
+        yield SearchFound(products);
+      }
+    }
+    if (event is SortByNameDescending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) => p2.title.compareTo(p1.title));
+
+        yield SearchFound(products);
+      }
+    }
+    if (event is SortByPriceAscending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) => p1.salePrice.compareTo(p2.salePrice));
+
+        yield SearchFound(products);
+      }
+    }
+    if (event is SortByPriceDescending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) => p2.salePrice.compareTo(p1.salePrice));
+
+        yield SearchFound(products);
       }
     }
   }

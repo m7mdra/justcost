@@ -30,7 +30,9 @@ class Data {
   String mobile;
   int city;
   bool gender;
+  String image;
   bool isVerified;
+
   String firebaseToken;
   String createdAt;
   String updatedAt;
@@ -44,6 +46,7 @@ class Data {
       this.mobile,
       this.city,
       this.gender,
+      this.image,
       this.isVerified,
       this.firebaseToken,
       this.createdAt,
@@ -58,6 +61,7 @@ class Data {
     mobile = json['mobile'];
     city = json['city'];
     gender = json['gender'];
+    image = json['image'];
     isVerified = json['isVerified'];
     firebaseToken = json['firebaseToken'];
     createdAt = json['created_at'];
@@ -74,6 +78,7 @@ class Data {
     data['mobile'] = this.mobile;
     data['city'] = this.city;
     data['gender'] = this.gender;
+    data['image'] = this.image;
     data['isVerified'] = this.isVerified;
     data['firebaseToken'] = this.firebaseToken;
     data['created_at'] = this.createdAt;

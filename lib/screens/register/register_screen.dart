@@ -2,8 +2,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/legal/privacy_policy_screen.dart';
 import 'package:justcost/screens/register/register_bloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
@@ -21,15 +23,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailController;
   TextEditingController _phoneNumberController;
   TextEditingController _nameController;
+  TextEditingController _cityController;
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
+  City city;
   final _formKey = GlobalKey<FormState>();
   FocusNode _usernameFocusNode = FocusNode();
+  FocusNode _cityFocusNode = FocusNode();
   FocusNode _mailFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _phoneNumberFocusNode = FocusNode();
   RegisterBloc _registerBloc;
+  String genderGroupValue;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -75,6 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
     _phoneNumberController = TextEditingController();
+    _cityController = TextEditingController();
   }
 
   @override
@@ -86,8 +94,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _mailFocusNode.dispose();
     _passwordFocusNode.dispose();
     _phoneNumberFocusNode.dispose();
+    _cityController.dispose();
 
     _nameController.dispose();
+    _cityFocusNode.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
@@ -224,9 +234,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     keyboardType: TextInputType.phone,
                     controller: _phoneNumberController,
-                    onEditingComplete: () {
-                      FocusScope.of(context).requestFocus(_passwordFocusNode);
-                    },
+                    onEditingComplete: () {},
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.phone),
                         contentPadding: EdgeInsets.all(8),
@@ -237,6 +245,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         errorMaxLines: 1,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          enabled: false,
+                          enableInteractiveSelection: false,
+                          focusNode: _cityFocusNode,
+                          maxLines: 1,
+                          textInputAction: TextInputAction.next,
+                          validator: (city) {
+                            return city.isEmpty
+                                ? AppLocalizations.of(context)
+                                    .phoneNumberEmptyError
+                                : null;
+                            //TODO: change error message.
+                          },
+                          controller: _cityController,
+                          onEditingComplete: () {
+                            FocusScope.of(context)
+                                .requestFocus(_passwordFocusNode);
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.location_city),
+                              contentPadding: EdgeInsets.all(8),
+                              hintText: 'ie: Dubai, Abu Dhabi',
+                              labelText: 'City',
+                              errorMaxLines: 1,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      OutlineButton(
+                        onPressed: () async {
+                          City city = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => CityPickerScreen()));
+                          if (city != null) {
+                            setState(() {
+                              this.city = city;
+                            });
+                            _cityController.text = city.name;
+                          }
+                        },
+                        child: Text('Pick City'),
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 8,
@@ -272,6 +333,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
               key: _formKey,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Gender',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  RadioListTile<String>(
+                      value: 'male',
+                      groupValue: genderGroupValue,
+                      title: Text('Male'),
+                      dense: true,
+                      onChanged: (value) =>
+                          setState(() => genderGroupValue = value)),
+                  RadioListTile<String>(
+                      value: 'female',
+                      groupValue: genderGroupValue,
+                      title: Text('Female'),
+                      dense: true,
+                      onChanged: (value) =>
+                          setState(() => genderGroupValue = value)),
+                ],
+              ),
             ),
             const SizedBox(
               height: 8,
@@ -336,6 +427,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           email: _emailController.text.trim(),
           messagingId: await FirebaseMessaging().getToken(),
           password: _passwordController.text.trim(),
+          city: city,
           phoneNumber: _phoneNumberController.text.trim()));
     }
   }

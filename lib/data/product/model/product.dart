@@ -71,6 +71,7 @@ class Product {
     customerName = json['customerName'];
     description = json['description'];
     mobile = json['mobile'];
+    liked = json['likes'];
     location = json['location'];
     regPrice = json['reg_price'];
     salePrice = json['sale_price'];
@@ -105,6 +106,7 @@ class Product {
     data['sale_price'] = this.salePrice;
     data['city'] = this.city;
     data['brand'] = this.brand;
+    data['likes'] = this.liked;
     if (this.comments != null) {
       data['comments'] = this.comments.map((v) => v.toJson()).toList();
     }
@@ -119,7 +121,7 @@ class Product {
 class Comments {
   int id;
   int parentId;
-  int productid;
+  int productId;
   int userId;
   String comment;
   String date;
@@ -130,7 +132,7 @@ class Comments {
   Comments(
       {this.id,
       this.parentId,
-      this.productid,
+      this.productId,
       this.userId,
       this.comment,
       this.date,
@@ -141,7 +143,7 @@ class Comments {
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     parentId = json['parent_id'];
-    productid = json['productid'];
+    productId = json['productid'];
     userId = json['userId'];
     comment = json['comment'];
     date = json['date'];
@@ -154,7 +156,7 @@ class Comments {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['parent_id'] = this.parentId;
-    data['productid'] = this.productid;
+    data['productid'] = this.productId;
     data['userId'] = this.userId;
     data['comment'] = this.comment;
     data['date'] = this.date;

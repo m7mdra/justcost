@@ -142,10 +142,10 @@ class UserRepository {
   Future<ResponseStatus> updatePassword(
       String newPassword, String confirmNewPassword, String oldPassword) async {
     try {
-      var response = await _client.post('jc-member/update/password', data: {
-        "old_password": oldPassword,
+      var response = await _client.post('customer/password', data: {
+        "now_password": oldPassword,
         "new_password": newPassword,
-        "confirm_password": confirmNewPassword
+        "c_new_password": confirmNewPassword
       });
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {

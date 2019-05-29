@@ -23,10 +23,10 @@ class UpdateAccountInformationEvent extends EditProfileEvent {
 
 class UpdatePersonalInformationEvent extends EditProfileEvent {
   final String fullName;
-  final String gender;
-  final String address;
+  final bool gender;
+  final int city;
 
-  UpdatePersonalInformationEvent({this.fullName, this.gender, this.address});
+  UpdatePersonalInformationEvent({this.fullName, this.gender, this.city});
 }
 
 class UpdateProfileAvatarEvent extends EditProfileEvent {

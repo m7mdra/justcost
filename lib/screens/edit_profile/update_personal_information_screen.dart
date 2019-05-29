@@ -14,7 +14,8 @@ class UpdatePersonalInformationScreen extends StatefulWidget {
 
 class _UpdatePersonalInformationScreenState
     extends State<UpdatePersonalInformationScreen> {
-  String genderGroupValue;
+  bool genderGroupValue;
+  City city;
   TextEditingController _fullNameController;
   TextEditingController _addressController;
   FocusNode _fullNameNode = FocusNode();
@@ -28,7 +29,7 @@ class _UpdatePersonalInformationScreenState
     _fullNameController =
         TextEditingController(text: widget.personalInformation.fullName);
     _addressController =
-        TextEditingController(text: widget.personalInformation.address);
+        TextEditingController(text: widget.personalInformation.city);
     genderGroupValue = widget.personalInformation.gender;
   }
 
@@ -113,15 +114,15 @@ class _UpdatePersonalInformationScreenState
                       'Gender',
                       style: Theme.of(context).textTheme.subhead,
                     ),
-                    RadioListTile<String>(
-                        value: 'male',
+                    RadioListTile<bool>(
+                        value: true,
                         groupValue: genderGroupValue,
                         title: Text('Male'),
                         onChanged: (value) {
                           setState(() => genderGroupValue = value);
                         }),
-                    RadioListTile<String>(
-                        value: 'female',
+                    RadioListTile<bool>(
+                        value: false,
                         groupValue: genderGroupValue,
                         title: Text('Female'),
                         onChanged: (value) {
@@ -138,8 +139,7 @@ class _UpdatePersonalInformationScreenState
                     RaisedButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          if (genderGroupValue == null ||
-                              genderGroupValue.isEmpty) {
+                          if (genderGroupValue == null) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                               content: Text('Select gender first'),
                             ));
@@ -149,7 +149,7 @@ class _UpdatePersonalInformationScreenState
                           var information = PersonalInformation(
                               _fullNameController.text,
                               genderGroupValue,
-                              _addressController.text);
+                              );
                           Navigator.of(context).pop(information);
                         }
                       },

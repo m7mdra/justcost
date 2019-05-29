@@ -7,10 +7,16 @@ import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_profile_events.dart';
+import 'package:justcost/screens/edit_profile/password.dart';
+import 'package:justcost/screens/edit_profile/personal_information.dart';
+import 'package:justcost/screens/edit_profile/update_account_information_screen.dart';
+import 'package:justcost/screens/edit_profile/update_password_screen.dart';
+import 'package:justcost/screens/edit_profile/update_personal_information_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
+import 'account_information.dart';
 import 'edit_profile_bloc.dart';
 import 'edit_profile_states.dart';
 
@@ -103,11 +109,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       children: <Widget>[
         Column(
           children: <Widget>[
-            /*  Align(
+              Align(
               child: ClipOval(
-                  child: payload.photo != null && payload.photo.isNotEmpty
+                  child: payload.image != null && payload.image.isNotEmpty
                       ? Image.network(
-                          payload.photo,
+                          payload.image,
                           width: 100,
                           height: 100,
                         )
@@ -153,12 +159,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               PersonalInformation newInformation = await Navigator.of(context)
                   .push(MaterialPageRoute(
                       builder: (context) => UpdatePersonalInformationScreen(
-                          PersonalInformation(payload.fullName, payload.gender,
-                              payload.address))));
+                          PersonalInformation(payload.name, payload.gender,
+                              payload.city))));
               if (newInformation != null)
                 _bloc.dispatch(UpdatePersonalInformationEvent(
                     fullName: newInformation.fullName,
-                    address: newInformation.address,
+                    city: newInformation.city,
                     gender: newInformation.gender));
             }),
             ListTile(
@@ -166,23 +172,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 dense: true,
                 title: Text('Full name'),
                 subtitle: Text(
-                    payload.fullName == null || payload.fullName.isEmpty
+                    payload.name == null || payload.name.isEmpty
                         ? 'Not added'
-                        : payload.fullName)),
+                        : payload.name)),
             ListTile(
                 dense: true,
                 title: Text('Gender'),
-                subtitle: Text(payload.gender == null || payload.gender.isEmpty
+                subtitle: Text(payload.gender == null
                     ? 'Not Added'
-                    : payload.gender)),
-            ListTile(
+                    : payload.gender? 'Male':'Female')),
+            /*ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Address'),
                 subtitle: Text(
                     payload.address == null || payload.address.isEmpty
                         ? 'Not added'
-                        : payload.address)),
+                        : payload.address)),*/
             buildDivider(),
             buildTitle('Account Information', () async {
               AccountInformation information = await Navigator.of(context).push(
@@ -220,7 +226,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 dense: true,
                 contentPadding: tilePadding(),
                 title: Text('Chnage Password'),
-                subtitle: Text('**********')), */
+                subtitle: Text('**********')),
           ],
         ),
       ],

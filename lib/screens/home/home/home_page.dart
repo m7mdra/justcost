@@ -5,7 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
-import 'package:justcost/screens/ad_details/AdDetailsScreen.dart';
+import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
@@ -336,7 +336,7 @@ class FeaturedAdsWidget extends StatelessWidget {
                       fontSize: 16,
                       color: Colors.red),
                 ),
-                Container(
+                /*Container(
                   child: Icon(
                     Icons.favorite_border,
                     color: Colors.white,
@@ -345,7 +345,7 @@ class FeaturedAdsWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Theme.of(context).accentColor,
                       borderRadius: BorderRadius.circular(8)),
-                ),
+                ),*/
               ],
             ),
           )

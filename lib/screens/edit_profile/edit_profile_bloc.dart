@@ -77,7 +77,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       if (event is UpdatePersonalInformationEvent) {
         yield LoadingState((await _userSession.user()).data.payload);
         var response = await _userRepository.updatePersonalInformation(
-            event.fullName, event.gender, event.address);
+            event.fullName, event.gender, event.city);
         if (response.success) {
           await _userSession.save(response);
           yield PersonalInformationUpdateSuccessState(response.data.payload);
