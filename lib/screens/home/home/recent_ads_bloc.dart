@@ -13,6 +13,12 @@ class RecentAdsLoaded extends RecentAdsState {
   RecentAdsLoaded(this.products);
 }
 
+class LikeToggledForProductWithId extends RecentAdsEvent {
+  final int id;
+
+  LikeToggledForProductWithId(this.id);
+}
+
 class RecentAdsError extends RecentAdsState {}
 
 class RecentAdsIdle extends RecentAdsState {}
@@ -43,6 +49,15 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         print('error $e');
         yield RecentAdsError();
       }
+    }
+    if (event is LikeToggledForProductWithId) if (currentState
+        is RecentAdsLoaded) {
+      var products = (currentState as RecentAdsLoaded).products;
+      products
+          .where((p) => p.productId == event.id)
+          .map((p) => p.liked = !p.liked);
+      yield RecentAdsLoaded(products);
+
     }
   }
 }

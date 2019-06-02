@@ -23,7 +23,7 @@ class UpdateAccountInformationEvent extends EditProfileEvent {
 
 class UpdatePersonalInformationEvent extends EditProfileEvent {
   final String fullName;
-  final bool gender;
+  final int gender;
   final int city;
 
   UpdatePersonalInformationEvent({this.fullName, this.gender, this.city});

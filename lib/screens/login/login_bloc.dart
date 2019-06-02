@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -21,6 +22,8 @@ class LoginError extends LoginState {
 }
 
 class AccountNotVerified extends LoginState {}
+
+class UserNameOrPasswordInvalid extends LoginState {}
 
 class LoginSuccess extends LoginState {}
 
@@ -51,6 +54,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   @override
+  void onError(Object error, StackTrace stacktrace) {
+    // TODO: implement onError
+    super.onError(error, stacktrace);
+    print('\n');
+    print('\n');
+    print('\n');
+    print('\n');
+
+    print(error);
+    print(stacktrace);
+  }
+
+  @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is GuestLogin) {
       session.guestLogin();
@@ -70,6 +86,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         } else {
           yield LoginError(authResponse.message);
         }
+      } on SessionExpired {
+        yield UserNameOrPasswordInvalid();
       } on DioError catch (e) {
         switch (e.type) {
           case DioErrorType.CONNECT_TIMEOUT:

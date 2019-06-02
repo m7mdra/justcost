@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
+import 'package:justcost/screens/verification/account_verification_screen.dart';
 
 import 'dependencies_provider.dart';
 

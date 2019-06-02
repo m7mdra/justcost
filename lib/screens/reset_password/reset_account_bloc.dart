@@ -13,6 +13,22 @@ class SubmitEmailEvent extends ResetEvent {
   SubmitEmailEvent(this.email);
 }
 
+class SubmitPhoneNumber extends ResetEvent {
+  final String phoneNumber;
+
+  SubmitPhoneNumber(this.phoneNumber);
+}
+
+class OnBackPressedEvent extends ResetEvent {}
+
+class PhoneNumberResetSelected extends ResetEvent {}
+
+class EmailResetSelected extends ResetEvent {}
+
+class PhoneNumberResetSelectedState extends ResetState {}
+
+class EmailResetSelectedState extends ResetState {}
+
 class ResetLoadingState extends ResetState {}
 
 class ResetErrorState extends ResetState {
@@ -20,6 +36,7 @@ class ResetErrorState extends ResetState {
 
   ResetErrorState(this.message);
 }
+
 
 class ResetSuccessState extends ResetState {}
 
@@ -35,6 +52,10 @@ class ResetAccountBloc extends Bloc<ResetEvent, ResetState> {
 
   @override
   Stream<ResetState> mapEventToState(ResetEvent event) async* {
+    if (event is PhoneNumberResetSelected)
+      yield PhoneNumberResetSelectedState();
+    if (event is EmailResetSelected) yield EmailResetSelectedState();
+
     if (event is SubmitEmailEvent) {
       yield ResetLoadingState();
       try {

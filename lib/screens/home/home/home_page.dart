@@ -287,69 +287,72 @@ class FeaturedAdsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                child: Image.network(
-                  product.media[0].url,
-                  height: 120,
-                  width: 150,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              DiscountPercentageBannerWidget(
-                regularPrice: product.regPrice,
-                salePrice: product.salePrice,
-                onLike: () {},
-              )
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-            width: 150,
-            child: Text(
-              product.title,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(
-                left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-            width: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.centerLeft,
               children: <Widget>[
-                Text(
-                  '${product.salePrice} AED',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      color: Colors.red),
-                ),
-                /*Container(
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16)),
+                  child: Image.network(
+                    product.media[0].url,
+                    height: 120,
+                    width: 150,
+                    fit: BoxFit.cover,
                   ),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                      borderRadius: BorderRadius.circular(8)),
-                ),*/
+                ),
+                DiscountPercentageBannerWidget(
+                  regularPrice: product.regPrice,
+                  salePrice: product.salePrice,
+                  onLike: () {},
+                )
               ],
             ),
-          )
-        ],
+            Container(
+              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+              width: 150,
+              child: Text(
+                product.title,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+              width: 150,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '${product.salePrice} AED',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color: Colors.red),
+                  ),
+                  /*Container(
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        borderRadius: BorderRadius.circular(8)),
+                  ),*/
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

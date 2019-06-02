@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/search/search_bloc.dart';
 import 'package:justcost/widget/ad_widget.dart';
@@ -12,6 +13,10 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
 
 class SearchScreen extends StatefulWidget {
+  final String keyword;
+
+  const SearchScreen([this.keyword = '']);
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -27,6 +32,8 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     _bloc = SearchBloc(DependenciesProvider.provide());
+    if (widget.keyword.isNotEmpty)
+      _bloc.dispatch(SearchProductByName(widget.keyword));
     _searchTextEditingController = TextEditingController();
   }
 
@@ -116,6 +123,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemBuilder: (context, index) {
                     return AdWidget(
                       product: state.products[index],
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => AdDetailsScreen(
+                                  product: state.products[index],
+                                )));
+                      },
                     );
                   },
                   itemCount: state.products.length,
@@ -171,7 +184,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         Navigator.of(context).pop(4);
                       },
                     ),
-
                   ],
                 ),
               );

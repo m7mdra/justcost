@@ -1,15 +1,16 @@
 import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/user.dart';
 
 class EditProfileState {}
 
 class UserLoadedState extends EditProfileState {
-  final Payload payload;
+  final User payload;
 
   UserLoadedState(this.payload);
 }
 
 class AvatarUpdateSuccess extends EditProfileState {
-  final Payload payload;
+  final User payload;
 
   AvatarUpdateSuccess(this.payload);
 }
@@ -17,21 +18,21 @@ class AvatarUpdateSuccess extends EditProfileState {
 class IdleState extends EditProfileState {}
 
 class AccountInformationUpdateSuccessState extends EditProfileState {
-  final Payload payload;
+  final User user;
 
-  AccountInformationUpdateSuccessState(this.payload);
+  AccountInformationUpdateSuccessState(this.user);
 }
 
 class PersonalInformationUpdateSuccessState extends EditProfileState {
-  final Payload payload;
+  final User user;
 
-  PersonalInformationUpdateSuccessState(this.payload);
+  PersonalInformationUpdateSuccessState(this.user);
 }
 
 class LoadingState extends EditProfileState {
-  final Payload payload;
+  final User user;
 
-  LoadingState(this.payload);
+  LoadingState(this.user);
 }
 
 class ErrorState<T> extends EditProfileState {

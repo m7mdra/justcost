@@ -1,17 +1,16 @@
-import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/data/user/model/user.dart';
 
-class AuthenticationResponse {
+class UserUpdateResponse {
   bool success;
   Data data;
   String message;
 
-  AuthenticationResponse({this.success, this.data, this.message});
+  UserUpdateResponse({this.success, this.data, this.message});
 
-  AuthenticationResponse.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
+  UserUpdateResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    message = json['Message'];
+    success = json['success'] == null ? data.success : json['success'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,31 +19,29 @@ class AuthenticationResponse {
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
-    data['Message'] = this.message;
+    data['message'] = this.message;
     return data;
   }
 }
 
 class Data {
-  String token;
-  User user;
+  User userInfo;
+  bool success;
 
-  Data({this.token, this.user});
+  Data({this.userInfo, this.success});
 
   Data.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    user = json['userInfo'] != null
-        ? new User.fromJson(json['userInfo'])
-        : null;
+    userInfo =
+        json['user info'] != null ? new User.fromJson(json['user info']) : null;
+    success = json['success'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    if (this.user != null) {
-      data['userInfo'] = this.user.toJson();
+    if (this.userInfo != null) {
+      data['user info'] = this.userInfo.toJson();
     }
+    success = data['json'];
     return data;
   }
 }
-

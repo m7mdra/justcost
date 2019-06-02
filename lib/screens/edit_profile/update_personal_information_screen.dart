@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/i10n/app_localizations.dart';
+import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/edit_profile/personal_information.dart';
 
 class UpdatePersonalInformationScreen extends StatefulWidget {
@@ -14,12 +17,12 @@ class UpdatePersonalInformationScreen extends StatefulWidget {
 
 class _UpdatePersonalInformationScreenState
     extends State<UpdatePersonalInformationScreen> {
-  bool genderGroupValue;
+  int genderGroupValue;
   City city;
   TextEditingController _fullNameController;
-  TextEditingController _addressController;
+  TextEditingController _cityController;
   FocusNode _fullNameNode = FocusNode();
-  FocusNode _addressNode = FocusNode();
+  FocusNode _cityNode = FocusNode();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -28,18 +31,20 @@ class _UpdatePersonalInformationScreenState
     super.initState();
     _fullNameController =
         TextEditingController(text: widget.personalInformation.fullName);
-    _addressController =
-        TextEditingController(text: widget.personalInformation.city);
+    _cityController = TextEditingController();
+    if (widget.personalInformation.city != null)
+      _cityController.text = widget.personalInformation.city.name;
     genderGroupValue = widget.personalInformation.gender;
+    this.city = widget.personalInformation.city;
   }
 
   @override
   void dispose() {
     super.dispose();
     _fullNameController.dispose();
-    _addressController.dispose();
+    _cityController.dispose();
     _fullNameNode.dispose();
-    _addressNode.dispose();
+    _cityNode.dispose();
   }
 
   @override
@@ -68,7 +73,7 @@ class _UpdatePersonalInformationScreenState
                       return null;
                   },
                   onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_addressNode);
+                    FocusScope.of(context).requestFocus(_cityNode);
                   },
                   controller: _fullNameController,
                   minLines: 1,
@@ -83,27 +88,51 @@ class _UpdatePersonalInformationScreenState
                 SizedBox(
                   height: 8,
                 ),
-                TextFormField(
-                  focusNode: _addressNode,
-                  maxLines: 1,
-                  controller: _addressController,
-                  validator: (address) {
-                    return address.isEmpty
-                        ? "Address Field can not be empty"
-                        : null;
-                  },
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.location_on),
-                      contentPadding: EdgeInsets.all(8),
-                      hintText: 'Address',
-                      labelText: 'Address',
-                      errorMaxLines: 1,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        enabled: false,
+                        enableInteractiveSelection: false,
+                        focusNode: _cityNode,
+                        maxLines: 1,
+                        textInputAction: TextInputAction.next,
+                        validator: (city) {
+                          return city.isEmpty
+                              ? AppLocalizations.of(context)
+                                  .phoneNumberEmptyError
+                              : null;
+                          //TODO: change error message.
+                        },
+                        controller: _cityController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_city),
+                            contentPadding: EdgeInsets.all(8),
+                            hintText: 'ie: Dubai, Abu Dhabi',
+                            labelText: 'City',
+                            errorMaxLines: 1,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    OutlineButton(
+                      onPressed: () async {
+                        City city = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => CityPickerScreen()));
+                        if (city != null) {
+                          setState(() {
+                            this.city = city;
+                          });
+                          _cityController.text = city.name;
+                        }
+                      },
+                      child: Text('Pick City'),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 16,
@@ -114,15 +143,15 @@ class _UpdatePersonalInformationScreenState
                       'Gender',
                       style: Theme.of(context).textTheme.subhead,
                     ),
-                    RadioListTile<bool>(
-                        value: true,
+                    RadioListTile<int>(
+                        value: 1,
                         groupValue: genderGroupValue,
                         title: Text('Male'),
                         onChanged: (value) {
                           setState(() => genderGroupValue = value);
                         }),
-                    RadioListTile<bool>(
-                        value: false,
+                    RadioListTile<int>(
+                        value: 0,
                         groupValue: genderGroupValue,
                         title: Text('Female'),
                         onChanged: (value) {
@@ -147,9 +176,7 @@ class _UpdatePersonalInformationScreenState
                           }
                           FocusScope.of(context).requestFocus(FocusNode());
                           var information = PersonalInformation(
-                              _fullNameController.text,
-                              genderGroupValue,
-                              );
+                              _fullNameController.text, genderGroupValue, city);
                           Navigator.of(context).pop(information);
                         }
                       },

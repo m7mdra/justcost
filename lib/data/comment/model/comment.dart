@@ -103,7 +103,7 @@ class Rate {
 
 class Replay {
   int commentId;
-  Null commentPic;
+  String commentPic;
   String comment;
   String customerName;
   String postedOn;

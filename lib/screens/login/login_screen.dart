@@ -44,6 +44,26 @@ class _LoginScreenState extends State<LoginScreen> {
             builder: (context) => ProgressDialog(
                   message: AppLocalizations.of(context).loginLoadingMessage,
                 ));
+      if(state is UserNameOrPasswordInvalid){
+        Navigator.of(context).pop();
+
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+              title: Text('Invalid Credentials'),
+              content: Text('Check your password/username first then try again.'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    MaterialLocalizations.of(context).okButtonLabel,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+      }
       if (state is LoginError) {
         Navigator.of(context).pop();
         showDialog(
@@ -196,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 )),
-            Row(
+            /*Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 MaterialButton(
@@ -211,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ],
-            ),
+            ),*/
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),

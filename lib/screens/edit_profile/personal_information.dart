@@ -1,7 +1,9 @@
+import 'package:justcost/data/city/model/city.dart';
+
 class PersonalInformation {
   final String fullName;
-  final bool gender;
-  final int city;
+  final int gender;
+  final City city;
 
   const PersonalInformation(this.fullName, this.gender, this.city);
 

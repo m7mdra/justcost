@@ -5,6 +5,7 @@ import 'package:justcost/bloc/like_product_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
+import 'package:justcost/screens/ad_details/attribute_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
@@ -29,6 +30,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   PostCommentBloc _postCommentBloc;
   TextEditingController _commentTextEditingController;
   LikeProductBloc _likeProductBloc;
+  AttributesBloc _attributesBloc;
 
   @override
   void initState() {
@@ -41,6 +43,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadEvent(product.productId));
     _likeProductBloc = LikeProductBloc(DependenciesProvider.provide());
+    _attributesBloc = AttributesBloc(DependenciesProvider.provide());
+    _attributesBloc.dispatch(LoadProductAttribute(product.productId));
     _postCommentBloc.state.listen((state) {
       if (state is PostCommentSuccess) {
         _commentTextEditingController.clear();
@@ -49,8 +53,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     });
     _likeProductBloc.state.listen((state) {
       if (state is LikeToggled) {
-        product.liked = true;
-        setState(() {});
+        setState(() {
+          product.liked = !product.liked;
+        });
       }
     });
   }
@@ -184,36 +189,53 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           ),
           Text(product.description),
           const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Model'),
-              Text('Find X'),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Brand'),
-              Text('OPPO'),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Condition'),
-              Text('NEW'),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Usage'),
-              Text('Never used'),
-            ],
+          BlocBuilder(
+            bloc: _attributesBloc,
+            builder: (BuildContext context, AttributesState state) {
+              if (state is AttributesLoading)
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    strokeWidth: 2,
+                  ),
+                );
+              if (state is AttributesNetworkError)
+                return NetworkErrorWidget(
+                  onRetry: () {
+                    _attributesBloc
+                        .dispatch(LoadProductAttribute(product.productId));
+                  },
+                );
+              if (state is AttributesError)
+                return GeneralErrorWidget(
+                  onRetry: () {
+                    _attributesBloc
+                        .dispatch(LoadProductAttribute(product.productId));
+                  },
+                );
+              if (state is AttributesLoaded) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: <Widget>[
+                        Text(state.attributes[index].group),
+                        Text(state.attributes[index].val),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 2,
+                    );
+                  },
+                  itemCount: state.attributes.length,
+                );
+              }
+              return Container();
+            },
           ),
           const Divider(),
           Row(
@@ -355,13 +377,11 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         );
                       },
                     ),
-                    /*                  state.comments.length > 4
+                    /* state.comments.length > 4
                         ? Container(
                             width: MediaQuery.of(context).size.width,
                             child: OutlineButton(
-                              onPressed: () {
-
-                              },
+                              onPressed: () {},
                               child: Text('Show more comments'),
                             ),
                           )

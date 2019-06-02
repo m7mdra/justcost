@@ -36,7 +36,12 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
 
   @override
   CommentsState get initialState => CommentsLoading();
-
+@override
+  void onError(Object error, StackTrace stacktrace) {
+    super.onError(error, stacktrace);
+    print(error);
+    print(stacktrace);
+  }
   @override
   Stream<CommentsState> mapEventToState(CommentsEvent event) async* {
     if (event is LoadComments) {

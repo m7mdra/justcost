@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
+import 'package:justcost/data/user/model/user_update_response.dart';
+import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/data/user/model/verification_response.dart';
 
 const UNAUTHORIZED_CODE = 401;
@@ -53,8 +55,10 @@ class UserRepository {
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
     } on DioError catch (error) {
-      print(error);
-      throw error;
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
     } catch (error) {
       print(error);
 
@@ -62,10 +66,10 @@ class UserRepository {
     }
   }
 
-  Future<Payload> parse() async {
+  Future<User> parse() async {
     try {
       var response = await _client.get('user-by-token');
-      var payLoad = Payload.fromJson(response.data);
+      var payLoad = User.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
@@ -105,7 +109,6 @@ class UserRepository {
       throw error;
     }
   }
-
   Future<ResponseStatus> reset(String email) async {
     try {
       var response =
@@ -118,17 +121,16 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> updateProfileImage(
+  Future<ResponseStatus> updateProfileImage(
       File originalFile, File downSampledFile) async {
     try {
-      var response = await _client.post('jc-member/mpi/update',
+      var response = await _client.post('customer/uploadImage',
           data: FormData.from({
-            "upload": UploadFileInfo(
-                originalFile, "${DateTime.now()}_image_original"),
-            "upload_2": UploadFileInfo(
-                downSampledFile, "${DateTime.now()}_image_downsampled"),
+            "image": UploadFileInfo(
+                downSampledFile, "${DateTime.now()}_image_original"),
+
           }));
-      return AuthenticationResponse.fromJson(response.data);
+      return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
@@ -158,12 +160,12 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> updatePersonalInformation(
-      fullName, gender, address) async {
+  Future<UserUpdateResponse> updatePersonalInformation(
+      fullName, gender, city) async {
     try {
-      var response = await _client.post('jc-member/update/profile',
-          data: {"full_name": fullName, "gender": gender, "address": address});
-      return AuthenticationResponse.fromJson(response.data);
+      var response = await _client.post('customer/setPersonal',
+          data: {"name": fullName, "gender": gender, "city": city});
+      return UserUpdateResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
@@ -174,12 +176,12 @@ class UserRepository {
     }
   }
 
-  Future<AuthenticationResponse> updateAccountInformation(
+  Future<UserUpdateResponse> updateAccountInformation(
       username, email, password) async {
     try {
-      var response = await _client.post('jc-member/update/account',
+      var response = await _client.post('customer/setProfile',
           data: {"username": username, "email": email, "password": password});
-      return AuthenticationResponse.fromJson(response.data);
+      return UserUpdateResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();

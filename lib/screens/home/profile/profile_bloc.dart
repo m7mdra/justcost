@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:justcost/data/exception/exceptions.dart';
-import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -16,21 +16,23 @@ abstract class ProfileEvent extends Equatable {
 class LoadProfileEvent extends ProfileEvent {}
 
 class ProfileLoadedSuccessState extends ProfileState {
-  final Payload userPayload;
+  final User user;
 
-  ProfileLoadedSuccessState(this.userPayload);
+  ProfileLoadedSuccessState(this.user);
 }
 
 class LogoutSuccessState extends ProfileState {}
 
 class LogoutEvent extends ProfileEvent {}
 
+class LogoutLoading extends ProfileState {}
+
 class SessionsExpiredState extends ProfileState {}
 
 class ProfileReloadFailedState extends ProfileState {
-  Payload userPayload;
+  final User user;
 
-  ProfileReloadFailedState(this.userPayload);
+  ProfileReloadFailedState(this.user);
 }
 
 class GuestUserState extends ProfileState {}
@@ -57,6 +59,7 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LogoutEvent) {
+      yield LogoutLoading();
       if (await _session.isUserAGoat())
         yield LogoutSuccessState();
       else {
@@ -67,6 +70,8 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           yield LogoutSuccessState();
         } catch (error) {
           await _session.clear();
+          await FirebaseMessaging().deleteInstanceID();
+
           yield LogoutSuccessState();
         }
       }
@@ -79,23 +84,22 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         print("user: $user");
 
         try {
-          yield ProfileLoadedSuccessState(user.data.payload);
+          yield ProfileLoadedSuccessState(user.data.user);
           var response = await _repository.parse();
           if (response != null) {
+            await _session.saveUser(response);
             yield ProfileLoadedSuccessState(response);
           } else {
-            yield ProfileReloadFailedState(user.data.payload);
+            yield ProfileReloadFailedState(user.data.user);
           }
         } on DioError catch (error) {
           print(error);
-          yield ProfileReloadFailedState(user.data.payload);
+          yield ProfileReloadFailedState(user.data.user);
         } on SessionExpired catch (error) {
-          print(error);
           await _session.clear();
           yield SessionsExpiredState();
         } catch (error) {
-          print(error);
-          yield ProfileReloadFailedState(user.data.payload);
+          yield ProfileReloadFailedState(user.data.user);
         }
       }
     }

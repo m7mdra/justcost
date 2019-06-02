@@ -14,6 +14,7 @@ class CommentRepository {
       var response = await _client.get('productcomments/$productId');
       return CommentResponse.fromJson(response.data);
     } catch (error) {
+      print(error);
       throw error;
     }
   }

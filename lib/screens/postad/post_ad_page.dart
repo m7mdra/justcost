@@ -46,6 +46,7 @@ class _PostAdPageState extends State<PostAdPage> {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Category _category;
   Category _parentCategory;
@@ -65,6 +66,43 @@ class _PostAdPageState extends State<PostAdPage> {
     _adPhoneNumberController = TextEditingController();
     _adEmailController = TextEditingController();
     _adDetailsController = TextEditingController();
+    _bloc.state.listen((state){
+      //TODO refactor code.
+      if (state is PostAdFailed) {
+        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to post ad, try again'),
+          actions: <Widget>[
+            FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Ok'))
+          ],
+        ));
+
+      }
+      if (state is PostAdError) {
+        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to post ad, try again'),
+          actions: <Widget>[
+            FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Ok'))
+          ],
+        ));
+      }
+      if (state is PostAdNetworkError) {
+        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to post ad, try again'),
+          actions: <Widget>[
+            FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Ok'))
+          ],
+        ));
+      }
+    });
   }
 
   @override
@@ -87,6 +125,7 @@ class _PostAdPageState extends State<PostAdPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: BlocBuilder(
           bloc: _bloc,
@@ -97,7 +136,10 @@ class _PostAdPageState extends State<PostAdPage> {
                 children: <Widget>[
                   Opacity(
                     opacity: 0.2,
-                    child: IgnorePointer(child: postAdForm(),ignoring: true,),
+                    child: IgnorePointer(
+                      child: postAdForm(),
+                      ignoring: true,
+                    ),
                   ),
                   Container(
                     child: buildGuestUserWidget(),
@@ -108,21 +150,7 @@ class _PostAdPageState extends State<PostAdPage> {
               );
             if (state is PostAdLoading) return buildLoadingWidget();
             if (state is PostAdSuccess) return buildSuccessWidget(context);
-            if (state is PostAdFailed) {
-              Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to post ad, try again')));
-              return postAdForm();
-            }
-            if (state is PostAdError) {
-              Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to post ad, try again')));
-              return postAdForm();
-            }
-            if (state is PostAdNetworkError) {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('No Active network found, check you wifi.')));
-              return postAdForm();
-            }
+
             return postAdForm();
           },
         ),
@@ -498,7 +526,7 @@ class _PostAdPageState extends State<PostAdPage> {
         ),
         onTap: () {
           if (mediaList.length == 4) {
-            Scaffold.of(context).showSnackBar(SnackBar(
+            _scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text('Max media upload is 4'),
               duration: Duration(seconds: 1),
             ));
@@ -631,63 +659,71 @@ class _PostAdPageState extends State<PostAdPage> {
     var adPhoneNumber = _adPhoneNumberController.text.trim();
     var adEmail = _adEmailController.text.trim();
     var adDescription = _adDetailsController.text.trim();
+
     if (adTitle.isEmpty) {
-      Scaffold.of(context)
+      _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Title field is required.')));
       return;
     }
     if (adEmail.isEmpty) {
-      Scaffold.of(context)
+    _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Email field is required.')));
       return;
     }
     if (!regex.hasMatch(adEmail)) {
-      Scaffold.of(context)
+    _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Email field is invalid.')));
       return;
     }
     if (adKeyword.isEmpty) {
-      Scaffold.of(context)
+      _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Keyword field is required.')));
       return;
     }
-    if (adOldPrice.isEmpty) {
-      Scaffold.of(context).showSnackBar(
+    if (adOldPrice == null || adOldPrice.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('old price field is required.')));
       return;
     }
-    if (adNewPrice.isEmpty) {
-      Scaffold.of(context).showSnackBar(
+    if (adNewPrice == null || adNewPrice.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('new price field is required.')));
       return;
     }
+    if (double.parse(adNewPrice) >= double.parse(adOldPrice)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content:
+          Text('New price must be lower and not equal to the old price.')));
+      return;
+    }
     if (adPhoneNumber.isEmpty) {
-      Scaffold.of(context).showSnackBar(
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('Phone number field is required.')));
       return;
     }
+
     if (adDescription.isEmpty) {
-      Scaffold.of(context).showSnackBar(
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('Description field is required.')));
       return;
     }
     if (mediaList.isEmpty) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text('Media is empty, add atleast one image or video')));
       return;
     }
     if (city == null) {
-      Scaffold.of(context)
+      _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Select the place of the ad')));
       return;
     }
     if (location == null) {
-      Scaffold.of(context).showSnackBar(
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('Select the location of the ad')));
       return;
     }
     if (_category == null) {
-      Scaffold.of(context).showSnackBar(
+      _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text('Select the category of the ad')));
       return;
     }
@@ -703,6 +739,8 @@ class _PostAdPageState extends State<PostAdPage> {
       status: 1,
       title: adTitle,
       city: city,
+      lat: location.latitude,
+      lng: location.longitude,
       description: adDescription,
       brandId: _brand.id,
     )));

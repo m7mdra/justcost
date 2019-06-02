@@ -29,6 +29,7 @@ class LikeIdle extends LikeState{}
 class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   final ProductRepository _repository;
 
+
   LikeProductBloc(this._repository);
 
   @override

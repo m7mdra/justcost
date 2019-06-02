@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/image_cropper_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_profile_events.dart';
@@ -85,11 +85,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           if (state is UserLoadedState)
             return buildListView(context, state.payload);
           if (state is AccountInformationUpdateSuccessState)
-            return buildListView(context, state.payload);
+            return buildListView(context, state.user);
           if (state is AvatarUpdateSuccess)
             return buildListView(context, state.payload);
           if (state is PersonalInformationUpdateSuccessState)
-            return buildListView(context, state.payload);
+            return buildListView(context, state.user);
           if (state is LoadingState) {
             return Center(
               child: CircularProgressIndicator(
@@ -103,17 +103,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  ListView buildListView(BuildContext context, Payload payload) {
+  ListView buildListView(BuildContext context, User user) {
+    print(user.toJson());
     return ListView(
       padding: const EdgeInsets.all(16),
       children: <Widget>[
         Column(
           children: <Widget>[
-              Align(
+            Align(
               child: ClipOval(
-                  child: payload.image != null && payload.image.isNotEmpty
+                  child: user.image != null && user.image.isNotEmpty
                       ? Image.network(
-                          payload.image,
+                          user.image,
                           width: 100,
                           height: 100,
                         )
@@ -159,43 +160,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               PersonalInformation newInformation = await Navigator.of(context)
                   .push(MaterialPageRoute(
                       builder: (context) => UpdatePersonalInformationScreen(
-                          PersonalInformation(payload.name, payload.gender,
-                              payload.city))));
+                          PersonalInformation(
+                              user.name, user.gender, user.cities))));
               if (newInformation != null)
                 _bloc.dispatch(UpdatePersonalInformationEvent(
                     fullName: newInformation.fullName,
-                    city: newInformation.city,
+                    city: newInformation.city.id,
                     gender: newInformation.gender));
             }),
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Full name'),
-                subtitle: Text(
-                    payload.name == null || payload.name.isEmpty
-                        ? 'Not added'
-                        : payload.name)),
+                subtitle: Text(user.name == null || user.name.isEmpty
+                    ? 'Not added'
+                    : user.name)),
             ListTile(
                 dense: true,
                 title: Text('Gender'),
-                subtitle: Text(payload.gender == null
+                subtitle: Text(user.gender == null
                     ? 'Not Added'
-                    : payload.gender? 'Male':'Female')),
-            /*ListTile(
+                    : user.gender == 1 ? 'Male' : 'Female')),
+            ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Address'),
-                subtitle: Text(
-                    payload.address == null || payload.address.isEmpty
-                        ? 'Not added'
-                        : payload.address)),*/
+                title: Text('Location/City'),
+                subtitle:
+                    Text(user.cities == null ? 'Not added' : user.cities.name)),
             buildDivider(),
             buildTitle('Account Information', () async {
               AccountInformation information = await Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => UpdateAccountInformationScreen(
-                          AccountInformation(
-                              payload.username, payload.email))));
+                          AccountInformation(user.username, user.email))));
               if (information != null)
                 _bloc.dispatch(UpdateAccountInformationEvent(
                     username: information.username,
@@ -206,12 +203,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Username'),
-                subtitle: Text('@${payload.username}')),
+                subtitle: Text('@${user.username}')),
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Email Address'),
-                subtitle: Text(payload.email)),
+                subtitle: Text(user.email)),
             buildTitle('Account Security ', () async {
               Password information = await Navigator.of(context).push(
                   MaterialPageRoute(

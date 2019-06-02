@@ -17,12 +17,16 @@ class PostAd {
   final int status;
   final String keyword;
   final String title;
+  final double lat;
+  final double lng;
 
   PostAd(
       {this.image,
       this.media,
       this.category,
       this.city,
+      this.lat,
+      this.lng,
       this.description,
       this.salePrice,
       this.regularPrice,

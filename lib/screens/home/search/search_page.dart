@@ -20,30 +20,7 @@ class _SearchPageState extends State<SearchPage>
     return CustomScrollView(
       slivers: <Widget>[
 
-        SliverPersistentHeader(
-          delegate: SliverAppBarHeaderDelegate(
-            minHeight: 100,
-            maxHeight: 100,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  child: Card(
-                    child: Center(child: Text('For you')),
-                  ),
-                ),
-                CategoryWidget(),
-                CategoryWidget(),
-                CategoryWidget(),
-                CategoryWidget(),
-                CategoryWidget(),
-                CategoryWidget(),
-              ],
-            ),
-          ),
-        ),
+
         SliverPersistentHeader(
           delegate: SliverAppBarHeaderDelegate(
             minHeight: 100,

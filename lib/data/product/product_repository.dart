@@ -62,6 +62,8 @@ class ProductRepository {
         'ispaided': 1,
         'iswholesale': 1,
         'status': 1,
+        'lat': ad.lat,
+        'lng': ad.lng,
         'media[]': ad.media.map((f) => UploadFileInfo(f, "${f.path}")).toList()
       });
       print(data.toString());

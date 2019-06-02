@@ -20,9 +20,9 @@ class AdsDetailsError extends AdDetailsState {}
 class AdsDetailsNetworkError extends AdDetailsState {}
 
 class AdsDetailsLoaded extends AdDetailsState {
-  final ProductDeatils productDeatils;
+  final ProductDeatils details;
 
-  AdsDetailsLoaded(this.productDeatils);
+  AdsDetailsLoaded(this.details);
 }
 
 class AdsDetailsIdle extends AdDetailsState {}

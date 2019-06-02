@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:justcost/data/accept_interceptor.dart';
+import 'package:justcost/data/attribute/attribute_repository.dart';
 import 'package:justcost/data/category/category_repository.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/comment/comment_repository.dart';
@@ -33,6 +35,7 @@ class DependenciesProvider {
       responseHeader: true,
     ));
     client.interceptors.add(TokenInterceptor(userSession));
+    client.interceptors.add(AcceptInterceptor());
 
     getIt.registerSingleton<UserSession>(userSession);
     getIt.registerSingleton<Dio>(client);
@@ -57,6 +60,9 @@ class DependenciesProvider {
     });
     getIt.registerFactory<BrandRepository>(() {
       return BrandRepository(client);
+    });
+    getIt.registerFactory<AttributeRepository>(() {
+      return AttributeRepository(client);
     });
   }
 

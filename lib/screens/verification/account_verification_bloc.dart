@@ -50,7 +50,17 @@ class AccountVerificationBloc
 
   @override
   VerificationState get initialState => VerificationIdle();
-
+@override
+  void onError(Object error, StackTrace stacktrace) {
+    // TODO: implement onError
+    super.onError(error, stacktrace);
+    print('\n');
+    print('\n');
+    print('\n');
+    print('\n');
+    print(error);
+    print(stacktrace);
+  }
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
     if (event is LogoutEvent) {
@@ -63,16 +73,7 @@ class AccountVerificationBloc
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
           var data = response.data;
-          await _session.saveUser(
-              id: data.id,
-              name: data.name,
-              image: data.image,
-              email: data.email,
-              username: data.username,
-              isVerified: data.isVerified,
-              gender: data.gender,
-              firebaseToken: data.firebaseToken,
-              city: data.city);
+          await _session.saveUser(data);
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);
@@ -103,6 +104,7 @@ class AccountVerificationBloc
         yield SessionExpiredState();
       } catch (error) {
         yield AccountVerificationFailed("Unknown error: $error}");
+        print(error);
       }
     }
     if (event is ResendVerification) {

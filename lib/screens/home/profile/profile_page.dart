@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justcost/data/user/model/auth_response.dart';
+import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
@@ -25,9 +25,10 @@ class _ProfilePageState extends State<ProfilePage>
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _bloc.dispatch(LoadProfileEvent());
     _bloc.state.listen((state) {
-      if (state is LogoutSuccessState)
+      if (state is LogoutSuccessState) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => LoginScreen(NavigationReason.logout)));
+      }
       if (state is SessionsExpiredState) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) =>
@@ -54,10 +55,10 @@ class _ProfilePageState extends State<ProfilePage>
               ],
             ),
           );
-        if (state is ProfileLoadedSuccessState)
-          return _loadUser(state.userPayload);
-        if (state is ProfileReloadFailedState)
-          return _loadUser(state.userPayload);
+        if (state is ProfileLoadedSuccessState) return _loadUser(state.user);
+        if (state is ProfileReloadFailedState) return _loadUser(state.user);
+        if (state is LogoutLoading)
+          return Center(child: CircularProgressIndicator());
         return Container();
       },
       bloc: _bloc,
@@ -67,29 +68,21 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   bool get wantKeepAlive => true;
 
-  Widget _loadUser(Payload userPayload) {
+  Widget _loadUser(User user) {
     return Column(
       children: <Widget>[
         ClipOval(
-            child:
-                /* userPayload != null && userPayload.photo != null
+            child: user.image != null && user.image.isNotEmpty
                 ? Image.network(
-                    userPayload.photo,
+                    user.image,
                     width: 90,
                     height: 90,
-                    /* placeholder: (context, url) {
-                      return DefaultUserAvatarWidget();
-                    },
-                    errorWidget: (context, url, error) {
-                      return DefaultUserAvatarWidget();
-                    }, */
                   )
-                : */
-                DefaultUserAvatarWidget()),
+                : DefaultUserAvatarWidget()),
         SizedBox(
           width: 10,
         ),
-        Text(userPayload.name),
+        Text(user.name),
         Text('Membership: GOLDEN'),
         Container(
           padding: const EdgeInsets.all(4),

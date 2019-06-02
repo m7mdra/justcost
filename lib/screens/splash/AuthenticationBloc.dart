@@ -47,7 +47,6 @@ class AuthenticationBloc
     print(transition);
   }
 
-
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
@@ -64,16 +63,7 @@ class AuthenticationBloc
               if (parseResponse.isVerified) {
                 /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                 /// OBSOLETE DATA
-                await session.saveUser(
-                    id: parseResponse.id,
-                    name: parseResponse.name,
-                    email: parseResponse.email,
-                    username: parseResponse.username,
-                    isVerified: parseResponse.isVerified,
-                    gender: parseResponse.gender,
-                    image: parseResponse.image,
-                    firebaseToken: parseResponse.firebaseToken,
-                    city: parseResponse.city);
+                await session.saveUser(parseResponse);
                 yield UserAuthenticated();
               } else
                 yield AccountNotVerified();

@@ -27,7 +27,7 @@ class CommentWidget extends StatelessWidget {
                       width: 50,
                       height: 50,
                     )
-                  : Image.network(comment.commentPic),
+                  : Image.network(comment.commentPic,width: 50,height: 50,),
               const SizedBox(
                 width: 4,
               ),
@@ -117,7 +117,7 @@ class ReplayWidget extends StatelessWidget {
                     width: 50,
                     height: 50,
                   )
-                : Image.network(replay.commentPic),
+                : Image.network(replay.commentPic,width: 50,height: 50,),
             const SizedBox(
               width: 4,
             ),
