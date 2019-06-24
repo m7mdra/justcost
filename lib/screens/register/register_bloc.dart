@@ -86,6 +86,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             yield RegisterError("Connection timedout, try again");
             break;
           case DioErrorType.RESPONSE:
+          
             yield RegisterError(
                 "Server error, please try again or contact support team");
             break;

@@ -4,7 +4,6 @@ import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
-import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
@@ -44,25 +43,26 @@ class _LoginScreenState extends State<LoginScreen> {
             builder: (context) => ProgressDialog(
                   message: AppLocalizations.of(context).loginLoadingMessage,
                 ));
-      if(state is UserNameOrPasswordInvalid){
+      if (state is UserNameOrPasswordInvalid) {
         Navigator.of(context).pop();
 
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-              title: Text('Invalid Credentials'),
-              content: Text('Check your password/username first then try again.'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    MaterialLocalizations.of(context).okButtonLabel,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ));
+                  title: Text('Invalid Credentials'),
+                  content: Text(
+                      'Check your password/username first then try again.'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text(
+                        MaterialLocalizations.of(context).okButtonLabel,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
       }
       if (state is LoginError) {
         Navigator.of(context).pop();

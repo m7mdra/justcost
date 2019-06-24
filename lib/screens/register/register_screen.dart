@@ -77,11 +77,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     });
     regex = new RegExp(pattern);
+
     _userNameController = TextEditingController();
+
     _nameController = TextEditingController();
+
     _passwordController = TextEditingController();
+
     _emailController = TextEditingController();
+
     _phoneNumberController = TextEditingController();
+
     _cityController = TextEditingController();
   }
 

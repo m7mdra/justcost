@@ -37,7 +37,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         DependenciesProvider.provide(),
         DependenciesProvider.provide(),
         BlocProvider.of<UserProfileBloc>(context));
-    _bloc.dispatch(LoadUserDataEvent());
     _bloc.state.listen((state) {
       if (state is ErrorState) {
         showDialog(
@@ -70,6 +69,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 LoginScreen(NavigationReason.session_expired)));
       }
     });
+    _bloc.dispatch(LoadUserDataEvent());
+
   }
 
   @override
@@ -84,8 +85,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         builder: (BuildContext context, EditProfileState state) {
           if (state is UserLoadedState)
             return buildListView(context, state.payload);
-          if (state is AccountInformationUpdateSuccessState)
+          if (state is AccountInformationUpdateSuccessState) {
             return buildListView(context, state.user);
+          }
           if (state is AvatarUpdateSuccess)
             return buildListView(context, state.payload);
           if (state is PersonalInformationUpdateSuccessState)
@@ -104,7 +106,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   ListView buildListView(BuildContext context, User user) {
-    print(user.toJson());
+    print(user.image);
+    print(user.gender);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: <Widget>[

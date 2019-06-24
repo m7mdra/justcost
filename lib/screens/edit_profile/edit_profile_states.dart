@@ -1,4 +1,3 @@
-import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/user.dart';
 
 class EditProfileState {}
@@ -29,11 +28,7 @@ class PersonalInformationUpdateSuccessState extends EditProfileState {
   PersonalInformationUpdateSuccessState(this.user);
 }
 
-class LoadingState extends EditProfileState {
-  final User user;
-
-  LoadingState(this.user);
-}
+class LoadingState extends EditProfileState {}
 
 class ErrorState<T> extends EditProfileState {
   final String message;

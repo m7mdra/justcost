@@ -35,13 +35,13 @@ class Attribute {
 
   Attribute.fromJson(Map<String, dynamic> json) {
     group = json['group'];
-    val = json['val'];
+    val = json['attributes'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['group'] = this.group;
-    data['val'] = this.val;
+    data['attributes'] = this.val;
     return data;
   }
 }
