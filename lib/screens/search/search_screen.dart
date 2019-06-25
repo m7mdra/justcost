@@ -247,7 +247,6 @@ class _SearchScreenState extends State<SearchScreen> {
           setState(() {
             this.city = city;
           });
-        print(this.city);
       },
       child: Row(
         children: <Widget>[

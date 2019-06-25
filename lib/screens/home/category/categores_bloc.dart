@@ -4,19 +4,20 @@ import 'package:equatable/equatable.dart';
 import 'package:justcost/data/category/category_repository.dart';
 import 'package:justcost/data/category/model/category.dart';
 
-abstract class CategriesEvent extends Equatable {
-  CategriesEvent([List props = const []]) : super(props);
+abstract class CategoriesEvent extends Equatable {
+  CategoriesEvent([List props = const []]) : super(props);
 }
 
 abstract class CategoriesState {}
 
-class FetchCategoriesEvent extends CategriesEvent {}
+class FetchCategoriesEvent extends CategoriesEvent {}
 
-class FetchCategoriesDescendant extends CategriesEvent {
+class FetchCategoriesDescendant extends CategoriesEvent {
   final int categoryId;
 
   FetchCategoriesDescendant(this.categoryId);
 }
+
 
 class CategoriesLoadingState extends CategoriesState {}
 
@@ -34,7 +35,7 @@ class CategoriesLoadedState extends CategoriesState {
 
 class CategorieIdleState extends CategoriesState {}
 
-class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
+class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final CategoryRepository _repository;
 
   CategoriesBloc(this._repository);
@@ -44,7 +45,7 @@ class CategoriesBloc extends Bloc<CategriesEvent, CategoriesState> {
 
   @override
   Stream<CategoriesState> mapEventToState(
-    CategriesEvent event,
+    CategoriesEvent event,
   ) async* {
     if (event is FetchCategoriesDescendant) {
       yield CategoriesLoadingState();

@@ -11,9 +11,16 @@ class ProductRepository {
 
   ProductRepository(this._client);
 
-  Future<ProductResponse> getProductsFromCategory(int categoryId) async {
+  Future<ProductResponse> getProductsFromCategory(int categoryId,
+      {String keyword, List<int> attributes}) async {
     try {
-      var response = await _client.get('categoryproudects/$categoryId');
+      var queryParameters = Map<String, dynamic>();
+      if (keyword != null && keyword.isNotEmpty)
+        queryParameters['search'] = keyword;
+      if (attributes != null && attributes.isNotEmpty)
+        queryParameters['selected'] = attributes.join(',');
+      var response = await _client.get('categoryproudects/$categoryId',
+          queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;

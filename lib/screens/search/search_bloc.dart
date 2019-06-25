@@ -74,8 +74,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           if (response.data.isEmpty)
             yield SearchNoResult();
           else {
-            print(response.data.map((f) => f.productId));
-
             yield SearchFound(response.data);
           }
         } else {
