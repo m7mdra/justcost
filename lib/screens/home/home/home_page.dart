@@ -6,6 +6,7 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
+import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage>
                   return Swiper(
                     controller: SwiperController(),
                     autoplay: true,
+                    autoplayDisableOnInteraction: true,
                     pagination: SwiperPagination(),
                     viewportFraction: 0.9,
                     indicatorLayout: PageIndicatorLayout.SCALE,
@@ -127,8 +129,17 @@ class _HomePageState extends State<HomePage>
                       height: 120,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return FeatureCategoryWidget(
-                              category: state.categories[index]);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CategoryDetailsScreen(
+                                        false,
+                                        category: state.categories[index],
+                                      )));
+                            },
+                            child: FeatureCategoryWidget(
+                                category: state.categories[index]),
+                          );
                         },
                         itemCount: state.categories.length,
                         scrollDirection: Axis.horizontal,
@@ -322,6 +333,7 @@ class FeaturedAdsWidget extends StatelessWidget {
               child: Text(
                 product.title,
                 style: TextStyle(fontSize: 16),
+                maxLines: 2,
               ),
             ),
             Container(

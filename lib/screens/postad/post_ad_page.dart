@@ -125,6 +125,7 @@ class _PostAdPageState extends State<PostAdPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Post An Ad'),),
       key: _scaffoldKey,
       body: SafeArea(
         child: BlocBuilder(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:justcost/screens/intro/intro_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         );
       },
       home: BlocProvider(
-        child: SplashScreen(),
+        child: IntroScreen(),
         bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );

@@ -12,13 +12,15 @@ class ProductRepository {
   ProductRepository(this._client);
 
   Future<ProductResponse> getProductsFromCategory(int categoryId,
-      {String keyword, List<int> attributes}) async {
+      {String keyword, List<int> attributes, List<int> brands}) async {
     try {
       var queryParameters = Map<String, dynamic>();
       if (keyword != null && keyword.isNotEmpty)
         queryParameters['search'] = keyword;
       if (attributes != null && attributes.isNotEmpty)
         queryParameters['selected'] = attributes.join(',');
+      if (brands != null && brands.isNotEmpty)
+        queryParameters['brands'] = brands.join(',');
       var response = await _client.get('categoryproudects/$categoryId',
           queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
@@ -36,10 +38,11 @@ class ProductRepository {
     }
   }
 
-  Future<ProductResponse> findProductsByName(String name) async {
+  Future<ProductResponse> findProductsByName(String name, int cityId) async {
     try {
-      var response =
-          await _client.get('products', queryParameters: {'search': name});
+      var params = {'search': name};
+      if (cityId != -1) params['city'] = cityId.toString();
+      var response = await _client.get('products', queryParameters: params);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;

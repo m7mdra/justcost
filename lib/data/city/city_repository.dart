@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:justcost/data/city/model/country.dart';
 
 import 'model/city.dart';
 
@@ -14,5 +18,10 @@ class CityRepository {
     } catch (error) {
       throw error;
     }
+  }
+
+  Future<Countries> getCountries() async {
+    var json = await rootBundle.loadString('assets/countries.json');
+    return Countries.fromJson(jsonDecode(json));
   }
 }

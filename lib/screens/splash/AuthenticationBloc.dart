@@ -51,6 +51,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
     if (event is AppStarted) {
+      await Future.delayed(Duration(seconds: 5));
       yield AuthenticationLoading();
       bool hasToken = await session.hasToken();
       if (hasToken) {

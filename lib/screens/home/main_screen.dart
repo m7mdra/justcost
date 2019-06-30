@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: SafeArea(
+     /* endDrawer: SafeArea(
         child: Drawer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,16 +100,22 @@ class _MainScreenState extends State<MainScreen>
             ],
           ),
         ),
-      ),
+      ),*/
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).appName),
         actions: <Widget>[
-          Builder(
+    /*      Builder(
             builder: (context) {
               return Stack(
                 children: <Widget>[
+                  Align(
+                      child: IconButton(
+                          icon: Icon(Icons.notifications),
+                          onPressed: () =>
+                              Scaffold.of(context).openEndDrawer())),
                   Positioned(
                     top: 10,
+                    right: 10,
                     child: Container(
                       padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
@@ -119,16 +125,11 @@ class _MainScreenState extends State<MainScreen>
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  ),
-                  Align(
-                      child: IconButton(
-                          icon: Icon(Icons.notifications),
-                          onPressed: () =>
-                              Scaffold.of(context).openEndDrawer())),
+                  )
                 ],
               );
             },
-          ),
+          ),*/
           _currentPage == 1
               ? IconButton(
                   icon: Icon(Icons.search),
@@ -143,12 +144,12 @@ class _MainScreenState extends State<MainScreen>
       ),
       body: PageView.builder(
         controller: _pageController,
-        itemCount: 5,
+        itemCount: 4,
         onPageChanged: (index) {
           setState(() {
             _currentPage = index;
           });
-          key.currentState.selectedIndex=index;
+          key.currentState.selectedIndex = index;
         },
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) return HomePage();
@@ -172,7 +173,7 @@ class _MainScreenState extends State<MainScreen>
         items: [
           FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
           FABBottomAppBarItem(iconData: Icons.search, text: 'Search'),
-          FABBottomAppBarItem(iconData: Icons.category, text: 'Categories'),
+          FABBottomAppBarItem(iconData: Icons.category, text: 'Category'),
           FABBottomAppBarItem(iconData: Icons.person, text: 'Profile'),
         ],
         onTabSelected: (index) {

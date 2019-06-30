@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _bloc = SearchBloc(DependenciesProvider.provide());
     if (widget.keyword.isNotEmpty)
-      _bloc.dispatch(SearchProductByName(widget.keyword));
+      _bloc.dispatch(SearchProductByName(widget.keyword, -1));
     _searchTextEditingController = TextEditingController();
   }
 
@@ -53,7 +53,9 @@ class _SearchScreenState extends State<SearchScreen> {
           child: TextField(
             controller: _searchTextEditingController,
             onChanged: (value) {
-              if (value.isNotEmpty) _bloc.dispatch(SearchProductByName(value));
+              if (value.isNotEmpty)
+                _bloc.dispatch(
+                    SearchProductByName(value, city != null ? city.id : -1));
             },
             decoration: InputDecoration.collapsed(hintText: 'Search').copyWith(
               contentPadding: const EdgeInsets.all(10),
@@ -80,13 +82,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               buildCityDropDown(),
-                              buildVerticalDivider(),
-                              buildFilter(),
-                              buildVerticalDivider(),
-                              buildChangeView(),
                               buildVerticalDivider(),
                               buildSort(),
                             ],
@@ -138,8 +136,8 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void retrySearch() => _bloc
-      .dispatch(SearchProductByName(_searchTextEditingController.text.trim()));
+  void retrySearch() => _bloc.dispatch(SearchProductByName(
+      _searchTextEditingController.text.trim(), city != null ? city.id : -1));
 
   Widget buildSort() {
     return InkWell(
@@ -215,22 +213,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget buildFilter() {
-    return InkWell(
-      onTap: () {},
-      splashColor: Theme.of(context).accentColor,
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.filter_list),
-          SizedBox(
-            width: 2,
-          ),
-          Text('Filter'),
-        ],
-      ),
-    );
-  }
-
   Widget buildVerticalDivider() {
     return VerticalDivider();
   }
@@ -243,10 +225,12 @@ class _SearchScreenState extends State<SearchScreen> {
             builder: (context) {
               return CityPickerScreen();
             });
-        if (city != null)
-          setState(() {
-            this.city = city;
-          });
+        setState(() {
+          this.city = city;
+        });
+        _bloc.dispatch(SearchProductByName(
+            _searchTextEditingController.text.trim(),
+            city != null ? city.id : -1));
       },
       child: Row(
         children: <Widget>[

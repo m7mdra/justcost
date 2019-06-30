@@ -8,8 +8,9 @@ abstract class SearchEvent {}
 
 class SearchProductByName extends SearchEvent {
   final String name;
+  final int cityId;
 
-  SearchProductByName(this.name);
+  SearchProductByName(this.name, this.cityId);
 }
 
 class SortByNameAscending extends SearchEvent {}
@@ -69,7 +70,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is SearchProductByName) {
       yield SearchLoading();
       try {
-        var response = await _repository.findProductsByName(event.name);
+        var response = await _repository.findProductsByName(event.name,event.cityId);
         if (response.success) {
           if (response.data.isEmpty)
             yield SearchNoResult();

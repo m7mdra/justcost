@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -28,11 +28,13 @@ class UserRegister extends RegisterEvent {
   final String email;
   final String messagingId;
   final String phoneNumber;
-  final City city;
+  final Country country;
+  final int city;
 
   UserRegister(
       {this.name,
       this.username,
+      this.country,
       this.password,
       this.email,
       this.messagingId,
@@ -66,8 +68,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.password,
             event.messagingId,
-            event.phoneNumber,
-            event.city.id);
+            "${event.country.code}${event.phoneNumber}",
+            event.city);
         if (response.success) {
           await userSession.save(response);
           yield RegisterSuccess();
@@ -86,7 +88,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             yield RegisterError("Connection timedout, try again");
             break;
           case DioErrorType.RESPONSE:
-          
             yield RegisterError(
                 "Server error, please try again or contact support team");
             break;

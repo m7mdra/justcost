@@ -13,6 +13,7 @@ import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
@@ -31,6 +32,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   TextEditingController _commentTextEditingController;
   LikeProductBloc _likeProductBloc;
   AttributesBloc _attributesBloc;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -72,6 +74,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
           child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -219,7 +222,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                       children: <Widget>[
                         Text(state.attributes[index].group),
                         Text(state.attributes[index].val),
@@ -250,36 +252,63 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               ),
               Column(
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: IconText(
-                      icon: Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ),
-                      text: Text(
-                        ' ${product.mobile} ',
-                        style: TextStyle(color: Colors.white),
+                  InkWell(
+                    onTap: () async {
+                      var url = 'tel:+${product.mobile}';
+                      if (await canLaunch(url))
+                        launch(url);
+                      else
+                        scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: SnackBar(
+                                content: Text(
+                                    'Phone number is not avaiable for This Ad'))));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: IconText(
+                        icon: Icon(
+                          Icons.phone,
+                          color: Colors.white,
+                          size: 15,
+                        ),
+                        text: Text(
+                          ' ${product.mobile} ',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     height: 2,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: IconText(
-                      icon: Icon(
-                        Icons.location_on,
-                        color: Colors.white,
-                      ),
-                      text: Text(
-                        ' View Location',
-                        style: TextStyle(color: Colors.white),
+                  InkWell(
+                    onTap: () async {
+                      var url = "geo:${product.location}";
+                      if (product.location != null &&
+                          product.location.isNotEmpty &&
+                          await canLaunch(url))
+                        await launch(url);
+                      else
+                        scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content:
+                                Text('Location for this Ad is not avaliable')));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: IconText(
+                        icon: Icon(
+                          Icons.location_on,
+                          color: Colors.white,
+                          size: 15,
+                        ),
+                        text: Text(
+                          ' View Location',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),

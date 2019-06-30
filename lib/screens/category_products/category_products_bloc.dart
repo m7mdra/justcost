@@ -27,9 +27,10 @@ class CategoryProductsLoaded extends CategoryProductsState {
 class LoadDataEvent extends CategoryProductsEvent {
   final int categoryId;
   final List<int> attributes;
+  final List<int> brands;
   final String keyword;
 
-  LoadDataEvent(this.categoryId, this.attributes, this.keyword);
+  LoadDataEvent(this.categoryId, this.attributes, this.keyword, this.brands);
 }
 
 class RetryEvent extends CategoryProductsEvent {
@@ -56,7 +57,8 @@ class CategoryProductsBloc
         var response = await repository.getProductsFromCategory(
             event.categoryId,
             keyword: event.keyword,
-            attributes: event.attributes);
+            attributes: event.attributes,
+            brands: event.brands);
         if (response.success) {
           if (response.data != null && response.data.isNotEmpty)
             yield CategoryProductsLoaded(response.data);

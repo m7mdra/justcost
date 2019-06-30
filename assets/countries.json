@@ -1,0 +1,388 @@
+{
+  "data": [
+    {
+      "id": 32,
+      "name": "Bahrain",
+      "arName": "البحرين",
+      "code": "973",
+      "cities": [
+        {
+          "id": 97,
+          "name": "Al Hadd",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 98,
+          "name": "Al Manamah",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 99,
+          "name": "Al Mintaqah al Gharbiyah",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 100,
+          "name": "Al Mintaqah al Wusta",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 101,
+          "name": "Al Mintaqah ash Shamaliyah",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 102,
+          "name": "Al Muharraq",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 103,
+          "name": "Ar Rifa wa al Mintaqah al Janubiyah",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 104,
+          "name": "Jidd Hafs",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 105,
+          "name": "Madinat Hamad",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 106,
+          "name": "Madinat Isa",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 107,
+          "name": "Juzur Hawar",
+          "arName": "",
+          "countryId": 32
+        },
+        {
+          "id": 108,
+          "name": "Sitrah",
+          "arName": "",
+          "countryId": 32
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Kuwait",
+      "arName": "الكويت",
+      "code": "965",
+      "cities": [
+        {
+          "id": 109,
+          "name": "Al Ahmadi",
+          "arName": "",
+          "countryId": 33
+        },
+        {
+          "id": 110,
+          "name": "Al Farwaniyah",
+          "arName": "",
+          "countryId": 33
+        },
+        {
+          "id": 111,
+          "name": "Al Asimah",
+          "arName": "",
+          "countryId": 33
+        },
+        {
+          "id": 112,
+          "name": "Al Jahra",
+          "arName": "",
+          "countryId": 33
+        },
+        {
+          "id": 113,
+          "name": "Hawalli",
+          "arName": "",
+          "countryId": 33
+        },
+        {
+          "id": 114,
+          "name": "Mubarak Al Kabeer",
+          "arName": "",
+          "countryId": 33
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Qatar",
+      "arName": "قطر",
+      "code": "974",
+      "cities": [
+        {
+          "id": 115,
+          "name": "Ad Dawhah",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 116,
+          "name": "Al Ghuwayriyah",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 117,
+          "name": "Al Jumayliyah",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 118,
+          "name": "Al Khawr",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 119,
+          "name": "Al Wakrah",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 120,
+          "name": "Ar Rayyan",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 121,
+          "name": "Jarayan al Batinah",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 122,
+          "name": "Madinat ash Shamal",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 123,
+          "name": "Umm Said",
+          "arName": "",
+          "countryId": 34
+        },
+        {
+          "id": 124,
+          "name": "Umm Salal",
+          "arName": "",
+          "countryId": 34
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Saudi Arabia",
+      "arName": "السعودية",
+      "code": "966",
+      "cities": [
+        {
+          "id": 125,
+          "name": "Al Bahah",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 126,
+          "name": "Al Hudud ash Shamaliyah",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 127,
+          "name": "Al Jawf",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 128,
+          "name": "Al Madinah",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 129,
+          "name": "Al Qasim",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 130,
+          "name": "Ar Riyad",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 131,
+          "name": "Ash Sharqiyah",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 132,
+          "name": "Asir",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 133,
+          "name": "Hail",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 134,
+          "name": "Jizan",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 135,
+          "name": "Makkah",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 136,
+          "name": "Najran",
+          "arName": "",
+          "countryId": 35
+        },
+        {
+          "id": 137,
+          "name": "Tabuk",
+          "arName": "",
+          "countryId": 35
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Oman",
+      "arName": "عمان",
+      "code": "968",
+      "cities": [
+        {
+          "id": 138,
+          "name": "Ad Dakhiliyah",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 139,
+          "name": "Al Batinah",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 140,
+          "name": "Al Wusta",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 141,
+          "name": "Ash Sharqiyah",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 142,
+          "name": "Az Zahirah",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 143,
+          "name": "Masqat",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 144,
+          "name": "Musandam",
+          "arName": "",
+          "countryId": 36
+        },
+        {
+          "id": 145,
+          "name": "Dhofar",
+          "arName": "",
+          "countryId": 36
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "name": "United Arab Emirates",
+      "arName": "الامارات",
+      "code": "971",
+      "cities": [
+        {
+          "id": 1,
+          "name": "Abu Dhabi",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 147,
+          "name": "Ajman",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 148,
+          "name": "Al Fujayrah",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 149,
+          "name": "Sharjah",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 150,
+          "name": "Dubai",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 151,
+          "name": "Ras al Khaymah",
+          "arName": "",
+          "countryId": 37
+        },
+        {
+          "id": 152,
+          "name": "Umm al Qaywayn",
+          "arName": "",
+          "countryId": 37
+        }
+      ]
+    }
+  ]
+}

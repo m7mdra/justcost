@@ -49,8 +49,9 @@ class AdWidget extends StatelessWidget {
                     Text(product.title == null ? '' : product.title,
                         style: Theme.of(context)
                             .textTheme
-                            .subhead
-                            .copyWith(color: Colors.black)),
+                            .title
+                            .copyWith(color: Colors.black),
+                    maxLines: 2,),
                     const SizedBox(
                       height: 4,
                     ),

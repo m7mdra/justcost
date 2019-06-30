@@ -142,162 +142,108 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: <Widget>[
-            Align(
-              child: Text(
-                'JUST COST',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Align(
-              child: Text(
-                AppLocalizations.of(context).loginScreenName,
-                style: TextStyle(
-                  fontSize: 25,
-                ),
+            Hero(
+              tag: 'logo',
+              child: Image.asset(
+                'assets/icon/android/justcost-title.png',
+                width: 160,
+                height: 160,
+                fit: BoxFit.contain,
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      validator: (username) {
-                        return username.isEmpty
-                            ? AppLocalizations.of(context)
-                                .usernameFieldEmptyError
-                            : null;
-                      },
-                      onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(_passwordFocusNode);
-                      },
-                      textInputAction: TextInputAction.next,
-                      controller: _userNameController,
-                      minLines: 1,
-                      decoration: InputDecoration(
-                          hintText:
-                              AppLocalizations.of(context).usernameFieldHint,
-                          labelText:
-                              AppLocalizations.of(context).usernameFieldHint,
-                          contentPadding: EdgeInsets.all(10),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16))),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      focusNode: _passwordFocusNode,
-                      obscureText: true,
-                      validator: (password) {
-                        return password.isEmpty
-                            ? AppLocalizations.of(context)
-                                .passwordFieldEmptyError
-                            : null;
-                      },
-                      onEditingComplete: () => _attemptLogin(),
-                      minLines: 1,
-                      decoration: InputDecoration(
-                          hintText: '**********',
-                          labelText:
-                              AppLocalizations.of(context).passwordFieldHint,
-                          contentPadding: EdgeInsets.all(10),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16))),
-                    ),
-                  ],
-                )),
-            /*Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                MaterialButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ResetPasswordScreen()));
-                  },
-                  child: Text(
-                    AppLocalizations.of(context).forgotPasswordButton,
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  ),
+            Hero(
+              tag: "form",
+
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            validator: (username) {
+                              return username.isEmpty
+                                  ? AppLocalizations.of(context)
+                                      .usernameFieldEmptyError
+                                  : null;
+                            },
+                            onEditingComplete: () {
+                              FocusScope.of(context)
+                                  .requestFocus(_passwordFocusNode);
+                            },
+                            textInputAction: TextInputAction.next,
+                            controller: _userNameController,
+                            minLines: 1,
+                            decoration: InputDecoration(
+                                labelStyle: Theme.of(context).textTheme.body1,
+                                hintText:
+                                    AppLocalizations.of(context).usernameFieldHint,
+                                labelText:
+                                    AppLocalizations.of(context).usernameFieldHint,
+                                contentPadding: EdgeInsets.all(10),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(0))),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            controller: _passwordController,
+                            focusNode: _passwordFocusNode,
+                            obscureText: true,
+                            validator: (password) {
+                              return password.isEmpty
+                                  ? AppLocalizations.of(context)
+                                      .passwordFieldEmptyError
+                                  : null;
+                            },
+                            onEditingComplete: () => _attemptLogin(),
+                            minLines: 1,
+                            decoration: InputDecoration(
+                                hintText: '**********',
+                                labelStyle: Theme.of(context).textTheme.body1,
+                                labelText:
+                                    AppLocalizations.of(context).passwordFieldHint,
+                                contentPadding: EdgeInsets.all(10),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(0))),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              onPressed: () => _attemptLogin(),
+                              child:
+                                  Text(AppLocalizations.of(context).loginScreenName),
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
-              ],
-            ),*/
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              onPressed: () => _attemptLogin(),
-              child: Text(AppLocalizations.of(context).loginScreenName),
-              color: Theme.of(context).accentColor,
+              ),
             ),
-            const Divider(),
-            OutlineButton(
-              onPressed: () {
-                _loginBloc.dispatch(GuestLogin());
-              },
-              child: Text(AppLocalizations.of(context).continueAsGuestButton),
-            ),
-            OutlineButton(
+            FlatButton(
               onPressed: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => RegisterScreen()));
               },
               child: Text(AppLocalizations.of(context).createAccountButton),
             ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  AppLocalizations.of(context).aboutUsButton,
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-                Text(' | '),
-                Text(
-                  AppLocalizations.of(context).getHelp,
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ],
+            FlatButton(
+              onPressed: () {
+                _loginBloc.dispatch(GuestLogin());
+              },
+              child: Text(AppLocalizations.of(context).continueAsGuestButton),
             ),
-            const SizedBox(
-              height: 2,
-            ),
-            Center(
-                child: Text(
-              AppLocalizations.of(context).appVersion('1.1'),
-            )),
-            const SizedBox(
-              height: 2,
-            ),
-            Center(
-                child: Text(AppLocalizations.of(context)
-                    .copyRights(DateTime.now().year))),
-            const SizedBox(
-              height: 2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  AppLocalizations.of(context).privacy,
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-                Text(' | '),
-                Text(
-                  AppLocalizations.of(context).tos,
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ],
-            ),
+
           ],
         ),
       ),
