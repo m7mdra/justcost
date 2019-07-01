@@ -15,6 +15,10 @@ class SearchProductByName extends SearchEvent {
 
 class SortByNameAscending extends SearchEvent {}
 
+class SortByDiscountAscending extends SearchEvent {}
+
+class SortByDiscountDescending extends SearchEvent {}
+
 class SortByNameDescending extends SearchEvent {}
 
 class SortByPriceAscending extends SearchEvent {}
@@ -66,11 +70,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
-
     if (event is SearchProductByName) {
       yield SearchLoading();
       try {
-        var response = await _repository.findProductsByName(event.name,event.cityId);
+        var response =
+            await _repository.findProductsByName(event.name, event.cityId);
         if (response.success) {
           if (response.data.isEmpty)
             yield SearchNoResult();
@@ -88,6 +92,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
     if (event is SortByRateAscending) {}
     if (event is SortByRateDescending) {}
+    if (event is SortByDiscountDescending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) =>
+            p2.calculateDiscount().compareTo(p1.calculateDiscount()));
+
+        yield SearchFound(products);
+      }
+    }
+    if (event is SortByDiscountAscending) {
+      if (currentState is SearchFound) {
+        var products = (currentState as SearchFound).products;
+        products.sort((p1, p2) =>
+            p1.calculateDiscount().compareTo(p2.calculateDiscount()));
+
+        yield SearchFound(products);
+      }
+    }
     if (event is SortByNameAscending) {
       if (currentState is SearchFound) {
         var products = (currentState as SearchFound).products;

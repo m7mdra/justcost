@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/intro/intro_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
@@ -76,6 +77,9 @@ class _SplashScreenState extends State<SplashScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => AccountVerificationScreen()));
+      if (state is FirstTimeLaunch)
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => IntroScreen()));
     });
   }
 

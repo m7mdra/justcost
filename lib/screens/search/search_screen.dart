@@ -182,6 +182,22 @@ class _SearchScreenState extends State<SearchScreen> {
                         Navigator.of(context).pop(4);
                       },
                     ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.attach_money),
+                      title: Text('Discount - Ascending'),
+                      onTap: () {
+                        Navigator.of(context).pop(5);
+                      },
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.attach_money),
+                      title: Text('Discount - Descending'),
+                      onTap: () {
+                        Navigator.of(context).pop(6);
+                      },
+                    ),
                   ],
                 ),
               );
@@ -263,13 +279,12 @@ class _SearchScreenState extends State<SearchScreen> {
           _bloc.dispatch(SortByPriceDescending());
           break;
         case 5:
-          sortName = 'Rate';
-          _bloc.dispatch(SortByRateAscending());
+          sortName = 'Discount';
+          _bloc.dispatch(SortByDiscountAscending());
           break;
         case 6:
-          sortName = 'Rate';
-          _bloc.dispatch(SortByRateDescending());
-
+          sortName = 'Discount';
+          _bloc.dispatch(SortByDiscountDescending());
           break;
       }
     });

@@ -21,6 +21,7 @@ const USER_TYPE_KEY = "userType";
 const ADDRESS_KEY = 'address';
 const CITY_OBJECT_KEY = 'city_obj';
 const MOBILE_NUMBER_KEY = "mobile_number";
+const FIRST_TIME_LAUNCH_KEY = "firstTimeLaunch";
 
 class UserSession {
   Future<void> save(AuthenticationResponse response) async {
@@ -156,5 +157,19 @@ class UserSession {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     return sharedPreferences.clear();
+  }
+
+  Future<bool> isFirstTimeLaunch() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var firstTime = sharedPreferences.getBool(FIRST_TIME_LAUNCH_KEY);
+    if (firstTime == null)
+      return true;
+    else
+      return false;
+  }
+
+  setFirstTimeLaunched() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(FIRST_TIME_LAUNCH_KEY, false);
   }
 }

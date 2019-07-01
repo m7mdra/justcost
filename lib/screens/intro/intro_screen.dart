@@ -51,13 +51,11 @@ class _IntroScreenState extends State<IntroScreen> {
         setState(() {
           _currentIndex += 1;
         });
-        if (_currentIndex == 2) {
-          timer.cancel();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterScreen()));
-        }
       } else {
         timer.cancel();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => RegisterScreen()));
+
       }
     });
   }
@@ -140,13 +138,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 value: percentages[_currentIndex],
               ),
             ),
-            FlatButton(
-              child: Text('Meh'),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()));
-              },
-            )
+
           ],
         ),
       ),

@@ -29,6 +29,7 @@ class UserUnauthenticated extends AuthenticationState {}
 class AuthenticationLoading extends AuthenticationState {}
 
 class AuthenticationFailed extends AuthenticationState {}
+class FirstTimeLaunch extends AuthenticationState{}
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -51,32 +52,38 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
     if (event is AppStarted) {
-      await Future.delayed(Duration(seconds: 5));
-      yield AuthenticationLoading();
-      bool hasToken = await session.hasToken();
-      if (hasToken) {
-        if (await session.isAccountVerified()) {
-          yield UserAuthenticated();
-        } else {
-          try {
-            var parseResponse = await repository.parse();
-            if (parseResponse != null) {
-              if (parseResponse.isVerified) {
-                /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
-                /// OBSOLETE DATA
-                await session.saveUser(parseResponse);
-                yield UserAuthenticated();
-              } else
-                yield AccountNotVerified();
+      if (await session.isFirstTimeLaunch()) {
+        await session.setFirstTimeLaunched();
+
+        yield FirstTimeLaunch();
+      } else {
+        await Future.delayed(Duration(seconds: 2));
+        yield AuthenticationLoading();
+        bool hasToken = await session.hasToken();
+        if (hasToken) {
+          if (await session.isAccountVerified()) {
+            yield UserAuthenticated();
+          } else {
+            try {
+              var parseResponse = await repository.parse();
+              if (parseResponse != null) {
+                if (parseResponse.isVerified) {
+                  /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
+                  /// OBSOLETE DATA
+                  await session.saveUser(parseResponse);
+                  yield UserAuthenticated();
+                } else
+                  yield AccountNotVerified();
+              }
+            } on DioError catch (error) {
+              yield AuthenticationFailed();
+            } catch (error) {
+              yield AuthenticationFailed();
             }
-          } on DioError catch (error) {
-            yield AuthenticationFailed();
-          } catch (error) {
-            yield AuthenticationFailed();
           }
-        }
-      } else
-        yield UserUnauthenticated();
+        } else
+          yield UserUnauthenticated();
+      }
     }
   }
 }

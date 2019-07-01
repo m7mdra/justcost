@@ -92,6 +92,12 @@ class Product {
     postedOn = json['postedOn'];
   }
 
+  int calculateDiscount() {
+    var discount = ((regPrice - salePrice) / regPrice * 100).round();
+    print(discount);
+    return discount;
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['productId'] = this.productId;

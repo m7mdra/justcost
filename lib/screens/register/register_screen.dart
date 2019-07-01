@@ -143,7 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 16.0, right: 16.0, top: 8),
-                  child: Column(
+                  child: ListView(
+                    shrinkWrap: true,
+                    primary: false,
                     children: <Widget>[
                       Form(
                         child: Column(
@@ -168,8 +170,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     labelStyle:
                                         Theme.of(context).textTheme.body1,
                                     border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(0)))),
+                                        borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                        borderRadius: BorderRadius.circular(2)))),
                             SizedBox(
                               height: 4,
                             ),
@@ -200,7 +202,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       .usernameFieldHint,
                                   errorMaxLines: 1,
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
                               height: 4,
@@ -225,7 +228,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     .requestFocus(_phoneNumberFocusNode);
                               },
                               keyboardType: TextInputType.emailAddress,
+
                               decoration: InputDecoration(
+
                                   labelStyle: Theme.of(context).textTheme.body1,
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
@@ -234,6 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: AppLocalizations.of(context)
                                       .emailFieldHint,
                                   errorMaxLines: 1,
+
                                   errorBorder: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(0)),
@@ -241,7 +247,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderSide: BorderSide(
                                           color: Theme.of(context).errorColor)),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                    borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
                               height: 4,
@@ -274,7 +281,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: AppLocalizations.of(context)
                                       .passwordFieldHint,
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
                               height: 4,
@@ -302,7 +310,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
                               height: 4,
@@ -326,7 +335,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             SizedBox(
                               height: 4,
@@ -354,12 +364,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   prefixText: '+$_countryCode',
                                   errorMaxLines: 1,
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                             SizedBox(
                               height: 4,
                             ),
                             DropdownButtonFormField(
+
                               value: genderGroupValue,
                               hint: Text('Gender'),
                               onChanged: (gender) {
@@ -380,10 +392,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ],
                               decoration: InputDecoration(
+
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0))),
+                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderRadius: BorderRadius.circular(2))),
                             ),
                           ],
                         ),

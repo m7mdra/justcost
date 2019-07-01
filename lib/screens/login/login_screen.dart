@@ -158,7 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Hero(
               tag: "form",
-
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -182,13 +181,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             minLines: 1,
                             decoration: InputDecoration(
                                 labelStyle: Theme.of(context).textTheme.body1,
-                                hintText:
-                                    AppLocalizations.of(context).usernameFieldHint,
-                                labelText:
-                                    AppLocalizations.of(context).usernameFieldHint,
+                                hintText: AppLocalizations.of(context)
+                                    .usernameFieldHint,
+                                labelText: AppLocalizations.of(context)
+                                    .usernameFieldHint,
                                 contentPadding: EdgeInsets.all(10),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(0))),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent, width: 0.5),
+                                    borderRadius: BorderRadius.circular(2))),
                           ),
                           const SizedBox(
                             height: 8,
@@ -208,11 +209,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: InputDecoration(
                                 hintText: '**********',
                                 labelStyle: Theme.of(context).textTheme.body1,
-                                labelText:
-                                    AppLocalizations.of(context).passwordFieldHint,
+                                labelText: AppLocalizations.of(context)
+                                    .passwordFieldHint,
                                 contentPadding: EdgeInsets.all(10),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(0))),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent, width: 0.5),
+                                    borderRadius: BorderRadius.circular(2))),
                           ),
                           Align(
                             alignment: Alignment.centerRight,
@@ -220,8 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               onPressed: () => _attemptLogin(),
-                              child:
-                                  Text(AppLocalizations.of(context).loginScreenName),
+                              child: Text(
+                                  AppLocalizations.of(context).loginScreenName),
                               color: Theme.of(context).accentColor,
                             ),
                           ),
@@ -243,7 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: Text(AppLocalizations.of(context).continueAsGuestButton),
             ),
-
           ],
         ),
       ),
