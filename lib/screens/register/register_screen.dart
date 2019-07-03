@@ -434,7 +434,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(color: Colors.lightBlue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
                               builder: (context) => LoginScreen()));
                         })
                 ]),

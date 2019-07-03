@@ -11,6 +11,9 @@ import 'package:justcost/screens/postad/post_ad_page.dart';
 import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/fab_bottom_appbar.dart';
 
+import '../ad_details_screen.dart';
+import '../ad_type_screen.dart';
+
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -50,7 +53,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     /* endDrawer: SafeArea(
+      /* endDrawer: SafeArea(
         child: Drawer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -104,7 +107,7 @@ class _MainScreenState extends State<MainScreen>
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).appName),
         actions: <Widget>[
-    /*      Builder(
+          /*      Builder(
             builder: (context) {
               return Stack(
                 children: <Widget>[
@@ -162,7 +165,7 @@ class _MainScreenState extends State<MainScreen>
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => PostAdPage()));
+              .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
         },
         tooltip: 'post ad',
         child: Icon(Icons.add),

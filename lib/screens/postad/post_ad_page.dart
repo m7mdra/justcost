@@ -216,7 +216,7 @@ class _PostAdPageState extends State<PostAdPage> {
   }
 
   Widget postAdForm() {
-    var hintStyle =
+    final hintStyle =
         Theme.of(context).textTheme.body1.copyWith(color: Colors.grey);
     return ListView(
       children: <Widget>[
