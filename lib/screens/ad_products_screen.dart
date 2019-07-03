@@ -19,20 +19,7 @@ class AdProductsScreen extends StatefulWidget {
 
 class _AdProductsScreenState extends State<AdProductsScreen> {
   List<AdProduct> adProducts = <AdProduct>[
-    AdProduct(
-        name:
-            "ASUS ZenBook Pro UX501VW 15.6\" 4K TouchScreen UltraBook: Intel Quad Core i7-6700HQ | 512GB NVMe SSD | 16 DDR4 | NVIDIA GTX 960M 4GB | IPS UHD (3840x2160) | Thunderbolt III | Windows 10 Professional",
-        quantity: '1',
-        newPrice: "60",
-        oldPrice: '80',
-        category: Category(name: 'laptops'),
-        brand: Brand(name: 'ASUS'),
-        details:
-            """15.6" TouchScreen IPS 4K Ultra­-HD display, 3840 x 2160 resolution
-Intel Skylake Quad-Core i7­-6700HQ 2.6 GHz CPU (turbo to 3.5GHz) | Dedicated Nvidia GTX 960M 4GB GDDR5 Graphics
-512GB NVMe SSD with transfer speeds of 1400MB/s | 16 GB DDR4 2133 MHz
-1x Thunderbolt III (via USB Type­C), 1x Gen 2 USB 3.1 Type­C, 3x USB 3.0, 1x HDMI.Bluetooth 4.0, SDXC reader, 802.11ac Wi­Fi
-Windows 10 Professional 64-bit | 1­ year Warranty with Accidental Damage Protection""")
+    
   ];
 
   @override
@@ -41,22 +28,22 @@ Windows 10 Professional 64-bit | 1­ year Warranty with Accidental Damage Protec
         appBar: AppBar(
           title: Text('Ad products'),
           actions: <Widget>[
-            IconButton(
-              onPressed: () async {
-                if (widget.additionType == AdditionType.single &&
-                    adProducts.length == 1) return;
-                var adProduct = await Navigator.push(
-                    context,
-                    MaterialPageRoute<AdProduct>(
-                        builder: (context) => AddAdProductScreen()));
-                if (adProduct != null) {
-                  setState(() {
-                    adProducts.add(adProduct);
-                  });
-                }
-              },
-              icon: Icon(Icons.add),
-            )
+            widget.additionType == AdditionType.single && adProducts.length == 1
+                ? Container()
+                : IconButton(
+                    onPressed: () async {
+                      var adProduct = await Navigator.push(
+                          context,
+                          MaterialPageRoute<AdProduct>(
+                              builder: (context) => AddAdProductScreen()));
+                      if (adProduct != null) {
+                        setState(() {
+                          adProducts.add(adProduct);
+                        });
+                      }
+                    },
+                    icon: Icon(Icons.add),
+                  )
           ],
         ),
         body: adProducts.isEmpty
@@ -79,7 +66,9 @@ Windows 10 Professional 64-bit | 1­ year Warranty with Accidental Damage Protec
                         Text(
                           "${adProducts[index].newPrice} AED",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.red,fontSize: 16),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                              fontSize: 16),
                         )
                       ],
                     ),
