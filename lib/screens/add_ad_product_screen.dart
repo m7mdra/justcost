@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/screens/ad_product.dart';
 import 'package:justcost/screens/postad/category_picker_screen.dart';
 import 'package:justcost/util/tuple.dart';
 
+import 'attribute/attribute_picker_screeen.dart';
 import 'brand/brand_page.dart';
 
 class AddAdProductScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   Category _category;
   Category _parentCategory;
   Brand _brand;
+  List<Attribute> attributeList = List();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
@@ -160,6 +163,33 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                 ),
               ),
               divider(),
+              ListTile(
+                dense: true,
+                title: Text(
+                  'Select Attributes',
+                ),
+                onTap: _onAttributePickerClicked,
+                subtitle: Wrap(
+                  children: attributeList
+                      .map((attr) => Chip(
+                            label: Text(attr.name),
+                            onDeleted: () {
+                              attributeList.forEach((attribute) {
+                                if (attribute.id == attr.id) {
+                                  attributeList.remove(attribute);
+                                  setState(() {});
+                                }
+                              });
+                            },
+                          ))
+                      .toList(),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.keyboard_arrow_right),
+                  onPressed: _onAttributePickerClicked,
+                ),
+              ),
+              divider(),
               TextFormField(
                 controller: _detailsController,
                 keyboardType: TextInputType.text,
@@ -243,6 +273,24 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       else
         this._category = category.item2;
     });
+  }
+
+  _onAttributePickerClicked() async {
+    if (_category == null)
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text('Select Category first')));
+    else {
+      var attrs = await Navigator.push(
+          context,
+          MaterialPageRoute<List<Attribute>>(
+              builder: (context) => AttributePickerScreen(
+                    categoryId: _category.id,
+                    attributes: attributeList.toList(),
+                  )));
+      if (attrs != null) {
+        attributeList = attrs;
+      }
+    }
   }
 
   _onBrandPickerClicked() async {

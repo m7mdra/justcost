@@ -31,6 +31,12 @@ class _AttributeFilterDialogState extends State<AttributeFilterDialog> {
     _bloc = FilterAttributeBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadAttributes(widget.categoryId));
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _bloc.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

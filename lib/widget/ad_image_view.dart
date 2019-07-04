@@ -24,6 +24,7 @@ class _AdImageViewState extends State<AdImageView> {
       onTap: (){},
       child: Stack(
         overflow: Overflow.visible,
+        alignment: Alignment.topRight,
         children: <Widget>[
           ClipRRect(
             borderRadius: new BorderRadius.circular(8.0),
@@ -35,8 +36,8 @@ class _AdImageViewState extends State<AdImageView> {
             ),
           ),
           Positioned(
-            left: 85,
-            top: -5,
+            top: -8,
+            right: -8,
             child: ClipOval(
               child: InkWell(
                 onTap: () {

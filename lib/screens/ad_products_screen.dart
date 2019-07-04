@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/data/brand/model/brand.dart';
-import 'package:justcost/data/category/model/category.dart';
 
 import 'ad_product.dart';
 import 'add_ad_product_screen.dart';

@@ -37,6 +37,8 @@ class _AdVideoViewState extends State<AdVideoView> {
       width: widget.size.width,
       height: widget.size.height,
       child: Stack(
+        alignment: Alignment.topRight,
+
         overflow: Overflow.visible,
         children: <Widget>[
           ClipRRect(
@@ -49,7 +51,7 @@ class _AdVideoViewState extends State<AdVideoView> {
                     isPlaying()
                         ? Icons.pause_circle_filled
                         : Icons.play_circle_filled,
-                    size: 40,
+                    size: 45,
                     color: Colors.white,
                   ),
                   onPressed: () {
@@ -59,8 +61,8 @@ class _AdVideoViewState extends State<AdVideoView> {
                     setState(() {});
                   })),
           Positioned(
-            left: 85,
-            top: -5,
+            top: -8,
+            right: -8,
             child: ClipOval(
               child: InkWell(
                 onTap: () {
