@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
+import 'package:justcost/screens/ad_product.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
@@ -8,6 +9,10 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'ad_type_screen.dart';
 
 class AdMediaScreen extends StatefulWidget {
+  final Ad ad;
+
+  const AdMediaScreen({Key key, this.ad}) : super(key: key);
+
   @override
   _AdMediaScreenState createState() => _AdMediaScreenState();
 }
@@ -15,6 +20,13 @@ class AdMediaScreen extends StatefulWidget {
 class _AdMediaScreenState extends State<AdMediaScreen> {
   List<Media> mediaList = List<Media>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.ad);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,9 +178,10 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           onPressed: () {
-                            //TODO: add validation
+                            widget.ad.mediaList = mediaList;
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => AdTypeSelectScreen()));
+                                builder: (context) =>
+                                    AdTypeSelectScreen(ad: widget.ad)));
                           },
                           child: Text('Next'),
                         ),

@@ -224,11 +224,11 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                               SnackBar(content: Text('Select category first')));
                           return;
                         }
-                        if (_brand == null) {
+                       /* if (_brand == null) {
                           _scaffoldKey.currentState.showSnackBar(
                               SnackBar(content: Text('Select Brand First')));
                           return;
-                        }
+                        }*/
                         var productName = _nameController.value.text;
                         var quantity = _quantityController.value.text;
                         var oldPrice = _oldPriceController.value.text;

@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/city/model/country.dart';
-import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/screens/ad_product.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
 
 import '../dependencies_provider.dart';
 import 'ad_media.dart';
 
 class AdContactScreen extends StatefulWidget {
+  final Ad ad;
+
+  const AdContactScreen({Key key, this.ad}) : super(key: key);
+
   @override
   _AdContactScreenState createState() => _AdContactScreenState();
 }
@@ -16,8 +20,9 @@ class AdContactScreen extends StatefulWidget {
 class _AdContactScreenState extends State<AdContactScreen> {
   TextEditingController _adPhoneNumberController;
   TextEditingController _adEmailController;
+  TextEditingController _adFacebookController;
+  TextEditingController _adInstagramController;
   LatLng location;
-
   FocusNode _adPhoneNumberFocusNode = FocusNode();
   FocusNode _adEmailFocusNode = FocusNode();
   List<Country> _countries = [];
@@ -25,8 +30,9 @@ class _AdContactScreenState extends State<AdContactScreen> {
   Country _selectedCountry;
   City _selectedCity;
   String _countryCode;
-  List<Media> mediaList = List<Media>();
   GlobalKey<FormState> _formKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   Pattern _pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex;
@@ -35,6 +41,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.ad);
     CityRepository repository = DependenciesProvider.provide();
     repository.getCountries().then((countriesData) {
       setState(() {
@@ -44,6 +51,8 @@ class _AdContactScreenState extends State<AdContactScreen> {
     regex = new RegExp(_pattern);
     _adPhoneNumberController = TextEditingController();
     _adEmailController = TextEditingController();
+    _adInstagramController = TextEditingController();
+    _adFacebookController = TextEditingController();
   }
 
   @override
@@ -51,6 +60,8 @@ class _AdContactScreenState extends State<AdContactScreen> {
     super.dispose();
     _adPhoneNumberController.dispose();
     _adEmailController.dispose();
+    _adInstagramController.dispose();
+    _adFacebookController.dispose();
 
     _adPhoneNumberFocusNode.dispose();
     _adEmailFocusNode.dispose();
@@ -62,6 +73,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
         Theme.of(context).textTheme.body1.copyWith(color: Colors.grey);
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Ad Location & Conatct'),
       ),
@@ -190,6 +202,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {},
+                controller: _adFacebookController,
                 maxLines: 1,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -204,6 +217,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {},
                 maxLines: 1,
+                controller: _adInstagramController,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.only(
@@ -219,10 +233,30 @@ class _AdContactScreenState extends State<AdContactScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton(
                     onPressed: () {
-                       //TODO: add validation
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AdMediaScreen()));
-//                      _formKey.currentState.validate();
+                      if (_formKey.currentState.validate()) {
+                        if (location == null) {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Text('Select the ad location.')));
+                          return;
+                        } else {
+                          var phoneNumber = _adPhoneNumberController.value.text;
+                          var email = _adEmailController.value.text;
+                          var facebookPage = _adFacebookController.value.text;
+                          var instagramPage = _adInstagramController.value.text;
+                          widget.ad.phoneNumber = phoneNumber;
+                          widget.ad.location = location;
+                          widget.ad.city = _selectedCity;
+                          widget.ad.country = _selectedCountry;
+                          widget.ad.email = email;
+                          widget.ad.facebookPage = facebookPage;
+                          widget.ad.instagramPage = instagramPage;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute<Ad>(
+                                  builder: (context) =>
+                                      AdMediaScreen(ad: widget.ad)));
+                        }
+                      }
                     },
                     child: Text('Next'),
                   ),

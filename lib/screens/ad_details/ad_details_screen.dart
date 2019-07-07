@@ -77,7 +77,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
       key: scaffoldKey,
       body: SafeArea(
           child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -218,6 +217,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 );
               if (state is AttributesLoaded) {
                 return ListView.separated(
+
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(

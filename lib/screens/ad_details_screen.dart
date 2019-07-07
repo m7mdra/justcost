@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'ad_contact_screen.dart';
+import 'package:justcost/screens/ad_contact_screen.dart';
+import 'package:justcost/screens/ad_product.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   @override
@@ -54,7 +54,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                     FocusScope.of(context).requestFocus(_adKeywordFocusNode);
                   },
                   validator: (title) {
-                    return title.isEmpty ? "Title field Can not be Empty" : null;
+                    return title.isEmpty
+                        ? "Title field Can not be Empty"
+                        : null;
                   },
                   maxLines: 1,
                   controller: _adTitleController,
@@ -75,7 +77,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                     FocusScope.of(context).requestFocus(_adDetailsFocusNode);
                   },
                   validator: (keyword) {
-                    return keyword.isEmpty ? "Keyword field Can not be Empty" : null;
+                    return keyword.isEmpty
+                        ? "Keyword field Can not be Empty"
+                        : null;
                   },
                   maxLines: 1,
                   controller: _adKeywordController,
@@ -83,7 +87,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                       contentPadding: const EdgeInsets.only(
                           left: 16, right: 16, top: 10, bottom: 10),
                       border: InputBorder.none,
-                      helperText: 'Keyword to make your ad easier to search',
+                      helperText: 'Keyword to make your Ad easier to search',
                       labelText: 'Keyword',
                       hintStyle: hintStyle),
                 ),
@@ -95,10 +99,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   maxLines: 5,
                   maxLength: 250,
                   validator: (text) {
-                    if (text.isEmpty)
-                      return "Details field can not be empty";
-                    else if (text.length < 100)
-                      return "Details must be more than 100 character";
+                    if (text.isEmpty) return "Details field can not be empty";
+                    return null;
                   },
                   maxLengthEnforced: true,
                   decoration: InputDecoration(
@@ -120,10 +122,20 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
                       onPressed: () {
-                        //TODO: add validation
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AdContactScreen()));
-
+                        if (_formKey.currentState.validate()) {
+                          var title = _adTitleController.value.text;
+                          var keyword = _adKeywordController.value.text;
+                          var description = _adDetailsController.value.text;
+                          var ad = Ad(
+                              title: title,
+                              keyword: keyword,
+                              description: description);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute<Ad>(
+                                  builder: (context) =>
+                                      AdContactScreen(ad: ad)));
+                        }
                       },
                       child: Text('Next'),
                     ),

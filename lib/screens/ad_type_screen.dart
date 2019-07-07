@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/ad_products_screen.dart';
 
+import 'ad_product.dart';
+
 class AdTypeSelectScreen extends StatefulWidget {
+  final Ad ad;
+
+  const AdTypeSelectScreen({Key key, this.ad}) : super(key: key);
+
   @override
   _AdTypeSelectScreenState createState() => _AdTypeSelectScreenState();
 }
 
 class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.ad);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +66,7 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AdProductsScreen(
                           additionType: AdditionType.single,
+                          ad: widget.ad,
                         )));
               },
             ),
@@ -65,6 +79,7 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AdProductsScreen(
                           additionType: AdditionType.multiple,
+                          ad: widget.ad,
                         )));
               },
             ),

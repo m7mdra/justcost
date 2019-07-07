@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/screens/ad_review_screen.dart';
 
 import 'ad_product.dart';
 import 'add_ad_product_screen.dart';
@@ -7,8 +8,10 @@ enum AdditionType { single, multiple }
 
 class AdProductsScreen extends StatefulWidget {
   final AdditionType additionType;
+  final Ad ad;
 
-  const AdProductsScreen({Key key, this.additionType = AdditionType.single})
+  const AdProductsScreen(
+      {Key key, this.additionType = AdditionType.single, this.ad})
       : super(key: key);
 
   @override
@@ -16,9 +19,7 @@ class AdProductsScreen extends StatefulWidget {
 }
 
 class _AdProductsScreenState extends State<AdProductsScreen> {
-  List<AdProduct> adProducts = <AdProduct>[
-    
-  ];
+  List<AdProduct> adProducts = <AdProduct>[];
 
   @override
   Widget build(BuildContext context) {
@@ -51,40 +52,63 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                   textAlign: TextAlign.center,
                 ),
               )
-            : ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Column(
-                      children: <Widget>[
-                        Text(
-                          "${adProducts[index].oldPrice} AED",
-                          style:
-                              TextStyle(decoration: TextDecoration.lineThrough),
-                        ),
-                        Text(
-                          "${adProducts[index].newPrice} AED",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                              fontSize: 16),
-                        )
-                      ],
+            : Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: Column(
+                            children: <Widget>[
+                              Text(
+                                "${adProducts[index].oldPrice} AED",
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Text(
+                                "${adProducts[index].newPrice} AED",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                          title: Text(
+                            adProducts[index].name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(adProducts[index].details,
+                              maxLines: 2, overflow: TextOverflow.ellipsis),
+                        );
+                      },
+                      itemCount: adProducts.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          height: 1,
+                        );
+                      },
                     ),
-                    title: Text(
-                      adProducts[index].name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          widget.ad.adProducts = adProducts;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute<Ad>(
+                                  builder: (context) =>
+                                      AdReviewScreen(ad: widget.ad)));
+                        },
+                        child: Text('Next'),
+                      ),
                     ),
-                    subtitle: Text(adProducts[index].details,
-                        maxLines: 3, overflow: TextOverflow.ellipsis),
-                  );
-                },
-                itemCount: adProducts.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1,
-                  );
-                },
+                  )
+                ],
               ));
   }
 }
