@@ -154,6 +154,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                           var media = mediaList[index];
                           return media.type == Type.Image
                               ? AdImageView(
+                            showRemoveIcon: true,
                                   file: media.file,
                                   size: Size(200, 200),
                                   key: ObjectKey('object$index'),
@@ -166,6 +167,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                               : AdVideoView(
                                   key: ObjectKey('object$index'),
                                   file: media.file,
+                                  showRemoveIcon: true,
                                   size: Size(200, 200),
                                   onRemove: () {
                                     setState(() {

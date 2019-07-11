@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/screens/ad_contact_screen.dart';
+import 'package:justcost/widget/ad_image_view.dart';
+import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import 'ad.dart';
@@ -13,9 +15,15 @@ class AdReviewScreen extends StatefulWidget {
   final AdContact adContact;
   final List<Media> mediaList;
   final List<AdProduct> products;
+  final AdditionType additionType;
 
   const AdReviewScreen(
-      {Key key, this.adDetails, this.adContact, this.mediaList, this.products})
+      {Key key,
+      this.adDetails,
+      this.adContact,
+      this.mediaList,
+      this.products,
+      this.additionType})
       : super(key: key);
 
   @override
@@ -31,6 +39,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
   @override
   void initState() {
     super.initState();
+    print(widget.additionType);
     adDetails = widget.adDetails;
     adContact = widget.adContact;
     mediaList = widget.mediaList;
@@ -174,7 +183,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   OutlineButton(
                     padding: const EdgeInsets.all(0),
                     onPressed: () async {
-                      var medias =await Navigator.push(
+                      var medias = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => AdMediaScreen(
@@ -200,12 +209,19 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   padding: const EdgeInsets.all(8),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
-                    return Image.file(
-                      mediaList[index].file,
-                      fit: BoxFit.cover,
-                      width: 150,
-                      height: 150,
-                    );
+                    if (mediaList[index].type == Type.Image)
+                      return AdImageView(
+
+                        showRemoveIcon: false,
+                        file: mediaList[index].file,
+                        size: Size(150, 150),
+                      );
+                    else
+                      return AdVideoView(
+                        file: mediaList[index].file,
+                        showRemoveIcon: false,
+                        size: Size(150, 150),
+                      );
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return VerticalDivider();
@@ -224,7 +240,15 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   ),
                   OutlineButton(
                     padding: const EdgeInsets.all(0),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var products = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdProductsScreen(
+                                    products: this.products,
+                                    additionType: widget.additionType,
+                                  )));
+                    },
                     child: Text('EDIT'),
                     textTheme: ButtonTextTheme.normal,
                   )

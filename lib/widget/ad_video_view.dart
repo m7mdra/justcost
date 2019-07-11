@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-typedef Function OnRemoved();
+typedef void OnRemoved();
 
 class AdVideoView extends StatefulWidget {
   final File file;
   final Size size;
   final OnRemoved onRemove;
+  final bool showRemoveIcon;
 
-  const AdVideoView({Key key, this.file, this.size, this.onRemove})
+  const AdVideoView({Key key, this.file, this.size, this.onRemove, this.showRemoveIcon})
       : super(key: key);
 
   @override
@@ -33,9 +34,9 @@ class _AdVideoViewState extends State<AdVideoView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.size.width,
-      height: widget.size.height,
+    return LimitedBox(
+      maxWidth: widget.size.width,
+      maxHeight: widget.size.height,
       child: Stack(
         alignment: Alignment.topRight,
 
@@ -60,19 +61,22 @@ class _AdVideoViewState extends State<AdVideoView> {
                         : _videoPlayerController.play();
                     setState(() {});
                   })),
-          Positioned(
-            top: -8,
-            right: -8,
-            child: ClipOval(
-              child: InkWell(
-                onTap: () {
-                  widget.onRemove();
-                },
-                child: Container(
-                  color: Theme.of(context).accentColor,
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.white,
+          Visibility(
+            visible: widget.showRemoveIcon,
+            child: Positioned(
+              top: -8,
+              right: -8,
+              child: ClipOval(
+                child: InkWell(
+                  onTap: () {
+                    widget.onRemove();
+                  },
+                  child: Container(
+                    color: Theme.of(context).accentColor,
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

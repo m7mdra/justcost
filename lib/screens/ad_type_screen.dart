@@ -34,31 +34,30 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: WillPopScope(
-          onWillPop: ()async{
+          onWillPop: () async {
             bool dismiss = await showDialog<bool>(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
-                  title: Text('Discard data?'),
-                  content: Text('Are you sure?'),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Yes'),
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                    ),
-                    FlatButton(
-                      child: Text('Cancel'),
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                    ),
-                  ],
-                ));
+                      title: Text('Discard data?'),
+                      content: Text('Are you sure?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Yes'),
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                        ),
+                      ],
+                    ));
             return Future.value(dismiss);
           },
-
           child: Column(
             children: <Widget>[
               Text.rich(

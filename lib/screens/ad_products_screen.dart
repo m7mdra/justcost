@@ -16,13 +16,12 @@ class AdProductsScreen extends StatefulWidget {
   final List<Media> mediaList;
   final List<AdProduct> products;
 
-  const AdProductsScreen(
-      {Key key,
-      this.additionType,
-      this.adDetails,
-      this.adContact,
-      this.mediaList,
-      this.products})
+  const AdProductsScreen({Key key,
+    this.additionType,
+    this.adDetails,
+    this.adContact,
+    this.mediaList,
+    this.products})
       : super(key: key);
 
   @override
@@ -49,69 +48,91 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
             widget.additionType == AdditionType.single && adProducts.length == 1
                 ? Container()
                 : IconButton(
-                    onPressed: () async {
-                      var adProduct = await Navigator.push(
-                          context,
-                          MaterialPageRoute<AdProduct>(
-                              builder: (context) => AddAdProductScreen(
-                                  additionType: widget.additionType)));
-                      if (adProduct != null) {
-                        setState(() {
-                          adProducts.add(adProduct);
-                        });
-                      }
-                    },
-                    icon: Icon(Icons.add),
-                  )
+              onPressed: () async {
+                var adProduct = await Navigator.push(
+                    context,
+                    MaterialPageRoute<AdProduct>(
+                        builder: (context) =>
+                            AddAdProductScreen(
+                                additionType: widget.additionType)));
+                if (adProduct != null)
+                  setState(() {
+                    adProducts.add(adProduct);
+                  });
+              },
+              icon: Icon(Icons.add),
+            )
           ],
         ),
         body: adProducts.isEmpty
             ? Center(
-                child: Text(
-                  'No product added\n Tap on ➕ icon to add product',
-                  textAlign: TextAlign.center,
-                ),
-              )
+          child: Text(
+            'No product added\n Tap on ➕ icon to add product',
+            textAlign: TextAlign.center,
+          ),
+        )
             : Column(
-                children: <Widget>[
-                  Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (BuildContext context, int index) {
-                        return new ProductWidget(adProduct: adProducts[index]);
-                      },
-                      itemCount: adProducts.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider(
-                          height: 1,
-                        );
-                      },
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (isEditMode())
-                            Navigator.pop(context, adProducts);
-                          else
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute<Ad>(
-                                    builder: (context) => AdReviewScreen(
-                                          adDetails: widget.adDetails,
-                                          adContact: widget.adContact,
-                                          mediaList: widget.mediaList,
-                                          products: adProducts,
-                                        )));
-                        },
-                        child: Text('Next'),
-                      ),
-                    ),
-                  )
-                ],
-              ));
+          children: <Widget>[
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return new ProductDismissibleWidget(
+                    adProduct: adProducts[index],
+                    onDelete: () {
+                      adProducts.removeAt(index);
+                      setState(() {});
+                    },
+                    onEdit: () async {
+                      var adProduct = await Navigator.push(
+                          context,
+                          MaterialPageRoute<AdProduct>(
+                              builder: (context) =>
+                                  AddAdProductScreen(
+                                    additionType: widget.additionType,
+                                    adProduct: adProducts[index],)));
+                      if (adProduct != null)
+                        setState(() {
+                          adProducts.removeAt(index);
+                          adProducts.insert(index, adProduct);
+                        });
+                    },
+                  );
+                },
+                itemCount: adProducts.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    height: 1,
+                  );
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    if (isEditMode())
+                      Navigator.pop(context, adProducts);
+                    else
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<Ad>(
+                              builder: (context) =>
+                                  AdReviewScreen(
+                                    adDetails: widget.adDetails,
+                                    adContact: widget.adContact,
+                                    mediaList: widget.mediaList,
+                                    products: adProducts,
+                                    additionType: widget.additionType,
+                                  )));
+                  },
+                  child: Text('Next'),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -135,7 +156,9 @@ class ProductWidget extends StatelessWidget {
           Text(
             "${adProduct.newPrice} AED",
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.red, fontSize: 16),
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+                fontSize: 16),
           )
         ],
       ),
@@ -144,8 +167,79 @@ class ProductWidget extends StatelessWidget {
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle:
-          Text(adProduct.details, maxLines: 2, overflow: TextOverflow.ellipsis),
+      subtitle: Text(adProduct.details,
+          maxLines: 2, overflow: TextOverflow.ellipsis),
+
+    );
+  }
+}
+
+class ProductDismissibleWidget extends StatelessWidget {
+  const ProductDismissibleWidget({
+    Key key,
+    @required this.adProduct,
+    this.onDelete,
+    this.onEdit,
+  }) : super(key: key);
+
+  final AdProduct adProduct;
+  final VoidCallback onDelete;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Dismissible(
+
+        direction: DismissDirection.startToEnd,
+        onDismissed: (direction) {
+          if (direction == DismissDirection.startToEnd) onDelete();
+        },
+        background: Container(
+          color: Colors.red,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.delete_forever),
+              ),
+            ],
+          ),
+        ),
+        child: ListTile(
+          leading: Column(
+            children: <Widget>[
+              Text(
+                "${adProduct.oldPrice} AED",
+                style: TextStyle(decoration: TextDecoration.lineThrough),
+              ),
+              Text(
+                "${adProduct.newPrice} AED",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    fontSize: 16),
+              )
+            ],
+          ),
+          title: Text(
+            adProduct.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(adProduct.details,
+              maxLines: 2, overflow: TextOverflow.ellipsis),
+          trailing: OutlineButton.icon(
+              onPressed: () {
+                onEdit();
+              },
+              icon: Icon(Icons.edit),
+              label: Text('Edit')),
+        ),
+        key: ObjectKey(adProduct.hashCode),
+      ),
     );
   }
 }

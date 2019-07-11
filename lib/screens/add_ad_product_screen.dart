@@ -13,8 +13,10 @@ import 'brand/brand_page.dart';
 
 class AddAdProductScreen extends StatefulWidget {
   final AdditionType additionType;
+  final AdProduct adProduct;
 
-  const AddAdProductScreen({Key key, this.additionType}) : super(key: key);
+  const AddAdProductScreen({Key key, this.additionType, this.adProduct})
+      : super(key: key);
 
   @override
   _AddAdProductScreenState createState() => _AddAdProductScreenState();
@@ -35,9 +37,23 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    if (isEditMode()) {
+      var product = widget.adProduct;
+
+      print(product);
+      _nameController.text = product.name;
+      _quantityController.text = product.quantity;
+      _oldPriceController.text = product.oldPrice;
+      _newPriceController.text = product.newPrice;
+      _detailsController.text = product.details;
+      _category = product.category;
+      _brand = product.brand;
+      attributeList = product.attributes;
+    }
   }
+
+  bool isEditMode() => widget.adProduct != null;
 
   @override
   void dispose() {
@@ -62,30 +78,29 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       ),
       body: Form(
         key: _formKey,
-        autovalidate: true,
         child: WillPopScope(
-          onWillPop: ()async{
+          onWillPop: () async {
             bool dismiss = await showDialog<bool>(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
-                  title: Text('Discard data?'),
-                  content: Text('Are you sure?'),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Yes'),
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                    ),
-                    FlatButton(
-                      child: Text('Cancel'),
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                    ),
-                  ],
-                ));
+                      title: Text('Discard data?'),
+                      content: Text('Are you sure?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Yes'),
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                        ),
+                      ],
+                    ));
             return Future.value(dismiss);
           },
           child: SingleChildScrollView(
@@ -96,7 +111,9 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                   textInputAction: TextInputAction.next,
                   onEditingComplete: () {},
                   validator: (title) {
-                    return title.isEmpty ? "Product name Can not be Empty" : null;
+                    return title.isEmpty
+                        ? "Product name Can not be Empty"
+                        : null;
                   },
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -116,7 +133,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     textInputAction: TextInputAction.next,
                     onEditingComplete: () {},
                     validator: (quantity) {
-                      if (widget.additionType == AdditionType.single) return null;
+                      if (widget.additionType == AdditionType.single)
+                        return null;
                       return quantity.isEmpty
                           ? "quantity Can not be Empty"
                           : null;
@@ -266,8 +284,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           if (_category == null) {
-                            _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(content: Text('Select category first')));
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text('Select category first')));
                             return;
                           }
                           /* if (_brand == null) {
@@ -286,6 +304,12 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                     'new price field can not be more than old price field')));
                             return;
                           }
+                          if(attributeList==null || attributeList.isEmpty){
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    'Attributes can not be empty.')));
+                            return;
+                          }
                           var adProduct = AdProduct(
                               name: productName,
                               quantity: quantity,
@@ -293,7 +317,9 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                               category: _category,
                               brand: _brand,
                               newPrice: newPrice,
+                              attributes: attributeList,
                               details: details);
+
                           Navigator.pop(context, adProduct);
                         }
                       },
