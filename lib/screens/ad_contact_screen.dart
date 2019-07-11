@@ -7,7 +7,7 @@ import 'package:justcost/screens/postad/location_pick_screen.dart';
 
 import '../dependencies_provider.dart';
 import 'ad_details_screen.dart';
-import 'ad_media.dart';
+import 'ad_media_screen.dart';
 
 class AdContactScreen extends StatefulWidget {
   final AdDetails adDetails;

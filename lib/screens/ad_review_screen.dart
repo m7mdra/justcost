@@ -5,6 +5,7 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import 'ad.dart';
 import 'ad_details_screen.dart';
+import 'ad_media_screen.dart';
 import 'ad_products_screen.dart';
 
 class AdReviewScreen extends StatefulWidget {
@@ -172,7 +173,18 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   ),
                   OutlineButton(
                     padding: const EdgeInsets.all(0),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var medias =await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdMediaScreen(
+                                    mediaList: mediaList,
+                                  )));
+                      if (medias != null)
+                        setState(() {
+                          this.mediaList = medias;
+                        });
+                    },
                     child: Text('EDIT'),
                     textTheme: ButtonTextTheme.normal,
                   )
