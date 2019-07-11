@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/model/media.dart';
+import 'package:justcost/screens/ad_contact_screen.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
-import 'ad_product.dart';
+import 'ad.dart';
+import 'ad_details_screen.dart';
+import 'ad_products_screen.dart';
 
 class AdReviewScreen extends StatefulWidget {
-  final Ad ad;
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<Media> mediaList;
+  final List<AdProduct> products;
 
-  const AdReviewScreen({Key key, this.ad}) : super(key: key);
+  const AdReviewScreen(
+      {Key key, this.adDetails, this.adContact, this.mediaList, this.products})
+      : super(key: key);
 
   @override
   _AdReviewScreenState createState() => _AdReviewScreenState();
 }
 
 class _AdReviewScreenState extends State<AdReviewScreen> {
+  AdDetails adDetails;
+  AdContact adContact;
+  List<Media> mediaList;
+  List<AdProduct> products;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.ad);
+    adDetails = widget.adDetails;
+    adContact = widget.adContact;
+    mediaList = widget.mediaList;
+    products = widget.products;
   }
 
   @override
@@ -25,114 +42,248 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
       appBar: AppBar(
         title: Text('Review your Ad'),
       ),
-      body: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Ad Details',
-                  style: Theme.of(context).textTheme.subtitle,
-                ),
-                OutlineButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {},
-                  child: Text('EDIT'),
-                  textTheme: ButtonTextTheme.normal,
-                )
-              ],
-            ),
-          ),
-          Card(
+      body: WillPopScope(
+        child: SingleChildScrollView(
             child: Column(
-              children: <Widget>[
-                ListTile(
-                  dense: true,
-                  title: Text('Ad Title'),
-                  subtitle: Text(widget.ad.title),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Ad Keyword'),
-                  subtitle: Text(widget.ad.keyword),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Ad Description'),
-                  subtitle: Text(widget.ad.description),
-                ),
-              ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Ad Details',
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  OutlineButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () async {
+                      var newAdDetails = await Navigator.push(
+                          context,
+                          MaterialPageRoute<AdDetails>(
+                              builder: (BuildContext context) =>
+                                  AdDetailsScreen(
+                                    adDetails: adDetails,
+                                  )));
+                      if (newAdDetails != null) {
+                        setState(() {
+                          this.adDetails = newAdDetails;
+                        });
+                      }
+                    },
+                    child: Text('EDIT'),
+                    textTheme: ButtonTextTheme.normal,
+                  )
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Ad Conatact & Location',
-                  style: Theme.of(context).textTheme.subtitle,
-                ),
-                OutlineButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {},
-                  child: Text('EDIT'),
-                  textTheme: ButtonTextTheme.normal,
-                )
-              ],
+            Card(
+              margin: const EdgeInsets.all(8),
+              child: Column(
+                children: <Widget>[
+                  AdTile(
+                    title: 'Ad Title',
+                    subtitle: adDetails.title,
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Ad Keyword',
+                    subtitle: adDetails.keyword,
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Ad Description',
+                    subtitle: adDetails.description,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Card(
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  dense: true,
-                  title: Text('Phone Number'),
-                  subtitle: Text(
-                      "+${widget.ad.country.code} ${widget.ad.phoneNumber}"),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Email Address'),
-                  subtitle: Text(widget.ad.email),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Country & City'),
-                  subtitle: Text(
-                      "${widget.ad.country.name} - ${widget.ad.city.name}"),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Facebook account'),
-                  subtitle: Text("${widget.ad.facebookPage} "),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text('Instagram account'),
-                  subtitle: Text("${widget.ad.instagramPage} "),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Ad Conatact & Location',
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  OutlineButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () async {
+                      var contact = await Navigator.push(
+                          context,
+                          MaterialPageRoute<AdContact>(
+                              builder: (context) => AdContactScreen(
+                                    adContact: adContact,
+                                  )));
+                      if (contact != null)
+                        setState(() {
+                          this.adContact = contact;
+                        });
+                    },
+                    child: Text('EDIT'),
+                    textTheme: ButtonTextTheme.normal,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
-      )),
+            Card(
+              margin: const EdgeInsets.all(8),
+              child: Column(
+                children: <Widget>[
+                  AdTile(
+                    title: 'Phone Number',
+                    subtitle:
+                        "+${adContact.country.code} ${adContact.phoneNumber}",
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Email Address',
+                    subtitle: adContact.email,
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Country & City',
+                    subtitle:
+                        "${adContact.country.name} - ${adContact.city.name}",
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Facebook account',
+                    subtitle: "${adContact.facebookPage} ",
+                  ),
+                  divider(),
+                  AdTile(
+                    title: 'Instagram account',
+                    subtitle: "${adContact.instagramPage} ",
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Ad Media',
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  OutlineButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () {},
+                    child: Text('EDIT'),
+                    textTheme: ButtonTextTheme.normal,
+                  )
+                ],
+              ),
+            ),
+            Card(
+              margin: const EdgeInsets.all(8),
+              child: SizedBox(
+                height: 180,
+                child: ListView.separated(
+                  itemCount: mediaList.length,
+                  padding: const EdgeInsets.all(8),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Image.file(
+                      mediaList[index].file,
+                      fit: BoxFit.cover,
+                      width: 150,
+                      height: 150,
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return VerticalDivider();
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Ad Products',
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  OutlineButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () {},
+                    child: Text('EDIT'),
+                    textTheme: ButtonTextTheme.normal,
+                  )
+                ],
+              ),
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              primary: false,
+              itemCount: products.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                  height: 1,
+                );
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return ProductWidget(
+                  adProduct: products[index],
+                );
+              },
+            )
+          ],
+        )),
+        onWillPop: () async {
+          bool dismiss = await showDialog<bool>(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => RoundedAlertDialog(
+                    title: Text('Discard data?'),
+                    content: Text('Are you sure?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Yes'),
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                      ),
+                    ],
+                  ));
+          return Future.value(dismiss);
+        },
+      ),
     );
   }
 
   Divider divider() {
     return const Divider(
       height: 1,
+    );
+  }
+}
+
+class AdTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  AdTile({this.title, this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.all(8),
+      dense: true,
+      title: Text(title),
+      subtitle: Text(subtitle),
     );
   }
 }

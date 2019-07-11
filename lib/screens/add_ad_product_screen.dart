@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
-import 'package:justcost/screens/ad_product.dart';
+import 'package:justcost/screens/ad.dart';
+import 'package:justcost/screens/ad_products_screen.dart';
 import 'package:justcost/screens/postad/category_picker_screen.dart';
 import 'package:justcost/util/tuple.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import 'attribute/attribute_picker_screeen.dart';
 import 'brand/brand_page.dart';
 
 class AddAdProductScreen extends StatefulWidget {
+  final AdditionType additionType;
+
+  const AddAdProductScreen({Key key, this.additionType}) : super(key: key);
+
   @override
   _AddAdProductScreenState createState() => _AddAdProductScreenState();
 }
@@ -26,6 +32,12 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   TextEditingController _oldPriceController = TextEditingController();
   TextEditingController _newPriceController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -51,211 +63,246 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       body: Form(
         key: _formKey,
         autovalidate: true,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _nameController,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {},
-                validator: (title) {
-                  return title.isEmpty ? "Product name Can not be Empty" : null;
-                },
-                maxLines: 1,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 8, bottom: 8),
-                    labelText: 'Product name',
-                    errorBorder: InputBorder.none,
-                    hintStyle: hintStyle),
-              ),
-              divider(),
-              TextFormField(
-                controller: _quantityController,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {},
-                validator: (quantity) {
-                  return quantity.isEmpty ? "quantity Can not be Empty" : null;
-                },
-                maxLines: 1,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 8, bottom: 8),
-                    labelText: 'Quantity',
-                    errorBorder: InputBorder.none,
-                    hintStyle: hintStyle),
-              ),
-              divider(),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextFormField(
-                      controller: _oldPriceController,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () {},
-                      validator: (oldPrice) {
-                        return oldPrice.isEmpty
-                            ? "old Price Can not be Empty"
-                            : null;
+        child: WillPopScope(
+          onWillPop: ()async{
+            bool dismiss = await showDialog<bool>(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => RoundedAlertDialog(
+                  title: Text('Discard data?'),
+                  content: Text('Are you sure?'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Yes'),
+                      onPressed: () {
+                        Navigator.pop(context, true);
                       },
-                      keyboardType: TextInputType.phone,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 8, bottom: 8),
-                          suffixText: 'AED',
-                          labelText: 'Old Price',
-                          hintStyle: hintStyle),
                     ),
-                  ),
-                  VerticalDivider(width: 1),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _newPriceController,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () {},
-                      validator: (newPrice) {
-                        return newPrice.isEmpty
-                            ? "New Price Can not be Empty"
-                            : null;
+                    FlatButton(
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.pop(context, false);
                       },
-                      maxLines: 1,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 8, bottom: 8),
-                          labelText: 'New Price',
-                          suffixText: 'AED',
-                          hintStyle: hintStyle),
                     ),
-                  ),
-                ],
-              ),
-              divider(),
-              ListTile(
-                dense: true,
-                onTap: _onCategoryPickerClicked,
-                title: Text(
-                  'Select Category',
+                  ],
+                ));
+            return Future.value(dismiss);
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _nameController,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {},
+                  validator: (title) {
+                    return title.isEmpty ? "Product name Can not be Empty" : null;
+                  },
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 8, bottom: 8),
+                      labelText: 'Product name',
+                      errorBorder: InputBorder.none,
+                      hintStyle: hintStyle),
                 ),
-                subtitle: Text(_category != null ? _category.name : ''),
-                trailing: IconButton(
-                  icon: Icon(Icons.keyboard_arrow_right),
-                  onPressed: _onCategoryPickerClicked,
-                ),
-              ),
-              divider(),
-              ListTile(
-                dense: true,
-                title: Text(
-                  'Select Brand',
-                ),
-                onTap: _onBrandPickerClicked,
-                subtitle: Text(_brand != null ? _brand.name : ''),
-                trailing: IconButton(
-                  icon: Icon(Icons.keyboard_arrow_right),
-                  onPressed: _onBrandPickerClicked,
-                ),
-              ),
-              divider(),
-              ListTile(
-                dense: true,
-                title: Text(
-                  'Select Attributes',
-                ),
-                onTap: _onAttributePickerClicked,
-                subtitle: Wrap(
-                  children: attributeList
-                      .map((attr) => Chip(
-                            label: Text(attr.name),
-                            onDeleted: () {
-                              attributeList.forEach((attribute) {
-                                if (attribute.id == attr.id) {
-                                  attributeList.remove(attribute);
-                                  setState(() {});
-                                }
-                              });
-                            },
-                          ))
-                      .toList(),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.keyboard_arrow_right),
-                  onPressed: _onAttributePickerClicked,
-                ),
-              ),
-              divider(),
-              TextFormField(
-                controller: _detailsController,
-                keyboardType: TextInputType.text,
-                maxLines: 3,
-                maxLength: 250,
-                validator: (text) {
-                  if (text.isEmpty)
-                    return "Details field can not be empty";
-                  else
-                    return null;
-                },
-                maxLengthEnforced: true,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 8, bottom: 8),
-                    hintText: 'more details about the Product',
-                    labelText: 'Product Details',
-                    alignLabelWithHint: true,
-                    hintStyle: hintStyle),
-              ),
-              divider(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        if (_category == null) {
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(content: Text('Select category first')));
-                          return;
-                        }
-                       /* if (_brand == null) {
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(content: Text('Select Brand First')));
-                          return;
-                        }*/
-                        var productName = _nameController.value.text;
-                        var quantity = _quantityController.value.text;
-                        var oldPrice = _oldPriceController.value.text;
-                        var newPrice = _newPriceController.value.text;
-                        var details = _detailsController.value.text;
-                        if (double.parse(newPrice) > double.parse(oldPrice)) {
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              content: Text(
-                                  'new price field can not be more than old price field')));
-                          return;
-                        }
-                        var adProduct = AdProduct(
-                            name: productName,
-                            quantity: quantity,
-                            oldPrice: oldPrice,
-                            category: _category,
-                            brand: _brand,
-                            newPrice: newPrice,
-                            details: details);
-                        Navigator.pop(context, adProduct);
-                      }
+                divider(),
+                Visibility(
+                  visible: widget.additionType != AdditionType.single,
+                  child: TextFormField(
+                    controller: _quantityController,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {},
+                    validator: (quantity) {
+                      if (widget.additionType == AdditionType.single) return null;
+                      return quantity.isEmpty
+                          ? "quantity Can not be Empty"
+                          : null;
                     },
-                    child: Text('Done'),
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 8, bottom: 8),
+                        labelText: 'Quantity',
+                        errorBorder: InputBorder.none,
+                        hintStyle: hintStyle),
                   ),
                 ),
-              )
-            ],
+                Visibility(
+                  child: divider(),
+                  visible: widget.additionType != AdditionType.single,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        controller: _oldPriceController,
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () {},
+                        validator: (oldPrice) {
+                          return oldPrice.isEmpty
+                              ? "old Price Can not be Empty"
+                              : null;
+                        },
+                        keyboardType: TextInputType.phone,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(
+                                left: 16, right: 16, top: 8, bottom: 8),
+                            suffixText: 'AED',
+                            labelText: 'Old Price',
+                            hintStyle: hintStyle),
+                      ),
+                    ),
+                    VerticalDivider(width: 1),
+                    Expanded(
+                      child: TextFormField(
+                        controller: _newPriceController,
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () {},
+                        validator: (newPrice) {
+                          return newPrice.isEmpty
+                              ? "New Price Can not be Empty"
+                              : null;
+                        },
+                        maxLines: 1,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(
+                                left: 16, right: 16, top: 8, bottom: 8),
+                            labelText: 'New Price',
+                            suffixText: 'AED',
+                            hintStyle: hintStyle),
+                      ),
+                    ),
+                  ],
+                ),
+                divider(),
+                ListTile(
+                  dense: true,
+                  onTap: _onCategoryPickerClicked,
+                  title: Text(
+                    'Select Category',
+                  ),
+                  subtitle: Text(_category != null ? _category.name : ''),
+                  trailing: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: _onCategoryPickerClicked,
+                  ),
+                ),
+                divider(),
+                ListTile(
+                  dense: true,
+                  title: Text(
+                    'Select Brand',
+                  ),
+                  onTap: _onBrandPickerClicked,
+                  subtitle: Text(_brand != null ? _brand.name : ''),
+                  trailing: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: _onBrandPickerClicked,
+                  ),
+                ),
+                divider(),
+                ListTile(
+                  dense: true,
+                  title: Text(
+                    'Select Attributes',
+                  ),
+                  onTap: _onAttributePickerClicked,
+                  subtitle: Wrap(
+                    children: attributeList
+                        .map((attr) => Chip(
+                              label: Text(attr.name),
+                              onDeleted: () {
+                                attributeList.forEach((attribute) {
+                                  if (attribute.id == attr.id) {
+                                    attributeList.remove(attribute);
+                                    setState(() {});
+                                  }
+                                });
+                              },
+                            ))
+                        .toList(),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: _onAttributePickerClicked,
+                  ),
+                ),
+                divider(),
+                TextFormField(
+                  controller: _detailsController,
+                  keyboardType: TextInputType.text,
+                  maxLines: 3,
+                  maxLength: 250,
+                  validator: (text) {
+                    if (text.isEmpty)
+                      return "Details field can not be empty";
+                    else
+                      return null;
+                  },
+                  maxLengthEnforced: true,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 8, bottom: 8),
+                      hintText: 'more details about the Product',
+                      labelText: 'Product Details',
+                      alignLabelWithHint: true,
+                      hintStyle: hintStyle),
+                ),
+                divider(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          if (_category == null) {
+                            _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(content: Text('Select category first')));
+                            return;
+                          }
+                          /* if (_brand == null) {
+                            _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(content: Text('Select Brand First')));
+                            return;
+                          }*/
+                          var productName = _nameController.value.text;
+                          var quantity = _quantityController.value.text;
+                          var oldPrice = _oldPriceController.value.text;
+                          var newPrice = _newPriceController.value.text;
+                          var details = _detailsController.value.text;
+                          if (double.parse(newPrice) > double.parse(oldPrice)) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    'new price field can not be more than old price field')));
+                            return;
+                          }
+                          var adProduct = AdProduct(
+                              name: productName,
+                              quantity: quantity,
+                              oldPrice: oldPrice,
+                              category: _category,
+                              brand: _brand,
+                              newPrice: newPrice,
+                              details: details);
+                          Navigator.pop(context, adProduct);
+                        }
+                      },
+                      child: Text('Done'),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

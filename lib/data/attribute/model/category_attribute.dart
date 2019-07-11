@@ -57,25 +57,17 @@ class Attribute {
   int id;
   String name;
   int groupId;
-  String createdAt;
-  Null deletedAt;
-  Null updatedAt;
+
 
   Attribute(
       {this.id,
         this.name,
-        this.groupId,
-        this.createdAt,
-        this.deletedAt,
-        this.updatedAt});
+        this.groupId,});
 
   Attribute.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     groupId = json['group_id'];
-    createdAt = json['created_at'];
-    deletedAt = json['deleted_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,9 +75,6 @@ class Attribute {
     data['id'] = this.id;
     data['name'] = this.name;
     data['group_id'] = this.groupId;
-    data['created_at'] = this.createdAt;
-    data['deleted_at'] = this.deletedAt;
-    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

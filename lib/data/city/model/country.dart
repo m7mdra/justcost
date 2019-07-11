@@ -54,6 +54,12 @@ class Country {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Country{id: $id, name: $name, arName: $arName, code: $code, cities: $cities}';
+  }
+
 }
 
 class City {
@@ -79,4 +85,10 @@ class City {
     data['countryId'] = this.countryId;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'City{id: $id, name: $name, arName: $arName, countryId: $countryId}';
+  }
+
 }

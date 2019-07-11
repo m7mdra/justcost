@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/model/media.dart';
+import 'package:justcost/screens/ad_contact_screen.dart';
+import 'package:justcost/screens/ad_details_screen.dart';
 import 'package:justcost/screens/ad_review_screen.dart';
 
-import 'ad_product.dart';
+import 'ad.dart';
 import 'add_ad_product_screen.dart';
 
 enum AdditionType { single, multiple }
 
 class AdProductsScreen extends StatefulWidget {
   final AdditionType additionType;
-  final Ad ad;
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<Media> mediaList;
+  final List<AdProduct> products;
 
   const AdProductsScreen(
-      {Key key, this.additionType = AdditionType.single, this.ad})
+      {Key key,
+      this.additionType,
+      this.adDetails,
+      this.adContact,
+      this.mediaList,
+      this.products})
       : super(key: key);
 
   @override
@@ -20,6 +31,14 @@ class AdProductsScreen extends StatefulWidget {
 
 class _AdProductsScreenState extends State<AdProductsScreen> {
   List<AdProduct> adProducts = <AdProduct>[];
+
+  bool isEditMode() => widget.products != null;
+
+  @override
+  void initState() {
+    super.initState();
+    if (isEditMode()) adProducts = widget.products;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +53,8 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                       var adProduct = await Navigator.push(
                           context,
                           MaterialPageRoute<AdProduct>(
-                              builder: (context) => AddAdProductScreen()));
+                              builder: (context) => AddAdProductScreen(
+                                  additionType: widget.additionType)));
                       if (adProduct != null) {
                         setState(() {
                           adProducts.add(adProduct);
@@ -57,31 +77,7 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                   Expanded(
                     child: ListView.separated(
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: Column(
-                            children: <Widget>[
-                              Text(
-                                "${adProducts[index].oldPrice} AED",
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough),
-                              ),
-                              Text(
-                                "${adProducts[index].newPrice} AED",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                    fontSize: 16),
-                              )
-                            ],
-                          ),
-                          title: Text(
-                            adProducts[index].name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          subtitle: Text(adProducts[index].details,
-                              maxLines: 2, overflow: TextOverflow.ellipsis),
-                        );
+                        return new ProductWidget(adProduct: adProducts[index]);
                       },
                       itemCount: adProducts.length,
                       separatorBuilder: (BuildContext context, int index) {
@@ -97,12 +93,18 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
                         onPressed: () {
-                          widget.ad.adProducts = adProducts;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute<Ad>(
-                                  builder: (context) =>
-                                      AdReviewScreen(ad: widget.ad)));
+                          if (isEditMode())
+                            Navigator.pop(context, adProducts);
+                          else
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute<Ad>(
+                                    builder: (context) => AdReviewScreen(
+                                          adDetails: widget.adDetails,
+                                          adContact: widget.adContact,
+                                          mediaList: widget.mediaList,
+                                          products: adProducts,
+                                        )));
                         },
                         child: Text('Next'),
                       ),
@@ -110,5 +112,40 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                   )
                 ],
               ));
+  }
+}
+
+class ProductWidget extends StatelessWidget {
+  const ProductWidget({
+    Key key,
+    @required this.adProduct,
+  }) : super(key: key);
+
+  final AdProduct adProduct;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Column(
+        children: <Widget>[
+          Text(
+            "${adProduct.oldPrice} AED",
+            style: TextStyle(decoration: TextDecoration.lineThrough),
+          ),
+          Text(
+            "${adProduct.newPrice} AED",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.red, fontSize: 16),
+          )
+        ],
+      ),
+      title: Text(
+        adProduct.name,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle:
+          Text(adProduct.details, maxLines: 2, overflow: TextOverflow.ellipsis),
+    );
   }
 }

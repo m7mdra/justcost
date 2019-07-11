@@ -5,39 +5,18 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/model/media.dart';
 
+import 'ad_contact_screen.dart';
+import 'ad_details_screen.dart';
+
 class Ad {
-  String title;
-  String keyword;
-  String description;
-  Country country;
-  City city;
-  LatLng location;
-  String phoneNumber;
-  String email;
-  String facebookPage;
-  String instagramPage;
+  AdDetails adDetails;
+  AdContact adContact;
   List<Media> mediaList;
   List<AdProduct> adProducts;
 
-  Ad(
-      {this.title,
-      this.keyword,
-      this.description,
-      this.country,
-      this.city,
-      this.location,
-      this.phoneNumber,
-      this.email,
-      this.facebookPage,
-      this.instagramPage,
-      this.mediaList,
-      this.adProducts});
-
-  @override
-  String toString() {
-    return 'Ad{title: $title, keyword: $keyword, description: $description, country: $country, city: $city, location: $location, phoneNumber: $phoneNumber, email: $email, facebookPage: $facebookPage, instagramPage: $instagramPage, mediaList: $mediaList, adProducts: $adProducts}';
-  }
+  Ad({this.adContact, this.mediaList, this.adProducts, this.adDetails});
 }
+
 
 class AdProduct {
   String name;

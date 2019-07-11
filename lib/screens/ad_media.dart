@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
-import 'package:justcost/screens/ad_product.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
+import 'ad_contact_screen.dart';
+import 'ad_details_screen.dart';
 import 'ad_type_screen.dart';
 
 class AdMediaScreen extends StatefulWidget {
-  final Ad ad;
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<Media> mediaList;
 
-  const AdMediaScreen({Key key, this.ad}) : super(key: key);
+  const AdMediaScreen({Key key, this.adDetails, this.adContact, this.mediaList})
+      : super(key: key);
 
   @override
   _AdMediaScreenState createState() => _AdMediaScreenState();
@@ -21,11 +25,12 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
   List<Media> mediaList = List<Media>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool isEditMode() => widget.mediaList != null;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.ad);
+    if (isEditMode()) mediaList = widget.mediaList;
   }
 
   @override
@@ -178,10 +183,16 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           onPressed: () {
-                            widget.ad.mediaList = mediaList;
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    AdTypeSelectScreen(ad: widget.ad)));
+                            if (isEditMode())
+                              Navigator.pop(context, mediaList);
+                            else
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => AdTypeSelectScreen(
+                                            adContact: widget.adContact,
+                                            adDetails: widget.adDetails,
+                                            mediaList: mediaList,
+                                          )));
                           },
                           child: Text('Next'),
                         ),
