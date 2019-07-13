@@ -10,7 +10,6 @@ class AdDetailsScreen extends StatefulWidget {
 
   @override
   _AdDetailsScreenState createState() => _AdDetailsScreenState();
-
 }
 
 class _AdDetailsScreenState extends State<AdDetailsScreen> {
@@ -49,6 +48,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _adDetailsFocusNode.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var hintStyle =
@@ -80,7 +81,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         ),
                       ],
                     ));
-            return Future.value(dismiss);
+            return Future.value(dismiss );
           },
           child: SingleChildScrollView(
             child: Form(
@@ -159,28 +160,31 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            var title = _adTitleController.value.text;
-                            var keyword = _adKeywordController.value.text;
-                            var description = _adDetailsController.value.text;
-                            var adDetails = AdDetails(
-                                title: title,
-                                keyword: keyword,
-                                description: description);
-                            if (isEditMode())
-                              Navigator.pop(context, adDetails);
-                            else
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute<Ad>(
-                                      builder: (context) => AdContactScreen(
-                                            adDetails: adDetails,
-                                          )));
-                          }
-                        },
-                        child: Text('Next'),
+                      child: Hero(
+                        tag: "addad",
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              var title = _adTitleController.value.text;
+                              var keyword = _adKeywordController.value.text;
+                              var description = _adDetailsController.value.text;
+                              var adDetails = AdDetails(
+                                  title: title,
+                                  keyword: keyword,
+                                  description: description);
+                              if (isEditMode())
+                                Navigator.pop(context, adDetails);
+                              else
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute<Ad>(
+                                        builder: (context) => AdContactScreen(
+                                              adDetails: adDetails,
+                                            )));
+                            }
+                          },
+                          child: Text('Next'),
+                        ),
                       ),
                     ),
                   )

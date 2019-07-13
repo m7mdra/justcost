@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/model/media.dart';
 import 'package:justcost/screens/ad.dart';
+import 'package:justcost/screens/ad_media_screen.dart';
 import 'package:justcost/screens/ad_products_screen.dart';
 import 'package:justcost/screens/postad/category_picker_screen.dart';
 import 'package:justcost/util/tuple.dart';
+import 'package:justcost/widget/ad_image_view.dart';
+import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import 'attribute/attribute_picker_screeen.dart';
@@ -34,6 +38,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   TextEditingController _oldPriceController = TextEditingController();
   TextEditingController _newPriceController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
+  List<Media> mediaList = [];
 
   @override
   void initState() {
@@ -41,7 +46,6 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
     if (isEditMode()) {
       var product = widget.adProduct;
 
-      print(product);
       _nameController.text = product.name;
       _quantityController.text = product.quantity;
       _oldPriceController.text = product.oldPrice;
@@ -50,6 +54,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _category = product.category;
       _brand = product.brand;
       attributeList = product.attributes;
+      mediaList=product.mediaList;
     }
   }
 
@@ -106,6 +111,65 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Product Media',
+                        style: Theme.of(context).textTheme.subtitle,
+                      ),
+                      OutlineButton(
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () async {
+                          var medias = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdMediaScreen(
+                                        mediaList: mediaList,
+                                      )));
+                          print(medias);
+                          if (medias != null)
+                            setState(() {
+                              this.mediaList = medias;
+                            });
+                        },
+                        child: Text('Select'),
+                        textTheme: ButtonTextTheme.normal,
+                      )
+                    ],
+                  ),
+                ),
+                Card(
+                  margin: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    height: 180,
+                    child: ListView.separated(
+                      itemCount: mediaList.length,
+                      padding: const EdgeInsets.all(8),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (mediaList[index].type == Type.Image)
+                          return AdImageView(
+                            showRemoveIcon: false,
+                            file: mediaList[index].file,
+                            size: Size(150, 150),
+                          );
+                        else
+                          return AdVideoView(
+                            file: mediaList[index].file,
+                            showRemoveIcon: false,
+                            size: Size(150, 150),
+                          );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return VerticalDivider();
+                      },
+                    ),
+                  ),
+                ),
                 TextFormField(
                   controller: _nameController,
                   textInputAction: TextInputAction.next,
@@ -304,10 +368,9 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                     'new price field can not be more than old price field')));
                             return;
                           }
-                          if(attributeList==null || attributeList.isEmpty){
+                          if (attributeList == null || attributeList.isEmpty) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(
-                                    'Attributes can not be empty.')));
+                                content: Text('Attributes can not be empty.')));
                             return;
                           }
                           var adProduct = AdProduct(
@@ -317,6 +380,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                               category: _category,
                               brand: _brand,
                               newPrice: newPrice,
+                              mediaList: mediaList,
                               attributes: attributeList,
                               details: details);
 

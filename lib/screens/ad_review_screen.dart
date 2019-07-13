@@ -13,7 +13,6 @@ import 'ad_products_screen.dart';
 class AdReviewScreen extends StatefulWidget {
   final AdDetails adDetails;
   final AdContact adContact;
-  final List<Media> mediaList;
   final List<AdProduct> products;
   final AdditionType additionType;
 
@@ -21,7 +20,6 @@ class AdReviewScreen extends StatefulWidget {
       {Key key,
       this.adDetails,
       this.adContact,
-      this.mediaList,
       this.products,
       this.additionType})
       : super(key: key);
@@ -42,7 +40,6 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
     print(widget.additionType);
     adDetails = widget.adDetails;
     adContact = widget.adContact;
-    mediaList = widget.mediaList;
     products = widget.products;
   }
 
@@ -171,64 +168,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Ad Media',
-                    style: Theme.of(context).textTheme.subtitle,
-                  ),
-                  OutlineButton(
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () async {
-                      var medias = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AdMediaScreen(
-                                    mediaList: mediaList,
-                                  )));
-                      if (medias != null)
-                        setState(() {
-                          this.mediaList = medias;
-                        });
-                    },
-                    child: Text('EDIT'),
-                    textTheme: ButtonTextTheme.normal,
-                  )
-                ],
-              ),
-            ),
-            Card(
-              margin: const EdgeInsets.all(8),
-              child: SizedBox(
-                height: 180,
-                child: ListView.separated(
-                  itemCount: mediaList.length,
-                  padding: const EdgeInsets.all(8),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (mediaList[index].type == Type.Image)
-                      return AdImageView(
 
-                        showRemoveIcon: false,
-                        file: mediaList[index].file,
-                        size: Size(150, 150),
-                      );
-                    else
-                      return AdVideoView(
-                        file: mediaList[index].file,
-                        showRemoveIcon: false,
-                        size: Size(150, 150),
-                      );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return VerticalDivider();
-                  },
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
               child: Row(
@@ -243,11 +183,13 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                     onPressed: () async {
                       var products = await Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          MaterialPageRoute<List<AdProduct>>(
                               builder: (context) => AdProductsScreen(
                                     products: this.products,
                                     additionType: widget.additionType,
                                   )));
+                      if (products != null && products.isNotEmpty)
+                        this.products = products;
                     },
                     child: Text('EDIT'),
                     textTheme: ButtonTextTheme.normal,
@@ -255,20 +197,29 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                 ],
               ),
             ),
-            ListView.separated(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: products.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  height: 1,
-                );
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return ProductWidget(
-                  adProduct: products[index],
-                );
-              },
+            Card(
+              child: ListView.separated(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: products.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    height: 1,
+                  );
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return ProductWidget(
+                    adProduct: products[index],
+                  );
+                },
+              ),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: RaisedButton(
+                onPressed: () {},
+                child: Text('Submit'),
+              ),
             )
           ],
         )),

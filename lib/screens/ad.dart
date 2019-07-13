@@ -13,10 +13,15 @@ class Ad {
   AdContact adContact;
   List<Media> mediaList;
   List<AdProduct> adProducts;
+  bool isWholeSale;
 
-  Ad({this.adContact, this.mediaList, this.adProducts, this.adDetails});
+  Ad(
+      {this.adContact,
+      this.mediaList,
+      this.adProducts,
+      this.adDetails,
+      this.isWholeSale});
 }
-
 
 class AdProduct {
   String name;
@@ -25,12 +30,15 @@ class AdProduct {
   String newPrice;
   Category category;
   Brand brand;
+  List<Media> mediaList;
+
   String details;
   List<Attribute> attributes;
 
   AdProduct(
       {this.name,
-      this.quantity,
+      this.mediaList,
+      this.quantity = "0",
       this.oldPrice,
       this.newPrice,
       this.category,
@@ -40,6 +48,8 @@ class AdProduct {
 
   @override
   String toString() {
-    return 'AdProduct{name: $name, quantity: $quantity, oldPrice: $oldPrice, newPrice: $newPrice, category: $category, brand: $brand, details: $details}';
+    return 'AdProduct{name: $name, quantity: $quantity, oldPrice: $oldPrice, newPrice: $newPrice, category: $category, brand: $brand, mediaList: $mediaList, details: $details, attributes: $attributes}';
   }
+
+
 }

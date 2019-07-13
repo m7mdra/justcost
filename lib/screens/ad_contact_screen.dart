@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/screens/ad.dart';
+import 'package:justcost/screens/ad_type_screen.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
 
 import '../dependencies_provider.dart';
@@ -264,54 +265,57 @@ class _AdContactScreenState extends State<AdContactScreen> {
                       hintStyle: hintStyle),
                 ),
                 divider(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          if (location == null) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Select the ad location.')));
-                            return;
-                          } else if (_selectedCountry == null) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Select Country first')));
-                            return;
-                          } else if (_selectedCity == null) {
-                            _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(content: Text('Select City first.')));
-                            return;
-                          } else {
-                            var phoneNumber =
-                                _adPhoneNumberController.value.text;
-                            var email = _adEmailController.value.text;
-                            var facebookPage = _adFacebookController.value.text;
-                            var instagramPage =
-                                _adInstagramController.value.text;
-                            var adContact = AdContact(
-                                phoneNumber: phoneNumber,
-                                location: location,
-                                city: _selectedCity,
-                                country: _selectedCountry,
-                                instagramPage: instagramPage,
-                                facebookPage: facebookPage,
-                                email: email);
-                            if (isEditMode())
-                              Navigator.pop(context, adContact);
-                            else
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute<Ad>(
-                                      builder: (context) => AdMediaScreen(
-                                            adDetails: widget.adDetails,
-                                            adContact: adContact,
-                                          )));
+                Hero(
+                  tag: "addad",
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            if (location == null) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text('Select the ad location.')));
+                              return;
+                            } else if (_selectedCountry == null) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text('Select Country first')));
+                              return;
+                            } else if (_selectedCity == null) {
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text('Select City first.')));
+                              return;
+                            } else {
+                              var phoneNumber =
+                                  _adPhoneNumberController.value.text;
+                              var email = _adEmailController.value.text;
+                              var facebookPage = _adFacebookController.value.text;
+                              var instagramPage =
+                                  _adInstagramController.value.text;
+                              var adContact = AdContact(
+                                  phoneNumber: phoneNumber,
+                                  location: location,
+                                  city: _selectedCity,
+                                  country: _selectedCountry,
+                                  instagramPage: instagramPage,
+                                  facebookPage: facebookPage,
+                                  email: email);
+                              if (isEditMode())
+                                Navigator.pop(context, adContact);
+                              else
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute<Ad>(
+                                        builder: (context) => AdTypeSelectScreen(
+                                              adDetails: widget.adDetails,
+                                              adContact: adContact,
+                                            )));
+                            }
                           }
-                        }
-                      },
-                      child: Text('Next'),
+                        },
+                        child: Text('Next'),
+                      ),
                     ),
                   ),
                 )

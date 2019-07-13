@@ -5,17 +5,10 @@ import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
-import 'ad_contact_screen.dart';
-import 'ad_details_screen.dart';
-import 'ad_type_screen.dart';
-
 class AdMediaScreen extends StatefulWidget {
-  final AdDetails adDetails;
-  final AdContact adContact;
   final List<Media> mediaList;
 
-  const AdMediaScreen({Key key, this.adDetails, this.adContact, this.mediaList})
-      : super(key: key);
+  const AdMediaScreen({Key key, this.mediaList}) : super(key: key);
 
   @override
   _AdMediaScreenState createState() => _AdMediaScreenState();
@@ -38,7 +31,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Ad Media'),
+        title: Text('Product Media'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.photo_camera),
@@ -154,7 +147,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                           var media = mediaList[index];
                           return media.type == Type.Image
                               ? AdImageView(
-                            showRemoveIcon: true,
+                                  showRemoveIcon: true,
                                   file: media.file,
                                   size: Size(200, 200),
                                   key: ObjectKey('object$index'),
@@ -185,16 +178,10 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           onPressed: () {
-                            if (isEditMode())
-                              Navigator.pop(context, mediaList);
+                            if (mediaList == null || mediaList.isEmpty)
+                              Navigator.pop(context);
                             else
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => AdTypeSelectScreen(
-                                            adContact: widget.adContact,
-                                            adDetails: widget.adDetails,
-                                            mediaList: mediaList,
-                                          )));
+                              Navigator.pop(context, mediaList);
                           },
                           child: Text('Next'),
                         ),

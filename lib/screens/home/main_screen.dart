@@ -163,9 +163,10 @@ class _MainScreenState extends State<MainScreen>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        heroTag: "addad",
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AdDetailsScreen()));
         },
         tooltip: 'post ad',
         child: Icon(Icons.add),

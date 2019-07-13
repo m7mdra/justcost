@@ -8,10 +8,9 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 class AdTypeSelectScreen extends StatefulWidget {
   final AdDetails adDetails;
   final AdContact adContact;
-  final List<Media> mediaList;
 
   const AdTypeSelectScreen(
-      {Key key, this.adDetails, this.adContact, this.mediaList})
+      {Key key, this.adDetails, this.adContact})
       : super(key: key);
 
   @override
@@ -96,7 +95,6 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => AdProductsScreen(
                             additionType: AdditionType.single,
-                            mediaList: widget.mediaList,
                             adDetails: widget.adDetails,
                             adContact: widget.adContact,
                           )));
@@ -111,7 +109,6 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => AdProductsScreen(
                             additionType: AdditionType.multiple,
-                            mediaList: widget.mediaList,
                             adDetails: widget.adDetails,
                             adContact: widget.adContact,
                           )));
