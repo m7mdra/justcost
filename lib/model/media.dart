@@ -11,6 +11,7 @@ class Media {
     return 'Media{file: $file, type: $type}';
   }
 
+  Map<String, dynamic> toJson() => {"file": file.path, "type": type.index};
 }
 
 enum Type { Video, Image }

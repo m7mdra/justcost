@@ -217,7 +217,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 );
               if (state is AttributesLoaded) {
                 return ListView.separated(
-
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
@@ -387,13 +386,12 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                           comment: state.comments[index],
                           onReplayClick: (comment) async {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    BlocProvider<CommentsBloc>(
+                                builder: (context) => BlocProvider.value(
                                       child: CommentReplayScreen(
                                         comment: comment,
                                         product: product,
                                       ),
-                                      bloc: _commentsBloc,
+                                      value: _commentsBloc,
                                     )));
                           },
                         );
@@ -417,6 +415,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         : Container()*/
                   ],
                 );
+              return Container();
             },
           )
         ],

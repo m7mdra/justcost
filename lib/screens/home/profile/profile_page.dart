@@ -125,8 +125,8 @@ class _ProfilePageState extends State<ProfilePage>
         OutlineButton(
           onPressed: () async {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return BlocProvider(
-                bloc: _bloc,
+              return BlocProvider.value(
+                value: _bloc,
                 child: EditProfileScreen(),
               );
             }));

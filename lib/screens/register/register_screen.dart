@@ -51,6 +51,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         this._countries = countriesData.data;
       });
     });
+    ///TODO replace bloc.state.listen with [BlocListener]
+
     _registerBloc = RegisterBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _registerBloc.state.listen((state) {
@@ -119,9 +121,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _phoneNumberController.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SafeArea(
         child: ListView(

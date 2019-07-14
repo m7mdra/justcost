@@ -57,6 +57,14 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   @override
+  void onError(Object error, StackTrace stacktrace) {
+    // TODO: implement onError
+    super.onError(error, stacktrace);
+    print(error);
+    print(stacktrace);
+  }
+
+  @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LogoutEvent) {
       yield LogoutLoading();

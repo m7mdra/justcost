@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:justcost/error_delegate.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/intro/intro_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
@@ -8,7 +9,7 @@ import 'package:justcost/screens/splash/splash_screen.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 
 import 'dependencies_provider.dart';
-
+import 'package:bloc/bloc.dart';
 void main() {
   DependenciesProvider.build();
   runApp(MyApp());
@@ -17,12 +18,16 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    BlocSupervisor.delegate = GlobalAppBlocDelegate();
+
     return MaterialApp(
       title: 'JustCost',
       localizationsDelegates: [
         const AppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+
       ],
       supportedLocales: [
         const Locale('en', ''),
@@ -44,9 +49,9 @@ class MyApp extends StatelessWidget {
           child: navigator,
         );
       },
-      home: BlocProvider(
+      home: BlocProvider.value(
         child: SplashScreen(),
-        bloc: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
+        value: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );
   }

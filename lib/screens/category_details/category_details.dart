@@ -47,6 +47,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       ),
       body: BlocBuilder(
         bloc: _bloc,
+        // ignore: missing_return
         builder: (BuildContext context, CategoriesState state) {
           if (state is CategoriesNetworkError) {
             return NetworkErrorWidget(
@@ -78,24 +79,22 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
-                  childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height * 0.65),
+                  childAspectRatio: 1,
+
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return CategoryWidget(
                     category: state.categories[index],
                     onClick: (category) async {
                       if (category.hasDescendants()) {
-                        var cat = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CategoryDetailsScreen(
+                        var cat =
+                            await Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CategoryDetailsScreen(
                                       widget.pickMode,
                                       category: category,
                                     )));
                         Navigator.of(context).pop(cat);
-                      }
-                      else {
+                      } else {
                         if (widget.pickMode)
                           Navigator.of(context).pop(category);
                         else
@@ -109,6 +108,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               ),
               onRefresh: () {
                 _bloc.dispatch(FetchCategoriesDescendant(widget.category.id));
+                return null;
               },
             );
         },

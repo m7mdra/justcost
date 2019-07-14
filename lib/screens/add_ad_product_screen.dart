@@ -4,7 +4,7 @@ import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/ad_media_screen.dart';
+import 'package:justcost/screens/product_media_screen.dart';
 import 'package:justcost/screens/ad_products_screen.dart';
 import 'package:justcost/screens/postad/category_picker_screen.dart';
 import 'package:justcost/util/tuple.dart';

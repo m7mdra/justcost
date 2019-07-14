@@ -11,16 +11,17 @@ import 'ad_details_screen.dart';
 class Ad {
   AdDetails adDetails;
   AdContact adContact;
-  List<Media> mediaList;
   List<AdProduct> adProducts;
   bool isWholeSale;
 
-  Ad(
-      {this.adContact,
-      this.mediaList,
-      this.adProducts,
-      this.adDetails,
-      this.isWholeSale});
+  Ad({this.adContact, this.adProducts, this.adDetails, this.isWholeSale});
+
+  Map<String, dynamic> toJson() => {
+        "isWholeSale": isWholeSale,
+        "adDetails": adDetails.toJson(),
+        "adContact": adContact.toJson(),
+        "adProducts": adProducts.map((product) => product.toJson()).toList()
+      };
 }
 
 class AdProduct {
@@ -51,5 +52,61 @@ class AdProduct {
     return 'AdProduct{name: $name, quantity: $quantity, oldPrice: $oldPrice, newPrice: $newPrice, category: $category, brand: $brand, mediaList: $mediaList, details: $details, attributes: $attributes}';
   }
 
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "quantity": quantity,
+        "oldPrice": oldPrice,
+        "newPrice": newPrice,
+        "category": category.toJson(),
+        "brand": "",
+        "media": mediaList.map((media) => media.toJson()).toList()
+      };
+}
 
+class AdDetails {
+  final String title, keyword, description;
+
+  AdDetails({this.title, this.keyword, this.description});
+
+  @override
+  String toString() {
+    return 'AdDetails{title: $title, keyword: $keyword, description: $description}';
+  }
+
+  Map<String, dynamic> toJson() =>
+      {"title": title, "keyword": keyword, "description": description};
+}
+
+class AdContact {
+  Country country;
+  City city;
+  LatLng location;
+  String phoneNumber;
+  String email;
+  String facebookPage;
+  String instagramPage;
+
+  AdContact(
+      {this.phoneNumber,
+      this.location,
+      this.city,
+      this.country,
+      this.email,
+      this.facebookPage,
+      this.instagramPage});
+
+  @override
+  String toString() {
+    return 'AdContact{country: $country, city: $city, location: $location, phoneNumber: $phoneNumber, email: $email, facebookPage: $facebookPage, instagramPage: $instagramPage}';
+  }
+
+  Map<String, dynamic> toJson() => {
+        "country": country.toJson(),
+        "city": city.toJson(),
+        "location": "${location.latitude},${location.longitude}",
+        "phoneNumber": phoneNumber,
+        "email": email,
+        "facebookPage": facebookPage,
+        "instagramPage": instagramPage,
+      };
 }

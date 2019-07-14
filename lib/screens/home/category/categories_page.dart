@@ -41,6 +41,7 @@ class _CategoriesPageState extends State<CategoriesPage>
     super.build(context);
     return BlocBuilder(
       bloc: _bloc,
+      // ignore: missing_return
       builder: (BuildContext context, CategoriesState state) {
         if (state is CategoriesNetworkError) {
           return NetworkErrorWidget(
@@ -62,7 +63,12 @@ class _CategoriesPageState extends State<CategoriesPage>
             ),
           );
         if (state is NoCategorieState) return NoDataWidget();
-        if (state is CategoriesLoadedState)
+        if (state is CategoriesLoadedState) {
+          var size = MediaQuery.of(context).size;
+
+          final double itemHeight = (size.height - kToolbarHeight - 30) / 2;
+          final double itemWidth = size.width / 2;
+
           return RefreshIndicator(
             child: GridView.builder(
               padding: const EdgeInsets.all(8),
@@ -71,8 +77,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height * 0.65),
+                childAspectRatio: 1,
               ),
               itemBuilder: (BuildContext context, int index) {
                 return CategoryWidget(
@@ -97,6 +102,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               _bloc.dispatch(FetchCategoriesEvent());
             },
           );
+        }
       },
     );
   }

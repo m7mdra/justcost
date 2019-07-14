@@ -37,18 +37,20 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
 
   bool isEditMode() => widget.adDetails != null;
 
+  bool isAtleastOneFieldNotEmpty() =>
+      _adDetailsController.text.isNotEmpty ||
+      _adKeywordController.text.isNotEmpty ||
+      _adTitleController.text.isNotEmpty;
+
   @override
   void dispose() {
     super.dispose();
     _adTitleController.dispose();
     _adKeywordController.dispose();
     _adDetailsController.dispose();
-
     _adKeywordFocusNode.dispose();
     _adDetailsFocusNode.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +62,31 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         ),
         body: WillPopScope(
           onWillPop: () async {
-            bool dismiss = await showDialog<bool>(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => RoundedAlertDialog(
-                      title: Text('Discard data?'),
-                      content: Text('Are you sure?'),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Yes'),
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
-                        ),
-                        FlatButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                        ),
-                      ],
-                    ));
-            return Future.value(dismiss );
+            if (isAtleastOneFieldNotEmpty()) {
+              bool dismiss = await showDialog<bool>(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => RoundedAlertDialog(
+                        title: Text('Discard data?'),
+                        content: Text('Are you sure?'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Yes'),
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                          ),
+                          FlatButton(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                          ),
+                        ],
+                      ));
+              return Future.value(dismiss);
+            } else
+              return Future.value(true);
           },
           child: SingleChildScrollView(
             child: Form(
@@ -203,8 +208,4 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   }
 }
 
-class AdDetails {
-  final String title, keyword, description;
 
-  AdDetails({this.title, this.keyword, this.description});
-}

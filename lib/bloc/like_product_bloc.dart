@@ -60,3 +60,4 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
     }
   }
 }
+

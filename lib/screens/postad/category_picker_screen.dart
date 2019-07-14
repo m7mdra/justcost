@@ -37,7 +37,10 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
       body: SafeArea(
         child: BlocBuilder(
           bloc: _bloc,
+
+          // ignore: missing_return
           builder: (BuildContext context, CategoriesState state) {
+
             if (state is CategoriesNetworkError) {
               return NetworkErrorWidget(
                 onRetry: () {

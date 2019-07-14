@@ -5,10 +5,11 @@ import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/screens/ad.dart';
 import 'package:justcost/screens/ad_type_screen.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import '../dependencies_provider.dart';
 import 'ad_details_screen.dart';
-import 'ad_media_screen.dart';
+import 'product_media_screen.dart';
 
 class AdContactScreen extends StatefulWidget {
   final AdDetails adDetails;
@@ -105,7 +106,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
         key: _formKey,
         child: WillPopScope(
           onWillPop: () async {
-/*            bool dismiss = await showDialog<bool>(
+            bool dismiss = await showDialog<bool>(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
@@ -125,8 +126,8 @@ class _AdContactScreenState extends State<AdContactScreen> {
                           },
                         ),
                       ],
-                    ));*/
-            return Future.value(true);
+                    ));
+            return Future.value(dismiss);
           },
           child: SingleChildScrollView(
             child: Column(
@@ -176,7 +177,9 @@ class _AdContactScreenState extends State<AdContactScreen> {
                 ),
                 divider(),
                 ListTile(
+
                   dense: true,
+                  onTap: _onLocationPickerClicked,
                   trailing: IconButton(
                       icon: Icon(Icons.place),
                       onPressed: _onLocationPickerClicked),
@@ -343,26 +346,3 @@ class _AdContactScreenState extends State<AdContactScreen> {
   }
 }
 
-class AdContact {
-  Country country;
-  City city;
-  LatLng location;
-  String phoneNumber;
-  String email;
-  String facebookPage;
-  String instagramPage;
-
-  AdContact(
-      {this.phoneNumber,
-      this.location,
-      this.city,
-      this.country,
-      this.email,
-      this.facebookPage,
-      this.instagramPage});
-
-  @override
-  String toString() {
-    return 'AdContact{country: $country, city: $city, location: $location, phoneNumber: $phoneNumber, email: $email, facebookPage: $facebookPage, instagramPage: $instagramPage}';
-  }
-}

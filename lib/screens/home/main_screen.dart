@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/category/categories_page.dart';
 import 'package:justcost/screens/home/home/home_page.dart';
 import 'package:justcost/screens/home/profile/profile_page.dart';
@@ -29,6 +31,13 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     _pageController = PageController(keepPage: true);
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
   }
 
   List<Widget> _notificationWidget = List.generate(10, (generator) {
@@ -165,8 +174,8 @@ class _MainScreenState extends State<MainScreen>
       floatingActionButton: FloatingActionButton(
         heroTag: "addad",
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => AdDetailsScreen()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
         },
         tooltip: 'post ad',
         child: Icon(Icons.add),

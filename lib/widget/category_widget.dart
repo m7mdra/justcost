@@ -36,9 +36,10 @@ class CategoryWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: Text(
                 category.name,
+                maxLines: 1,
                 style: Theme.of(context)
                     .textTheme
-                    .caption
+                    .body1
                     .copyWith(color: Colors.black),
               ),
             )

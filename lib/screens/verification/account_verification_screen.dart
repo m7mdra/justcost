@@ -92,8 +92,8 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocProvider(
-          bloc: _accountVerificationBloc,
+        child: BlocProvider.value(
+          value: _accountVerificationBloc,
           child: BlocBuilder(
               bloc: _accountVerificationBloc,
               builder: (context, state) {

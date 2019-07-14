@@ -4,10 +4,10 @@ import 'package:justcost/screens/ad_contact_screen.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-
+import 'dart:convert';
 import 'ad.dart';
 import 'ad_details_screen.dart';
-import 'ad_media_screen.dart';
+import 'product_media_screen.dart';
 import 'ad_products_screen.dart';
 
 class AdReviewScreen extends StatefulWidget {
@@ -31,7 +31,6 @@ class AdReviewScreen extends StatefulWidget {
 class _AdReviewScreenState extends State<AdReviewScreen> {
   AdDetails adDetails;
   AdContact adContact;
-  List<Media> mediaList;
   List<AdProduct> products;
 
   @override
@@ -156,19 +155,26 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                         "${adContact.country.name} - ${adContact.city.name}",
                   ),
                   divider(),
-                  AdTile(
-                    title: 'Facebook account',
-                    subtitle: "${adContact.facebookPage} ",
+                  Visibility(
+                    visible: adContact.facebookPage != null &&
+                        adContact.facebookPage.isNotEmpty,
+                    child: AdTile(
+                      title: 'Facebook account',
+                      subtitle: "${adContact.facebookPage} ",
+                    ),
                   ),
                   divider(),
-                  AdTile(
-                    title: 'Instagram account',
-                    subtitle: "${adContact.instagramPage} ",
+                  Visibility(
+                    visible: adContact.instagramPage != null &&
+                        adContact.instagramPage.isNotEmpty,
+                    child: AdTile(
+                      title: 'Instagram account',
+                      subtitle: "${adContact.instagramPage} ",
+                    ),
                   ),
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
               child: Row(
@@ -216,9 +222,21 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
             ),
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text('Submit'),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    var ad = Ad(
+                        adContact: adContact,
+                        adDetails: adDetails,
+                        isWholeSale: false,
+                        adProducts: products);
+                    var json=jsonEncode(ad.toJson());
+                    debugPrint(json, wrapWidth: 1024);
+
+                  },
+                  child: Text('Submit'),
+                ),
               ),
             )
           ],

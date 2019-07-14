@@ -56,10 +56,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchState get initialState => SearchIdle();
 
   @override
-  Stream<SearchEvent> transform(Stream<SearchEvent> events) {
-    return super.transform((events as Observable<SearchEvent>).debounce(
-      Duration(milliseconds: 500),
-    ));
+  Stream<SearchState> transform(Stream<SearchEvent> events,
+      Stream<SearchState> Function(SearchEvent event) next) {
+    return super.transform(
+      (events as Observable<SearchEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ),
+      next,
+    );
   }
 
   @override
