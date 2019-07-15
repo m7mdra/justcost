@@ -54,7 +54,7 @@ class AdProduct {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "quantity": quantity,
+        "quantity": quantity ,
         "oldPrice": oldPrice,
         "newPrice": newPrice,
         "category": category.toJson(),
