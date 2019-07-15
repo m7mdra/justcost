@@ -66,15 +66,13 @@ class City {
   int id;
   String name;
   String arName;
-  int countryId;
 
-  City({this.id, this.name, this.arName, this.countryId});
+  City({this.id, this.name, this.arName});
 
   City.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     arName = json['arName'];
-    countryId = json['countryId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,13 +80,12 @@ class City {
     data['id'] = this.id;
     data['name'] = this.name;
     data['arName'] = this.arName;
-    data['countryId'] = this.countryId;
     return data;
   }
 
   @override
   String toString() {
-    return 'City{id: $id, name: $name, arName: $arName, countryId: $countryId}';
+    return 'City{id: $id, name: $name, arName: $arName}';
   }
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/city/city_picker_screen.dart';

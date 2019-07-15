@@ -66,10 +66,10 @@ class UserRepository {
     }
   }
 
-  Future<User> parse() async {
+  Future<AuthenticationResponse> parse() async {
     try {
-      var response = await _client.get('user-by-token');
-      var payLoad = User.fromJson(response.data);
+      var response = await _client.get('customer/user-by-token');
+      var payLoad = AuthenticationResponse.fromJson(response.data);
       return payLoad;
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)

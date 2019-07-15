@@ -1,4 +1,5 @@
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 
 class PersonalInformation {
   final String fullName;

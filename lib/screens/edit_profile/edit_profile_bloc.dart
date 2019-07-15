@@ -52,7 +52,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       }
       if (event is LoadUserDataEvent) {
         var localUser = await _userSession.user();
-        yield UserLoadedState(localUser);
+        yield UserLoadedState(localUser.data.user);
 //        var updateUser = await _userRepository.parse();
         
 //        yield UserLoadedState(updateUser);
@@ -77,9 +77,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             event.originalImage, event.croppedImage);
         if (response.status) {
           var user = await _userRepository.parse();
-          await _userSession.saveUser(user);
+          await _userSession.saveUser(user.data.user);
           userProfileBloc.dispatch(LoadProfileEvent());
-          yield AvatarUpdateSuccess(user);
+          yield AvatarUpdateSuccess(user.data.user);
         } else {
           yield ErrorState<UpdateProfileAvatarEvent>(
               response.message, ErrorType.avatar, event);

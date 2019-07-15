@@ -1,4 +1,3 @@
-import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/data/user/model/user.dart';
 
 class AuthenticationResponse {
@@ -47,4 +46,5 @@ class Data {
     return data;
   }
 }
+
 

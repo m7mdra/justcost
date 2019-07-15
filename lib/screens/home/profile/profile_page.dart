@@ -17,7 +17,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
   UserProfileBloc _bloc;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _bloc.dispatch(LoadProfileEvent());
 
+  }
   @override
   void initState() {
     super.initState();

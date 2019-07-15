@@ -29,7 +29,7 @@ dependencies:
   dio: ^2.1.13
   flutter_bloc: ^0.19.0
   equatable: ^0.1.0
-  firebase_messaging: ^4.0.0+1
+  firebase_messaging: ^5.1.0
   sqflite:
   path:
   get_it: ^1.0.3

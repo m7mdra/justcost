@@ -29,7 +29,8 @@ class UserUnauthenticated extends AuthenticationState {}
 class AuthenticationLoading extends AuthenticationState {}
 
 class AuthenticationFailed extends AuthenticationState {}
-class FirstTimeLaunch extends AuthenticationState{}
+
+class FirstTimeLaunch extends AuthenticationState {}
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -67,10 +68,10 @@ class AuthenticationBloc
             try {
               var parseResponse = await repository.parse();
               if (parseResponse != null) {
-                if (parseResponse.isVerified) {
+                if (parseResponse.data.user.isVerified) {
                   /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
                   /// OBSOLETE DATA
-                  await session.saveUser(parseResponse);
+                  await session.save(parseResponse);
                   yield UserAuthenticated();
                 } else
                   yield AccountNotVerified();

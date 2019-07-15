@@ -57,14 +57,6 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   @override
-  void onError(Object error, StackTrace stacktrace) {
-    // TODO: implement onError
-    super.onError(error, stacktrace);
-    print(error);
-    print(stacktrace);
-  }
-
-  @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LogoutEvent) {
       yield LogoutLoading();
@@ -79,7 +71,6 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         } catch (error) {
           await _session.clear();
           await FirebaseMessaging().deleteInstanceID();
-
           yield LogoutSuccessState();
         }
       }
@@ -88,26 +79,29 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (await _session.isUserAGoat()) {
         yield GuestUserState();
       } else {
-        var user = await _session.user();
-        print("user: $user");
-
         try {
-          yield ProfileLoadedSuccessState(user);
+          var user = await _session.user();
+
+          yield ProfileLoadedSuccessState(user.data.user);
           var response = await _repository.parse();
           if (response != null) {
-            await _session.saveUser(response);
-            yield ProfileLoadedSuccessState(response);
+            await _session.save(response);
+            yield ProfileLoadedSuccessState(response.data.user);
           } else {
-            yield ProfileReloadFailedState(user);
+            yield ProfileReloadFailedState(user.data.user);
           }
         } on DioError catch (error) {
           print(error);
-          yield ProfileReloadFailedState(user);
+          var user = await _session.user();
+
+          yield ProfileReloadFailedState(user.data.user);
         } on SessionExpired catch (error) {
-          await _session.clear();
           yield SessionsExpiredState();
+          _session.clear();
         } catch (error) {
-          yield ProfileReloadFailedState(user);
+          var user = await _session.user();
+
+          yield ProfileReloadFailedState(user.data.user);
         }
       }
     }

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/data/product/model/post_ad.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/model/media.dart';

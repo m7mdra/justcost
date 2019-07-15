@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/product/model/like.dart';
 import 'package:justcost/data/product/model/product_details.dart';
+import 'package:justcost/screens/ad.dart';
 
 import 'model/post_ad.dart';
 import 'model/product.dart';
@@ -87,6 +88,18 @@ class ProductRepository {
     } catch (error) {
       throw error;
     }
+  }
+
+  void postad(Ad ad) {
+    FormData.from({
+      "products": ad.adProducts.map((product) {
+        var json = product.toJson();
+        json.remove("media");
+        json['media'] = product.mediaList
+            .map((media) => UploadFileInfo(media.file, "${media.file.path}"));
+        return json;
+      })
+    });
   }
 
   Future<LikeResponse> likeProductById(int id) async {

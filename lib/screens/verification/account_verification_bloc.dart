@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -50,7 +51,8 @@ class AccountVerificationBloc
 
   @override
   VerificationState get initialState => VerificationIdle();
-@override
+
+  @override
   void onError(Object error, StackTrace stacktrace) {
     // TODO: implement onError
     super.onError(error, stacktrace);
@@ -61,6 +63,7 @@ class AccountVerificationBloc
     print(error);
     print(stacktrace);
   }
+
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
     if (event is LogoutEvent) {
@@ -73,7 +76,7 @@ class AccountVerificationBloc
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
           var data = response.data;
-          await _session.saveUser(data);
+          await _session.save(AuthenticationResponse(data: Data(user: data)));
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);

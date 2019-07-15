@@ -70,7 +70,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       }
     });
     _bloc.dispatch(LoadUserDataEvent());
-
   }
 
   @override
@@ -164,7 +163,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   .push(MaterialPageRoute(
                       builder: (context) => UpdatePersonalInformationScreen(
                           PersonalInformation(
-                              user.name, user.gender, user.cities))));
+                              user.name, user.gender, user.city))));
               if (newInformation != null)
                 _bloc.dispatch(UpdatePersonalInformationEvent(
                     fullName: newInformation.fullName,
@@ -177,19 +176,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 title: Text('Full name'),
                 subtitle: Text(user.name == null || user.name.isEmpty
                     ? 'Not added'
-                    : user.name)),
+                    : user?.name)),
             ListTile(
                 dense: true,
                 title: Text('Gender'),
                 subtitle: Text(user.gender == null
                     ? 'Not Added'
-                    : user.gender == 1 ? 'Male' : 'Female')),
+                    : user?.gender == 1 ? 'Male' : 'Female')),
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Location/City'),
                 subtitle:
-                    Text(user.cities == null ? 'Not added' : user.cities.name)),
+                    Text(user.city == null ? 'Not added' : user.city.name)),
             buildDivider(),
             buildTitle('Account Information', () async {
               AccountInformation information = await Navigator.of(context).push(
@@ -211,7 +210,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 contentPadding: tilePadding(),
                 dense: true,
                 title: Text('Email Address'),
-                subtitle: Text(user.email)),
+                subtitle: Text(user.email == null || user.email.isEmpty
+                    ? "Not added"
+                    : user.email)),
             buildTitle('Account Security ', () async {
               Password information = await Navigator.of(context).push(
                   MaterialPageRoute(

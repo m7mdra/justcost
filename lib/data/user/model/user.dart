@@ -1,4 +1,4 @@
-import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 
 class User {
   int id;
@@ -6,30 +6,25 @@ class User {
   String username;
   String name;
   String mobile;
-  int city;
-  String image;
+  Country country;
+  City city;
   int gender;
+  String image;
   bool isVerified;
   String firebaseToken;
-  String createdAt;
-  String updatedAt;
-  City cities;
 
-  User({
-    this.id,
-    this.email,
-    this.cities,
-    this.username,
-    this.name,
-    this.mobile,
-    this.city,
-    this.gender,
-    this.isVerified,
-    this.firebaseToken,
-    this.createdAt,
-    this.image,
-    this.updatedAt,
-  });
+  User(
+      {this.id,
+        this.email,
+        this.username,
+        this.name,
+        this.mobile,
+        this.country,
+        this.city,
+        this.gender,
+        this.image,
+        this.isVerified,
+        this.firebaseToken});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -37,14 +32,13 @@ class User {
     username = json['username'];
     name = json['name'];
     mobile = json['mobile'];
-    image = json['image'];
-    city = json['city'];
-    if (json['cities'] != null) cities = City.fromJson(json['cities']);
+    country =
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender = json['gender'];
+    image = json['image'];
     isVerified = json['isVerified'];
     firebaseToken = json['firebaseToken'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -53,15 +47,17 @@ class User {
     data['email'] = this.email;
     data['username'] = this.username;
     data['name'] = this.name;
-    if (cities != null) data['cities'] = this.cities.toJson();
     data['mobile'] = this.mobile;
-    data['city'] = this.city;
-    data['image'] = this.image;
+    if (this.country != null) {
+      data['country'] = this.country.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city.toJson();
+    }
     data['gender'] = this.gender;
+    data['image'] = this.image;
     data['isVerified'] = this.isVerified;
     data['firebaseToken'] = this.firebaseToken;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

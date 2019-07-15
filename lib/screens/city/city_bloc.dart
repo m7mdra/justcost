@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 
 abstract class CitiesEvent {}
 

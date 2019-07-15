@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/city.dart';
+import 'package:justcost/data/city/model/country.dart';
 
 class PostAd {
   final File image;
