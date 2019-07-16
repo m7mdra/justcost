@@ -10,6 +10,7 @@ import 'package:justcost/screens/verification/account_verification_screen.dart';
 
 import 'dependencies_provider.dart';
 import 'package:bloc/bloc.dart';
+
 void main() {
   DependenciesProvider.build();
   runApp(MyApp());
@@ -27,7 +28,6 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
-
       ],
       supportedLocales: [
         const Locale('en', ''),
@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
       },
       home: BlocProvider.value(
         child: SplashScreen(),
-        value: AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
+        value:
+            AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );
   }

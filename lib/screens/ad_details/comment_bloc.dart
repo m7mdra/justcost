@@ -14,7 +14,6 @@ class LoadComments extends CommentsEvent {
   LoadComments(this.id);
 }
 
-
 class CommentsLoading extends CommentsState {}
 
 class CommentsError extends CommentsState {}
@@ -36,12 +35,13 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
 
   @override
   CommentsState get initialState => CommentsLoading();
-@override
+  @override
   void onError(Object error, StackTrace stacktrace) {
     super.onError(error, stacktrace);
     print(error);
     print(stacktrace);
   }
+
   @override
   Stream<CommentsState> mapEventToState(CommentsEvent event) async* {
     if (event is LoadComments) {

@@ -10,8 +10,7 @@ class AdTypeSelectScreen extends StatefulWidget {
   final AdDetails adDetails;
   final AdContact adContact;
 
-  const AdTypeSelectScreen(
-      {Key key, this.adDetails, this.adContact})
+  const AdTypeSelectScreen({Key key, this.adDetails, this.adContact})
       : super(key: key);
 
   @override

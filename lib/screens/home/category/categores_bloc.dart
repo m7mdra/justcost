@@ -18,7 +18,6 @@ class FetchCategoriesDescendant extends CategoriesEvent {
   FetchCategoriesDescendant(this.categoryId);
 }
 
-
 class CategoriesLoadingState extends CategoriesState {}
 
 class CategoriesError extends CategoriesState {}

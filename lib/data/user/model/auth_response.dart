@@ -32,9 +32,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     token = json['token'];
-    user = json['userInfo'] != null
-        ? new User.fromJson(json['userInfo'])
-        : null;
+    user =
+        json['userInfo'] != null ? new User.fromJson(json['userInfo']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -46,5 +45,3 @@ class Data {
     return data;
   }
 }
-
-

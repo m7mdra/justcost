@@ -53,9 +53,8 @@ class _IntroScreenState extends State<IntroScreen> {
         });
       } else {
         timer.cancel();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => RegisterScreen()));
-
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => RegisterScreen()));
       }
     });
   }
@@ -138,7 +137,6 @@ class _IntroScreenState extends State<IntroScreen> {
                 value: percentages[_currentIndex],
               ),
             ),
-
           ],
         ),
       ),

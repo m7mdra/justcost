@@ -31,7 +31,6 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     _pageController = PageController(keepPage: true);
-
   }
 
   @override

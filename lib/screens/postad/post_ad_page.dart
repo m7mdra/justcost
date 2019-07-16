@@ -67,41 +67,52 @@ class _PostAdPageState extends State<PostAdPage> {
     _adPhoneNumberController = TextEditingController();
     _adEmailController = TextEditingController();
     _adDetailsController = TextEditingController();
-    _bloc.state.listen((state){
+    _bloc.state.listen((state) {
       //TODO refactor code.
       if (state is PostAdFailed) {
-        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to post ad, try again'),
-          actions: <Widget>[
-            FlatButton(onPressed: (){
-              Navigator.of(context).pop();
-            }, child: Text('Ok'))
-          ],
-        ));
-
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+                  title: Text('Error'),
+                  content: Text('Failed to post ad, try again'),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Ok'))
+                  ],
+                ));
       }
       if (state is PostAdError) {
-        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to post ad, try again'),
-          actions: <Widget>[
-            FlatButton(onPressed: (){
-              Navigator.of(context).pop();
-            }, child: Text('Ok'))
-          ],
-        ));
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+                  title: Text('Error'),
+                  content: Text('Failed to post ad, try again'),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Ok'))
+                  ],
+                ));
       }
       if (state is PostAdNetworkError) {
-        showDialog(context: context,builder: (context)=>RoundedAlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to post ad, try again'),
-          actions: <Widget>[
-            FlatButton(onPressed: (){
-              Navigator.of(context).pop();
-            }, child: Text('Ok'))
-          ],
-        ));
+        showDialog(
+            context: context,
+            builder: (context) => RoundedAlertDialog(
+                  title: Text('Error'),
+                  content: Text('Failed to post ad, try again'),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Ok'))
+                  ],
+                ));
       }
     });
   }
@@ -126,7 +137,9 @@ class _PostAdPageState extends State<PostAdPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Post An Ad'),),
+      appBar: AppBar(
+        title: Text('Post An Ad'),
+      ),
       key: _scaffoldKey,
       body: SafeArea(
         child: BlocBuilder(
@@ -668,12 +681,12 @@ class _PostAdPageState extends State<PostAdPage> {
       return;
     }
     if (adEmail.isEmpty) {
-    _scaffoldKey.currentState
+      _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Email field is required.')));
       return;
     }
     if (!regex.hasMatch(adEmail)) {
-    _scaffoldKey.currentState
+      _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Email field is invalid.')));
       return;
     }
@@ -695,7 +708,7 @@ class _PostAdPageState extends State<PostAdPage> {
     if (double.parse(adNewPrice) >= double.parse(adOldPrice)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
           content:
-          Text('New price must be lower and not equal to the old price.')));
+              Text('New price must be lower and not equal to the old price.')));
       return;
     }
     if (adPhoneNumber.isEmpty) {

@@ -40,7 +40,6 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
 
           // ignore: missing_return
           builder: (BuildContext context, CategoriesState state) {
-
             if (state is CategoriesNetworkError) {
               return NetworkErrorWidget(
                 onRetry: () {

@@ -224,8 +224,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)),
                                 onPressed: () => _attemptLogin(),
-                                child: Text(
-                                    AppLocalizations.of(context).loginScreenName),
+                                child: Text(AppLocalizations.of(context)
+                                    .loginScreenName),
                                 color: Theme.of(context).accentColor,
                               ),
                             ),
@@ -236,8 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               FlatButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => RegisterScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RegisterScreen()));
                 },
                 child: Text(AppLocalizations.of(context).createAccountButton),
               ),

@@ -109,6 +109,7 @@ class UserRepository {
       throw error;
     }
   }
+
   Future<ResponseStatus> reset(String email) async {
     try {
       var response =
@@ -128,7 +129,6 @@ class UserRepository {
           data: FormData.from({
             "image": UploadFileInfo(
                 downSampledFile, "${DateTime.now()}_image_original"),
-
           }));
       return ResponseStatus.fromJson(response.data);
     } on DioError catch (error) {

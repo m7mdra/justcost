@@ -54,7 +54,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         var localUser = await _userSession.user();
         yield UserLoadedState(localUser.data.user);
 //        var updateUser = await _userRepository.parse();
-        
+
 //        yield UserLoadedState(updateUser);
       }
       if (event is UpdatePasswordEvent) {

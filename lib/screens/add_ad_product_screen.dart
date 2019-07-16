@@ -54,7 +54,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _category = product.category;
       _brand = product.brand;
       attributeList = product.attributes;
-      mediaList=product.mediaList;
+      mediaList = product.mediaList;
     }
   }
 
@@ -365,12 +365,24 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                           if (double.parse(newPrice) > double.parse(oldPrice)) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text(
-                                    'new price field can not be more than old price field')));
+                                    'New price field can not be more than old price field')));
+                            return;
+                          }
+                          if (double.parse(newPrice) ==
+                              double.parse(oldPrice)) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    'New price can not be equal old price')));
                             return;
                           }
                           if (attributeList == null || attributeList.isEmpty) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text('Attributes can not be empty.')));
+                            return;
+                          }
+                          if (mediaList.isEmpty) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text('Select atleast 1 Video/Image')));
                             return;
                           }
                           var adProduct = AdProduct(

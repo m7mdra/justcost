@@ -207,5 +207,3 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     );
   }
 }
-
-

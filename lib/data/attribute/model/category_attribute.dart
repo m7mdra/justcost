@@ -3,7 +3,8 @@ class CategoryAttributeResponse {
   List<AttributeGroup> attributeGroupList;
   String message;
 
-  CategoryAttributeResponse({this.success, this.attributeGroupList, this.message});
+  CategoryAttributeResponse(
+      {this.success, this.attributeGroupList, this.message});
 
   CategoryAttributeResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -58,11 +59,11 @@ class Attribute {
   String name;
   int groupId;
 
-
-  Attribute(
-      {this.id,
-        this.name,
-        this.groupId,});
+  Attribute({
+    this.id,
+    this.name,
+    this.groupId,
+  });
 
   Attribute.fromJson(Map<String, dynamic> json) {
     id = json['id'];

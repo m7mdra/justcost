@@ -37,7 +37,6 @@ class ResetErrorState extends ResetState {
   ResetErrorState(this.message);
 }
 
-
 class ResetSuccessState extends ResetState {}
 
 class ResetIdleState extends ResetState {}
