@@ -9,12 +9,11 @@ import 'package:justcost/screens/home/category/categories_page.dart';
 import 'package:justcost/screens/home/home/home_page.dart';
 import 'package:justcost/screens/home/profile/profile_page.dart';
 import 'package:justcost/screens/home/search/search_page.dart';
-import 'package:justcost/screens/postad/post_ad_page.dart';
 import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/fab_bottom_appbar.dart';
 
-import '../ad_details_screen.dart';
-import '../ad_type_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
+import 'package:justcost/screens/postad/ad_type_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override

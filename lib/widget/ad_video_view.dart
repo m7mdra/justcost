@@ -31,6 +31,9 @@ class _AdVideoViewState extends State<AdVideoView> {
         setState(() {});
       })
       ..setLooping(true);
+    _videoPlayerController.addListener(() {
+      print(_videoPlayerController.value.duration.inMinutes);
+    });
   }
 
   @override

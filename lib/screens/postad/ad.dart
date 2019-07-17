@@ -5,8 +5,8 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/model/media.dart';
 
-import 'ad_contact_screen.dart';
-import 'ad_details_screen.dart';
+import 'package:justcost/screens/postad/ad_contact_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
 
 class Ad {
   AdDetails adDetails;
@@ -32,12 +32,13 @@ class AdProduct {
   Category category;
   Brand brand;
   List<Media> mediaList;
-
+   String keyword;
   String details;
   List<Attribute> attributes;
 
   AdProduct(
       {this.name,
+        this.keyword,
       this.mediaList,
       this.quantity = "0",
       this.oldPrice,
@@ -64,17 +65,16 @@ class AdProduct {
 }
 
 class AdDetails {
-  final String title, keyword, description;
+  final String title, description;
 
-  AdDetails({this.title, this.keyword, this.description});
+  AdDetails({this.title, this.description});
 
   @override
   String toString() {
-    return 'AdDetails{title: $title, keyword: $keyword, description: $description}';
+    return 'AdDetails{title: $title, description: $description}';
   }
 
-  Map<String, dynamic> toJson() =>
-      {"title": title, "keyword": keyword, "description": description};
+  Map<String, dynamic> toJson() => {"title": title, "description": description};
 }
 
 class AdContact {

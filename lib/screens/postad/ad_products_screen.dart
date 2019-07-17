@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/model/media.dart';
-import 'package:justcost/screens/ad_contact_screen.dart';
-import 'package:justcost/screens/ad_details_screen.dart';
-import 'package:justcost/screens/ad_review_screen.dart';
+import 'package:justcost/screens/postad/ad_contact_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
+import 'package:justcost/screens/postad/ad_review_screen.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 
-import 'ad.dart';
-import 'add_ad_product_screen.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/add_ad_product_screen.dart';
 
 enum AdditionType { single, multiple }
 

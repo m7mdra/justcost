@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/product/model/like.dart';
 import 'package:justcost/data/product/model/product_details.dart';
-import 'package:justcost/screens/ad.dart';
+import 'package:justcost/screens/postad/ad.dart';
 
 import 'model/post_ad.dart';
 import 'model/product.dart';

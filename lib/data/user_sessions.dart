@@ -46,9 +46,11 @@ class UserSession {
 
     sharedPreferences.setBool(
         ACCOUNT_STATUS_KEY, response.data.user.isVerified);
+    await refresh();
+
   }
 
-  Future refresh() async {
+  Future<void> refresh() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.reload();
   }
@@ -65,34 +67,42 @@ class UserSession {
     sharedPreferences.setInt(GENDER_KEY, user.gender);
     sharedPreferences.setString(CITY_KEY, jsonEncode(user.city.toJson()));
     sharedPreferences.setString(COUNTRY_KEY, jsonEncode(user.country.toJson()));
+    await refresh();
+
   }
 
   Future<bool> guestLogin() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await refresh();
+
     return sharedPreferences.setString(USER_TYPE_KEY, "guest");
   }
 
   Future<bool> isUserAGoat() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await refresh();
+
     return sharedPreferences.getString(USER_TYPE_KEY) == "guest";
   }
 
   Future<bool> hasToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString(TOKEN_KEY);
+    await refresh();
+
     return token != null && token.isNotEmpty;
   }
 
   Future<bool> isAccountVerified() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+    await refresh();
     return sharedPreferences.getBool(ACCOUNT_STATUS_KEY);
   }
 
   Future<AuthenticationResponse> user() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var json = jsonDecode(sharedPreferences.getString(USER_RESPONSE_KEY));
-    await sharedPreferences.reload();
+    await refresh();
     return AuthenticationResponse.fromJson(json);
   }
 
@@ -102,36 +112,36 @@ class UserSession {
     return sharedPreferences.getString(TOKEN_KEY);
   }
 
-  Future<String> userId() async {
+  Future<int> userId() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+    await refresh();
 
-    return sharedPreferences.getString(USER_ID_KEY);
+    return sharedPreferences.getInt(USER_ID_KEY);
   }
 
   Future<String> username() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+    await refresh();
 
     return sharedPreferences.getString(USERNAME_KEY);
   }
 
   Future<String> fullName() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+    await refresh();
 
     return sharedPreferences.getString(FULL_NAME_KEY);
   }
 
   Future<String> avatar() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+    await refresh();
     return sharedPreferences.getString(AVATAR_URL_KEY);
   }
 
   Future<String> gender() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    refresh();
+   await refresh();
 
     return sharedPreferences.getString(GENDER_KEY);
   }
@@ -154,5 +164,7 @@ class UserSession {
   setFirstTimeLaunched() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(FIRST_TIME_LAUNCH_KEY, false);
+    await refresh();
+
   }
 }

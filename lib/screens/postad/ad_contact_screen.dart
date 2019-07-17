@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/city/model/country.dart';
-import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/ad_type_screen.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/ad_type_screen.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
-import '../dependencies_provider.dart';
-import 'ad_details_screen.dart';
-import 'product_media_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
+import 'package:justcost/screens/postad/product_media_screen.dart';
+
+import '../../dependencies_provider.dart';
 
 class AdContactScreen extends StatefulWidget {
   final AdDetails adDetails;

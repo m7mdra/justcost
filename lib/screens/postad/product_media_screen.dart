@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:flutter_video_compress/flutter_video_compress.dart';
+
+const MAX_VIDEO_LENGTH = 20000.0;
 
 class AdMediaScreen extends StatefulWidget {
   final List<Media> mediaList;
@@ -17,6 +21,8 @@ class AdMediaScreen extends StatefulWidget {
 class _AdMediaScreenState extends State<AdMediaScreen> {
   List<Media> mediaList = List<Media>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _flutterVideoCompress = FlutterVideoCompress();
+  Subscription _subscription;
 
   bool isEditMode() => widget.mediaList != null;
 
@@ -24,6 +30,32 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
   void initState() {
     super.initState();
     if (isEditMode()) mediaList = widget.mediaList;
+    _subscription =
+        _flutterVideoCompress.compressProgress$.subscribe((progress) {
+      print(progress);
+      print(_flutterVideoCompress.isCompressing);
+    }, onDone: () {
+      Navigator.pop(context);
+    }, onError: (error) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return RoundedAlertDialog(
+              title: Text('Failed to optimized media'),
+              content: Text('$error'),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () => Navigator.pop(context), child: Text('Ok'))
+              ],
+            );
+          });
+    }, cancelOnError: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription.unsubscribe();
   }
 
   @override
@@ -88,11 +120,13 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                   Navigator.pop(context);
                                   var video = await ImagePicker.pickVideo(
                                       source: ImageSource.camera);
-                                  if (video != null)
-                                    setState(() {
-                                      mediaList.add(
-                                          Media(file: video, type: Type.Video));
-                                    });
+                                  if (video != null) {
+                                    await optimizeVideo(video);
+                                  } else {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                            'Failed to select video, try again')));
+                                  }
                                 },
                               ),
                               ListTile(
@@ -103,11 +137,13 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                   Navigator.pop(context);
                                   var video = await ImagePicker.pickVideo(
                                       source: ImageSource.gallery);
-                                  if (video != null)
-                                    setState(() {
-                                      mediaList.add(
-                                          Media(file: video, type: Type.Video));
-                                    });
+                                  if (video != null) {
+                                    await optimizeVideo(video);
+                                  } else {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                            'Failed to select video, try again')));
+                                  }
                                 },
                               ),
                             ],
@@ -130,9 +166,11 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'Max Media uploads for this ad is 4 photos/videos',
+                        'Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.deepOrange,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
                             decoration: TextDecoration.underline),
                       ),
                     ),
@@ -190,5 +228,47 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                   ],
                 )),
     );
+  }
+
+  Future optimizeVideo(File video) async {
+    MediaInfo mediaInfo = await _flutterVideoCompress.getMediaInfo(video.path);
+    if (mediaInfo.duration > MAX_VIDEO_LENGTH) {
+      showDialog(
+          context: _scaffoldKey.currentContext,
+          barrierDismissible: false,
+          builder: (context) {
+            return RoundedAlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    'Optimizing video for faster upload time...',
+                    textAlign: TextAlign.center,
+                  ),
+                  CircularProgressIndicator(),
+                ],
+              ),
+            );
+          });
+      MediaInfo compressedMediaInfo = await _flutterVideoCompress.compressVideo(
+          mediaInfo.path,
+          quality: VideoQuality.DefaultQuality,
+          startTime: 0,
+          includeAudio: true,
+          duration: 20);
+      if (compressedMediaInfo != null) {
+        debugPrint(
+            "VIDEO WAS ${compressedMediaInfo.toJson().toString()} AND NOW IS ${mediaInfo.toJson().toString()}");
+        Navigator.pop(_scaffoldKey.currentContext);
+        setState(() {
+          mediaList
+              .add(Media(file: compressedMediaInfo.file, type: Type.Video));
+        });
+      }
+    } else {
+      setState(() {
+        mediaList.add(Media(file: video, type: Type.Video));
+      });
+    }
   }
 }

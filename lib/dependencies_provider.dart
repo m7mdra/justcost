@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:justcost/data/accept_interceptor.dart';
+import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/attribute/attribute_repository.dart';
 import 'package:justcost/data/category/category_repository.dart';
 import 'package:justcost/data/city/city_repository.dart';
@@ -63,6 +64,9 @@ class DependenciesProvider {
     });
     getIt.registerFactory<AttributeRepository>(() {
       return AttributeRepository(client);
+    });
+    getIt.registerFactory<AdRepository>(() {
+      return AdRepository(client);
     });
   }
 

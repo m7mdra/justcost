@@ -1,66 +1,75 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:justcost/data/exception/exceptions.dart';
-import 'package:justcost/data/product/model/post_ad.dart';
-import 'package:justcost/data/product/product_repository.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
+import 'ad.dart';
+import 'package:justcost/data/exception/exceptions.dart';
 
-abstract class PostAdEvent {}
+abstract class AdEvent {}
 
-abstract class PostAdStatus {}
+abstract class AdState {}
 
-class SubmitAd extends PostAdEvent {
-  final PostAd ad;
+class PostAdEvent extends AdEvent {
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<AdProduct> products;
+  final bool isWholeSale;
 
-  SubmitAd(this.ad);
+  PostAdEvent(this.adDetails, this.adContact, this.products, this.isWholeSale);
 }
 
-class CheckIfUserIsNotAGoat extends PostAdEvent {}
+class LoadingState extends AdState {
+  final String message;
+  final String percentage;
 
-class PostAdLoading extends PostAdStatus {}
+  LoadingState(this.message, this.percentage);
+}
 
-class PostAdError extends PostAdStatus {}
+class ErrorState extends AdState {}
 
-class PostAdNetworkError extends PostAdStatus {}
+class IdleState extends AdState {}
 
-class PostAdFailed extends PostAdStatus {}
+class NetworkErrorState extends AdState {}
 
-class PostAdSuccess extends PostAdStatus {}
+class SuccessState extends AdState {}
 
-class UserSessionExpired extends PostAdStatus {}
+class PostAdFailed extends AdState {}
 
-class GoatUser extends PostAdStatus {}
-
-class NormalUser extends PostAdStatus {}
-
-class PostAdBloc extends Bloc<PostAdEvent, PostAdStatus> {
-  final ProductRepository _repository;
+class AdBloc extends Bloc<AdEvent, AdState> {
+  final AdRepository _repository;
   final UserSession _session;
 
-  PostAdBloc(this._repository, this._session);
+  AdBloc(this._repository, this._session);
 
   @override
-  PostAdStatus get initialState => NormalUser();
+  AdState get initialState => IdleState();
 
   @override
-  Stream<PostAdStatus> mapEventToState(PostAdEvent event) async* {
-    if (event is CheckIfUserIsNotAGoat) if (await _session.isUserAGoat())
-      yield GoatUser();
-    if (event is SubmitAd) {
-      yield PostAdLoading();
+  Stream<AdState> mapEventToState(AdEvent event) async* {
+    if (event is PostAdEvent) {
+      yield LoadingState("Please wait while trying to submit your ad", "%0");
+      final userId = await _session.userId();
       try {
-        var response = await _repository.postAd(event.ad);
-        if (response.success)
-          yield PostAdSuccess();
-        else
+        final response = await _repository.postAd(
+            customerId: userId,
+            cityId: event.adContact.city.id,
+            lat: event.adContact.location.latitude,
+            lng: event.adContact.location.longitude,
+            mobile: event.adContact.phoneNumber,
+            title: event.adDetails.title,
+            isWholeSale: event.isWholeSale ? 1 : 0,
+            description: event.adDetails.description,
+            progressCallback: (count, total) async* {
+              yield LoadingState("Please wait while trying to submit your ad",
+                  "${(total - count) / (total * 100)}%");
+            });
+        if (response.success) {
+          yield LoadingState("Uploading Media...", "%0");
+        } else {
           yield PostAdFailed();
-      } on DioError {
-        yield PostAdNetworkError();
-      } on SessionExpired {
-        yield UserSessionExpired();
-      } catch (error) {
-        yield PostAdError();
-      }
+        }
+      } on DioError catch (error) {} on SessionExpired {} catch (error) {}
     }
   }
 }
