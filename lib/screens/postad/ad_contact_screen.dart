@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/data/city/city_repository.dart';
 import 'package:justcost/data/city/model/country.dart';
-import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/ad_type_screen.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/ad_type_screen.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
-import '../dependencies_provider.dart';
-import 'ad_details_screen.dart';
-import 'product_media_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
+import 'package:justcost/screens/postad/product_media_screen.dart';
+
+import '../../dependencies_provider.dart';
 
 class AdContactScreen extends StatefulWidget {
   final AdDetails adDetails;
@@ -177,7 +178,6 @@ class _AdContactScreenState extends State<AdContactScreen> {
                 ),
                 divider(),
                 ListTile(
-
                   dense: true,
                   onTap: _onLocationPickerClicked,
                   trailing: IconButton(
@@ -286,14 +286,15 @@ class _AdContactScreenState extends State<AdContactScreen> {
                                   content: Text('Select Country first')));
                               return;
                             } else if (_selectedCity == null) {
-                              _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(content: Text('Select City first.')));
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text('Select City first.')));
                               return;
                             } else {
                               var phoneNumber =
                                   _adPhoneNumberController.value.text;
                               var email = _adEmailController.value.text;
-                              var facebookPage = _adFacebookController.value.text;
+                              var facebookPage =
+                                  _adFacebookController.value.text;
                               var instagramPage =
                                   _adInstagramController.value.text;
                               var adContact = AdContact(
@@ -310,7 +311,8 @@ class _AdContactScreenState extends State<AdContactScreen> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute<Ad>(
-                                        builder: (context) => AdTypeSelectScreen(
+                                        builder: (context) =>
+                                            AdTypeSelectScreen(
                                               adDetails: widget.adDetails,
                                               adContact: adContact,
                                             )));
@@ -345,4 +347,3 @@ class _AdContactScreenState extends State<AdContactScreen> {
     );
   }
 }
-

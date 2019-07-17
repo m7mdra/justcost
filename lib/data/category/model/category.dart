@@ -64,6 +64,7 @@ class Category {
     data['parent_id'] = this.parentId;
     return data;
   }
+
   @override
   String toString() {
     return toJson().toString();

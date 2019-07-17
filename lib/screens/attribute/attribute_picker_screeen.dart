@@ -26,8 +26,7 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
   @override
   void initState() {
     super.initState();
-    widget.attributes
-        .forEach((attr) => selectedAttribute[attr.id] = attr);
+    widget.attributes.forEach((attr) => selectedAttribute[attr.id] = attr);
 
     _bloc = FilterAttributeBloc(
         DependenciesProvider.provide<AttributeRepository>());
@@ -78,7 +77,6 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
             );
           if (state is AttributesEmptyState) return NoDataWidget();
           if (state is AttributesLoaded) {
-
             return ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: state.attributeGroupList.length,

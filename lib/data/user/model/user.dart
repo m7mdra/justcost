@@ -15,16 +15,16 @@ class User {
 
   User(
       {this.id,
-        this.email,
-        this.username,
-        this.name,
-        this.mobile,
-        this.country,
-        this.city,
-        this.gender,
-        this.image,
-        this.isVerified,
-        this.firebaseToken});
+      this.email,
+      this.username,
+      this.name,
+      this.mobile,
+      this.country,
+      this.city,
+      this.gender,
+      this.image,
+      this.isVerified,
+      this.firebaseToken});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,7 +33,7 @@ class User {
     name = json['name'];
     mobile = json['mobile'];
     country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender = json['gender'];
     image = json['image'];

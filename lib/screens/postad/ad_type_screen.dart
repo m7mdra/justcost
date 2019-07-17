@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/model/media.dart';
-import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/ad_contact_screen.dart';
-import 'package:justcost/screens/ad_details_screen.dart';
-import 'package:justcost/screens/ad_products_screen.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/ad_contact_screen.dart';
+import 'package:justcost/screens/postad/ad_details_screen.dart';
+import 'package:justcost/screens/postad/ad_products_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class AdTypeSelectScreen extends StatefulWidget {
   final AdDetails adDetails;
   final AdContact adContact;
 
-  const AdTypeSelectScreen(
-      {Key key, this.adDetails, this.adContact})
+  const AdTypeSelectScreen({Key key, this.adDetails, this.adContact})
       : super(key: key);
 
   @override

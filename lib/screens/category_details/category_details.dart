@@ -80,7 +80,6 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                   childAspectRatio: 1,
-
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return CategoryWidget(

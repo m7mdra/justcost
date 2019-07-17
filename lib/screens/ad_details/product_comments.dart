@@ -12,6 +12,8 @@ class ProductComments extends StatefulWidget {
 class _ProductCommentsState extends State<ProductComments> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: null),);
+    return Scaffold(
+      body: SafeArea(child: null),
+    );
   }
 }

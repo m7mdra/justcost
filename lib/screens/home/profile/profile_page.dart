@@ -22,8 +22,8 @@ class _ProfilePageState extends State<ProfilePage>
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _bloc.dispatch(LoadProfileEvent());
-
   }
+
   @override
   void initState() {
     super.initState();

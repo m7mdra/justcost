@@ -51,6 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         this._countries = countriesData.data;
       });
     });
+
     ///TODO replace bloc.state.listen with [BlocListener]
 
     _registerBloc = RegisterBloc(
@@ -121,9 +122,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _phoneNumberController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -172,8 +173,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     labelStyle:
                                         Theme.of(context).textTheme.body1,
                                     border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
-                                        borderRadius: BorderRadius.circular(2)))),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent,
+                                            width: 0.5),
+                                        borderRadius:
+                                            BorderRadius.circular(2)))),
                             SizedBox(
                               height: 4,
                             ),
@@ -204,7 +208,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       .usernameFieldHint,
                                   errorMaxLines: 1,
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
@@ -230,9 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     .requestFocus(_phoneNumberFocusNode);
                               },
                               keyboardType: TextInputType.emailAddress,
-
                               decoration: InputDecoration(
-
                                   labelStyle: Theme.of(context).textTheme.body1,
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
@@ -241,7 +244,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: AppLocalizations.of(context)
                                       .emailFieldHint,
                                   errorMaxLines: 1,
-
                                   errorBorder: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(0)),
@@ -249,7 +251,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderSide: BorderSide(
                                           color: Theme.of(context).errorColor)),
                                   border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
@@ -283,7 +286,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: AppLocalizations.of(context)
                                       .passwordFieldHint,
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
@@ -294,8 +298,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               hint: Text('Country'),
                               onChanged: (country) {
                                 setState(() {
-                                  _selectedCity=null;
-                                  _countryCode=null;
+                                  _selectedCity = null;
+                                  _countryCode = null;
                                   _selectedCountry = country;
                                   _cities = country.cities;
                                   _countryCode = country.code;
@@ -312,7 +316,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
@@ -333,11 +338,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ))
                                   .toList(),
                               decoration: InputDecoration(
-
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             SizedBox(
@@ -366,14 +371,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   prefixText: '+$_countryCode',
                                   errorMaxLines: 1,
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             SizedBox(
                               height: 4,
                             ),
                             DropdownButtonFormField(
-
                               value: genderGroupValue,
                               hint: Text('Gender'),
                               onChanged: (gender) {
@@ -394,11 +399,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ],
                               decoration: InputDecoration(
-
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.redAccent,width: 0.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                           ],
@@ -436,8 +441,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(color: Colors.lightBlue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
                         })
                 ]),
                 textAlign: TextAlign.center,
@@ -458,7 +464,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           messagingId: await FirebaseMessaging().getToken(),
           password: _passwordController.text.trim(),
           city: _selectedCity.id,
-          country:_selectedCountry,
+          country: _selectedCountry,
           phoneNumber: _phoneNumberController.text.trim()));
     }
   }

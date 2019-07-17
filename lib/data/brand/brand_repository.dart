@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 
 import 'model/brand.dart';
 
-
 class BrandRepository {
   final Dio _client;
 

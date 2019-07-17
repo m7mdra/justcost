@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/ad_contact_screen.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/ad_contact_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class AdDetailsScreen extends StatefulWidget {
@@ -14,10 +14,8 @@ class AdDetailsScreen extends StatefulWidget {
 
 class _AdDetailsScreenState extends State<AdDetailsScreen> {
   TextEditingController _adTitleController;
-  TextEditingController _adKeywordController;
   TextEditingController _adDetailsController;
 
-  FocusNode _adKeywordFocusNode = FocusNode();
   FocusNode _adDetailsFocusNode = FocusNode();
   GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -25,12 +23,10 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   void initState() {
     super.initState();
     _adTitleController = TextEditingController();
-    _adKeywordController = TextEditingController();
     _adDetailsController = TextEditingController();
     if (isEditMode()) {
       var adDetails = widget.adDetails;
       _adDetailsController.text = adDetails.description;
-      _adKeywordController.text = adDetails.keyword;
       _adTitleController.text = adDetails.title;
     }
   }
@@ -39,17 +35,13 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
 
   bool isAtleastOneFieldNotEmpty() =>
       _adDetailsController.text.isNotEmpty ||
-      _adKeywordController.text.isNotEmpty ||
       _adTitleController.text.isNotEmpty;
 
   @override
   void dispose() {
     super.dispose();
     _adTitleController.dispose();
-    _adKeywordController.dispose();
     _adDetailsController.dispose();
-    _adKeywordFocusNode.dispose();
-    _adDetailsFocusNode.dispose();
   }
 
   @override
@@ -95,9 +87,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 children: <Widget>[
                   TextFormField(
                     textInputAction: TextInputAction.next,
-                    onEditingComplete: () {
-                      FocusScope.of(context).requestFocus(_adKeywordFocusNode);
-                    },
+
                     validator: (title) {
                       return title.isEmpty
                           ? "Title field Can not be Empty"
@@ -114,28 +104,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         errorBorder: InputBorder.none,
                         hintStyle: hintStyle),
                   ),
-                  divider(),
-                  TextFormField(
-                    focusNode: _adKeywordFocusNode,
-                    textInputAction: TextInputAction.next,
-                    onEditingComplete: () {
-                      FocusScope.of(context).requestFocus(_adDetailsFocusNode);
-                    },
-                    validator: (keyword) {
-                      return keyword.isEmpty
-                          ? "Keyword field Can not be Empty"
-                          : null;
-                    },
-                    maxLines: 1,
-                    controller: _adKeywordController,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(
-                            left: 16, right: 16, top: 10, bottom: 10),
-                        border: InputBorder.none,
-                        helperText: 'Keyword to make your Ad easier to search',
-                        labelText: 'Keyword',
-                        hintStyle: hintStyle),
-                  ),
+
                   divider(),
                   TextFormField(
                     focusNode: _adDetailsFocusNode,
@@ -171,11 +140,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               var title = _adTitleController.value.text;
-                              var keyword = _adKeywordController.value.text;
                               var description = _adDetailsController.value.text;
                               var adDetails = AdDetails(
                                   title: title,
-                                  keyword: keyword,
                                   description: description);
                               if (isEditMode())
                                 Navigator.pop(context, adDetails);
@@ -207,5 +174,3 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     );
   }
 }
-
-

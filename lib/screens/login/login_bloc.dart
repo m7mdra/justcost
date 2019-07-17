@@ -57,7 +57,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void onError(Object error, StackTrace stacktrace) {
     // TODO: implement onError
     super.onError(error, stacktrace);
-
   }
 
   @override

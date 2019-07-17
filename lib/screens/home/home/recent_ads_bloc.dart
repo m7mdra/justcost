@@ -57,7 +57,6 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
           .where((p) => p.productId == event.id)
           .map((p) => p.liked = !p.liked);
       yield RecentAdsLoaded(products);
-
     }
   }
 }

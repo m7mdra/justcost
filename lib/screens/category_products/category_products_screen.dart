@@ -96,7 +96,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               ),
             ),
             Wrap(
-
               children: chipData.map((item) {
                 if (item is Brand)
                   return Padding(
@@ -109,7 +108,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                         selectedBrands.remove(item);
                         setState(() {});
                         categoryProductBloc.dispatch(loadDataEvent);
-
                       },
                     ),
                   );
@@ -124,7 +122,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                         selectedAttribute.remove(item);
                         setState(() {});
                         categoryProductBloc.dispatch(loadDataEvent);
-
                       },
                     ),
                   );

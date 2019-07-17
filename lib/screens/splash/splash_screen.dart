@@ -52,15 +52,12 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) {
         print("onLaunch: $message");
-        //TODO: handle logic when notification is clicked in the tray
       },
       onMessage: (Map<String, dynamic> message) {
         print("onMessage: $message");
-        //TODO: handle logic when is received when application is in foreground
       },
       onResume: (Map<String, dynamic> message) {
         print("onResume: $message");
-        //TODO: handle logic when is received when application is in background
       },
     );
 

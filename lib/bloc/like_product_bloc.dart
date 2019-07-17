@@ -24,11 +24,11 @@ class LikeNetworkError extends LikeState {}
 class LikeToggled extends LikeState {}
 
 class UserSessionExpired extends LikeState {}
-class LikeIdle extends LikeState{}
+
+class LikeIdle extends LikeState {}
 
 class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   final ProductRepository _repository;
-
 
   LikeProductBloc(this._repository);
 
@@ -60,4 +60,3 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
     }
   }
 }
-

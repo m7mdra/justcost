@@ -11,7 +11,8 @@ class AdVideoView extends StatefulWidget {
   final OnRemoved onRemove;
   final bool showRemoveIcon;
 
-  const AdVideoView({Key key, this.file, this.size, this.onRemove, this.showRemoveIcon})
+  const AdVideoView(
+      {Key key, this.file, this.size, this.onRemove, this.showRemoveIcon})
       : super(key: key);
 
   @override
@@ -30,6 +31,9 @@ class _AdVideoViewState extends State<AdVideoView> {
         setState(() {});
       })
       ..setLooping(true);
+    _videoPlayerController.addListener(() {
+      print(_videoPlayerController.value.duration.inMinutes);
+    });
   }
 
   @override
@@ -39,7 +43,6 @@ class _AdVideoViewState extends State<AdVideoView> {
       maxHeight: widget.size.height,
       child: Stack(
         alignment: Alignment.topRight,
-
         overflow: Overflow.visible,
         children: <Widget>[
           ClipRRect(

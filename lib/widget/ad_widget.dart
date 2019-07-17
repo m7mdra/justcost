@@ -33,9 +33,7 @@ class AdWidget extends StatelessWidget {
                 DiscountPercentageBannerWidget(
                   regularPrice: product.regPrice,
                   salePrice: product.salePrice,
-                  onLike: (){
-
-                  },
+                  onLike: () {},
                 ),
               ],
             ),
@@ -46,12 +44,14 @@ class AdWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(product.title == null ? '' : product.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .title
-                            .copyWith(color: Colors.black),
-                    maxLines: 2,),
+                    Text(
+                      product.title == null ? '' : product.title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .title
+                          .copyWith(color: Colors.black),
+                      maxLines: 2,
+                    ),
                     const SizedBox(
                       height: 4,
                     ),

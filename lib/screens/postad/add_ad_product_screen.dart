@@ -3,17 +3,16 @@ import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/model/media.dart';
-import 'package:justcost/screens/ad.dart';
-import 'package:justcost/screens/product_media_screen.dart';
-import 'package:justcost/screens/ad_products_screen.dart';
+import 'package:justcost/screens/attribute/attribute_picker_screeen.dart';
+import 'package:justcost/screens/brand/brand_page.dart';
+import 'package:justcost/screens/postad/ad.dart';
+import 'package:justcost/screens/postad/product_media_screen.dart';
+import 'package:justcost/screens/postad/ad_products_screen.dart';
 import 'package:justcost/screens/postad/category_picker_screen.dart';
 import 'package:justcost/util/tuple.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-
-import 'attribute/attribute_picker_screeen.dart';
-import 'brand/brand_page.dart';
 
 class AddAdProductScreen extends StatefulWidget {
   final AdditionType additionType;
@@ -38,6 +37,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   TextEditingController _oldPriceController = TextEditingController();
   TextEditingController _newPriceController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
+  TextEditingController _adKeywordController = TextEditingController();
+  FocusNode _adKeywordFocusNode = FocusNode();
   List<Media> mediaList = [];
 
   @override
@@ -54,7 +55,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _category = product.category;
       _brand = product.brand;
       attributeList = product.attributes;
-      mediaList=product.mediaList;
+      mediaList = product.mediaList;
     }
   }
 
@@ -69,6 +70,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
     _oldPriceController.dispose();
     _newPriceController.dispose();
     _detailsController.dispose();
+    _adKeywordFocusNode.dispose();
+    _adKeywordController.dispose();
   }
 
   @override
@@ -265,6 +268,25 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                   ],
                 ),
                 divider(),
+                TextFormField(
+                  focusNode: _adKeywordFocusNode,
+                  textInputAction: TextInputAction.next,
+                  validator: (keyword) {
+                    return keyword.isEmpty
+                        ? "Keyword field Can not be Empty"
+                        : null;
+                  },
+                  maxLines: 1,
+                  controller: _adKeywordController,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 10, bottom: 10),
+                      border: InputBorder.none,
+                      helperText: 'Keyword to make your Ad easier to search',
+                      labelText: 'Keyword',
+                      hintStyle: hintStyle),
+                ),
+                divider(),
                 ListTile(
                   dense: true,
                   onTap: _onCategoryPickerClicked,
@@ -362,10 +384,19 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                           var oldPrice = _oldPriceController.value.text;
                           var newPrice = _newPriceController.value.text;
                           var details = _detailsController.value.text;
+                          var keyword = _adKeywordController.value.text;
+
                           if (double.parse(newPrice) > double.parse(oldPrice)) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text(
-                                    'new price field can not be more than old price field')));
+                                    'New price field can not be more than old price field')));
+                            return;
+                          }
+                          if (double.parse(newPrice) ==
+                              double.parse(oldPrice)) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    'New price can not be equal old price')));
                             return;
                           }
                           if (attributeList == null || attributeList.isEmpty) {
@@ -373,11 +404,17 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                 content: Text('Attributes can not be empty.')));
                             return;
                           }
+                          if (mediaList.isEmpty) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text('Select atleast 1 Video/Image')));
+                            return;
+                          }
                           var adProduct = AdProduct(
                               name: productName,
                               quantity: quantity,
                               oldPrice: oldPrice,
                               category: _category,
+                              keyword: keyword,
                               brand: _brand,
                               newPrice: newPrice,
                               mediaList: mediaList,

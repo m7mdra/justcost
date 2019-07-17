@@ -28,5 +28,3 @@ class CityResponse {
     return data;
   }
 }
-
-

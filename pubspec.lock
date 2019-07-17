@@ -184,6 +184,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_video_compress:
+    dependency: "direct main"
+    description:
+      name: flutter_video_compress
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.7+8"
   front_end:
     dependency: transitive
     description:
@@ -239,7 +246,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+6"
+    version: "0.6.0+17"
   intl:
     dependency: "direct main"
     description:

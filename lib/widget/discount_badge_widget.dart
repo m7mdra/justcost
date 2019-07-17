@@ -16,7 +16,7 @@ class DiscountPercentageBannerWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       highlightColor: Theme.of(context).primaryColor,
       splashColor: Theme.of(context).primaryColor,
-      onTap: (){
+      onTap: () {
         print('Liked');
       },
       child: Container(

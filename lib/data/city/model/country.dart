@@ -59,7 +59,6 @@ class Country {
   String toString() {
     return 'Country{id: $id, name: $name, arName: $arName, code: $code, cities: $cities}';
   }
-
 }
 
 class City {
@@ -87,5 +86,4 @@ class City {
   String toString() {
     return 'City{id: $id, name: $name, arName: $arName}';
   }
-
 }
