@@ -26,19 +26,19 @@ class Ad {
 
 class AdProduct {
   String name;
-  String quantity;
+  String quantity = "0";
   String oldPrice;
   String newPrice;
   Category category;
   Brand brand;
   List<Media> mediaList;
-   String keyword;
+  String keyword;
   String details;
   List<Attribute> attributes;
 
   AdProduct(
       {this.name,
-        this.keyword,
+      this.keyword,
       this.mediaList,
       this.quantity = "0",
       this.oldPrice,

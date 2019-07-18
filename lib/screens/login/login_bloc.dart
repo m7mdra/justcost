@@ -48,16 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   LoginState get initialState => LoginIdle();
 
-  @override
-  void onTransition(Transition<LoginEvent, LoginState> transition) {
-    super.onTransition(transition);
-  }
 
-  @override
-  void onError(Object error, StackTrace stacktrace) {
-    // TODO: implement onError
-    super.onError(error, stacktrace);
-  }
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
@@ -82,6 +73,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } on SessionExpired {
         yield UserNameOrPasswordInvalid();
       } on DioError catch (e) {
+        print(e);
         switch (e.type) {
           case DioErrorType.CONNECT_TIMEOUT:
             yield LoginError("Connection timedout, try again");
@@ -104,6 +96,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             break;
         }
       } catch (e) {
+        print(e);
+
         yield LoginError(
             "Server error, please try again or contact support team");
       }

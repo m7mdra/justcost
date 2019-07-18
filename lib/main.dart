@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         );
       },
       home: BlocProvider.value(
-        child: AdMediaScreen(),
+        child: SplashScreen(),
         value:
             AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),

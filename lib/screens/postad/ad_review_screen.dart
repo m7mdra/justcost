@@ -55,10 +55,59 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
       appBar: AppBar(
         title: Text('Review your Ad'),
       ),
-      body: BlocBuilder(
+      body: BlocListener(
         bloc: _bloc,
-        builder: (BuildContext context, AdState state) {
-          if (state is IdleState)
+        listener: (context,state){
+
+        },
+        child: BlocBuilder(
+          bloc: _bloc,
+          builder: (BuildContext context, AdState state) {
+             if (state is LoadingState)
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('${state.message}')
+                  ],
+                ),
+              );
+            if (state is SuccessState)
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: 80,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'AD submitted successfully.',
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    Text('You will be notifed once the AD is approved.'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Ok'),
+                    )
+                  ],
+                ),
+              );
             return BlocProvider.value(
               value: _bloc,
               child: AdDetailsWidget(
@@ -68,23 +117,8 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                 products: products,
               ),
             );
-          if (state is LoadingState)
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  Text('${state.message} ${state.percentage}')
-                ],
-              ),
-            );
-
-          return Container();
-        },
+          },
+        ),
       ),
     );
   }
