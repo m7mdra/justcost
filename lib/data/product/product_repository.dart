@@ -32,9 +32,10 @@ class ProductRepository {
 
   Future<ProductResponse> getProducts() async {
     try {
-      var response = await _client.get('products');
+      var response = await _client.get('getAllProducts');
       return ProductResponse.fromJson(response.data);
     } catch (error) {
+
       throw error;
     }
   }
@@ -59,48 +60,6 @@ class ProductRepository {
     }
   }
 
-  Future<PostAdResponse> postAd(PostAd ad) async {
-    try {
-      var data = FormData.from({
-        'title': ad.title,
-        'category_id': ad.category.id,
-        'description': ad.description,
-        'keywordsId': 1,
-        'reg_price': ad.regularPrice,
-        'sale_price': ad.salePrice,
-        'cityId': ad.city.id,
-        'brand_id': ad.brandId,
-        'ispaided': 1,
-        'iswholesale': 1,
-        'status': 1,
-        'lat': ad.lat.toString(),
-        'lng': ad.lng.toString(),
-        'media[]': ad.media.map((f) => UploadFileInfo(f, "${f.path}")).toList()
-      });
-      print(data.toString());
-      var response = await _client.post('products', data: data);
-      return PostAdResponse.fromJson(response.data);
-    } on DioError catch (error) {
-      if (error.response.statusCode == 401)
-        throw SessionExpired();
-      else
-        throw error;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  void postad(Ad ad) {
-    FormData.from({
-      "products": ad.adProducts.map((product) {
-        var json = product.toJson();
-        json.remove("media");
-        json['media'] = product.mediaList
-            .map((media) => UploadFileInfo(media.file, "${media.file.path}"));
-        return json;
-      })
-    });
-  }
 
   Future<LikeResponse> likeProductById(int id) async {
     try {

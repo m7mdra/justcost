@@ -58,6 +58,11 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                       if (adProduct != null)
                         setState(() {
                           adProducts.add(adProduct);
+                          adProducts.add(adProduct);
+                          adProducts.add(adProduct);
+                          adProducts.add(adProduct);
+                          adProducts.add(adProduct);
+                          adProducts.add(adProduct);
                         });
                     },
                     icon: Icon(Icons.add),

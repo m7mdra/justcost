@@ -133,7 +133,6 @@ class _SearchPageState extends State<SearchPage>
           bloc: _recentAdsBloc,
           builder: (BuildContext context, RecentAdsState state) {
             if (state is RecentAdsLoaded) {
-              state.products.shuffle();
               return GridView.builder(
                 primary: false,
                 itemBuilder: (context, index) {

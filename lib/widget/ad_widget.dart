@@ -66,7 +66,7 @@ class AdWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      product.postedOn,
+                      "${product.postedOn}",
                       style: Theme.of(context)
                           .textTheme
                           .caption

@@ -30,7 +30,6 @@ class ProductResponse {
 class Product {
   int productId;
   String title;
-  bool liked;
   String category;
   int customerId;
   String customerName;
@@ -41,9 +40,8 @@ class Product {
   int salePrice;
   String city;
   String brand;
-  List<Comments> comments;
   List<Media> media;
-  String postedOn;
+  int postedOn;
 
   Product(
       {this.productId,
@@ -57,9 +55,7 @@ class Product {
       this.regPrice,
       this.salePrice,
       this.city,
-      this.liked,
       this.brand,
-      this.comments,
       this.media,
       this.postedOn});
 
@@ -71,18 +67,12 @@ class Product {
     customerName = json['customerName'];
     description = json['description'];
     mobile = json['mobile'];
-    liked = json['likes'];
     location = json['location'];
     regPrice = json['reg_price'];
     salePrice = json['sale_price'];
     city = json['city'];
     brand = json['brand'];
-    if (json['comments'] != null) {
-      comments = new List<Comments>();
-      json['comments'].forEach((v) {
-        comments.add(new Comments.fromJson(v));
-      });
-    }
+
     if (json['media'] != null) {
       media = new List<Media>();
       json['media'].forEach((v) {
@@ -112,10 +102,7 @@ class Product {
     data['sale_price'] = this.salePrice;
     data['city'] = this.city;
     data['brand'] = this.brand;
-    data['likes'] = this.liked;
-    if (this.comments != null) {
-      data['comments'] = this.comments.map((v) => v.toJson()).toList();
-    }
+
     if (this.media != null) {
       data['media'] = this.media.map((v) => v.toJson()).toList();
     }

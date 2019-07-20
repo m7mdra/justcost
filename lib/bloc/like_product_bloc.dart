@@ -9,10 +9,23 @@ abstract class LikeEvent {}
 
 abstract class LikeState {}
 
-class ToggleLike extends LikeEvent {
-  final Product product;
+class Like extends LikeEvent {
+  final int productId;
 
-  ToggleLike(this.product);
+  Like(this.productId);
+}
+
+class Unlike extends LikeEvent {
+  final int productId;
+
+  Unlike(this.productId);
+
+}
+
+class CheckLikeEvent extends LikeEvent {
+  final int productId;
+
+  CheckLikeEvent(this.productId);
 }
 
 class LikeLoading extends LikeState {}
@@ -37,15 +50,30 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
 
   @override
   Stream<LikeState> mapEventToState(LikeEvent event) async* {
-    if (event is ToggleLike) {
+    if (event is CheckLikeEvent) {}
+    if (event is Like) {
       yield LikeLoading();
       try {
-        LikeResponse response;
-        if (event.product.liked)
-          response =
-              await _repository.unlikeProductById(event.product.productId);
+        LikeResponse response =
+            await _repository.likeProductById(event.productId);
+
+        if (response.success)
+          yield LikeToggled();
         else
-          response = await _repository.likeProductById(event.product.productId);
+          yield LikeError();
+      } on SessionExpired {
+        yield UserSessionExpired();
+      } on DioError {
+        yield LikeNetworkError();
+      } catch (error) {
+        yield LikeError();
+      }
+    }
+    if (event is Unlike) {
+      try {
+        LikeResponse response =
+            await _repository.likeProductById(event.productId);
+
         if (response.success)
           yield LikeToggled();
         else

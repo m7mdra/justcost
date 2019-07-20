@@ -6,6 +6,8 @@ import 'package:justcost/screens/postad/ad_contact_screen.dart';
 import 'package:justcost/screens/postad/post_ad_bloc.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
+import 'package:justcost/widget/general_error.dart';
+import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'dart:convert';
 import 'package:justcost/screens/postad/ad.dart';
@@ -57,13 +59,11 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
       ),
       body: BlocListener(
         bloc: _bloc,
-        listener: (context,state){
-
-        },
+        listener: (context, state) {},
         child: BlocBuilder(
           bloc: _bloc,
           builder: (BuildContext context, AdState state) {
-             if (state is LoadingState)
+            if (state is LoadingState)
               return Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
@@ -108,6 +108,39 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   ],
                 ),
               );
+            if (state is NetworkErrorState ||
+                state is ErrorState ||
+                state is PostAdFailed) {
+              return Center(
+                child: NetworkErrorWidget(
+                  onRetry: () {
+                    _bloc.dispatch(PostAdEvent(adDetails, adContact, products,
+                        widget.additionType == AdditionType.multiple));
+                  },
+                ),
+              );
+            }
+            if (state is PostProductsFailed) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Posting product failed, try again'),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        _bloc.dispatch(RetryPostProduct(
+                            state.products, state.adId, state.isWholeSale));
+                      },
+                      child: Text('Retry'),
+                    )
+                  ],
+                ),
+              );
+            }
             return BlocProvider.value(
               value: _bloc,
               child: AdDetailsWidget(

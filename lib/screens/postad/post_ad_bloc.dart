@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
+import 'package:justcost/data/ad/post_ad_response.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'ad.dart';
 import 'package:justcost/data/exception/exceptions.dart';
@@ -20,11 +21,13 @@ class PostAdEvent extends AdEvent {
 
   PostAdEvent(this.adDetails, this.adContact, this.products, this.isWholeSale);
 }
-class RetryPostProduct extends AdEvent{
+
+class RetryPostProduct extends AdEvent {
   final List<AdProduct> adProduct;
   final int adId;
+  final bool isWholesale;
 
-  RetryPostProduct(this.adProduct, this.adId);
+  RetryPostProduct(this.adProduct, this.adId, this.isWholesale);
 }
 
 class LoadingState extends AdState {
@@ -33,18 +36,25 @@ class LoadingState extends AdState {
   LoadingState(this.message);
 }
 
-class ErrorState extends AdState {}
-
 class IdleState extends AdState {}
 
+class ErrorState extends AdState {}
+
 class NetworkErrorState extends AdState {}
+
+class PostProductsFailed extends AdState {
+  final List<AdProduct> products;
+  final int adId;
+  final bool isWholeSale;
+
+  PostProductsFailed(this.products, this.adId, this.isWholeSale);
+}
 
 class SuccessState extends AdState {}
 
 class PostAdFailed extends AdState {}
 
 class SessionExpiredState extends AdState {}
-
 
 class AdBloc extends Bloc<AdEvent, AdState> {
   final AdRepository _repository;
@@ -78,41 +88,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
             description: event.adDetails.description);
         if (response.success) {
           var products = event.products;
-
-          for (var i = 0; i < products.length; i++) {
-            yield LoadingState("Submitting product #$i...");
-            try {
-              await _repository.postProduct(
-                  categoryId: products[i].category.id,
-                  description: products[i].details,
-                  title: products[i].name,
-                  brandId: products[i].brand.id,
-                  quantity: event.isWholeSale ? products[i].quantity : "0",
-                  regularPrice: products[i].oldPrice,
-                  salePrice: products[i].newPrice,
-                  isPaid: 0,
-                  attributes: products[i]
-                      .attributes
-                      .map((attribute) => attribute.id)
-                      .toList(),
-                  isWholeSale: event.isWholeSale ? 1 : 0,
-                  adId: response.data,
-                  medias: products[i].mediaList);
-
-              if (i == products.length - 1) {
-                yield SuccessState();
-                break;
-              }
-            } on DioError catch (error) {
-              yield NetworkErrorState();
-
-            } on SessionExpired {
-              yield SessionExpiredState();
-            } catch (error) {
-              yield ErrorState();
-
-            }
-          }
+          yield* postProducts(products, event.isWholeSale, response.data);
         } else {
           yield PostAdFailed();
         }
@@ -124,6 +100,48 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       } catch (error) {
         print(error);
         yield ErrorState();
+      }
+    }
+    if (event is RetryPostProduct) {
+      yield* postProducts(event.adProduct, event.isWholesale, event.adId);
+    }
+  }
+
+  Stream<AdState> postProducts(
+      List<AdProduct> products, bool isWholesale, int adid) async* {
+    for (var i = 0; i < products.length; i++) {
+      yield LoadingState("Submitting product #$i...");
+      try {
+        var res = await _repository.postProduct(
+            categoryId: products[i].category.id,
+            description: products[i].details,
+            title: products[i].name,
+            brandId: products[i].brand.id,
+            quantity: isWholesale ? products[i].quantity : "0",
+            regularPrice: products[i].oldPrice,
+            salePrice: products[i].newPrice,
+            isPaid: 0,
+            attributes: products[i]
+                .attributes
+                .map((attribute) => attribute.id)
+                .toList(),
+            isWholeSale: isWholesale ? 1 : 0,
+            adId: adid,
+            medias: products[i].mediaList);
+        if (!res.status) failedRequest.add(products[i]);
+        if (i == products.length - 1) {
+          yield SuccessState();
+          break;
+        }
+      } on DioError {
+        yield PostProductsFailed(failedRequest, adid, isWholesale);
+        break;
+      } on SessionExpired {
+        yield SessionExpiredState();
+        break;
+      } catch (error) {
+        yield PostProductsFailed(failedRequest, adid, isWholesale);
+        break;
       }
     }
   }

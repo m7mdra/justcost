@@ -1,13 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:justcost/error_delegate.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/screens/intro/intro_screen.dart';
-import 'package:justcost/screens/postad/product_media_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
-import 'package:justcost/screens/verification/account_verification_screen.dart';
 
 import 'dependencies_provider.dart';
 import 'package:bloc/bloc.dart';
@@ -58,3 +57,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

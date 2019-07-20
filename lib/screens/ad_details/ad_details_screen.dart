@@ -53,13 +53,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         _commentsBloc.dispatch(LoadComments(product.productId));
       }
     });
-    _likeProductBloc.state.listen((state) {
-      if (state is LikeToggled) {
-        setState(() {
-          product.liked = !product.liked;
-        });
-      }
-    });
+    _likeProductBloc.state.listen((state) {});
   }
 
   @override
@@ -109,10 +103,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               ),
               IconText(
                 onPressed: () {
-                  _likeProductBloc.dispatch(ToggleLike(product));
+                  _likeProductBloc.dispatch(Like(product.productId));
                 },
-                icon: Icon(
-                    product.liked ? Icons.favorite : Icons.favorite_border),
+                icon: Icon(Icons.favorite_border),
                 text: Text('Save'),
               ),
               IconText(
@@ -155,7 +148,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   ),
                 ],
               ),
-              Text(product.postedOn)
+              Text("${product.postedOn}")
             ],
           ),
           Row(
@@ -364,7 +357,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 );
               if (state is NoComments)
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: <Widget>[
                       Icon(
