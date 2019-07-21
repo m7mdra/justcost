@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:intl/intl.dart';
 import 'package:justcost/bloc/like_product_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
@@ -41,11 +42,12 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
-    _commentsBloc.dispatch(LoadComments(product.productId));
-    _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadEvent(product.productId));
     _likeProductBloc = LikeProductBloc(DependenciesProvider.provide());
+    _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
     _attributesBloc = AttributesBloc(DependenciesProvider.provide());
+    _commentsBloc.dispatch(LoadComments(product.productId));
+    _bloc.dispatch(LoadEvent(product.productId));
+    _likeProductBloc.dispatch(CheckLikeEvent(product.productId));
     _attributesBloc.dispatch(LoadProductAttribute(product.productId));
     _postCommentBloc.state.listen((state) {
       if (state is PostCommentSuccess) {
@@ -53,7 +55,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         _commentsBloc.dispatch(LoadComments(product.productId));
       }
     });
-    _likeProductBloc.state.listen((state) {});
   }
 
   @override
@@ -101,12 +102,21 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 icon: Icon(Icons.flag),
                 text: Text('Report'),
               ),
-              IconText(
-                onPressed: () {
-                  _likeProductBloc.dispatch(Like(product.productId));
+              BlocBuilder(
+                bloc: _likeProductBloc,
+                // ignore: missing_return
+                builder: (BuildContext context, LikeState state) {
+                  if (state is LikeLoading || state is LikeIdle)
+                    return IconText(
+                        icon: Icon(
+                          Icons.favorite_border,
+                          color: Colors.grey,
+                        ),
+                        text: Text('Save'),
+                        onPressed: null);
+                  if (state is LikeLoaded) return likeWdiget(state.isLiked);
+                  if (state is LikeToggled) return likeWdiget(state.isLiked);
                 },
-                icon: Icon(Icons.favorite_border),
-                text: Text('Save'),
               ),
               IconText(
                 onPressed: () {},
@@ -148,7 +158,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   ),
                 ],
               ),
-              Text("${product.postedOn}")
+              Text(
+                  "${DateFormat.MMMMEEEEd().format(DateTime.fromMicrosecondsSinceEpoch(product.postedOn))}")
             ],
           ),
           Row(
@@ -413,6 +424,26 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           )
         ],
       )),
+    );
+  }
+
+  IconText likeWdiget(bool isLiked) {
+    return IconText(
+      onPressed: () {
+        _likeProductBloc.dispatch(ToggleLike(product.productId));
+      },
+      icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+      text: Text('Save'),
+    );
+  }
+
+  IconText likeWidget() {
+    return IconText(
+      onPressed: () {
+        _likeProductBloc.dispatch(ToggleLike(product.productId));
+      },
+      icon: Icon(Icons.favorite_border),
+      text: Text('Save'),
     );
   }
 

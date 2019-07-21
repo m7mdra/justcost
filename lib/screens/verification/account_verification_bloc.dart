@@ -52,17 +52,6 @@ class AccountVerificationBloc
   @override
   VerificationState get initialState => VerificationIdle();
 
-  @override
-  void onError(Object error, StackTrace stacktrace) {
-    // TODO: implement onError
-    super.onError(error, stacktrace);
-    print('\n');
-    print('\n');
-    print('\n');
-    print('\n');
-    print(error);
-    print(stacktrace);
-  }
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {

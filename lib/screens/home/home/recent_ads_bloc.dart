@@ -9,24 +9,37 @@ class LoadRecentAds extends RecentAdsEvent {}
 
 class RecentAdsLoaded extends RecentAdsState {
   final List<Product> products;
+  final bool hasReachedMax;
 
-  RecentAdsLoaded(this.products);
-}
+  RecentAdsLoaded(this.products, this.hasReachedMax);
 
-class LikeToggledForProductWithId extends RecentAdsEvent {
-  final int id;
-
-  LikeToggledForProductWithId(this.id);
+  RecentAdsLoaded copyWith({
+    List<Product> products,
+    bool hasReachedMax,
+  }) {
+    return RecentAdsLoaded(
+      products ?? this.products,
+      hasReachedMax ?? this.hasReachedMax,
+    );
+  }
 }
 
 class RecentAdsError extends RecentAdsState {}
 
+class RecentAdsLoading extends RecentAdsState {}
+
+class RecentAdsNetworkError extends RecentAdsState {}
+
 class RecentAdsIdle extends RecentAdsState {}
+
+class LoadNextPage extends RecentAdsEvent {}
 
 abstract class RecentAdsState {}
 
 class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
   final ProductRepository repository;
+  int _currentPage = 0;
+  bool lasPage = false;
 
   RecentAdsBloc(this.repository);
 
@@ -37,19 +50,40 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
   Stream<RecentAdsState> mapEventToState(RecentAdsEvent event) async* {
     if (event is LoadRecentAds) {
       try {
-        var response = await repository.getProducts();
+        yield RecentAdsLoading();
+        var response = await repository.getProducts(page: _currentPage);
         if (response.success)
-          yield RecentAdsLoaded(response.data);
+          yield RecentAdsLoaded(response.data, false);
         else
           yield RecentAdsError();
       } on DioError catch (e) {
         print('error $e');
-        yield RecentAdsError();
+        yield RecentAdsNetworkError();
       } catch (e) {
         print('error $e');
         yield RecentAdsError();
       }
     }
+    if (event is LoadNextPage) {
+      try {
+        if (lasPage) return;
+        _currentPage += 1;
+        var response = await repository.getProducts(page: _currentPage);
+        if (response.success) {
+          lasPage = response.data.isEmpty;
 
+          yield RecentAdsLoaded(
+              (currentState as RecentAdsLoaded).products..addAll(response.data),
+              response.data.isEmpty);
+        } else
+          yield RecentAdsError();
+      } on DioError catch (e) {
+        print('error $e');
+        yield RecentAdsNetworkError();
+      } catch (e) {
+        print('error $e');
+        yield RecentAdsError();
+      }
+    }
   }
 }

@@ -154,7 +154,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             const SizedBox(
               height: 8,
             ),
-            Center(child: Text('Didnt receive verification?')),
+            Center(child: Text(AppLocalizations.of(context).didntReceiveSms)),
             const SizedBox(
               height: 8,
             ),
@@ -173,7 +173,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             ),
             Center(
               child: FlatButton(
-                child: Text('Logout'),
+                child: Text(AppLocalizations.of(context).logoutButton),
                 onPressed: () {
                   _accountVerificationBloc.dispatch(LogoutEvent());
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -212,7 +212,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
         Padding(
           padding: const EdgeInsets.only(right: 16.0, left: 16.0),
           child: Text(
-            'An Sms was sent to your phone number containing the code',
+            AppLocalizations.of(context).accountVerificationSubhead,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.body1,
           ),

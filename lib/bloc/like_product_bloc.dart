@@ -9,17 +9,10 @@ abstract class LikeEvent {}
 
 abstract class LikeState {}
 
-class Like extends LikeEvent {
+class ToggleLike extends LikeEvent {
   final int productId;
 
-  Like(this.productId);
-}
-
-class Unlike extends LikeEvent {
-  final int productId;
-
-  Unlike(this.productId);
-
+  ToggleLike(this.productId);
 }
 
 class CheckLikeEvent extends LikeEvent {
@@ -32,16 +25,26 @@ class LikeLoading extends LikeState {}
 
 class LikeError extends LikeState {}
 
-class LikeNetworkError extends LikeState {}
 
-class LikeToggled extends LikeState {}
+class LikeToggled extends LikeState {
+  final bool isLiked;
+
+  LikeToggled(this.isLiked);
+}
 
 class UserSessionExpired extends LikeState {}
 
 class LikeIdle extends LikeState {}
 
+class LikeLoaded extends LikeState {
+  final bool isLiked;
+
+  LikeLoaded(this.isLiked);
+}
+
 class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   final ProductRepository _repository;
+  bool isLiked;
 
   LikeProductBloc(this._repository);
 
@@ -50,38 +53,48 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
 
   @override
   Stream<LikeState> mapEventToState(LikeEvent event) async* {
-    if (event is CheckLikeEvent) {}
-    if (event is Like) {
+    if (event is CheckLikeEvent) {
       yield LikeLoading();
       try {
-        LikeResponse response =
-            await _repository.likeProductById(event.productId);
+        LikeStatus response = await _repository.checkLiked(event.productId);
 
-        if (response.success)
-          yield LikeToggled();
-        else
+        if (response.success) {
+          isLiked = response.liked;
+          yield LikeLoaded(response.liked);
+        } else
           yield LikeError();
       } on SessionExpired {
         yield UserSessionExpired();
       } on DioError {
-        yield LikeNetworkError();
+        yield LikeError();
       } catch (error) {
         yield LikeError();
       }
     }
-    if (event is Unlike) {
+    if (event is ToggleLike) {
+      yield LikeLoading();
       try {
-        LikeResponse response =
-            await _repository.likeProductById(event.productId);
+        if (isLiked) {
+          var response = await _repository.unlikeProductById(event.productId);
+          if (response.success) {
+            yield LikeToggled(true);
+            dispatch(CheckLikeEvent(event.productId));
+          } else
+            yield LikeError();
+        } else {
+          var response = await _repository.likeProductById(event.productId);
 
-        if (response.success)
-          yield LikeToggled();
-        else
-          yield LikeError();
+          if (response.success) {
+            dispatch(CheckLikeEvent(event.productId));
+
+            yield LikeToggled(false);
+          } else
+            yield LikeError();
+        }
       } on SessionExpired {
         yield UserSessionExpired();
       } on DioError {
-        yield LikeNetworkError();
+        yield LikeError();
       } catch (error) {
         yield LikeError();
       }

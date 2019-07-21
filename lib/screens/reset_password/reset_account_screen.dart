@@ -73,7 +73,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 return buildPhoneNumberResetState(context);
               if (state is EmailResetSelectedState)
                 return buildEmailResetState(context);
-              return buildEmailForm(context);
+              return buildSelectState();
             },
           ),
         ),
@@ -89,7 +89,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           size: 60,
         ),
         Text(
-          'Reset Message was sent successfully',
+          AppLocalizations.of(context).resetSuccessTitle,
           style: Theme.of(context).textTheme.title,
         ),
         SizedBox(
@@ -144,7 +144,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           size: 60,
         ),
         Text(
-          'Reset Message was sent successfully',
+          AppLocalizations.of(context).resetSuccessTitle,
           style: Theme.of(context).textTheme.title,
         ),
         SizedBox(

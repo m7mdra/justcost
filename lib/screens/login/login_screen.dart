@@ -49,9 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Invalid Credentials'),
+                  title:
+                      Text(AppLocalizations.of(context).loginErrorMessageTitle),
                   content: Text(
-                      'Check your password/username first then try again.'),
+                      AppLocalizations.of(context).loginErrorMessageMessage),
                   actions: <Widget>[
                     FlatButton(
                       child: Text(

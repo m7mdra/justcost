@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
+import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
@@ -139,7 +140,7 @@ class _SearchPageState extends State<SearchPage>
                   return InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => AdDetailsScreen(
+                          builder: (BuildContext context) => AdStatusScreen(
                                 product: state.products[index],
                               )));
                     },
@@ -150,6 +151,7 @@ class _SearchPageState extends State<SearchPage>
                                 state.products[index].media[0].url.isNotEmpty
                             ? Image.network(
                                 state.products[index].media[0].url,
+                                fit: BoxFit.cover,
                                 height: 120,
                                 width: 120,
                               )

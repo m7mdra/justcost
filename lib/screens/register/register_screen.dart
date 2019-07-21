@@ -160,7 +160,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     .requestFocus(_usernameFocusNode),
                                 validator: (name) {
                                   if (name.isEmpty)
-                                    return 'Name field can not be empty';
+                                    return AppLocalizations.of(context)
+                                        .nameValidationEmptyError;
                                   else
                                     return null;
                                 },
@@ -168,7 +169,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.only(
                                         left: 16, right: 16, top: 8, bottom: 8),
-                                    labelText: 'Full Name',
+                                    labelText: AppLocalizations.of(context)
+                                        .fullNameField,
                                     errorMaxLines: 1,
                                     labelStyle:
                                         Theme.of(context).textTheme.body1,
@@ -266,7 +268,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   return AppLocalizations.of(context)
                                       .passwordFieldEmptyError;
                                 else if (password.length < 6)
-                                  return 'Password can not be less than 6 characters';
+                                  return AppLocalizations.of(context)
+                                      .passwordValidationMoreThan6;
                                 else
                                   return null;
                               },
@@ -295,7 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             DropdownButtonFormField<Country>(
                               value: _selectedCountry,
-                              hint: Text('Country'),
+                              hint: Text(AppLocalizations.of(context).country),
                               onChanged: (country) {
                                 setState(() {
                                   _selectedCity = null;
@@ -330,7 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 });
                               },
                               value: _selectedCity,
-                              hint: Text('City'),
+                              hint: Text(AppLocalizations.of(context).city),
                               items: _cities
                                   .map((city) => DropdownMenuItem<City>(
                                         child: Text(city.name),
@@ -380,7 +383,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             DropdownButtonFormField(
                               value: genderGroupValue,
-                              hint: Text('Gender'),
+                              hint: Text(AppLocalizations.of(context).gender),
                               onChanged: (gender) {
                                 setState(() {
                                   this.genderGroupValue = gender;
@@ -419,7 +422,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4)),
                             onPressed: _attemptRegister,
-                            child: Text("Register"),
+                            child: Text(AppLocalizations.of(context)
+                                .createAccountButton),
                             color: Theme.of(context).accentColor,
                           ),
                         ),

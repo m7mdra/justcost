@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:justcost/i10n/messages_all.dart';
 
 class AppLocalizations {
+
   static Future<AppLocalizations> load(Locale locale) {
     final String name =
         locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
@@ -22,6 +23,8 @@ class AppLocalizations {
   String get loginLoadingMessage =>
       Intl.message('Please wait while trying to login.',
           name: 'loginLoadingMessage');
+  String get logoutButton => Intl.message("Logout");
+
 
   String get continueButton => Intl.message('Continue');
 
@@ -56,7 +59,7 @@ class AppLocalizations {
   String get verificationCodeFieldHint => Intl.message('Verification Code');
 
   String get accountVerificationSubhead => Intl.message(
-      'An E-mail address was sent to your account containg instruction to verify you account');
+      'An Sms was sent to your phone number containing the code');
 
   String get verificationLoadingMessage =>
       Intl.message('Please wait while trying to verify your account.',
@@ -138,6 +141,28 @@ class AppLocalizations {
 
   String get passwordChangedSuccessfully =>
       Intl.message('Password Changed successfully, login again.');
+
+  String get fullNameField => Intl.message('Full Name');
+
+  String get country => Intl.message("Country");
+
+  String get city => Intl.message("City");
+
+  String get gender => Intl.message("Gender");
+
+  String get passwordValidationMoreThan6 =>
+      Intl.message('Password can not be less than 6 characters');
+
+  String get nameValidationEmptyError =>
+      Intl.message('Name field can not be empty');
+
+  String get loginErrorMessageTitle => Intl.message('Invalid Credentials');
+
+  String get loginErrorMessageMessage =>
+      Intl.message('Check your password/username first then try again.');
+
+  String get didntReceiveSms => Intl.message("Didnt receive verification?");
+  String get resetSuccessTitle=>Intl.message('Reset Message was sent successfully');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

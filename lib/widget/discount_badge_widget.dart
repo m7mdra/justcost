@@ -17,7 +17,6 @@ class DiscountPercentageBannerWidget extends StatelessWidget {
       highlightColor: Theme.of(context).primaryColor,
       splashColor: Theme.of(context).primaryColor,
       onTap: () {
-        print('Liked');
       },
       child: Container(
           color: Colors.yellow,

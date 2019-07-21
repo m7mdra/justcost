@@ -22,7 +22,7 @@ class ProductRepository {
         queryParameters['selected'] = attributes.join(',');
       if (brands != null && brands.isNotEmpty)
         queryParameters['brands'] = brands.join(',');
-      var response = await _client.get('categoryproudects/$categoryId',
+      var response = await _client.get('getAllProducts?category=$categoryId',
           queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
@@ -30,12 +30,11 @@ class ProductRepository {
     }
   }
 
-  Future<ProductResponse> getProducts() async {
+  Future<ProductResponse> getProducts({int page = 0}) async {
     try {
-      var response = await _client.get('getAllProducts');
+      var response = await _client.get('getAllProducts?skip=$page');
       return ProductResponse.fromJson(response.data);
     } catch (error) {
-
       throw error;
     }
   }
@@ -60,10 +59,10 @@ class ProductRepository {
     }
   }
 
-
   Future<LikeResponse> likeProductById(int id) async {
     try {
-      var response = await _client.post('likes', data: {'product_id': id});
+      var response =
+          await _client.post('like/addlike', data: {'id': id});
       return LikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)
@@ -75,10 +74,27 @@ class ProductRepository {
     }
   }
 
-  Future<LikeResponse> unlikeProductById(int id) async {
+  Future<LikeStatus> checkLiked(int id) async {
     try {
-      var response = await _client.delete('likes', data: {'product_id': id});
-      return LikeResponse.fromJson(response.data);
+      var response = await _client.get(
+        'like/islike?id=$id',
+      );
+      return LikeStatus.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == 401)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<DisLikeResponse> unlikeProductById(int id) async {
+    try {
+      var response =
+          await _client.get('like/dislike?id=$id');
+      return DisLikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)
         throw SessionExpired();

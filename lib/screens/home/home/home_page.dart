@@ -10,6 +10,7 @@ import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
+import 'package:justcost/screens/recentads/recent_ad_screen.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
 
@@ -160,9 +161,25 @@ class _HomePageState extends State<HomePage>
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Featured Ads',
-                          style: TextStyle(fontSize: 18),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Featured Ads',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RecentAdsScreen()));
+                              },
+                              child: Text('See more'),
+                              textTheme: ButtonTextTheme.accent,
+                            )
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         ),
                       ),
                     ),
@@ -203,9 +220,25 @@ class _HomePageState extends State<HomePage>
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Recent Ads',
-                          style: TextStyle(fontSize: 18),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Recent Ads',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RecentAdsScreen()));
+                              },
+                              child: Text('See more'),
+                              textTheme: ButtonTextTheme.accent,
+                            )
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         ),
                       ),
                     ),

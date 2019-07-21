@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:justcost/data/product/model/product.dart';
 
 import 'discount_badge_widget.dart';
@@ -16,6 +17,7 @@ class AdWidget extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Stack(
               alignment: Alignment.centerLeft,
@@ -25,6 +27,7 @@ class AdWidget extends StatelessWidget {
                     product.media[0].url,
                     height: 120,
                     width: 120,
+                    fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
@@ -41,6 +44,7 @@ class AdWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -66,7 +70,7 @@ class AdWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      "${product.postedOn}",
+                      "${DateFormat.MMMMEEEEd().format(DateTime.fromMicrosecondsSinceEpoch(product.postedOn))}",
                       style: Theme.of(context)
                           .textTheme
                           .caption
@@ -82,6 +86,7 @@ class AdWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
                     '${product.salePrice} AED',
