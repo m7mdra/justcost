@@ -8,37 +8,68 @@ import 'package:justcost/widget/story_view.dart';
 import 'package:video_player/video_player.dart';
 
 class AdStatusScreen extends StatefulWidget {
-  final Product product;
+  final List<Product> products;
+  final int position;
 
-  const AdStatusScreen({Key key, this.product}) : super(key: key);
+  const AdStatusScreen({Key key, this.products, this.position})
+      : super(key: key);
 
   @override
   _AdStatusScreenState createState() => _AdStatusScreenState();
 }
 
 class _AdStatusScreenState extends State<AdStatusScreen> {
+  PageController _pageController;
+
   @override
   void initState() {
     super.initState();
-    print(widget.product);
+    _pageController = PageController(initialPage: widget.position);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: <Widget>[
-          Story(
-            product: widget.product,
-            globalKey: GlobalKey(),
-            onComplete: () {},
-          ),
-          Align(
-            child: AdWidget(product: widget.product),
-            alignment: Alignment.bottomCenter,
-          )
-        ],
+      body: PageView.builder(
+        onPageChanged: (index) {
+        },
+        controller: _pageController,
+        itemBuilder: (BuildContext context, int index) {
+          return Stack(
+            children: <Widget>[
+              Story(
+                product: widget.products[index],
+                globalKey: GlobalKey(),
+                onComplete: () {
+                  if (index == widget.products.length-1) Navigator.pop(context);
+
+                  _pageController.animateToPage(index + 1,
+                      duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
+
+                },
+                canGoToPreviousStory: () {
+                  _pageController.animateToPage(index - 1,
+                      duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+                },
+              ),
+              Align(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AdWidget(product: widget.products[index]),
+                ),
+                alignment: Alignment.bottomCenter,
+              )
+            ],
+          );
+        },
+        itemCount: widget.products.length,
       ),
     );
   }
@@ -47,6 +78,7 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
 class Story extends StatelessWidget {
   final VoidCallback onComplete;
   final VoidCallback canGoToPreviousStory;
+  final VoidCallback onNextStory;
   final Product product;
 
   const Story({
@@ -55,6 +87,7 @@ class Story extends StatelessWidget {
     @required this.globalKey,
     this.onComplete,
     this.product,
+    this.onNextStory,
   }) : super(key: key);
 
   final GlobalKey<StoryViewState> globalKey;
@@ -79,15 +112,13 @@ class Story extends StatelessWidget {
               duration: Duration(seconds: 10));
       }).toList(),
       onStoryShow: (s) {
-        print("Showing a story");
+//        onNextStory();
       },
       onComplete: () {
-        print("Completed a cycle");
         onComplete();
       },
       canGoPrevious: () {
         canGoToPreviousStory();
-        print("canGoToPreviousStory");
       },
       progressPosition: ProgressPosition.top,
       repeat: false,
@@ -112,6 +143,8 @@ class ImageStatus extends StatelessWidget {
     return FutureBuilder<File>(
       future: DefaultCacheManager().getSingleFile(imageUrl),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        globalKey.currentState.pause();
+
         if (snapshot.connectionState == ConnectionState.done) if (snapshot
             .hasError) {
           return Text(
@@ -119,6 +152,7 @@ class ImageStatus extends StatelessWidget {
             style: TextStyle(color: Colors.red),
           );
         } else {
+          globalKey.currentState.resume();
           return Center(child: Image.file(snapshot.data));
         }
         else

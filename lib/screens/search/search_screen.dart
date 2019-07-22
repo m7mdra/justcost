@@ -12,6 +12,7 @@ import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:justcost/widget/sliver_app_bar_header.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   final String keyword;
@@ -28,6 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   City city;
   int sortType;
   String sortName;
+  ScrollController _scrollController;
 
   @override
   void initState() {
@@ -36,6 +38,15 @@ class _SearchScreenState extends State<SearchScreen> {
     if (widget.keyword.isNotEmpty)
       _bloc.dispatch(SearchProductByName(widget.keyword, -1));
     _searchTextEditingController = TextEditingController();
+    _scrollController = ScrollController(keepScrollOffset: true);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _bloc.dispatch(LoadNextPage(
+            _searchTextEditingController.value.text.toString(),
+            city != null ? city.id : -1));
+      }
+    });
   }
 
   @override
@@ -58,7 +69,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 _bloc.dispatch(
                     SearchProductByName(value, city != null ? city.id : -1));
             },
-            decoration: InputDecoration.collapsed(hintText: 'Search').copyWith(
+            decoration: InputDecoration.collapsed(
+                    hintText: AppLocalizations.of(context).search)
+                .copyWith(
               contentPadding: const EdgeInsets.all(10),
               icon: Icon(Icons.search),
             ),
@@ -96,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
           },
           body: BlocBuilder(
             bloc: _bloc,
+            // ignore: missing_return
             builder: (BuildContext context, SearchState state) {
               if (state is SearchLoading)
                 return Center(
@@ -119,19 +133,31 @@ class _SearchScreenState extends State<SearchScreen> {
               if (state is SearchIdle) return Container();
               if (state is SearchFound)
                 return ListView.builder(
-                  itemBuilder: (context, index) {
-                    return AdWidget(
-                      product: state.products[index],
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => AdDetailsScreen(
-                                  product: state.products[index],
-                                )));
-                      },
-                    );
-                  },
-                  itemCount: state.products.length,
-                );
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      if (index >= state.products.length)
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      else
+                        return AdWidget(
+                          key: ValueKey(state.products[index].productId),
+                          product: state.products[index],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AdDetailsScreen(
+                                      product: state.products[index],
+                                    )));
+                          },
+                        );
+                    },
+                    itemCount: state.hasReachedMax
+                        ? state.products.length
+                        : state.products.length + 1);
             },
           )),
     );
@@ -147,14 +173,14 @@ class _SearchScreenState extends State<SearchScreen> {
             context: context,
             builder: (context) {
               return RoundedAlertDialog(
-                title: Text('Sort Search Result'),
+                title: Text(AppLocalizations.of(context).sortSearchResult),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.sort_by_alpha),
-                      title: Text('Name - Ascending'),
+                      title: Text(AppLocalizations.of(context).sortByNameASC),
                       onTap: () {
                         Navigator.of(context).pop(1);
                       },
@@ -162,7 +188,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.sort_by_alpha),
-                      title: Text('Name - Descending'),
+                      title: Text(AppLocalizations.of(context).sortByNameDESC),
                       onTap: () {
                         Navigator.of(context).pop(2);
                       },
@@ -170,7 +196,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.attach_money),
-                      title: Text('Price - Ascending'),
+                      title: Text(AppLocalizations.of(context).sortByPriceASC),
                       onTap: () {
                         Navigator.of(context).pop(3);
                       },
@@ -178,7 +204,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.attach_money),
-                      title: Text('Price - Descending'),
+                      title: Text(AppLocalizations.of(context).sortByPriceDESC),
                       onTap: () {
                         Navigator.of(context).pop(4);
                       },
@@ -186,7 +212,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.attach_money),
-                      title: Text('Discount - Ascending'),
+                      title:
+                          Text(AppLocalizations.of(context).sortByDiscountASC),
                       onTap: () {
                         Navigator.of(context).pop(5);
                       },
@@ -194,7 +221,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     ListTile(
                       dense: true,
                       leading: Icon(Icons.attach_money),
-                      title: Text('Discount - Descending'),
+                      title:
+                          Text(AppLocalizations.of(context).sortByDiscountDESC),
                       onTap: () {
                         Navigator.of(context).pop(6);
                       },
@@ -212,23 +240,12 @@ class _SearchScreenState extends State<SearchScreen> {
           SizedBox(
             width: 2,
           ),
-          Text(sortType != null ? sortName : 'Sort'),
+          Text(sortType != null ? sortName : AppLocalizations.of(context).sort),
         ],
       ),
     );
   }
 
-  Row buildChangeView() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.grid_on),
-        SizedBox(
-          width: 2,
-        ),
-        Text('View'),
-      ],
-    );
-  }
 
   Widget buildVerticalDivider() {
     return VerticalDivider();
@@ -252,7 +269,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Row(
         children: <Widget>[
           Icon(Icons.place),
-          Text(city != null ? city.name : 'Filter by City'),
+          Text(city != null ? city.name : AppLocalizations.of(context).filterByCity),
         ],
       ),
     );
@@ -264,27 +281,27 @@ class _SearchScreenState extends State<SearchScreen> {
 
       switch (sortType) {
         case 1:
-          sortName = 'Name';
+          sortName = AppLocalizations.of(context).name;
           _bloc.dispatch(SortByNameAscending());
           break;
         case 2:
-          sortName = 'Name';
+          sortName = AppLocalizations.of(context).name;
           _bloc.dispatch(SortByNameDescending());
           break;
         case 3:
-          sortName = 'Price';
+          sortName = AppLocalizations.of(context).price;
           _bloc.dispatch(SortByPriceAscending());
           break;
         case 4:
-          sortName = 'Price';
+          sortName = AppLocalizations.of(context).price;
           _bloc.dispatch(SortByPriceDescending());
           break;
         case 5:
-          sortName = 'Discount';
+          sortName = AppLocalizations.of(context).discount;
           _bloc.dispatch(SortByDiscountAscending());
           break;
         case 6:
-          sortName = 'Discount';
+          sortName = AppLocalizations.of(context).discount;
           _bloc.dispatch(SortByDiscountDescending());
           break;
       }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class SettingsWidget extends StatelessWidget {
   final VoidCallback onLogout;
@@ -12,7 +13,7 @@ class SettingsWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Settings',
+            AppLocalizations.of(context).settings,
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.bold),
@@ -20,32 +21,32 @@ class SettingsWidget extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          title: Text('Notifications'),
+          title: Text(AppLocalizations.of(context).notifications),
           onTap: () {},
         ),
         ListTile(
           dense: true,
-          title: Text('About us'),
+          title: Text(AppLocalizations.of(context).aboutUs),
           onTap: () {},
         ),
         ListTile(
           dense: true,
-          title: Text('Get Help'),
+          title: Text(AppLocalizations.of(context).getHelp),
           onTap: () {},
         ),
         ListTile(
           dense: true,
-          title: Text('Privacy'),
+          title: Text(AppLocalizations.of(context).privacy),
           onTap: () {},
         ),
         ListTile(
           dense: true,
-          title: Text('Term of Service'),
+          title: Text(AppLocalizations.of(context).tos),
           onTap: () {},
         ),
         ListTile(
           dense: true,
-          title: Text('Logout'),
+          title: Text(AppLocalizations.of(context).logout),
           onTap: () {
             onLogout();
           },

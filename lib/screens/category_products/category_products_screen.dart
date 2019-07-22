@@ -4,6 +4,7 @@ import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/category_products/category_products_bloc.dart';
 import 'package:justcost/screens/category_products/search_filters_dialog.dart';
 import 'package:justcost/util/tuple.dart';
@@ -28,6 +29,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   List<Attribute> selectedAttribute = [];
   List<Brand> selectedBrands = [];
   List chipData = [];
+  ScrollController _scrollController;
 
   @override
   void initState() {
@@ -35,10 +37,21 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
     _controller = TextEditingController();
     categoryProductBloc = CategoryProductsBloc(DependenciesProvider.provide())
       ..dispatch(loadDataEvent);
+    _scrollController = ScrollController(keepScrollOffset: true);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        categoryProductBloc.dispatch(LoadNextPage(
+            widget.category.name,
+            selectedAttribute.map((attribute) => attribute.id).toList(),
+            selectedBrands.map((brand) => brand.id).toList(),
+            _controller.text));
+      }
+    });
   }
 
   get loadDataEvent => LoadDataEvent(
-      widget.category.id,
+      widget.category.name,
       selectedAttribute.map((attribute) => attribute.id).toList(),
       _controller.text,
       selectedBrands.map((brand) => brand.id).toList());
@@ -79,99 +92,114 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
         ],
         title: Text(widget.category.name),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Card(
-              child: TextField(
-                onChanged: (value) {
-                  categoryProductBloc.dispatch(loadDataEvent);
-                },
-                controller: _controller,
-                decoration:
-                    InputDecoration.collapsed(hintText: 'Search').copyWith(
-                  contentPadding: const EdgeInsets.all(10),
-                  icon: Icon(Icons.search),
-                ),
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: TextField(
+              onChanged: (value) {
+                categoryProductBloc.dispatch(loadDataEvent);
+              },
+              controller: _controller,
+              decoration:
+                  InputDecoration.collapsed(hintText: 'Search').copyWith(
+                contentPadding: const EdgeInsets.all(10),
+                icon: Icon(Icons.search),
               ),
             ),
-            Wrap(
-              children: chipData.map((item) {
-                if (item is Brand)
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Chip(
-                      label: Text(item.name),
-                      avatar: Image.network(item.img),
-                      onDeleted: () {
-                        chipData.remove(item);
-                        selectedBrands.remove(item);
-                        setState(() {});
-                        categoryProductBloc.dispatch(loadDataEvent);
-                      },
-                    ),
-                  );
-                if (item is Attribute)
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Chip(
-                      padding: const EdgeInsets.all(4),
-                      label: Text(item.name),
-                      onDeleted: () {
-                        chipData.remove(item);
-                        selectedAttribute.remove(item);
-                        setState(() {});
-                        categoryProductBloc.dispatch(loadDataEvent);
-                      },
-                    ),
-                  );
-                return Container();
-              }).toList(),
-            ),
-            BlocBuilder(
-              bloc: categoryProductBloc,
-              builder: (BuildContext context, CategoryProductsState state) {
-                print(state);
-                if (state is LoadingState)
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    ),
-                  );
-                if (state is EmptyState) return NoDataWidget();
-                if (state is ErrorState)
-                  return Center(
-                    child: GeneralErrorWidget(
-                      onRetry: () {
-                        categoryProductBloc.dispatch(loadDataEvent);
-                      },
-                    ),
-                  );
-                if (state is NetworkErrorState)
-                  return Center(
-                    child: NetworkErrorWidget(
-                      onRetry: () {
-                        categoryProductBloc.dispatch(loadDataEvent);
-                      },
-                    ),
-                  );
-                if (state is CategoryProductsLoaded)
-                  return Expanded(
+          ),
+          Wrap(
+            children: chipData.map((item) {
+              if (item is Brand)
+                return Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Chip(
+                    label: Text(item.name),
+                    avatar: Image.network(item.img),
+                    onDeleted: () {
+                      chipData.remove(item);
+                      selectedBrands.remove(item);
+                      setState(() {});
+                      categoryProductBloc.dispatch(loadDataEvent);
+                    },
+                  ),
+                );
+              if (item is Attribute)
+                return Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Chip(
+                    padding: const EdgeInsets.all(4),
+                    label: Text(item.name),
+                    onDeleted: () {
+                      chipData.remove(item);
+                      selectedAttribute.remove(item);
+                      setState(() {});
+                      categoryProductBloc.dispatch(loadDataEvent);
+                    },
+                  ),
+                );
+              return Container();
+            }).toList(),
+          ),
+          BlocBuilder(
+            bloc: categoryProductBloc,
+            builder: (BuildContext context, CategoryProductsState state) {
+              print(state);
+              if (state is LoadingState)
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                );
+              if (state is EmptyState) return NoDataWidget();
+              if (state is ErrorState)
+                return Center(
+                  child: GeneralErrorWidget(
+                    onRetry: () {
+                      categoryProductBloc.dispatch(loadDataEvent);
+                    },
+                  ),
+                );
+              if (state is NetworkErrorState)
+                return Center(
+                  child: NetworkErrorWidget(
+                    onRetry: () {
+                      categoryProductBloc.dispatch(loadDataEvent);
+                    },
+                  ),
+                );
+              if (state is CategoryProductsLoaded)
+                return Expanded(
                     child: ListView.builder(
-                      itemCount: state.products.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AdWidget(
-                          onTap: () {},
-                          product: state.products[index],
-                        );
-                      },
-                    ),
-                  );
-                return Container();
-              },
-            ),
-          ],
-        ),
+                  controller: _scrollController,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index >= state.products.length)
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    else
+                      return AdWidget(
+                        key: ValueKey(state.products[index].productId),
+                        product: state.products[index],
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AdDetailsScreen(
+                                    product: state.products[index],
+                                  )));
+                        },
+                      );
+                  },
+                  itemCount: state.hasReachedMax
+                      ? state.products.length
+                      : state.products.length + 1,
+                ));
+              return Container();
+            },
+          ),
+        ],
       ),
     );
   }

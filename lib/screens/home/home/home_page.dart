@@ -7,6 +7,7 @@ import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
+import 'package:justcost/screens/featured_ads/featured_ads_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
@@ -173,7 +174,7 @@ class _HomePageState extends State<HomePage>
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            RecentAdsScreen()));
+                                            FeaturedAdsScreen()));
                               },
                               child: Text('See more'),
                               textTheme: ButtonTextTheme.accent,

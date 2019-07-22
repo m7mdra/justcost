@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:justcost/i10n/messages_all.dart';
 
 class AppLocalizations {
-
   static Future<AppLocalizations> load(Locale locale) {
     final String name =
         locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
@@ -23,8 +22,8 @@ class AppLocalizations {
   String get loginLoadingMessage =>
       Intl.message('Please wait while trying to login.',
           name: 'loginLoadingMessage');
-  String get logoutButton => Intl.message("Logout");
 
+  String get logoutButton => Intl.message("Logout");
 
   String get continueButton => Intl.message('Continue');
 
@@ -58,8 +57,8 @@ class AppLocalizations {
 
   String get verificationCodeFieldHint => Intl.message('Verification Code');
 
-  String get accountVerificationSubhead => Intl.message(
-      'An Sms was sent to your phone number containing the code');
+  String get accountVerificationSubhead =>
+      Intl.message('An Sms was sent to your phone number containing the code');
 
   String get verificationLoadingMessage =>
       Intl.message('Please wait while trying to verify your account.',
@@ -162,7 +161,87 @@ class AppLocalizations {
       Intl.message('Check your password/username first then try again.');
 
   String get didntReceiveSms => Intl.message("Didnt receive verification?");
-  String get resetSuccessTitle=>Intl.message('Reset Message was sent successfully');
+
+  String get resetSuccessTitle =>
+      Intl.message('Reset Message was sent successfully');
+
+  String get weSentMessageTo => Intl.message('We sent a message to ');
+
+  String get containing => Intl.message('containing');
+
+  String get fiveDigitCode =>
+      Intl.message('digit code write it below to verify that its you.');
+
+  String get usePhoneNumberOption => Intl.message('Use Phone number');
+
+  String get useEmailOption => Intl.message('Use Email address');
+
+  String get resetInstructions =>
+      Intl.message('To Reset your account you can use Phone number or '
+          'E-mail address associated with the account.');
+
+  String get phoneNumberResetInstruction =>
+      Intl.message('Type your Phone number and will send you a sms message'
+          ' containing the instructions to reset your account.');
+
+  String get emailResetInstruction =>
+      Intl.message('Type your Email Address and will send you an Email message'
+          ' containing the instructions to reset your account.');
+
+  String get search => Intl.message('Search');
+
+  String get sortSearchResult => Intl.message('Sort Search Result');
+
+  String get sortByNameASC => Intl.message('Name - Ascending');
+
+  String get sortByNameDESC => Intl.message('Name - Descending');
+
+  String get sortByPriceASC => Intl.message('Price - Ascending');
+
+  String get sortByPriceDESC => Intl.message('Price - Descending');
+
+  String get sortByDiscountASC => Intl.message('Discount - Ascending');
+
+  String get sortByDiscountDESC => Intl.message('Discount - Descending');
+
+  String get sort => Intl.message('Sort');
+
+  String get filterByCity => Intl.message('Filter by City');
+
+  String get name => Intl.message('Name');
+
+  String get price => Intl.message('Price');
+
+  String get discount => Intl.message('Discount');
+
+  String get recentAds => Intl.message('Recent Ads');
+
+  String get featuredAds => Intl.message('Recent Ads');
+
+  String get editProfile => Intl.message('Edit Profile');
+
+  String get settings => Intl.message('Settings');
+
+  String get notifications => Intl.message('Notifications');
+
+  String get aboutUs => Intl.message('About us');
+
+  String get logout => Intl.message('Logout');
+
+  String get captureImage => Intl.message('Capture Image');
+
+  String get pickFromGallery => Intl.message('Pick Image from gallery');
+
+  String get uploadMethodAvatar =>
+      Intl.message('Select A method to add avatar');
+
+  String get updateProfileAvatar => Intl.message('Update Profile Avatar');
+
+  String get personalInformation => Intl.message('Personal Information');
+
+  String get na => Intl.message('Not added');
+  String get male => Intl.message('Male');
+  String get female => Intl.message('Female');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

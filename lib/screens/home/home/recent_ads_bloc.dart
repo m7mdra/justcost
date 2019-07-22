@@ -71,7 +71,6 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         var response = await repository.getProducts(page: _currentPage);
         if (response.success) {
           lasPage = response.data.isEmpty;
-
           yield RecentAdsLoaded(
               (currentState as RecentAdsLoaded).products..addAll(response.data),
               response.data.isEmpty);

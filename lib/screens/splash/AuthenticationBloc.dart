@@ -53,38 +53,37 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
     if (event is AppStarted) {
-      if (await session.isFirstTimeLaunch()) {
+      /*if (await session.isFirstTimeLaunch()) {
         await session.setFirstTimeLaunched();
 
         yield FirstTimeLaunch();
-      } else {
-        await Future.delayed(Duration(seconds: 2));
-        yield AuthenticationLoading();
-        bool hasToken = await session.hasToken();
-        if (hasToken) {
-          if (await session.isAccountVerified()) {
-            yield UserAuthenticated();
-          } else {
-            try {
-              var parseResponse = await repository.parse();
-              if (parseResponse != null) {
-                if (parseResponse.data.user.isVerified) {
-                  /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
-                  /// OBSOLETE DATA
-                  await session.save(parseResponse);
-                  yield UserAuthenticated();
-                } else
-                  yield AccountNotVerified();
-              }
-            } on DioError catch (error) {
-              yield AuthenticationFailed();
-            } catch (error) {
-              yield AuthenticationFailed();
+      } else {*/
+      await Future.delayed(Duration(seconds: 2));
+      yield AuthenticationLoading();
+      bool hasToken = await session.hasToken();
+      if (hasToken) {
+        if (await session.isAccountVerified()) {
+          yield UserAuthenticated();
+        } else {
+          try {
+            var parseResponse = await repository.parse();
+            if (parseResponse != null) {
+              if (parseResponse.data.user.isVerified) {
+                /// SAVE TOKEN IN ALL CASES BECAUSE THE USER GOT HERE BECAUSE IT WAS
+                /// OBSOLETE DATA
+                await session.save(parseResponse);
+                yield UserAuthenticated();
+              } else
+                yield AccountNotVerified();
             }
+          } on DioError catch (error) {
+            yield AuthenticationFailed();
+          } catch (error) {
+            yield AuthenticationFailed();
           }
-        } else
-          yield UserUnauthenticated();
-      }
+        }
+      } else
+        yield UserUnauthenticated();
     }
   }
 }

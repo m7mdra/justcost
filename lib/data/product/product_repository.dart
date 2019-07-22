@@ -12,7 +12,7 @@ class ProductRepository {
 
   ProductRepository(this._client);
 
-  Future<ProductResponse> getProductsFromCategory(int categoryId,
+  Future<ProductResponse> getProductsFromCategory(String categoryId, int page,
       {String keyword, List<int> attributes, List<int> brands}) async {
     try {
       var queryParameters = Map<String, dynamic>();
@@ -22,8 +22,10 @@ class ProductRepository {
         queryParameters['selected'] = attributes.join(',');
       if (brands != null && brands.isNotEmpty)
         queryParameters['brands'] = brands.join(',');
-      var response = await _client.get('getAllProducts?category=$categoryId',
-          queryParameters: queryParameters);
+      queryParameters['category'] = categoryId.toString();
+      queryParameters['skip'] = page;
+      var response =
+          await _client.get('getAllProducts', queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -32,18 +34,22 @@ class ProductRepository {
 
   Future<ProductResponse> getProducts({int page = 0}) async {
     try {
-      var response = await _client.get('getAllProducts?skip=$page');
+      var response =
+          await _client.get('getAllProducts', queryParameters: {'skip': page});
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
     }
   }
 
-  Future<ProductResponse> findProductsByName(String name, int cityId) async {
+  Future<ProductResponse> findProductsByName(
+      String name, int cityId, int page) async {
     try {
       var params = {'search': name};
       if (cityId != -1) params['city'] = cityId.toString();
-      var response = await _client.get('products', queryParameters: params);
+      params['skip'] = page.toString();
+      var response =
+          await _client.get('getAllProducts', queryParameters: params);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -61,8 +67,7 @@ class ProductRepository {
 
   Future<LikeResponse> likeProductById(int id) async {
     try {
-      var response =
-          await _client.post('like/addlike', data: {'id': id});
+      var response = await _client.post('like/addlike', data: {'id': id});
       return LikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)
@@ -92,8 +97,7 @@ class ProductRepository {
 
   Future<DisLikeResponse> unlikeProductById(int id) async {
     try {
-      var response =
-          await _client.get('like/dislike?id=$id');
+      var response = await _client.get('like/dislike?id=$id');
       return DisLikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)

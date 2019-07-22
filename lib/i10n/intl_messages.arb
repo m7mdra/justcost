@@ -1,7 +1,12 @@
 {
-  "@@last_modified": "2019-04-29T12:14:34.594545",
+  "@@last_modified": "2019-07-22T15:43:52.383779",
   "loginLoadingMessage": "Please wait while trying to login.",
   "@loginLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Logout": "Logout",
+  "@Logout": {
     "type": "text",
     "placeholders": {}
   },
@@ -75,8 +80,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "An E-mail address was sent to your account containg instruction to verify you account": "An E-mail address was sent to your account containg instruction to verify you account",
-  "@An E-mail address was sent to your account containg instruction to verify you account": {
+  "An Sms was sent to your phone number containing the code": "An Sms was sent to your phone number containing the code",
+  "@An Sms was sent to your phone number containing the code": {
     "type": "text",
     "placeholders": {}
   },
@@ -241,6 +246,161 @@
   },
   "Password Changed successfully, login again.": "Password Changed successfully, login again.",
   "@Password Changed successfully, login again.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Full Name": "Full Name",
+  "@Full Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Country": "Country",
+  "@Country": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "City": "City",
+  "@City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Gender": "Gender",
+  "@Gender": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password can not be less than 6 characters": "Password can not be less than 6 characters",
+  "@Password can not be less than 6 characters": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name field can not be empty": "Name field can not be empty",
+  "@Name field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Invalid Credentials": "Invalid Credentials",
+  "@Invalid Credentials": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Check your password/username first then try again.": "Check your password/username first then try again.",
+  "@Check your password/username first then try again.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Didnt receive verification?": "Didnt receive verification?",
+  "@Didnt receive verification?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Reset Message was sent successfully": "Reset Message was sent successfully",
+  "@Reset Message was sent successfully": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "We sent a message to ": "We sent a message to ",
+  "@We sent a message to ": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "containing": "containing",
+  "@containing": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "digit code write it below to verify that its you.": "digit code write it below to verify that its you.",
+  "@digit code write it below to verify that its you.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Phone number": "Use Phone number",
+  "@Use Phone number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Email address": "Use Email address",
+  "@Use Email address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "To Reset your account you can use Phone number or E-mail address associated with the account.": "To Reset your account you can use Phone number or E-mail address associated with the account.",
+  "@To Reset your account you can use Phone number or E-mail address associated with the account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Phone number and will send you a sms message containing the instructions to reset your account.": "Type your Phone number and will send you a sms message containing the instructions to reset your account.",
+  "@Type your Phone number and will send you a sms message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Email Address and will send you an Email message containing the instructions to reset your account.": "Type your Email Address and will send you an Email message containing the instructions to reset your account.",
+  "@Type your Email Address and will send you an Email message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort Search Result": "Sort Search Result",
+  "@Sort Search Result": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Ascending": "Name - Ascending",
+  "@Name - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Descending": "Name - Descending",
+  "@Name - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Ascending": "Price - Ascending",
+  "@Price - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Descending": "Price - Descending",
+  "@Price - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Ascending": "Discount - Ascending",
+  "@Discount - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Descending": "Discount - Descending",
+  "@Discount - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort": "Sort",
+  "@Sort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Filter by City": "Filter by City",
+  "@Filter by City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name": "Name",
+  "@Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price": "Price",
+  "@Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount": "Discount",
+  "@Discount": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Recent Ads": "Recent Ads",
+  "@Recent Ads": {
     "type": "text",
     "placeholders": {}
   }

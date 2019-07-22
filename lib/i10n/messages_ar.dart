@@ -3,6 +3,8 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
@@ -19,15 +21,11 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
-  static _notInlinedMessages(_) => <String, Function>{
-        "appName": MessageLookupByLibrary.simpleMessage("JustCost"),
-        "loginLoadingMessage": MessageLookupByLibrary.simpleMessage(
-            "الرجاء الانتظار بينما يتم تسجيل الدخول"),
-        "loginScreenName": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
-        "passwordFieldHint":
-            MessageLookupByLibrary.simpleMessage("كلمة المرور"),
-        "usernameFieldHint":
-            MessageLookupByLibrary.simpleMessage("اسم المستخدم")
-      };
+  static _notInlinedMessages(_) => <String, Function> {
+    "appName" : MessageLookupByLibrary.simpleMessage("JustCost"),
+    "loginLoadingMessage" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار بينما يتم تسجيل الدخول"),
+    "loginScreenName" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "passwordFieldHint" : MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "usernameFieldHint" : MessageLookupByLibrary.simpleMessage("اسم المستخدم")
+  };
 }

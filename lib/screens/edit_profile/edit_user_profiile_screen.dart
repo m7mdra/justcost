@@ -19,6 +19,7 @@ import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'account_information.dart';
 import 'edit_profile_bloc.dart';
 import 'edit_profile_states.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -43,11 +44,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             context: context,
             barrierDismissible: false,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Error'),
+                  title: Text(AppLocalizations.of(context).generalError),
                   content: Text(state.message),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text('Ok'),
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -76,7 +78,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: Text(AppLocalizations.of(context).editProfile),
       ),
       body: SafeArea(
           child: BlocBuilder(
@@ -132,19 +134,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     context: context,
                     builder: (context) {
                       return RoundedAlertDialog(
-                        title: Text('Select Media to add to the uploads'),
+                        title: Text(
+                            AppLocalizations.of(context).uploadMethodAvatar),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             ListTile(
-                              title: Text('Capture Image'),
+                              title: Text(
+                                  AppLocalizations.of(context).captureImage),
                               leading: Icon(Icons.camera_alt),
                               dense: true,
                               onTap: () async =>
                                   onUpdateClick(ImageSource.camera),
                             ),
                             ListTile(
-                              title: Text('Pick Image from gallery'),
+                              title: Text(
+                                  AppLocalizations.of(context).pickFromGallery),
                               leading: Icon(Icons.image),
                               dense: true,
                               onTap: () async =>
@@ -155,10 +160,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       );
                     });
               },
-              child: Text('Update Profile Avatar'),
+              child: Text(AppLocalizations.of(context).updateProfileAvatar),
             ),
             buildDivider(),
-            buildTitle('Personal Information', () async {
+            buildTitle(AppLocalizations.of(context).personalInformation,
+                () async {
               PersonalInformation newInformation = await Navigator.of(context)
                   .push(MaterialPageRoute(
                       builder: (context) => UpdatePersonalInformationScreen(
@@ -173,22 +179,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Full name'),
+                title: Text(AppLocalizations.of(context).fullNameField),
                 subtitle: Text(user.name == null || user.name.isEmpty
-                    ? 'Not added'
+                    ? AppLocalizations.of(context).na
                     : user?.name)),
             ListTile(
                 dense: true,
-                title: Text('Gender'),
+                title: Text(AppLocalizations.of(context).gender),
                 subtitle: Text(user.gender == null
-                    ? 'Not Added'
-                    : user?.gender == 1 ? 'Male' : 'Female')),
+                    ? AppLocalizations.of(context).na
+                    : user?.gender == 1
+                        ? AppLocalizations.of(context).male
+                        : AppLocalizations.of(context).female)),
+            //TODO
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Location/City'),
-                subtitle:
-                    Text(user.city == null ? 'Not added' : user.city.name)),
+                title: Text('Location'),
+                subtitle: Text(user.city == null
+                    ? AppLocalizations.of(context).na
+                    : Localizations.localeOf(context).languageCode == 'ar'
+                        ? user.city.arName
+                        : user.city.name)),
             buildDivider(),
             buildTitle('Account Information', () async {
               AccountInformation information = await Navigator.of(context).push(

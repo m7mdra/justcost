@@ -25,10 +25,6 @@ class SortByPriceAscending extends SearchEvent {}
 
 class SortByPriceDescending extends SearchEvent {}
 
-class SortByRateDescending extends SearchEvent {}
-
-class SortByRateAscending extends SearchEvent {}
-
 abstract class SearchState {}
 
 class SearchLoading extends SearchState {}
@@ -39,16 +35,26 @@ class SearchNetworkError extends SearchState {}
 
 class SearchNoResult extends SearchState {}
 
+class LoadNextPage extends SearchEvent {
+  final String name;
+  final int cityId;
+
+  LoadNextPage(this.name, this.cityId);
+}
+
 class SearchFound extends SearchState {
   final List<Product> products;
+  final bool hasReachedMax;
 
-  SearchFound(this.products);
+  SearchFound(this.products, this.hasReachedMax);
 }
 
 class SearchIdle extends SearchState {}
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductRepository _repository;
+  int _currentPage = 0;
+  bool lasPage = false;
 
   SearchBloc(this._repository);
 
@@ -67,24 +73,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   @override
-  void onTransition(Transition<SearchEvent, SearchState> transition) {
-    super.onTransition(transition);
-    print(transition);
-  }
-
-  @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is SearchProductByName) {
       yield SearchLoading();
       try {
-        var response =
-            await _repository.findProductsByName(event.name, event.cityId);
+        _currentPage = 0;
+        var response = await _repository.findProductsByName(
+            event.name, event.cityId, _currentPage);
         if (response.success) {
-          if (response.data.isEmpty)
-            yield SearchNoResult();
-          else {
-            yield SearchFound(response.data);
-          }
+          yield SearchFound(response.data, response.data.isEmpty);
         } else {
           yield SearchError();
         }
@@ -94,15 +91,34 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         yield SearchError();
       }
     }
-    if (event is SortByRateAscending) {}
-    if (event is SortByRateDescending) {}
+    if (event is LoadNextPage) {
+      try {
+        if (lasPage) return;
+        _currentPage += 1;
+        var response = await _repository.findProductsByName(
+            event.name, event.cityId, _currentPage);
+        if (response.success) {
+          lasPage = response.data.isEmpty;
+          yield SearchFound(
+              (currentState as SearchFound).products..addAll(response.data),
+              response.data.isEmpty);
+        } else {
+          yield SearchError();
+        }
+      } on DioError {
+        yield SearchNetworkError();
+      } catch (error) {
+        yield SearchError();
+      }
+    }
+
     if (event is SortByDiscountDescending) {
       if (currentState is SearchFound) {
         var products = (currentState as SearchFound).products;
         products.sort((p1, p2) =>
             p2.calculateDiscount().compareTo(p1.calculateDiscount()));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByDiscountAscending) {
@@ -111,7 +127,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         products.sort((p1, p2) =>
             p1.calculateDiscount().compareTo(p2.calculateDiscount()));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByNameAscending) {
@@ -119,7 +135,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         var products = (currentState as SearchFound).products;
         products.sort((p1, p2) => p1.title.compareTo(p2.title));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByNameDescending) {
@@ -127,7 +143,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         var products = (currentState as SearchFound).products;
         products.sort((p1, p2) => p2.title.compareTo(p1.title));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByPriceAscending) {
@@ -135,7 +151,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         var products = (currentState as SearchFound).products;
         products.sort((p1, p2) => p1.salePrice.compareTo(p2.salePrice));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByPriceDescending) {
@@ -143,7 +159,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         var products = (currentState as SearchFound).products;
         products.sort((p1, p2) => p2.salePrice.compareTo(p1.salePrice));
 
-        yield SearchFound(products);
+        yield SearchFound(products, products.isEmpty);
       }
     }
   }

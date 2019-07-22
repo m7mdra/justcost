@@ -8,6 +8,7 @@ import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/settings_widget.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
   UserProfileBloc _bloc;
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -77,19 +79,22 @@ class _ProfilePageState extends State<ProfilePage>
   Widget _loadUser(User user) {
     return Column(
       children: <Widget>[
-        ClipOval(
-            child: user.image != null && user.image.isNotEmpty
-                ? Image.network(
-                    user.image,
-                    width: 90,
-                    height: 90,
-                  )
-                : DefaultUserAvatarWidget()),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ClipOval(
+              child: user.image != null && user.image.isNotEmpty
+                  ? Image.network(
+                      user.image,
+                      width: 90,
+                      height: 90,
+                    )
+                  : DefaultUserAvatarWidget()),
+        ),
         SizedBox(
           width: 10,
         ),
         Text(user.name),
-        Text('Membership: GOLDEN'),
+        /*Text('Membership: GOLDEN'),
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
@@ -127,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
             ],
           ),
-        ),
+        ),*/
         OutlineButton(
           onPressed: () async {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -137,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage>
               );
             }));
           },
-          child: Text('Edit Profile'),
+          child: Text(AppLocalizations.of(context).editProfile),
         ),
         Expanded(
           child: SettingsWidget(
@@ -148,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Future _onLogout() {
+  _onLogout() {
     _bloc.dispatch(LogoutEvent());
   }
 }

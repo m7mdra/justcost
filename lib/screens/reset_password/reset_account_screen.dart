@@ -98,16 +98,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Text.rich(
           TextSpan(children: [
             TextSpan(
-              text: 'We sent a message to ',
+              text: AppLocalizations.of(context).weSentMessageTo,
             ),
             TextSpan(
                 text: '+1231231231',
                 style: TextStyle(decoration: TextDecoration.underline)),
-            TextSpan(text: ' containing '),
+            TextSpan(text: ' ${AppLocalizations.of(context).containing} '),
             TextSpan(
                 text: '5',
                 style: TextStyle(decoration: TextDecoration.underline)),
-            TextSpan(text: ' digit code write it below to verify that its you.')
+            TextSpan(text: AppLocalizations.of(context).fiveDigitCode)
           ]),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.body1,
@@ -130,7 +130,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         OutlineButton(
           onPressed: () {},
-          child: Text('Submit'),
+          child: Text(AppLocalizations.of(context).submitButton),
         )
       ],
     );
@@ -153,16 +153,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Text.rich(
           TextSpan(children: [
             TextSpan(
-              text: 'We sent a message to ',
+              text: AppLocalizations.of(context).weSentMessageTo,
             ),
             TextSpan(
                 text: 'Mail@domain.com',
                 style: TextStyle(decoration: TextDecoration.underline)),
-            TextSpan(text: ' containing '),
+            TextSpan(text: ' ${AppLocalizations.of(context).containing} '),
             TextSpan(
                 text: '5',
                 style: TextStyle(decoration: TextDecoration.underline)),
-            TextSpan(text: ' digit code write it below to verify that its you.')
+            TextSpan(text: ' ${AppLocalizations.of(context).fiveDigitCode}')
           ]),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.body1,
@@ -185,7 +185,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         OutlineButton(
           onPressed: () {},
-          child: Text('Submit'),
+          child: Text(AppLocalizations.of(context).submitButton),
         )
       ],
     );
@@ -202,15 +202,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             size: 80,
           ),
           Text(
-            'Reset Account',
+            AppLocalizations.of(context).resetAccount,
             style: Theme.of(context).textTheme.title,
           ),
           const SizedBox(
             height: 8,
           ),
           Text(
-            'To Reset your account you can use Phone number or '
-            'E-mail address associated with the account.',
+            AppLocalizations.of(context).resetInstructions,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.body2,
           ),
@@ -224,7 +223,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   onPressed: () {
                     _bloc.dispatch(PhoneNumberResetSelected());
                   },
-                  child: Text('Use Phone number'),
+                  child:
+                      Text(AppLocalizations.of(context).usePhoneNumberOption),
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                 ),
@@ -237,7 +237,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   onPressed: () {
                     _bloc.dispatch(EmailResetSelected());
                   },
-                  child: Text('Use Email address'),
+                  child: Text(AppLocalizations.of(context).useEmailOption),
                   textColor: Colors.white,
                 ),
               )
@@ -259,8 +259,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Text(AppLocalizations.of(context).resetAccount,
             style: Theme.of(context).textTheme.title),
         Text(
-          'Type your Phone number and will send you a sms message'
-          ' containing the instructions to reset your account.',
+          AppLocalizations.of(context).phoneNumberResetInstruction,
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -315,8 +314,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Text(AppLocalizations.of(context).resetAccount,
             style: Theme.of(context).textTheme.title),
         Text(
-          'Type your Email Address and will send you an Email message'
-          ' containing the instructions to reset your account.',
+          AppLocalizations.of(context).emailResetInstruction,
           textAlign: TextAlign.center,
         ),
         SizedBox(

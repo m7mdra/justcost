@@ -9,12 +9,12 @@ import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import '../../dependencies_provider.dart';
 
-class RecentAdsScreen extends StatefulWidget {
+class FeaturedAdsScreen extends StatefulWidget {
   @override
-  _RecentAdsScreenState createState() => _RecentAdsScreenState();
+  _FeaturedAdsScreenState createState() => _FeaturedAdsScreenState();
 }
 
-class _RecentAdsScreenState extends State<RecentAdsScreen> {
+class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
   RecentAdsBloc _recentAdsBloc;
   ScrollController _scrollController;
 
@@ -43,7 +43,7 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).recentAds),
+        title: Text(AppLocalizations.of(context).featuredAds),
       ),
       body: BlocBuilder(
         bloc: _recentAdsBloc,
@@ -66,8 +66,8 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => AdDetailsScreen(
-                                product: state.products[index],
-                              )));
+                            product: state.products[index],
+                          )));
                     },
                   );
               },
@@ -116,8 +116,8 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => AdDetailsScreen(
-                      product: products[index],
-                    )));
+                  product: products[index],
+                )));
           },
         );
       },
