@@ -1,5 +1,15 @@
 {
-  "@@last_modified": "2019-07-22T15:43:52.383779",
+  "@@last_modified": "2019-07-23T17:01:59.754925",
+  "try again or contact support.": "try again or contact support.",
+  "@try again or contact support.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Try again": "Try again",
+  "@Try again": {
+    "type": "text",
+    "placeholders": {}
+  },
   "loginLoadingMessage": "Please wait while trying to login.",
   "@loginLoadingMessage": {
     "type": "text",
@@ -12,6 +22,11 @@
   },
   "Continue": "Continue",
   "@Continue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick City": "Pick City",
+  "@Pick City": {
     "type": "text",
     "placeholders": {}
   },
@@ -202,13 +217,6 @@
     "type": "text",
     "placeholders": {}
   },
-  "copyRights": "Copyright © {date}, All Rights resereved",
-  "@copyRights": {
-    "type": "text",
-    "placeholders": {
-      "date": {}
-    }
-  },
   "Privacy": "Privacy",
   "@Privacy": {
     "type": "text",
@@ -271,6 +279,11 @@
   },
   "Password can not be less than 6 characters": "Password can not be less than 6 characters",
   "@Password can not be less than 6 characters": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Full name field is required.": "Full name field is required.",
+  "@Full name field is required.": {
     "type": "text",
     "placeholders": {}
   },
@@ -403,5 +416,229 @@
   "@Recent Ads": {
     "type": "text",
     "placeholders": {}
+  },
+  "Edit Profile": "Edit Profile",
+  "@Edit Profile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Settings": "Settings",
+  "@Settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Capture Image": "Capture Image",
+  "@Capture Image": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick Image from gallery": "Pick Image from gallery",
+  "@Pick Image from gallery": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select A method to add avatar": "Select A method to add avatar",
+  "@Select A method to add avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Profile Avatar": "Update Profile Avatar",
+  "@Update Profile Avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Personal Information": "Personal Information",
+  "@Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Not added": "Not added",
+  "@Not added": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Male": "Male",
+  "@Male": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Female": "Female",
+  "@Female": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "message": "message",
+  "@message": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Information": "Account Information",
+  "@Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Security": "Account Security",
+  "@Account Security": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Chnage Password": "Chnage Password",
+  "@Chnage Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update": "Update",
+  "@Update": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "this proccess Requires you to relogin after chaning.": "this proccess Requires you to relogin after chaning.",
+  "@this proccess Requires you to relogin after chaning.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to update Profile, try again": "Failed to update Profile, try again",
+  "@Failed to update Profile, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Account Information": "Update Account Information",
+  "@Update Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Password": "Update Password",
+  "@Update Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New password Field is required.": "New password Field is required.",
+  "@New password Field is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password confirmation is required.": "New Password confirmation is required.",
+  "@New Password confirmation is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password Mismatch": "Password Mismatch",
+  "@Password Mismatch": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password": "New Password",
+  "@New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Confirm New Password": "Confirm New Password",
+  "@Confirm New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type old password for safity measurement": "Type old password for safity measurement",
+  "@Type old password for safity measurement": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Current Password": "Current Password",
+  "@Current Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Personal Information": "Update Personal Information",
+  "@Update Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select gender first": "Select gender first",
+  "@Select gender first": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Data found at the moment.": "No Data found at the moment.",
+  "@No Data found at the moment.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "My Ads": "My Ads",
+  "@My Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Favorite Ads": "Favorite Ads",
+  "@Favorite Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select brand": "Select brand",
+  "@Select brand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Attributes": "Attributes",
+  "@Attributes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to post comment": "Failed to post comment",
+  "@Failed to post comment": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Write a you comment here": "Write a you comment here",
+  "@Write a you comment here": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "POST": "POST",
+  "@POST": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Report": "Report",
+  "@Report": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Save": "Save",
+  "@Save": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Share": "Share",
+  "@Share": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone number is not avaiable for This Ad": "Phone number is not avaiable for This Ad",
+  "@Phone number is not avaiable for This Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location for this Ad is not avaliable": "Location for this Ad is not avaliable",
+  "@Location for this Ad is not avaliable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "View Location": "View Location",
+  "@View Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyRights": "Copyright © {date}, All Rights resereved",
+  "@copyRights": {
+    "type": "text",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "discountPercentage": "{discount}% OFF",
+  "@discountPercentage": {
+    "type": "text",
+    "placeholders": {
+      "discount": {}
+    }
   }
 }

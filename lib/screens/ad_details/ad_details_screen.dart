@@ -15,6 +15,8 @@ import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:justcost/i10n/app_localizations.dart';
+import 'package:share/share.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
@@ -100,7 +102,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               IconText(
                 onPressed: () {},
                 icon: Icon(Icons.flag),
-                text: Text('Report'),
+                text: Text(AppLocalizations.of(context).reportButton),
               ),
               BlocBuilder(
                 bloc: _likeProductBloc,
@@ -112,345 +114,334 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                           Icons.favorite_border,
                           color: Colors.grey,
                         ),
-                        text: Text('Save'),
+                        text: Text(AppLocalizations.of(context).saveButton),
                         onPressed: null);
-                  if (state is LikeLoaded) return likeWdiget(state.isLiked);
-                  if (state is LikeToggled) return likeWdiget(state.isLiked);
+                  if (state is LikeLoaded) return likeWidget(state.isLiked);
+                  if (state is LikeToggled) return likeWidget(state.isLiked);
                 },
               ),
               IconText(
-                onPressed: () {},
+                onPressed: () async {
+                  await Share.share('Checkout hot sales at Justcost');
+                },
                 icon: Icon(Icons.share),
-                text: Text('Share'),
+                text: Text(AppLocalizations.of(context).shareButton),
               ),
             ],
           ),
           const Divider(
             height: 1,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Mobile & Tabs',
-                    style: Theme.of(context).textTheme.caption,
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    product.title,
+                    style: Theme.of(context).textTheme.title,
+                    maxLines: 2,
                   ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                  Text(
-                    'Mobile',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                  Text(
-                    'OPPO',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              ),
-              Text(
-                  "${DateFormat.MMMMEEEEd().format(DateTime.fromMicrosecondsSinceEpoch(product.postedOn))}")
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  product.title,
-                  style: Theme.of(context).textTheme.title,
-                  maxLines: 2,
                 ),
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 4, bottom: 4),
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      '${((product.regPrice - product.salePrice) / product.regPrice * 100).round()}% OFF',
-                      style: Theme.of(context).textTheme.subhead,
-                    ),
-                  ),
-                  Text(
-                    '${product.salePrice} AED',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              )
-            ],
-          ),
-          Text(product.description),
-          const Divider(),
-          BlocBuilder(
-            bloc: _attributesBloc,
-            builder: (BuildContext context, AttributesState state) {
-              if (state is AttributesLoading)
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    strokeWidth: 2,
-                  ),
-                );
-              if (state is AttributesNetworkError)
-                return NetworkErrorWidget(
-                  onRetry: () {
-                    _attributesBloc
-                        .dispatch(LoadProductAttribute(product.productId));
-                  },
-                );
-              if (state is AttributesError)
-                return GeneralErrorWidget(
-                  onRetry: () {
-                    _attributesBloc
-                        .dispatch(LoadProductAttribute(product.productId));
-                  },
-                );
-              if (state is AttributesLoaded) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(state.attributes[index].group),
-                        Text(state.attributes[index].val),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 2,
-                    );
-                  },
-                  itemCount: state.attributes.length,
-                );
-              }
-              return Container();
-            },
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconText(
-                icon: Icon(
-                  Icons.person,
-                  size: 30,
-                ),
-                text: Text(product.customerName),
-              ),
-              Column(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () async {
-                      var url = 'tel:+${product.mobile}';
-                      if (await canLaunch(url))
-                        launch(url);
-                      else
-                        scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: SnackBar(
-                                content: Text(
-                                    'Phone number is not avaiable for This Ad'))));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: IconText(
-                        icon: Icon(
-                          Icons.phone,
-                          color: Colors.white,
-                          size: 15,
-                        ),
-                        text: Text(
-                          ' ${product.mobile} ',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      var url = "geo:${product.location}";
-                      if (product.location != null &&
-                          product.location.isNotEmpty &&
-                          await canLaunch(url))
-                        await launch(url);
-                      else
-                        scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content:
-                                Text('Location for this Ad is not avaliable')));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: IconText(
-                        icon: Icon(
-                          Icons.location_on,
-                          color: Colors.white,
-                          size: 15,
-                        ),
-                        text: Text(
-                          ' View Location',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Divider(),
-          BlocBuilder(
-            bloc: _postCommentBloc,
-            builder: (BuildContext context, PostState state) {
-              if (state is PostCommentLoading)
-                return IgnorePointer(
-                  ignoring: true,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: commentBox(),
-                  ),
-                );
-              if (state is PostCommentFailed)
-                return Column(
+                Column(
                   children: <Widget>[
-                    commentBox(),
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 4, bottom: 4),
+                      color: Theme.of(context).accentColor,
+                      child: Text(
+                        AppLocalizations.of(context).discountPercentage(
+                            ((product.regPrice - product.salePrice) /
+                                    product.regPrice *
+                                    100)
+                                .round()),
+                        style: Theme.of(context).textTheme.subhead,
+                      ),
+                    ),
                     Text(
-                      'Failed to post comment',
-                      style: TextStyle(color: Theme.of(context).errorColor),
+                      //TODO
+                      '${product.salePrice} AED',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
-                );
-              return commentBox();
-            },
+                )
+              ],
+            ),
           ),
-          BlocBuilder(
-            bloc: _commentsBloc,
-            builder: (BuildContext context, CommentsState state) {
-              if (state is CommentsLoading)
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              if (state is CommentsError)
-                return GeneralErrorWidget(
-                  onRetry: () {
-                    _commentsBloc.dispatch(LoadComments(product.productId));
-                  },
-                );
-              if (state is CommentsNetworkError)
-                return NetworkErrorWidget(
-                  onRetry: () {
-                    _commentsBloc.dispatch(LoadComments(product.productId));
-                  },
-                );
-              if (state is NoComments)
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.add_comment,
-                        size: 60,
-                      ),
-                      Text('No Comments added, be the first to comment')
-                    ],
-                  ),
-                );
-              if (state is CommentsLoaded)
-                return Column(
-                  children: <Widget>[
-                    ListView.separated(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemBuilder: (context, index) {
-                        return CommentWidget(
-                          comment: state.comments[index],
-                          onReplayClick: (comment) async {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => BlocProvider.value(
-                                      child: CommentReplayScreen(
-                                        comment: comment,
-                                        product: product,
-                                      ),
-                                      value: _commentsBloc,
-                                    )));
-                          },
-                        );
-                      },
-                      itemCount: state
-                          .comments.length/*< 4 ? state.comments.length : 4*/,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider(
-                          height: 1,
-                        );
-                      },
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: Text(
+              "${DateFormat.MMMMEEEEd().format(DateTime.fromMicrosecondsSinceEpoch(product.postedOn))}",
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: Text(product.description),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: BlocBuilder(
+              bloc: _attributesBloc,
+              builder: (BuildContext context, AttributesState state) {
+                if (state is AttributesLoading)
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      strokeWidth: 2,
                     ),
-                    /* state.comments.length > 4
-                        ? Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: OutlineButton(
-                              onPressed: () {},
-                              child: Text('Show more comments'),
-                            ),
-                          )
-                        : Container()*/
+                  );
+                if (state is AttributesNetworkError)
+                  return NetworkErrorWidget(
+                    onRetry: () {
+                      _attributesBloc
+                          .dispatch(LoadProductAttribute(product.productId));
+                    },
+                  );
+                if (state is AttributesError)
+                  return GeneralErrorWidget(
+                    onRetry: () {
+                      _attributesBloc
+                          .dispatch(LoadProductAttribute(product.productId));
+                    },
+                  );
+                if (state is AttributesLoaded) {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(state.attributes[index].group),
+                          Text(state.attributes[index].val),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(
+                        height: 2,
+                      );
+                    },
+                    itemCount: state.attributes.length,
+                  );
+                }
+                return Container();
+              },
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconText(
+                  icon: Icon(
+                    Icons.person,
+                    size: 30,
+                  ),
+                  text: Text(product.customerName),
+                ),
+                Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () async {
+                        var url = 'tel:+${product.mobile}';
+                        if (await canLaunch(url))
+                          launch(url);
+                        else
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: SnackBar(
+                                  content: Text(AppLocalizations.of(context)
+                                      .phoneNumberNotAvaliable))));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: IconText(
+                          icon: Icon(
+                            Icons.phone,
+                            color: Colors.white,
+                            size: 15,
+                          ),
+                          text: Text(
+                            ' ${product.mobile} ',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        var url = "geo:${product.location}";
+                        if (product.location != null &&
+                            product.location.isNotEmpty &&
+                            await canLaunch(url))
+                          await launch(url);
+                        else
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Text(AppLocalizations.of(context)
+                                  .locationNotAvaliable)));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: IconText(
+                          icon: Icon(
+                            Icons.location_on,
+                            color: Colors.white,
+                            size: 15,
+                          ),
+                          text: Text(
+                            AppLocalizations.of(context).viewLocationButton,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
-                );
-              return Container();
-            },
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: BlocBuilder(
+              bloc: _postCommentBloc,
+              builder: (BuildContext context, PostState state) {
+                if (state is PostCommentLoading)
+                  return IgnorePointer(
+                    ignoring: true,
+                    child: Opacity(
+                      opacity: 0.3,
+                      child: commentBox(),
+                    ),
+                  );
+                if (state is PostCommentFailed)
+                  return Column(
+                    children: <Widget>[
+                      commentBox(),
+                      Text(
+                        AppLocalizations.of(context).failedToPostComment,
+                        style: TextStyle(color: Theme.of(context).errorColor),
+                      )
+                    ],
+                  );
+                return commentBox();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+            child: BlocBuilder(
+              bloc: _commentsBloc,
+              builder: (BuildContext context, CommentsState state) {
+                if (state is CommentsLoading)
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                if (state is CommentsError)
+                  return GeneralErrorWidget(
+                    onRetry: () {
+                      _commentsBloc.dispatch(LoadComments(product.productId));
+                    },
+                  );
+                if (state is CommentsNetworkError)
+                  return NetworkErrorWidget(
+                    onRetry: () {
+                      _commentsBloc.dispatch(LoadComments(product.productId));
+                    },
+                  );
+                if (state is NoComments)
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.add_comment,
+                          size: 60,
+                        ),
+                        Text(AppLocalizations.of(context).noCommentFound)
+                      ],
+                    ),
+                  );
+                if (state is CommentsLoaded)
+                  return Column(
+                    children: <Widget>[
+                      ListView.separated(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemBuilder: (context, index) {
+                          return CommentWidget(
+                            comment: state.comments[index],
+                            onReplayClick: (comment) async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => BlocProvider.value(
+                                        child: CommentReplayScreen(
+                                          comment: comment,
+                                          product: product,
+                                        ),
+                                        value: _commentsBloc,
+                                      )));
+                            },
+                          );
+                        },
+                        itemCount: state
+                            .comments.length/*< 4 ? state.comments.length : 4*/,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider(
+                            height: 1,
+                          );
+                        },
+                      ),
+                      /* state.comments.length > 4
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: OutlineButton(
+                                onPressed: () {},
+                                child: Text('Show more comments'),
+                              ),
+                            )
+                          : Container()*/
+                    ],
+                  );
+                return Container();
+              },
+            ),
           )
         ],
       )),
     );
   }
 
-  IconText likeWdiget(bool isLiked) {
+  IconText likeWidget(bool isLiked) {
     return IconText(
       onPressed: () {
         _likeProductBloc.dispatch(ToggleLike(product.productId));
       },
       icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
-      text: Text('Save'),
-    );
-  }
-
-  IconText likeWidget() {
-    return IconText(
-      onPressed: () {
-        _likeProductBloc.dispatch(ToggleLike(product.productId));
-      },
-      icon: Icon(Icons.favorite_border),
-      text: Text('Save'),
+      text: Text(AppLocalizations.of(context).saveButton),
     );
   }
 
   Widget commentBox() {
     return Column(
       children: <Widget>[
-        Text('Write a comment'),
+        Text(AppLocalizations.of(context).writeComment),
         TextField(
           keyboardType: TextInputType.multiline,
           maxLines: 3,
@@ -469,7 +460,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               _postCommentBloc.dispatch(PostComment(product.productId, null,
                   _commentTextEditingController.text.trim()));
             },
-            child: Text('POST'),
+            child: Text(AppLocalizations.of(context).postButton),
           ),
         ),
       ],

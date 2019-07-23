@@ -94,45 +94,6 @@ class _ProfilePageState extends State<ProfilePage>
           width: 10,
         ),
         Text(user.name),
-        /*Text('Membership: GOLDEN'),
-        Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-              border: Border.all(color: Colors.grey)),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text('Level '),
-              Container(
-                padding: const EdgeInsets.only(left: 4, right: 4),
-                child: Text(
-                  ' 19 ',
-                  style: TextStyle(color: Colors.white),
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Colors.black),
-              ),
-              Text(' | '),
-              Text('Votes '),
-              Container(
-                padding: const EdgeInsets.only(left: 4, right: 4),
-                child: Text(
-                  '1999',
-                  style: TextStyle(color: Colors.white),
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                    color: Colors.green),
-              ),
-            ],
-          ),
-        ),*/
         OutlineButton(
           onPressed: () async {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -144,14 +105,34 @@ class _ProfilePageState extends State<ProfilePage>
           },
           child: Text(AppLocalizations.of(context).editProfile),
         ),
-        Expanded(
-          child: SettingsWidget(
-            onLogout: _onLogout,
-          ),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.local_offer),
+          title: Text(AppLocalizations.of(context).myAds),
+          dense: true,
+          onTap: () {},
+        ),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.favorite),
+          title: Text(AppLocalizations.of(context).favoriteAds),
+          dense: true,
+          onTap: () {},
+        ),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.exit_to_app),
+          dense: true,
+          title: Text(AppLocalizations.of(context).logout),
+          onTap: () => _onLogout(),
         ),
       ],
     );
   }
+
+  Divider divider() => const Divider(
+        height: 1,
+      );
 
   _onLogout() {
     _bloc.dispatch(LogoutEvent());

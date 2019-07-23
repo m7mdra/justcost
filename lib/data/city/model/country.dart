@@ -26,6 +26,7 @@ class Country {
   String name;
   String arName;
   String code;
+  String currencyCode;
   List<City> cities;
 
   Country({this.id, this.name, this.arName, this.code, this.cities});
@@ -34,6 +35,7 @@ class Country {
     id = json['id'];
     name = json['name'];
     arName = json['arName'];
+    currencyCode = json['currency'];
     code = json['code'];
     if (json['cities'] != null) {
       cities = new List<City>();
@@ -49,6 +51,7 @@ class Country {
     data['name'] = this.name;
     data['arName'] = this.arName;
     data['code'] = this.code;
+    data['currency'] = this.currencyCode;
     if (this.cities != null) {
       data['cities'] = this.cities.map((v) => v.toJson()).toList();
     }

@@ -14,7 +14,7 @@ import 'package:justcost/screens/home/home/slider_bloc.dart';
 import 'package:justcost/screens/recentads/recent_ad_screen.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class HomePage extends StatefulWidget {
   final ValueChanged<ScrollNotification> onScroll;
 
@@ -92,12 +92,12 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Failed to load Data'),
+                      Text(AppLocalizations.of(context).failedToLoadData),
                       OutlineButton(
                         onPressed: () {
-                          _bloc.dispatch(LoadSlider());
+                          fetchData();
                         },
-                        child: Text('Retry'),
+                        child: Text(AppLocalizations.of(context).retryButton),
                       )
                     ],
                   );
@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage>
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
-                          'Featured Categories',
+                          AppLocalizations.of(context).featuredCategories,
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage>
                         child: Row(
                           children: <Widget>[
                             Text(
-                              'Featured Ads',
+                              AppLocalizations.of(context).featuredAds,
                               style: TextStyle(fontSize: 18),
                             ),
                             FlatButton(
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage>
                                         builder: (context) =>
                                             FeaturedAdsScreen()));
                               },
-                              child: Text('See more'),
+                              child: Text(AppLocalizations.of(context).seeMoreButton),
                               textTheme: ButtonTextTheme.accent,
                             )
                           ],
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage>
                         child: Row(
                           children: <Widget>[
                             Text(
-                              'Recent Ads',
+                              AppLocalizations.of(context).recentAds,
                               style: TextStyle(fontSize: 18),
                             ),
                             FlatButton(
@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage>
                                         builder: (context) =>
                                             RecentAdsScreen()));
                               },
-                              child: Text('See more'),
+                              child: Text(AppLocalizations.of(context).seeMoreButton),
                               textTheme: ButtonTextTheme.accent,
                             )
                           ],

@@ -45,7 +45,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             barrierDismissible: false,
             builder: (context) => RoundedAlertDialog(
                   title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
+                  content:
+                      Text(AppLocalizations.of(context).failedToUpdateProfile),
                   actions: <Widget>[
                     FlatButton(
                       child:
@@ -195,14 +196,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Location'),
+                title: Text(AppLocalizations.of(context).location),
                 subtitle: Text(user.city == null
                     ? AppLocalizations.of(context).na
                     : Localizations.localeOf(context).languageCode == 'ar'
                         ? user.city.arName
                         : user.city.name)),
             buildDivider(),
-            buildTitle('Account Information', () async {
+            buildTitle(AppLocalizations.of(context).accountInformation,
+                () async {
               AccountInformation information = await Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => UpdateAccountInformationScreen(
@@ -216,16 +218,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Username'),
+                title: Text(AppLocalizations.of(context).usernameFieldHint),
                 subtitle: Text('@${user.username}')),
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text('Email Address'),
+                title: Text(AppLocalizations.of(context).emailFieldHint),
                 subtitle: Text(user.email == null || user.email.isEmpty
-                    ? "Not added"
+                    ? AppLocalizations.of(context).na
                     : user.email)),
-            buildTitle('Account Security ', () async {
+            buildTitle(AppLocalizations.of(context).accountSecurity, () async {
               Password information = await Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => UpdatePasswordScreen()));
@@ -238,8 +240,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ListTile(
                 dense: true,
                 contentPadding: tilePadding(),
-                title: Text('Chnage Password'),
-                subtitle: Text('**********')),
+                title: Text(AppLocalizations.of(context).changePassword),
+                subtitle:
+                    Text(AppLocalizations.of(context).changePasswordSubtitle)),
           ],
         ),
       ],
@@ -254,7 +257,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(sectionTitle),
-        FlatButton(onPressed: onPressed, child: Text('Update'))
+        FlatButton(
+            onPressed: onPressed,
+            child: Text(AppLocalizations.of(context).updateButton))
       ],
     );
   }

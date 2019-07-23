@@ -4,6 +4,7 @@ import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/edit_profile/personal_information.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class UpdatePersonalInformationScreen extends StatefulWidget {
   final PersonalInformation personalInformation;
@@ -53,7 +54,7 @@ class _UpdatePersonalInformationScreenState
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Update Personal Information'),
+        title: Text(AppLocalizations.of(context).updatePersonalInformation),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
@@ -69,7 +70,7 @@ class _UpdatePersonalInformationScreenState
                   focusNode: _fullNameNode,
                   validator: (text) {
                     if (text.isEmpty) {
-                      return 'Full name field is required.';
+                      return AppLocalizations.of(context).fullNameEmptyError;
                     } else
                       return null;
                   },
@@ -79,9 +80,9 @@ class _UpdatePersonalInformationScreenState
                   controller: _fullNameController,
                   minLines: 1,
                   decoration: InputDecoration(
-                      hintText: 'Full Name',
+                      hintText: AppLocalizations.of(context).fullNameField,
                       prefixIcon: Icon(Icons.person),
-                      labelText: 'Full Name',
+                      labelText: AppLocalizations.of(context).fullNameField,
                       contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8))),
@@ -109,8 +110,7 @@ class _UpdatePersonalInformationScreenState
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.location_city),
                             contentPadding: EdgeInsets.all(8),
-                            hintText: 'ie: Dubai, Abu Dhabi',
-                            labelText: 'City',
+                            labelText: AppLocalizations.of(context).city,
                             errorMaxLines: 1,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8))),
@@ -131,7 +131,7 @@ class _UpdatePersonalInformationScreenState
                           _cityController.text = city.name;
                         }
                       },
-                      child: Text('Pick City'),
+                      child: Text(AppLocalizations.of(context).pickCity),
                     )
                   ],
                 ),
@@ -141,20 +141,20 @@ class _UpdatePersonalInformationScreenState
                 Column(
                   children: <Widget>[
                     Text(
-                      'Gender',
+                      AppLocalizations.of(context).gender,
                       style: Theme.of(context).textTheme.subhead,
                     ),
                     RadioListTile<int>(
                         value: 1,
                         groupValue: genderGroupValue,
-                        title: Text('Male'),
+                        title: Text(AppLocalizations.of(context).male),
                         onChanged: (value) {
                           setState(() => genderGroupValue = value);
                         }),
                     RadioListTile<int>(
                         value: 0,
                         groupValue: genderGroupValue,
-                        title: Text('Female'),
+                        title: Text(AppLocalizations.of(context).female),
                         onChanged: (value) {
                           setState(() => genderGroupValue = value);
                         }),
@@ -171,7 +171,8 @@ class _UpdatePersonalInformationScreenState
                         if (_formKey.currentState.validate()) {
                           if (genderGroupValue == null) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              content: Text('Select gender first'),
+                              content: Text(AppLocalizations.of(context)
+                                  .selectGenderFirst),
                             ));
                             return;
                           }
@@ -181,7 +182,7 @@ class _UpdatePersonalInformationScreenState
                           Navigator.of(context).pop(information);
                         }
                       },
-                      child: Text('Submit'),
+                      child: Text(AppLocalizations.of(context).submitButton),
                     ),
                     const SizedBox(
                       width: 16,
@@ -190,7 +191,7 @@ class _UpdatePersonalInformationScreenState
                       onPressed: () {
                         Navigator.of(context).pop(null);
                       },
-                      child: Text('Cancel'),
+                      child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
                     ),
                   ],
                 )

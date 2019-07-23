@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/edit_profile/account_information.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class UpdateAccountInformationScreen extends StatefulWidget {
   final AccountInformation accountInformation;
@@ -47,7 +48,7 @@ class _UpdateAccountInformationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Account Information'),
+        title: Text("${AppLocalizations.of(context).updateAccountInformation}"),
       ),
       body: SafeArea(
         child: Padding(
@@ -63,7 +64,7 @@ class _UpdateAccountInformationScreenState
                   maxLines: 1,
                   validator: (username) {
                     return username.isEmpty
-                        ? "Username field can not be empty"
+                        ? AppLocalizations.of(context).usernameFieldEmptyError
                         : null;
                   },
                   controller: _usernameController,
@@ -71,9 +72,9 @@ class _UpdateAccountInformationScreenState
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.person),
                       contentPadding: EdgeInsets.all(10),
-                      hintText: 'Username',
+                      hintText: AppLocalizations.of(context).usernameFieldHint,
                       prefixText: '@',
-                      labelText: 'Username',
+                      labelText: AppLocalizations.of(context).usernameFieldHint,
                       errorMaxLines: 1,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8))),
@@ -86,9 +87,10 @@ class _UpdateAccountInformationScreenState
                   maxLines: 1,
                   validator: (mail) {
                     if (mail.isEmpty)
-                      return "Email Field can not be empty";
+                      return AppLocalizations.of(context).emailFieldEmptyError;
                     else if (!regex.hasMatch(mail))
-                      return "Invalid email address";
+                      return AppLocalizations.of(context)
+                          .emailFieldInvalidError;
                     else
                       return null;
                   },
@@ -98,7 +100,7 @@ class _UpdateAccountInformationScreenState
                       prefixIcon: Icon(Icons.mail),
                       contentPadding: EdgeInsets.all(10),
                       hintText: 'mail@domain.com',
-                      labelText: 'E-mail address',
+                      labelText: AppLocalizations.of(context).emailFieldHint,
                       errorMaxLines: 1,
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -115,7 +117,7 @@ class _UpdateAccountInformationScreenState
                   controller: _passwordController,
                   validator: (password) {
                     return password.isEmpty
-                        ? "Password field can not be empty"
+                        ? AppLocalizations.of(context).passwordFieldEmptyError
                         : null;
                   },
                   maxLines: 1,
@@ -125,7 +127,7 @@ class _UpdateAccountInformationScreenState
                       errorMaxLines: 1,
                       contentPadding: EdgeInsets.all(8),
                       hintText: '**********',
-                      labelText: 'Password',
+                      labelText: AppLocalizations.of(context).passwordFieldHint,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8))),
                 ),
@@ -145,7 +147,7 @@ class _UpdateAccountInformationScreenState
                           Navigator.of(context).pop(information);
                         }
                       },
-                      child: Text('Submit'),
+                      child: Text(AppLocalizations.of(context).submitButton),
                     ),
                     const SizedBox(
                       width: 16,
@@ -154,7 +156,8 @@ class _UpdateAccountInformationScreenState
                       onPressed: () {
                         Navigator.of(context).pop(null);
                       },
-                      child: Text('Cancel'),
+                      child: Text(
+                          MaterialLocalizations.of(context).cancelButtonLabel),
                     ),
                   ],
                 )

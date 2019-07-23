@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/edit_profile/password.dart';
 import 'package:justcost/screens/reset_password/reset_account_screen.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update password'),
+        title: Text(AppLocalizations.of(context).updatePassword),
       ),
       body: SafeArea(
         child: Padding(
@@ -48,10 +49,12 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     controller: _passwordController,
                     validator: (text) {
                       if (text.isEmpty)
-                        return 'New password Field is required.';
+                        return AppLocalizations.of(context)
+                            .newPasswordFieldEmptyError;
                       else if (_passwordController.text !=
                           _confirmPasswordController.text)
-                        return 'Password mismatch';
+                        return AppLocalizations.of(context)
+                            .passwordMismatchError;
                       else
                         return null;
                     },
@@ -59,7 +62,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     minLines: 1,
                     decoration: InputDecoration(
                         hintText: '**********',
-                        labelText: 'New Password',
+                        labelText:
+                            AppLocalizations.of(context).newPasswordFieldHint,
                         contentPadding: EdgeInsets.all(10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
@@ -71,10 +75,12 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     controller: _confirmPasswordController,
                     validator: (text) {
                       if (text.isEmpty)
-                        return 'New Password confirmation is required.';
+                        return AppLocalizations.of(context)
+                            .newPasswordConfirmFieldEmptyError;
                       else if (_passwordController.text !=
                           _confirmPasswordController.text)
-                        return 'Password mismatch';
+                        return AppLocalizations.of(context)
+                            .passwordMismatchError;
                       else
                         return null;
                     },
@@ -82,7 +88,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     minLines: 1,
                     decoration: InputDecoration(
                         hintText: '**********',
-                        labelText: 'Confirm New Password',
+                        labelText: AppLocalizations.of(context)
+                            .confirmPasswordFieldHint,
                         contentPadding: EdgeInsets.all(10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
@@ -94,7 +101,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     controller: _currentPasswordController,
                     validator: (text) {
                       if (text.isEmpty)
-                        return 'Type old password for safity measurement';
+                        return AppLocalizations.of(context)
+                            .typeOldPasswordError;
                       else
                         return null;
                     },
@@ -102,12 +110,12 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     minLines: 1,
                     decoration: InputDecoration(
                         hintText: '**********',
-                        labelText: 'Current Password',
+                        labelText: AppLocalizations.of(context).currentPassword,
                         contentPadding: EdgeInsets.all(10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
-                  OutlineButton(
+                  /*OutlineButton(
                     child: Text('Forgot password? Reset it now'),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -116,11 +124,11 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                   ),
                   SizedBox(
                     height: 8,
-                  ),
+                  ),*/
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                          'Changing password will terminate the current session',
+                          AppLocalizations.of(context).changePasswordSubtitle,
                           style: TextStyle(
                             color: Theme.of(context).errorColor,
                           ))),
@@ -141,7 +149,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                             Navigator.of(context).pop(password);
                           }
                         },
-                        child: Text('Submit'),
+                        child: Text(AppLocalizations.of(context).submitButton),
                       ),
                       const SizedBox(
                         width: 16,
@@ -151,7 +159,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           Navigator.of(context).pop(null);
                         },
-                        child: Text('Cancel'),
+                        child: Text(MaterialLocalizations.of(context)
+                            .cancelButtonLabel),
                       ),
                     ],
                   )

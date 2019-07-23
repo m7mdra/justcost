@@ -6,7 +6,7 @@ import 'package:justcost/screens/brand/brand_bloc.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class BrandPage extends StatefulWidget {
   final int categoryId;
 
@@ -36,7 +36,7 @@ class _BrandPageState extends State<BrandPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select brand'),
+        title: Text(AppLocalizations.of(context).selectBrand),
       ),
       body: BlocBuilder(
         bloc: _bloc,

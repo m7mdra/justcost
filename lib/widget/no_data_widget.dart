@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class NoDataWidget extends StatelessWidget {
   @override
@@ -8,13 +9,14 @@ class NoDataWidget extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
               Icons.cloud,
-              size: 70,
+              size: 50,
             ),
             Text(
-              'No Data found at the moment.',
+              AppLocalizations.of(context).noDataFoundAtThisMoment,
               style: Theme.of(context).textTheme.subhead,
             ),
             const SizedBox(

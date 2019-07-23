@@ -19,31 +19,7 @@ class SettingsWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        ListTile(
-          dense: true,
-          title: Text(AppLocalizations.of(context).notifications),
-          onTap: () {},
-        ),
-        ListTile(
-          dense: true,
-          title: Text(AppLocalizations.of(context).aboutUs),
-          onTap: () {},
-        ),
-        ListTile(
-          dense: true,
-          title: Text(AppLocalizations.of(context).getHelp),
-          onTap: () {},
-        ),
-        ListTile(
-          dense: true,
-          title: Text(AppLocalizations.of(context).privacy),
-          onTap: () {},
-        ),
-        ListTile(
-          dense: true,
-          title: Text(AppLocalizations.of(context).tos),
-          onTap: () {},
-        ),
+
         ListTile(
           dense: true,
           title: Text(AppLocalizations.of(context).logout),
@@ -54,4 +30,8 @@ class SettingsWidget extends StatelessWidget {
       ],
     );
   }
+
+  Divider divider() => const Divider(
+        height: 1,
+      );
 }

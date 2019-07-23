@@ -19,16 +19,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   @override
   EditProfileState get initialState => IdleState();
 
-  @override
-  void onTransition(Transition<EditProfileEvent, EditProfileState> transition) {
-    super.onTransition(transition);
-    print(transition);
-  }
 
-  @override
-  void onError(Object error, StackTrace stacktrace) {
-    super.onError(error, stacktrace);
-  }
 
   @override
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {

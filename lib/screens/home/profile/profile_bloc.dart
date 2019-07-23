@@ -65,12 +65,13 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       else {
         try {
           await _repository.logout();
-          await FirebaseMessaging().deleteInstanceID();
-          await _session.clear();
+          await Future.wait(
+              [_session.clear(), FirebaseMessaging().deleteInstanceID()]);
+
           yield LogoutSuccessState();
         } catch (error) {
-          await _session.clear();
-          await FirebaseMessaging().deleteInstanceID();
+          await Future.wait(
+              [_session.clear(), FirebaseMessaging().deleteInstanceID()]);
           yield LogoutSuccessState();
         }
       }

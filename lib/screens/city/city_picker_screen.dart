@@ -5,7 +5,7 @@ import 'package:justcost/screens/city/city_bloc.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class CityPickerScreen extends StatefulWidget {
   @override
   _CityPickerScreenState createState() => _CityPickerScreenState();
@@ -31,7 +31,7 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Place'),
+        title: Text(AppLocalizations.of(context).pickCity),
       ),
       body: SafeArea(
           child: BlocBuilder(

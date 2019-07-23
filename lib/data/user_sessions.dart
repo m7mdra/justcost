@@ -137,8 +137,9 @@ class UserSession {
 
   Future<bool> clear() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.reload();
-    return sharedPreferences.clear();
+    return sharedPreferences.clear()..then((clear){
+      print("Did clear sessions? $clear");
+    });
   }
 
   Future<bool> isFirstTimeLaunch() async {

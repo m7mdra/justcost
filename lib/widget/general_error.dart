@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class GeneralErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
@@ -19,14 +19,14 @@ class GeneralErrorWidget extends StatelessWidget {
               size: 80,
             ),
             Text(
-              'Unknown Error occured',
+              AppLocalizations.of(context).generalError,
               style: Theme.of(context).textTheme.title,
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
-              'try again or contact support.',
+              AppLocalizations.of(context).contactSupportTryAgain,
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -34,7 +34,7 @@ class GeneralErrorWidget extends StatelessWidget {
             ),
             OutlineButton(
               onPressed: onRetry,
-              child: Text('Try again'),
+              child: Text(AppLocalizations.of(context).tryAgainButton),
             )
           ],
         ),

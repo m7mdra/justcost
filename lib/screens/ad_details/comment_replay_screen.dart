@@ -6,6 +6,7 @@ import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
 import 'package:justcost/widget/comment_widget.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class CommentReplayScreen extends StatefulWidget {
   final Comment comment;
@@ -59,7 +60,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
             children: <Widget>[
               CommentWidget(
                 comment: widget.comment,
-                onReplayClick: (commnet) {
+                onReplayClick: (comment) {
                   FocusScope.of(context).requestFocus(_formNode);
                 },
               ),
@@ -79,7 +80,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
                       children: <Widget>[
                         commentBox(),
                         Text(
-                          'Failed to post comment',
+                          AppLocalizations.of(context).failedToPostComment,
                           style: TextStyle(color: Theme.of(context).errorColor),
                         )
                       ],
@@ -97,7 +98,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
   Widget commentBox() {
     return Column(
       children: <Widget>[
-        Text('Write a comment'),
+        Text(AppLocalizations.of(context).writeComment),
         TextField(
           keyboardType: TextInputType.multiline,
           controller: _commentTextEditingController,
@@ -117,7 +118,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
                   widget.comment.commentId,
                   _commentTextEditingController.text.trim()));
             },
-            child: Text('POST'),
+            child: Text(AppLocalizations.of(context).postButton),
           ),
         ),
       ],

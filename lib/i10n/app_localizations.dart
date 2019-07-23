@@ -5,6 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:justcost/i10n/messages_all.dart';
 
 class AppLocalizations {
+  String get contactSupportTryAgain =>
+      Intl.message('try again or contact support.');
+
+  String get tryAgainButton => Intl.message('Try again');
+
   static Future<AppLocalizations> load(Locale locale) {
     final String name =
         locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
@@ -26,6 +31,8 @@ class AppLocalizations {
   String get logoutButton => Intl.message("Logout");
 
   String get continueButton => Intl.message('Continue');
+
+  String get pickCity => Intl.message('Pick City');
 
   String get homePageTitle => Intl.message('Home');
 
@@ -119,10 +126,6 @@ class AppLocalizations {
 
   String get loginScreenName => Intl.message('Login', name: 'loginScreenName');
 
-  String copyRights(int date) =>
-      Intl.message('Copyright © $date, All Rights resereved',
-          args: [date], name: 'copyRights');
-
   String get privacy => Intl.message('Privacy');
 
   String get notificationPanel => Intl.message('Notifications');
@@ -151,6 +154,8 @@ class AppLocalizations {
 
   String get passwordValidationMoreThan6 =>
       Intl.message('Password can not be less than 6 characters');
+
+  String get fullNameEmptyError => Intl.message('Full name field is required.');
 
   String get nameValidationEmptyError =>
       Intl.message('Name field can not be empty');
@@ -240,8 +245,101 @@ class AppLocalizations {
   String get personalInformation => Intl.message('Personal Information');
 
   String get na => Intl.message('Not added');
+
   String get male => Intl.message('Male');
+
   String get female => Intl.message('Female');
+
+  String get location => Intl.message("message");
+
+  String get accountInformation => Intl.message("Account Information");
+
+  String get accountSecurity => Intl.message("Account Security");
+
+  String get changePassword => Intl.message("Chnage Password");
+
+  String get updateButton => Intl.message("Update");
+
+  String get changePasswordSubtitle =>
+      Intl.message("this proccess Requires you to relogin after chaning.");
+
+  String get failedToUpdateProfile =>
+      Intl.message('Failed to update Profile, try again');
+
+  String get updateAccountInformation =>
+      Intl.message('Update Account Information');
+
+  String get updatePassword => Intl.message('Update Password');
+
+  String get newPasswordFieldEmptyError =>
+      Intl.message('New password Field is required.');
+
+  String get newPasswordConfirmFieldEmptyError =>
+      Intl.message('New Password confirmation is required.');
+
+  String get passwordMismatchError => Intl.message('Password Mismatch');
+
+  String get newPasswordFieldHint => Intl.message('New Password');
+
+  String get confirmPasswordFieldHint => Intl.message('Confirm New Password');
+
+  String get typeOldPasswordError =>
+      Intl.message('Type old password for safity measurement');
+
+  String get currentPassword => Intl.message("Current Password");
+
+  String get updatePersonalInformation =>
+      Intl.message('Update Personal Information');
+
+  String get selectGenderFirst => Intl.message('Select gender first');
+
+  String get noDataFoundAtThisMoment =>
+      Intl.message('No Data found at the moment.');
+
+  String get myAds => Intl.message('My Ads');
+
+  String get favoriteAds => Intl.message('Favorite Ads');
+
+  String get selectBrand => Intl.message('Select brand');
+
+  String get attributes => Intl.message('Attributes');
+
+  String get failedToPostComment => Intl.message('Failed to post comment');
+
+  String get writeComment => Intl.message('Write a you comment here');
+
+  String get postButton => Intl.message('POST');
+
+  String get reportButton => Intl.message('Report');
+
+  String get saveButton => Intl.message('Save');
+
+  String get shareButton => Intl.message('Share');
+
+  String get phoneNumberNotAvaliable =>
+      Intl.message('Phone number is not avaiable for This Ad');
+
+  String get locationNotAvaliable =>
+      Intl.message('Location for this Ad is not avaliable');
+
+  String get viewLocationButton => Intl.message('View Location');
+
+  String get noCommentFound => Intl.message('Failed to post comment');
+
+  String copyRights(int date) =>
+      Intl.message('Copyright © $date, All Rights resereved',
+          args: [date], name: 'copyRights');
+
+  String discountPercentage(int discount) => Intl.message('$discount% OFF',
+      args: [discount], name: "discountPercentage");
+
+  String get featuredCategories => Intl.message('Featured Categories');
+
+  String get retryButton => Intl.message('Retry');
+
+  String get failedToLoadData => Intl.message('Failed to load Data');
+
+  String get seeMoreButton => Intl.message('See more');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

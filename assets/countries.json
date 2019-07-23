@@ -5,77 +5,78 @@
       "name": "Bahrain",
       "arName": "البحرين",
       "code": "973",
+      "currency": "BHD",
       "cities": [
         {
           "id": 97,
           "name": "Al Hadd",
-          "arName": "",
+          "arName": "رأس الحد",
           "countryId": 32
         },
         {
           "id": 98,
           "name": "Al Manamah",
-          "arName": "",
+          "arName": "المنامة",
           "countryId": 32
         },
         {
           "id": 99,
           "name": "Al Mintaqah al Gharbiyah",
-          "arName": "",
+          "arName": "المنطقة الغربية",
           "countryId": 32
         },
         {
           "id": 100,
           "name": "Al Mintaqah al Wusta",
-          "arName": "",
+          "arName": "المنطقة الوسطى",
           "countryId": 32
         },
         {
           "id": 101,
           "name": "Al Mintaqah ash Shamaliyah",
-          "arName": "",
+          "arName": "المنطفة الشمالية",
           "countryId": 32
         },
         {
           "id": 102,
           "name": "Al Muharraq",
-          "arName": "",
+          "arName": "النحرق",
           "countryId": 32
         },
         {
           "id": 103,
-          "name": "Ar Rifa wa al Mintaqah al Janubiyah",
-          "arName": "",
+          "name": "Ar Rifa ",
+          "arName": "الريف",
           "countryId": 32
         },
         {
           "id": 104,
-          "name": "Jidd Hafs",
-          "arName": "",
+          "name": "Jidhafs",
+          "arName": "جدحفص",
           "countryId": 32
         },
         {
           "id": 105,
-          "name": "Madinat Hamad",
-          "arName": "",
+          "name": "Hamad Town",
+          "arName": "مدين حمد",
           "countryId": 32
         },
         {
           "id": 106,
-          "name": "Madinat Isa",
-          "arName": "",
+          "name": "Isa Town",
+          "arName": "مدينة عيسى",
           "countryId": 32
         },
         {
           "id": 107,
-          "name": "Juzur Hawar",
-          "arName": "",
+          "name": "Hawar Islands",
+          "arName": "جزر حوار",
           "countryId": 32
         },
         {
           "id": 108,
-          "name": "Sitrah",
-          "arName": "",
+          "name": "Sitra",
+          "arName": "سترة",
           "countryId": 32
         }
       ]
@@ -85,41 +86,42 @@
       "name": "Kuwait",
       "arName": "الكويت",
       "code": "965",
+      "currency": "KWD",
       "cities": [
         {
           "id": 109,
           "name": "Al Ahmadi",
-          "arName": "",
+          "arName": "الأحمدي",
           "countryId": 33
         },
         {
           "id": 110,
           "name": "Al Farwaniyah",
-          "arName": "",
+          "arName": "الفروانية",
           "countryId": 33
         },
         {
           "id": 111,
           "name": "Al Asimah",
-          "arName": "",
+          "arName": "العاصمة",
           "countryId": 33
         },
         {
           "id": 112,
           "name": "Al Jahra",
-          "arName": "",
+          "arName": "الجهراء",
           "countryId": 33
         },
         {
           "id": 113,
           "name": "Hawalli",
-          "arName": "",
+          "arName": "حولي",
           "countryId": 33
         },
         {
           "id": 114,
           "name": "Mubarak Al Kabeer",
-          "arName": "",
+          "arName": "مبارك الكبير",
           "countryId": 33
         }
       ]
@@ -129,65 +131,66 @@
       "name": "Qatar",
       "arName": "قطر",
       "code": "974",
+      "currency": "QAR",
       "cities": [
         {
           "id": 115,
-          "name": "Ad Dawhah",
-          "arName": "",
+          "name": "Doha",
+          "arName": "الدوحة",
           "countryId": 34
         },
         {
           "id": 116,
-          "name": "Al Ghuwayriyah",
-          "arName": "",
+          "name": "Al-Ghuwayriyah\r\n",
+          "arName": "الغويرية",
           "countryId": 34
         },
         {
           "id": 117,
-          "name": "Al Jumayliyah",
-          "arName": "",
+          "name": "Al-Jumayliyah",
+          "arName": "الجميلية",
           "countryId": 34
         },
         {
           "id": 118,
           "name": "Al Khawr",
-          "arName": "",
+          "arName": "الخور",
           "countryId": 34
         },
         {
           "id": 119,
           "name": "Al Wakrah",
-          "arName": "",
+          "arName": "الوكرة",
           "countryId": 34
         },
         {
           "id": 120,
-          "name": "Ar Rayyan",
-          "arName": "",
+          "name": "Al Rayyan",
+          "arName": "الريان",
           "countryId": 34
         },
         {
           "id": 121,
-          "name": "Jarayan al Batinah",
-          "arName": "",
+          "name": "al Batinah",
+          "arName": "شمال الباطنة",
           "countryId": 34
         },
         {
           "id": 122,
           "name": "Madinat ash Shamal",
-          "arName": "",
+          "arName": "الشمال",
           "countryId": 34
         },
         {
           "id": 123,
           "name": "Umm Said",
-          "arName": "",
+          "arName": "مسيعيد",
           "countryId": 34
         },
         {
           "id": 124,
           "name": "Umm Salal",
-          "arName": "",
+          "arName": "صلال",
           "countryId": 34
         }
       ]
@@ -197,53 +200,54 @@
       "name": "Saudi Arabia",
       "arName": "السعودية",
       "code": "966",
+      "currency": "SAR",
       "cities": [
         {
           "id": 125,
           "name": "Al Bahah",
-          "arName": "",
+          "arName": "الباحة",
           "countryId": 35
         },
         {
           "id": 126,
           "name": "Al Hudud ash Shamaliyah",
-          "arName": "",
+          "arName": "منطقة الحدود الشمالية",
           "countryId": 35
         },
         {
           "id": 127,
           "name": "Al Jawf",
-          "arName": "",
+          "arName": "منطقة الجوف",
           "countryId": 35
         },
         {
           "id": 128,
           "name": "Al Madinah",
-          "arName": "",
+          "arName": "المدينة",
           "countryId": 35
         },
         {
           "id": 129,
           "name": "Al Qasim",
-          "arName": "",
+          "arName": "القصيم",
           "countryId": 35
         },
         {
           "id": 130,
           "name": "Ar Riyad",
-          "arName": "",
+          "arName": "الرياض",
           "countryId": 35
         },
         {
           "id": 131,
-          "name": "Ash Sharqiyah",
-          "arName": "",
+          "name": "Eastern Province",
+          "arName": "المنطقة الشرقية",
           "countryId": 35
         },
         {
           "id": 132,
-          "name": "Asir",
-          "arName": "",
+          "name": "Aseer Province",
+          "arName": "منطقة عسير",
           "countryId": 35
         },
         {
@@ -255,25 +259,25 @@
         {
           "id": 134,
           "name": "Jizan",
-          "arName": "",
+          "arName": "جازان",
           "countryId": 35
         },
         {
           "id": 135,
           "name": "Makkah",
-          "arName": "",
+          "arName": "مكة",
           "countryId": 35
         },
         {
           "id": 136,
           "name": "Najran",
-          "arName": "",
+          "arName": "نجران",
           "countryId": 35
         },
         {
           "id": 137,
           "name": "Tabuk",
-          "arName": "",
+          "arName": "تبوك",
           "countryId": 35
         }
       ]
@@ -283,103 +287,93 @@
       "name": "Oman",
       "arName": "عمان",
       "code": "968",
+      "currency": "OMR",
       "cities": [
         {
           "id": 138,
           "name": "Ad Dakhiliyah",
-          "arName": "",
-          "countryId": 36
-        },
-        {
-          "id": 139,
-          "name": "Al Batinah",
-          "arName": "",
+          "arName": "محافظة الداخلية",
           "countryId": 36
         },
         {
           "id": 140,
           "name": "Al Wusta",
-          "arName": "",
-          "countryId": 36
-        },
-        {
-          "id": 141,
-          "name": "Ash Sharqiyah",
-          "arName": "",
+          "arName": "محافظة الوسطى",
           "countryId": 36
         },
         {
           "id": 142,
           "name": "Az Zahirah",
-          "arName": "",
+          "arName": "الظاهرة",
           "countryId": 36
         },
         {
           "id": 143,
           "name": "Masqat",
-          "arName": "",
+          "arName": "مسقط",
           "countryId": 36
         },
         {
           "id": 144,
           "name": "Musandam",
-          "arName": "",
+          "arName": "مسندم",
           "countryId": 36
         },
         {
           "id": 145,
           "name": "Dhofar",
-          "arName": "",
+          "arName": "محافظة ظفار",
           "countryId": 36
         }
       ]
     },
     {
       "id": 37,
-      "name": "United Arab Emirates",
+      "name": "UAE",
       "arName": "الامارات",
       "code": "971",
+      "currency": "AED",
       "cities": [
         {
           "id": 1,
           "name": "Abu Dhabi",
-          "arName": "",
+          "arName": "ابوظبي",
           "countryId": 37
         },
         {
           "id": 147,
           "name": "Ajman",
-          "arName": "",
+          "arName": "عجمان",
           "countryId": 37
         },
         {
           "id": 148,
           "name": "Al Fujayrah",
-          "arName": "",
+          "arName": "الفجيرة",
           "countryId": 37
         },
         {
           "id": 149,
           "name": "Sharjah",
-          "arName": "",
+          "arName": "الشارقة",
           "countryId": 37
         },
         {
           "id": 150,
           "name": "Dubai",
-          "arName": "",
+          "arName": "دبي",
           "countryId": 37
         },
         {
           "id": 151,
           "name": "Ras al Khaymah",
-          "arName": "",
+          "arName": "رأس الخيمة",
           "countryId": 37
         },
         {
           "id": 152,
           "name": "Umm al Qaywayn",
-          "arName": "",
+          "arName": "ام القوين",
           "countryId": 37
         }
       ]

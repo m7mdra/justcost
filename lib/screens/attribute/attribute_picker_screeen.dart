@@ -7,7 +7,7 @@ import 'package:justcost/screens/category_products/attribute_filter_bloc.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class AttributePickerScreen extends StatefulWidget {
   final int categoryId;
   final List<Attribute> attributes;
@@ -43,7 +43,7 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Attributes'),
+        title: Text(AppLocalizations.of(context).attributes),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.done_all),
@@ -106,11 +106,9 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
                                 .attributeList[index];
                             print("$id\t${attribute.toJson()}");
                             if (change) {
-                              print("adding $id");
 
                               selectedAttribute[id] = attribute;
                             } else {
-                              print("removing $id");
                               selectedAttribute.remove(id);
                             }
                             setState(() {});
