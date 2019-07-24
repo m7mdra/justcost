@@ -7,7 +7,7 @@ import 'package:justcost/screens/intro/intro_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -148,10 +148,10 @@ class SplashFailedWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
-                Text('Failed to update data'),
+                Text(AppLocalizations.of(context).failedToLoadData),
                 RaisedButton(
                   onPressed: onPressed,
-                  child: Text('Retry'),
+                  child: Text(AppLocalizations.of(context).retryButton),
                 ),
               ],
             ),

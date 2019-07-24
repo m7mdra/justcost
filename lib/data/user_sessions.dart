@@ -76,7 +76,8 @@ class UserSession {
 
     return sharedPreferences.setString(USER_TYPE_KEY, "guest");
   }
-
+  /// returns true if the current user is authenticated.
+  /// returns false if the current user is guest or a goat for all we know
   Future<bool> isUserAGoat() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 

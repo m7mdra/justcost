@@ -5,6 +5,7 @@ import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/login/login_screen.dart';
+import 'package:justcost/screens/myads/my_ads_screen.dart';
 import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/settings_widget.dart';
@@ -110,7 +111,10 @@ class _ProfilePageState extends State<ProfilePage>
           leading: Icon(Icons.local_offer),
           title: Text(AppLocalizations.of(context).myAds),
           dense: true,
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => MyAdsScreen()));
+          },
         ),
         divider(),
         ListTile(

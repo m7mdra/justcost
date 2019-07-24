@@ -8,6 +8,7 @@ import 'package:justcost/widget/ad_video_view.dart';
 
 import 'package:justcost/screens/postad/ad.dart';
 import 'package:justcost/screens/postad/add_ad_product_screen.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 enum AdditionType { single, multiple }
 
@@ -44,7 +45,7 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Ad products'),
+          title: Text(AppLocalizations.of(context).adProducts),
           actions: <Widget>[
             widget.additionType == AdditionType.single && adProducts.length == 1
                 ? Container()
@@ -58,21 +59,17 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                       if (adProduct != null)
                         setState(() {
                           adProducts.add(adProduct);
-                          adProducts.add(adProduct);
-                          adProducts.add(adProduct);
-                          adProducts.add(adProduct);
-                          adProducts.add(adProduct);
-                          adProducts.add(adProduct);
                         });
                     },
                     icon: Icon(Icons.add),
+              tooltip: AppLocalizations.of(context).addProductToolTips,
                   )
           ],
         ),
         body: adProducts.isEmpty
             ? Center(
                 child: Text(
-                  'No product added\n Tap on ➕ icon to add product',
+                  AppLocalizations.of(context).noProductsAdded,
                   textAlign: TextAlign.center,
                 ),
               )
@@ -131,7 +128,7 @@ class _AdProductsScreenState extends State<AdProductsScreen> {
                                           additionType: widget.additionType,
                                         )));
                         },
-                        child: Text('Next'),
+                        child: Text(AppLocalizations.of(context).nextButton),
                       ),
                     ),
                   )
@@ -271,7 +268,7 @@ class ProductDismissibleWidget extends StatelessWidget {
                       onEdit();
                     },
                     icon: Icon(Icons.edit),
-                    label: Text('Edit')),
+                    label: Text(AppLocalizations.of(context).editButton)),
               ),
               SizedBox(
                 height: 150,

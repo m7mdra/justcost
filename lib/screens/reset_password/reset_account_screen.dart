@@ -336,7 +336,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
                 hintText: 'mail@domain.com',
-                labelText: AppLocalizations.of(context).emailFieldHint,
+                labelText: AppLocalizations.of(context).emailFieldLabel,
                 contentPadding: const EdgeInsets.all(12),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16))),

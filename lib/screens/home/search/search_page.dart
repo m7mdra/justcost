@@ -9,7 +9,7 @@ import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 import '../../../dependencies_provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -71,7 +71,7 @@ class _SearchPageState extends State<SearchPage>
                       child: Card(
                         child: Center(
                           child: Text(
-                            'For you',
+                            AppLocalizations.of(context).foryou,
                             style: Theme.of(context).textTheme.subhead,
                           ),
                         ),

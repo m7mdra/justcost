@@ -7,9 +7,7 @@ import 'package:justcost/screens/postad/ad_type_screen.dart';
 import 'package:justcost/screens/postad/location_pick_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
-import 'package:justcost/screens/postad/ad_details_screen.dart';
-import 'package:justcost/screens/postad/product_media_screen.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 import '../../dependencies_provider.dart';
 
 class AdContactScreen extends StatefulWidget {
@@ -101,7 +99,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Ad Location & Conatct'),
+        title: Text(AppLocalizations.of(context).adContactNLocation),
       ),
       body: Form(
         key: _formKey,
@@ -111,17 +109,19 @@ class _AdContactScreenState extends State<AdContactScreen> {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
-                      title: Text('Discard data?'),
-                      content: Text('Are you sure?'),
+                      title: Text(AppLocalizations.of(context).discardData),
+                      content: Text(AppLocalizations.of(context).areYouSure),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text('Yes'),
+                          child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
                         ),
                         FlatButton(
-                          child: Text('Cancel'),
+                          child: Text(MaterialLocalizations.of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
@@ -133,141 +133,169 @@ class _AdContactScreenState extends State<AdContactScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                DropdownButtonFormField<Country>(
-                  value: _selectedCountry,
-                  onChanged: (country) {
-                    setState(() {
-                      _selectedCity = null;
-                      _countryCode = null;
-                      _selectedCountry = country;
-                      _cities = country.cities;
-                      _countryCode = country.code;
-                    });
-                  },
-                  decoration: InputDecoration.collapsed(hintText: 'Country')
-                      .copyWith(
-                          contentPadding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 10, bottom: 10)),
-                  items: _countries
-                      .map((country) => DropdownMenuItem<Country>(
-                            child: Text(country.name),
-                            value: country,
-                            key: ObjectKey(country.id),
-                          ))
-                      .toList(),
-                ),
-                divider(),
-                DropdownButtonFormField<City>(
-                  onChanged: (city) {
-                    setState(() {
-                      this._selectedCity = city;
-                    });
-                  },
-                  decoration: InputDecoration.collapsed(hintText: 'City')
-                      .copyWith(
-                          contentPadding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 10, bottom: 10)),
-                  value: _selectedCity,
-                  items: _cities
-                      .map((city) => DropdownMenuItem<City>(
-                            child: Text(city.name),
-                            value: city,
-                            key: ObjectKey(city.id),
-                          ))
-                      .toList(),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  onTap: _onLocationPickerClicked,
-                  trailing: IconButton(
-                      icon: Icon(Icons.place),
-                      onPressed: _onLocationPickerClicked),
-                  title: Text(
-                    'Location',
-                    style: Theme.of(context).textTheme.body1,
+                Card(
+                  child: DropdownButtonFormField<Country>(
+                    value: _selectedCountry,
+                    onChanged: (country) {
+                      setState(() {
+                        _selectedCity = null;
+                        _countryCode = null;
+                        _selectedCountry = country;
+                        _cities = country.cities;
+                        _countryCode = country.code;
+                      });
+                    },
+                    validator: (country) {
+                      if (country == null)
+                        return AppLocalizations.of(context)
+                            .countryEmptyError;
+                      else
+                        return null;
+                    },
+                    decoration: InputDecoration.collapsed(
+                            hintText: AppLocalizations.of(context).country)
+                        .copyWith(
+                            contentPadding: const EdgeInsets.only(
+                                left: 16, right: 16, top: 10, bottom: 10)),
+                    items: _countries
+                        .map((country) => DropdownMenuItem<Country>(
+                              child: Text(country.name),
+                              value: country,
+                              key: ObjectKey(country.id),
+                            ))
+                        .toList(),
                   ),
-                  subtitle: Text(location != null ? "Location Selected." : '',
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold)),
                 ),
-                divider(),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_adEmailFocusNode);
-                  },
-                  validator: (phoneNumber) {
-                    return phoneNumber.isEmpty
-                        ? "Phone Number Can not be Empty"
-                        : null;
-                  },
-                  maxLines: 1,
-                  focusNode: _adPhoneNumberFocusNode,
-                  controller: _adPhoneNumberController,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10, bottom: 10),
-                      labelText: 'Phone Number',
-                      prefixText: '+$_countryCode',
-                      hintText: 'Contact Phone Number',
-                      hintStyle: hintStyle),
+                Card(
+                  child: DropdownButtonFormField<City>(
+                    onChanged: (city) {
+                      setState(() {
+                        this._selectedCity = city;
+                      });
+                    },
+                    validator: (city) {
+                      if (city == null)
+                        return AppLocalizations.of(context)
+                            .cityEmptyError;
+                      else
+                        return null;
+                    },
+                    decoration: InputDecoration.collapsed(
+                            hintText: AppLocalizations.of(context).city)
+                        .copyWith(
+                            contentPadding: const EdgeInsets.only(
+                                left: 16, right: 16, top: 10, bottom: 10)),
+                    value: _selectedCity,
+                    items: _cities
+                        .map((city) => DropdownMenuItem<City>(
+                              child: Text(city.name),
+                              value: city,
+                              key: ObjectKey(city.id),
+                            ))
+                        .toList(),
+                  ),
                 ),
-                divider(),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {},
-                  validator: (mail) {
-                    if (mail.isEmpty)
-                      return "Email Field can not be empty";
-                    else if (!regex.hasMatch(mail))
-                      return "Invalid email address";
-                    else
-                      return null;
-                  },
-                  controller: _adEmailController,
-                  maxLines: 1,
-                  focusNode: _adEmailFocusNode,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10, bottom: 10),
-                      labelText: 'E-mail Address',
-                      hintText: 'Contact Email Address',
-                      hintStyle: hintStyle),
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    onTap: _onLocationPickerClicked,
+                    trailing: IconButton(
+                        icon: Icon(Icons.place),
+                        onPressed: _onLocationPickerClicked),
+                    title: Text(
+                      AppLocalizations.of(context).location,
+                      style: Theme.of(context).textTheme.body1,
+                    ),
+                    subtitle: Text(
+                        location != null
+                            ? AppLocalizations.of(context).locationSelected
+                            : '',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold)),
+                  ),
                 ),
-                divider(),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {},
-                  controller: _adFacebookController,
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10, bottom: 10),
-                      labelText: 'Facebook Username',
-                      prefixText: 'https://facebook.com/',
-                      hintStyle: hintStyle),
+                Card(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {
+                      FocusScope.of(context).requestFocus(_adEmailFocusNode);
+                    },
+                    validator: (phoneNumber) {
+                      return phoneNumber.isEmpty
+                          ? AppLocalizations.of(context).phoneNumberEmptyError
+                          : null;
+                    },
+                    maxLines: 1,
+                    focusNode: _adPhoneNumberFocusNode,
+                    controller: _adPhoneNumberController,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 10, bottom: 10),
+                        labelText: AppLocalizations.of(context).phoneNumberField,
+                        prefixText: '+$_countryCode',
+                        hintText: AppLocalizations.of(context).phoneNumberHint,
+                        hintStyle: hintStyle),
+                  ),
                 ),
-                divider(),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {},
-                  maxLines: 1,
-                  controller: _adInstagramController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10, bottom: 10),
-                      labelText: 'Instagram Username',
-                      prefixText: 'https://www.instagram.com/',
-                      hintStyle: hintStyle),
+                Card(
+                  child: TextFormField(
+
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {},
+                    validator: (mail) {
+                      if (mail.isEmpty)
+                        return AppLocalizations.of(context).emailFieldEmptyError;
+                      else if (!regex.hasMatch(mail))
+                        return AppLocalizations.of(context)
+                            .emailFieldInvalidError;
+                      else
+                        return null;
+                    },
+                    controller: _adEmailController,
+                    maxLines: 1,
+                    focusNode: _adEmailFocusNode,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 10, bottom: 10),
+                        labelText: AppLocalizations.of(context).emailFieldLabel,
+                        hintText: AppLocalizations.of(context).emailFieldHint,
+                        hintStyle: hintStyle),
+                  ),
                 ),
-                divider(),
+                Card(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {},
+                    controller: _adFacebookController,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 10, bottom: 10),
+                        labelText: AppLocalizations.of(context).facebookAccount,
+                        prefixText: 'https://facebook.com/',
+                        hintStyle: hintStyle),
+                  ),
+                ),
+                Card(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {},
+                    maxLines: 1,
+                    controller: _adInstagramController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 10, bottom: 10),
+                        labelText: AppLocalizations.of(context).instagramAccount,
+                        prefixText: 'https://www.instagram.com/',
+                        hintStyle: hintStyle),
+                  ),
+                ),
                 Hero(
                   tag: "addad",
                   child: Align(
@@ -279,15 +307,8 @@ class _AdContactScreenState extends State<AdContactScreen> {
                           if (_formKey.currentState.validate()) {
                             if (location == null) {
                               _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Select the ad location.')));
-                              return;
-                            } else if (_selectedCountry == null) {
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Select Country first')));
-                              return;
-                            } else if (_selectedCity == null) {
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Select City first.')));
+                                  content: Text(AppLocalizations.of(context)
+                                      .locationEmptyError)));
                               return;
                             } else {
                               var phoneNumber =
@@ -319,7 +340,7 @@ class _AdContactScreenState extends State<AdContactScreen> {
                             }
                           }
                         },
-                        child: Text('Next'),
+                        child: Text(AppLocalizations.of(context).nextButton),
                       ),
                     ),
                   ),

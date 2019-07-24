@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:justcost/data/ad/post_ad_response.dart';
+import 'package:justcost/data/ad/model/my_ads_response.dart';
+import 'package:justcost/data/ad/model/post_ad_response.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
@@ -78,6 +79,20 @@ class AdRepository {
       var response = await _client.post('products',
           data: formData, onSendProgress: progressCallback);
       return ResponseStatus.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<MyAdsResponse> getMyAds() async {
+    try {
+      var response = await _client.get('myads');
+      return MyAdsResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();

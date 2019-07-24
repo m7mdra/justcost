@@ -15,6 +15,7 @@ import 'package:justcost/screens/postad/ad_details_screen.dart';
 import 'package:justcost/screens/postad/product_media_screen.dart';
 import 'package:justcost/screens/postad/ad_products_screen.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class AdReviewScreen extends StatefulWidget {
   final AdDetails adDetails;
@@ -55,7 +56,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Review your Ad'),
+        title: Text(AppLocalizations.of(context).adReview),
       ),
       body: BlocListener(
         bloc: _bloc,
@@ -73,7 +74,8 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     CircularProgressIndicator(),
-                    Text('${state.message}')
+                    Text(
+                        '${state.loading == Loading.ad ? AppLocalizations.of(context).postAdLoading : AppLocalizations.of(context).postProductsLoading}')
                   ],
                 ),
               );
@@ -92,10 +94,10 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                       height: 16,
                     ),
                     Text(
-                      'AD submitted successfully.',
+                      AppLocalizations.of(context).adSubmitSuccessTitle,
                       style: Theme.of(context).textTheme.title,
                     ),
-                    Text('You will be notifed once the AD is approved.'),
+                    Text(AppLocalizations.of(context).adSubmitSuccessMessage),
                     const SizedBox(
                       height: 8,
                     ),
@@ -103,7 +105,8 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Ok'),
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
                     )
                   ],
                 ),
@@ -126,7 +129,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text('Posting product failed, try again'),
+                    Text(AppLocalizations.of(context).adFailedMessage),
                     SizedBox(
                       height: 8,
                     ),
@@ -135,7 +138,7 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
                         _bloc.dispatch(RetryPostProduct(
                             state.products, state.adId, state.isWholeSale));
                       },
-                      child: Text('Retry'),
+                      child: Text(AppLocalizations.of(context).retryButton),
                     )
                   ],
                 ),
@@ -209,7 +212,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Ad Details',
+                  AppLocalizations.of(context).adDetailsTitle,
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 OutlineButton(
@@ -227,7 +230,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                       });
                     }
                   },
-                  child: Text('EDIT'),
+                  child: Text(AppLocalizations.of(context).editButton),
                   textTheme: ButtonTextTheme.normal,
                 )
               ],
@@ -238,13 +241,12 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
             child: Column(
               children: <Widget>[
                 AdTile(
-                  title: 'Ad Title',
+                  title: AppLocalizations.of(context).adTitleLabel,
                   subtitle: adDetails.title,
                 ),
                 divider(),
-                divider(),
                 AdTile(
-                  title: 'Ad Description',
+                  title: AppLocalizations.of(context).adDetailsTitle,
                   subtitle: adDetails.description,
                 ),
               ],
@@ -256,7 +258,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Ad Conatact & Location',
+                  AppLocalizations.of(context).adContactNLocation,
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 OutlineButton(
@@ -273,7 +275,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                         this.adContact = contact;
                       });
                   },
-                  child: Text('EDIT'),
+                  child: Text(AppLocalizations.of(context).editButton),
                   textTheme: ButtonTextTheme.normal,
                 )
               ],
@@ -284,18 +286,19 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
             child: Column(
               children: <Widget>[
                 AdTile(
-                  title: 'Phone Number',
+                  title: AppLocalizations.of(context).phoneNumberField,
                   subtitle:
                       "+${adContact.country.code} ${adContact.phoneNumber}",
                 ),
                 divider(),
                 AdTile(
-                  title: 'Email Address',
+                  title: AppLocalizations.of(context).emailFieldLabel,
                   subtitle: adContact.email,
                 ),
                 divider(),
                 AdTile(
-                  title: 'Country & City',
+                  title:
+                      '${AppLocalizations.of(context).country} & ${AppLocalizations.of(context).city}',
                   subtitle:
                       "${adContact.country.name} - ${adContact.city.name}",
                 ),
@@ -304,7 +307,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                   visible: adContact.facebookPage != null &&
                       adContact.facebookPage.isNotEmpty,
                   child: AdTile(
-                    title: 'Facebook account',
+                    title: AppLocalizations.of(context).facebookAccount,
                     subtitle: "${adContact.facebookPage} ",
                   ),
                 ),
@@ -313,7 +316,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                   visible: adContact.instagramPage != null &&
                       adContact.instagramPage.isNotEmpty,
                   child: AdTile(
-                    title: 'Instagram account',
+                    title: AppLocalizations.of(context).instagramAccount,
                     subtitle: "${adContact.instagramPage} ",
                   ),
                 ),
@@ -326,7 +329,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Ad Products',
+                  AppLocalizations.of(context).adProducts,
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 OutlineButton(
@@ -342,7 +345,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                     if (products != null && products.isNotEmpty)
                       this.products = products;
                   },
-                  child: Text('EDIT'),
+                  child: Text(AppLocalizations.of(context).editButton),
                   textTheme: ButtonTextTheme.normal,
                 )
               ],
@@ -377,7 +380,7 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
                       products,
                       widget.additionType == AdditionType.multiple));
                 },
-                child: Text('Submit'),
+                child: Text(AppLocalizations.of(context).submitButton),
               ),
             ),
           )
@@ -388,17 +391,19 @@ class _AdDetailsWidgetState extends State<AdDetailsWidget> {
             context: context,
             barrierDismissible: false,
             builder: (context) => RoundedAlertDialog(
-                  title: Text('Discard data?'),
-                  content: Text('Are you sure?'),
+                  title: Text(AppLocalizations.of(context).discardData),
+                  content: Text(AppLocalizations.of(context).areYouSure),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text('Yes'),
+                      child:
+                          Text(MaterialLocalizations.of(context).okButtonLabel),
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
                     ),
                     FlatButton(
-                      child: Text('Cancel'),
+                      child: Text(
+                          MaterialLocalizations.of(context).cancelButtonLabel),
                       onPressed: () {
                         Navigator.pop(context, false);
                       },

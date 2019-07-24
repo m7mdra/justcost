@@ -8,7 +8,7 @@ import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class CategoryPickerScreen extends StatefulWidget {
   @override
   _CategoryPickerScreenState createState() => _CategoryPickerScreenState();
@@ -33,7 +33,7 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Select Category")),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).selectCategory)),
       body: SafeArea(
         child: BlocBuilder(
           bloc: _bloc,

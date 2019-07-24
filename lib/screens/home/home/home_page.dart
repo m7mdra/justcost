@@ -116,15 +116,14 @@ class _HomePageState extends State<HomePage>
             builder: (BuildContext context, CategoriesState state) {
               if (state is CategoriesLoadedState)
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          AppLocalizations.of(context).featuredCategories,
-                          style: TextStyle(fontSize: 18),
-                        ),
+                      child: Text(
+                        AppLocalizations.of(context).featuredCategories,
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
                     Container(

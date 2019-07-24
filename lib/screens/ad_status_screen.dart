@@ -6,7 +6,7 @@ import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/story_view.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class AdStatusScreen extends StatefulWidget {
   final List<Product> products;
   final int position;
@@ -24,6 +24,7 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
   @override
   void initState() {
     super.initState();
+    
     _pageController = PageController(initialPage: widget.position);
   }
 
@@ -36,40 +37,43 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.black,
-      body: PageView.builder(
-        onPageChanged: (index) {
-        },
-        controller: _pageController,
-        itemBuilder: (BuildContext context, int index) {
-          return Stack(
-            children: <Widget>[
-              Story(
-                product: widget.products[index],
-                globalKey: GlobalKey(),
-                onComplete: () {
-                  if (index == widget.products.length-1) Navigator.pop(context);
+      body: Directionality(
+        child: PageView.builder(
+          onPageChanged: (index) {
+          },
+          controller: _pageController,
+          itemBuilder: (BuildContext context, int index) {
+            return Stack(
+              children: <Widget>[
+                Story(
+                  product: widget.products[index],
+                  globalKey: GlobalKey(),
+                  onComplete: () {
+                    if (index == widget.products.length-1) Navigator.pop(context);
 
-                  _pageController.animateToPage(index + 1,
-                      duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
+                    _pageController.animateToPage(index + 1,
+                        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
 
-                },
-                canGoToPreviousStory: () {
-                  _pageController.animateToPage(index - 1,
-                      duration: Duration(milliseconds: 200), curve: Curves.easeOut);
-                },
-              ),
-              Align(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: AdWidget(product: widget.products[index]),
+                  },
+                  canGoToPreviousStory: () {
+                    _pageController.animateToPage(index - 1,
+                        duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+                  },
                 ),
-                alignment: Alignment.bottomCenter,
-              )
-            ],
-          );
-        },
-        itemCount: widget.products.length,
+                Align(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AdWidget(product: widget.products[index]),
+                  ),
+                  alignment: Alignment.bottomCenter,
+                )
+              ],
+            );
+          },
+          itemCount: widget.products.length,
+        ), textDirection: TextDirection.ltr,
       ),
     );
   }

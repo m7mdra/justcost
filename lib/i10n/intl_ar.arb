@@ -1,7 +1,177 @@
 {
-  "@@last_modified": "2019-04-20T10:21:19.769510",
-  "loginLoadingMessage": "الرجاء الانتظار بينما يتم تسجيل الدخول",
+  "@@last_modified": "2019-07-24T14:01:43.071796",
+  "try again or contact support.": "حاول مجددا او قم بالتواصل مع الدعم الفني",
+  "@try again or contact support.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Try again": "حاول مجددا",
+  "@Try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "For you": "خصيصا لك",
+  "@For you": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Post Ad": "اضف اعلان",
+  "@Post Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Your Location": "الموقع الحالي",
+  "@Your Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginLoadingMessage": "الرجاء الانتظار بينما يتم تسجيل دخولك",
   "@loginLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Please wait while  to submit your ad": "الرجاء الانتظار بينما يتم اضافة اعلان جديد",
+  "@Please wait while  to submit your ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to create account, try again": "لقد فشلت عملية انشاء حساب.حاول مجددا",
+  "@Failed to create account, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to verify your account, failed": "لقد فشلت عملية التحقق من الحساب, حاول مجددا",
+  "@Failed to verify your account, failed": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Internet Connection": "لا يوجد اتصال انترنت",
+  "@No Internet Connection": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Active internet connection found, check your connection or tap on Try again": "لا يوجد اتصال انترنت نشط, قم بتغيير الشبكة الحالية او حاول مجددا",
+  "@No Active internet connection found, check your connection or tap on Try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Please wait while to submit your products": "الرجاء الانتظار بينما يتم اضافة الاعلانات",
+  "@Please wait while to submit your products": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Logout": "تسجيل خروج",
+  "@Logout": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Continue": "متابعة",
+  "@Continue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick City": "اختر مدينة",
+  "@Pick City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Home": "رئيسية",
+  "@Home": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Search": "بحث",
+  "@Search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Categories": "تصنيفات",
+  "@Categories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Profile": "حساب",
+  "@Profile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Reset Account": "استعادة الحساب",
+  "@Reset Account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "An email was sent successfully to your account": "تم ارسال بريد الكتروني بنجاح الى حساب",
+  "@An email was sent successfully to your account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your e-mail address and will send you a mail containing the instructions to reset your password": "اكتب بريدك الالكتروني وستصل رسالة تتضمن خطوات استعادة الحساب",
+  "@Type your e-mail address and will send you a mail containing the instructions to reset your password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Didnt receive email?": "لم تقم باستلام رسالة؟",
+  "@Didnt receive email?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Resend": "Resend",
+  "@Resend": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Verification code Field is Empty": "حقل رقم رمز التحقق خالي",
+  "@Verification code Field is Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Verficiation is required.": "حقل رمز التحقق مطلوب",
+  "@Account Verficiation is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Verification Code": "رمز التحقق",
+  "@Verification Code": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "An Sms was sent to your phone number containing the code": "تم ارسال رسالة قصيرة الى هاتفك تتضمن رمز التحقق",
+  "@An Sms was sent to your phone number containing the code": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "verificationLoadingMessage": "الرجاء الانتظار بينما يتم التحقق من حسابك",
+  "@verificationLoadingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Submit": "ارسال",
+  "@Submit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Verified Successfully.": "تم التحقق من الحساب بنجاح",
+  "@Account Verified Successfully.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Session Expired, log in again": "انتهت الجلسة الحالية, قم بتسجيل الدخول مرة اخرى",
+  "@Session Expired, log in again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone Number": "رقم الهاتف",
+  "@Phone Number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Creation": "انشاء حساب",
+  "@Account Creation": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "createAccountLoadingMessage": "الرجاء الانتظار بينما يتم انشاء حسابك",
+  "@createAccountLoadingMessage": {
     "type": "text",
     "placeholders": {}
   },
@@ -15,6 +185,88 @@
     "type": "text",
     "placeholders": {}
   },
+  "Phone Number field can not be empty": "حقل رقم الهاتف لا يمكن ان يكون خالي",
+  "@Phone Number field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Username field can not be empty": "حقل اسم المستخدم لا يمكن ان يكون خالي",
+  "@Username field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Email field can not be empty": "حقل البريد الالكتروني لا يمكن ان يكون خالي",
+  "@Email field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Email field is invalid": "البريد الالكتروني غير صالح",
+  "@Email field is invalid": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "E-mail address": "عنوان البريد الالكتروني",
+  "@E-mail address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact Email Address": "البريد الالكتروني للتواصل",
+  "@Contact Email Address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Facebook Username": "اسم مستخدم فيسبوك",
+  "@Facebook Username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Instagram Username": "اسم مستخدم انستغرام",
+  "@Instagram Username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select the ad location first.": "قم باختيار موقع الاعلان اولا",
+  "@Select the ad location first.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password field can not be empty": "حقل كلمة المرور لا يمكن ان يكون خالي",
+  "@Password field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Forgot Password?": "هل نسيت كلمة المرور؟",
+  "@Forgot Password?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Continue as guest": "المتابعة ك زائر",
+  "@Continue as guest": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Create account": "انشاء حساب",
+  "@Create account": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "About us": "عن المنصة",
+  "@About us": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Get Help": "اطلب المساعدة",
+  "@Get Help": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "appVersion": "النسخة {version}",
+  "@appVersion": {
+    "type": "text",
+    "placeholders": {
+      "version": {}
+    }
+  },
   "passwordFieldHint": "كلمة المرور",
   "@passwordFieldHint": {
     "type": "text",
@@ -24,5 +276,724 @@
   "@loginScreenName": {
     "type": "text",
     "placeholders": {}
-  }
-} 
+  },
+  "Privacy": "الخصوصية",
+  "@Privacy": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Notifications": "الاشعارات",
+  "@Notifications": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Term of Service": "شروط الخدمة",
+  "@Term of Service": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Error Occurred": "حصل خطا",
+  "@Error Occurred": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Address Field can not be empty": "حقل العنوان لا يمكن ان خالي",
+  "@Address Field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Address": "العنوان",
+  "@Address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Logged out successfully": "تم تسجيل الخروج بنجاح",
+  "@Logged out successfully": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password Changed successfully, login again.": "تم تغيير كلمة المرور بنجاح, قم بستجيل الدخول من جديد",
+  "@Password Changed successfully, login again.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Full Name": "الاسم كامل",
+  "@Full Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Country": "البلد",
+  "@Country": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "City": "المدينة",
+  "@City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Gender": "الجنس",
+  "@Gender": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password can not be less than 6 characters": "كلمة المرور لا يمكن ان تكون اقل من ٦ حروف",
+  "@Password can not be less than 6 characters": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Full name field is required.": "حقل الاسم كامل لا يمكن ان يكون خالي",
+  "@Full name field is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name field can not be empty": "الاسم لا يمكن ان يكون خالي",
+  "@Name field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Invalid Credentials": "معلومات خاطئة",
+  "@Invalid Credentials": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Check your password/username first then try again.": "تحقق من كلمة المرور او اسم المستخدم ثم حاول مجددا",
+  "@Check your password/username first then try again.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Didnt receive verification?": "لم تقم باستلام رمز التحقق؟",
+  "@Didnt receive verification?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Reset Message was sent successfully": "تم ارسال الرسالة بنجاح",
+  "@Reset Message was sent successfully": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "We sent a message to ": " لقد تم ارسال رسالة الى ",
+  "@We sent a message to ": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "containing": "تتضمن",
+  "@containing": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "digit code write it below to verify that its you.": "خانات , اكتبه في المكان المخصص للتحقق",
+  "@digit code write it below to verify that its you.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Phone number": "استخدم رقم الهاتف",
+  "@Use Phone number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Email address": "استخدم البريد الالكتروني",
+  "@Use Email address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "To Reset your account you can use Phone number or E-mail address associated with the account.": "لاستعادة الحساب يمكنك استخدام رقم هاتفك او البريد الالكتروني المرتبط بالحساب",
+  "@To Reset your account you can use Phone number or E-mail address associated with the account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Phone number and will send you a sms message containing the instructions to reset your account.": "قم بكتابة رقم هاتفك وستصلك رسالة نصية قصيرة تتضمن طريقة استعادة الحساب",
+  "@Type your Phone number and will send you a sms message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Email Address and will send you an Email message containing the instructions to reset your account.": "قم بكتابة رقم بريدك الالكتروني وستصلك رسالة نصية قصيرة تتضمن طريقة استعادة الحساب",
+  "@Type your Email Address and will send you an Email message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort Search Result": "ترتيب نتائج البحث",
+  "@Sort Search Result": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Ascending": "الاسم - تصاعديا",
+  "@Name - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Descending": "الاسم تنازليا",
+  "@Name - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Ascending": "السعر - تصاعديا",
+  "@Price - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Descending": "السعر - تنازليا",
+  "@Price - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Ascending": "التخفيض - تصاعديا",
+  "@Discount - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Descending": "التخفيض - تنازليا",
+  "@Discount - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort": "ترتيب",
+  "@Sort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Filter by City": "فرز حسب المدينة",
+  "@Filter by City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name": "الاسم",
+  "@Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price": "السعر",
+  "@Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount": "التخفيض",
+  "@Discount": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Recent Ads": "الاعلانات الجديدة",
+  "@Recent Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Edit Profile": "تعديل الملف الشخصي",
+  "@Edit Profile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Settings": "الاعدادات",
+  "@Settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Capture Image": "التقط صورة",
+  "@Capture Image": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick Image from gallery": "اختر صورة من معرض الصور",
+  "@Pick Image from gallery": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select A method to add avatar": "قم طريقة لاختيار صورتك الشخصية",
+  "@Select A method to add avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Profile Avatar": "تعديل الصورة الشخصية",
+  "@Update Profile Avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Personal Information": "معلومات الشخصية",
+  "@Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Not added": "غير متوفر",
+  "@Not added": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Male": "ذكر",
+  "@Male": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Female": "انثى",
+  "@Female": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location": "الموقع",
+  "@Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Information": "معلومات الحساب",
+  "@Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Security": "امان الحساب",
+  "@Account Security": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Chnage Password": "تغيير كلمة المرور",
+  "@Chnage Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update": "تحديث",
+  "@Update": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "this proccess Requires you to relogin after chaning.": "هذه العملية تتطلب اعادة تسجيل الدخول",
+  "@this proccess Requires you to relogin after chaning.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to update Profile, try again": "فشل تعديل الملف الشخصي, حاول مجددا",
+  "@Failed to update Profile, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Account Information": "تعديل المعلومات الشخصية",
+  "@Update Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Password": "تعديل كلمة المرور",
+  "@Update Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New password Field is required.": "حقل كلمة المرور الجديدة مطلوب",
+  "@New password Field is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password confirmation is required.": "حقل تحقق من كلمة المرور الجديدة مطلوب",
+  "@New Password confirmation is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password Mismatch": "كلمة المرور غير متطابقة",
+  "@Password Mismatch": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password": "كلمة المرور الجديدة",
+  "@New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Confirm New Password": "تاكيد كلمة المرور",
+  "@Confirm New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type old password for safity measurement": "اكتب كلمة المرور الحالية",
+  "@Type old password for safity measurement": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Current Password": "كلمة المرور الحالية",
+  "@Current Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Personal Information": "تعديل المعلومات الشخصية",
+  "@Update Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select gender first": "اختر الجنس اولا",
+  "@Select gender first": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Data found at the moment.": "لا يوجد بيانات في هذه اللحظة",
+  "@No Data found at the moment.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "My Ads": "اعلاناتي",
+  "@My Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Favorite Ads": "الاعلانات المفضلة",
+  "@Favorite Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select brand": "اختر العلامة التجارية",
+  "@Select brand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Attributes": "خصائص",
+  "@Attributes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to post comment": "فشل نشر تعليق",
+  "@Failed to post comment": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Write a you comment here": "اكتب تعليقك هنا",
+  "@Write a you comment here": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "POST": "نشر",
+  "@POST": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Report": "تبليغ",
+  "@Report": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Save": "تفضيل",
+  "@Save": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Share": "مشاركة",
+  "@Share": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone number is not avaiable for This Ad": "رقم الهاتف غير متوفر لهذا الاعلان",
+  "@Phone number is not avaiable for This Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location for this Ad is not avaliable": "الموقع غير متوفر لهذا الاعلان",
+  "@Location for this Ad is not avaliable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "View Location": "View Location",
+  "@View Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyRights": "Copyright © {date}, All Rights resereved",
+  "@copyRights": {
+    "type": "text",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "discountPercentage": "{discount}% تخفيض",
+  "@discountPercentage": {
+    "type": "text",
+    "placeholders": {
+      "discount": {}
+    }
+  },
+  "Featured Categories": "التصنيفات المميزة",
+  "@Featured Categories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Retry": "اعادة المحاولة",
+  "@Retry": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to load Data": "فشل تحميل البيانات",
+  "@Failed to load Data": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "See more": "عرض المزيد",
+  "@See more": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Gender field is required": "حقل الجنس مطلوب",
+  "@Gender field is required": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Already Have an Account? ": " لديك حساب بالفعل؟",
+  "@Already Have an Account? ": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "You are using guest account, login or create account to view this page": "انت تستخدم حساب زائر, قم بتسجيل الدخول او انشاء حساب لرؤية المحتوى",
+  "@You are using guest account, login or create account to view this page": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Country First": "اختر التصنيف اولا",
+  "@Select Country First": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discard data?": "تجاهل البيانات؟",
+  "@Discard data?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Are you sure?": "هل انت واثق؟",
+  "@Are you sure?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Title field is empty": "حقل العنوان خالي",
+  "@Title field is empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Add Title for your ad": "اضف عنوان لاعلانك",
+  "@Add Title for your ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Title": "عنوان الاعلان",
+  "@Ad Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Details field can not be empty": "حقل تفاصيل الاعلان خالي",
+  "@Details field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Descripition of the Ad": "وصف الاعلان",
+  "@Descripition of the Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Details": "تفاصيل الاعلان",
+  "@Ad Details": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Next": "التالي",
+  "@Next": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Location & Conatct": "موقع الاعلان والتواصل",
+  "@Ad Location & Conatct": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location Selected": "تم اختيار الموقع",
+  "@Location Selected": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact Phone Number": "رقم هاتف التواصل",
+  "@Contact Phone Number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Ad Type": "اختر نوع الاعلان",
+  "@Select Ad Type": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Wholesale": "جملة",
+  "@Wholesale": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Normal": "فردي",
+  "@Normal": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select": "اختر",
+  "@Select": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "if you have only one product you want to offer.":"اذا كان لديك منتج واحد تريد عرضه",
+  "@if you have only one product you want to offer.":{
+    "type": "text",
+    "placeholders": {}
+  },
+  "if you have more than one product you want to offer.": "اذا كان لديك اكثر من منتج واحد تريد عرضه",
+  "@if you have more than one product you want to offer.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad products": "منتجات الاعلان",
+  "@Ad products": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No product added\n Tap on ➕ icon to add product": "لم تتم اضافة منتجات, اضغط على ➕ لاضافة منتج",
+  "@No product added\n Tap on ➕ icon to add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Tap to add product": "اضغط لاضافة منتج",
+  "@Tap to add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Edit": "تعديل",
+  "@Edit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Add product": "اضافة منتج",
+  "@Add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product Images/Videos": "صور وفيدوهات المنتج",
+  "@Product Images/Videos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product name Can not be Empty": "اسم المنتج لا يمكن ان يكون خالي",
+  "@Product name Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product name": "اسم المنتج",
+  "@Product name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "quantity Can not be Empty": "حقل الكمية لا يمكن ان يكون خالي",
+  "@quantity Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Quantity": "Quantity",
+  "@Quantity": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Old price can not be Empty": "السعر القديم لا يمكن ان يكون خالي",
+  "@Old price can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Old Price": "السعر القديم",
+  "@Old Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Price Can not be Empty": "حقل السعر الجديد لا يمكن ان يكون خالي",
+  "@New Price Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Price": "السعر الجديد",
+  "@New Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword field Can not be Empty": "حقل الكلمات المفتاحية لا يمكن ان يكون خالي",
+  "@Keyword field Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword to make your Ad easier to search": "الكلمات المفتاحية تجعل اعلانك اسهل في البحث",
+  "@Keyword to make your Ad easier to search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "ie: Smartphone,Android,Tv..etc": "كمثال: هاتف ذكي, تلفاز, اندرويد... الخ",
+  "@ie: Smartphone,Android,Tv..etc": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword": "الكلمات المفتاحية",
+  "@Keyword": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Category": "اختر التصنيف",
+  "@Select Category": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Attributes": "اختر الخصائص",
+  "@Select Attributes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "more details about the Product": "تفاصيل اكثر عن المنتج",
+  "@more details about the Product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product Details": "تفاصيل المنتج",
+  "@Product Details": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New price field can not be more than old price field": "السعر القديم لا يمكن ان يكون اكثر من السعر الجديد",
+  "@New price field can not be more than old price field": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New price can not be equal old price": "السعر القديم لا يمكن ان يساوي السعر الجديد",
+  "@New price can not be equal old price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Attributes can not be empty": "الخصائص لا يمكن ان تكون خالية",
+  "@Attributes can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select atleast 1 Video/Image": "قم باختيار فيديو او صورة واحده على الاقل",
+  "@Select atleast 1 Video/Image": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Review your Ad": "مراجعة الاعلان",
+  "@Review your Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "AD submitted successfully.": "تم ارسال الاعلان بنجاح",
+  "@AD submitted successfully.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "You will be notifed once the AD is approved.": "سوف يصلك اشعار اذا تم الموافقة على الاعلان",
+  "@You will be notifed once the AD is approved.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Posting product failed, try again": "فشل ارسال المنتجات, حاول مجددا",
+  "@Posting product failed, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick Location": "اختر موقع",
+  "@Pick Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Current Location": "اختر الموقع الحالي",
+  "@Select Current Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Replay": "رد",
+    "@Replay": {
+      "type": "text",
+      "placeholders": {}
+    }
+}

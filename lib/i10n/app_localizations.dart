@@ -10,6 +10,12 @@ class AppLocalizations {
 
   String get tryAgainButton => Intl.message('Try again');
 
+  String get foryou => Intl.message("For you");
+
+  String get postAd => Intl.message('Post Ad');
+
+  String get yourLocation => Intl.message("Your Location");
+
   static Future<AppLocalizations> load(Locale locale) {
     final String name =
         locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
@@ -27,6 +33,24 @@ class AppLocalizations {
   String get loginLoadingMessage =>
       Intl.message('Please wait while trying to login.',
           name: 'loginLoadingMessage');
+
+  String get postAdLoading =>
+      Intl.message('Please wait while  to submit your ad');
+
+  String get failedToCreateAccount =>
+      Intl.message("Failed to create account, try again");
+
+  String get failedToVerifyAccount =>
+      Intl.message('Failed to verify your account, failed');
+
+  String get noInternetConnectionTitle =>
+      Intl.message('No Internet Connection');
+
+  String get noInternetConnectionMessage => Intl.message(
+      'No Active internet connection found, check your connection or tap on Try again');
+
+  String get postProductsLoading =>
+      Intl.message('Please wait while to submit your products');
 
   String get logoutButton => Intl.message("Logout");
 
@@ -103,7 +127,16 @@ class AppLocalizations {
 
   String get emailFieldInvalidError => Intl.message('Email field is invalid');
 
-  String get emailFieldHint => Intl.message('E-mail address');
+  String get emailFieldLabel => Intl.message('E-mail address');
+
+  String get emailFieldHint => Intl.message('Contact Email Address');
+
+  String get facebookAccount => Intl.message('Facebook Username');
+
+  String get instagramAccount => Intl.message('Instagram Username');
+
+  String get locationEmptyError =>
+      Intl.message('Select the ad location first.');
 
   String get passwordFieldEmptyError =>
       Intl.message('Password field can not be empty');
@@ -250,7 +283,7 @@ class AppLocalizations {
 
   String get female => Intl.message('Female');
 
-  String get location => Intl.message("message");
+  String get location => Intl.message("Location");
 
   String get accountInformation => Intl.message("Account Information");
 
@@ -340,6 +373,148 @@ class AppLocalizations {
   String get failedToLoadData => Intl.message('Failed to load Data');
 
   String get seeMoreButton => Intl.message('See more');
+
+  String get genderFieldEmptyError => Intl.message('Gender field is required');
+
+  String get loginIfHaveAccount => Intl.message('Already Have an Account? ');
+
+  String get guestAccountMessage => Intl.message(
+      'You are using guest account, login or create account to view this page');
+
+  String get countryEmptyError => Intl.message('Select Country First');
+
+  String get cityEmptyError => Intl.message('Select Country First');
+
+  String get discardData => Intl.message('Discard data?');
+
+  String get areYouSure => Intl.message('Are you sure?');
+
+  String get titleEmptyError => Intl.message('Title field is empty');
+
+  String get adTitleHint => Intl.message('Add Title for your ad');
+
+  String get adTitleLabel => Intl.message('Ad Title');
+
+  String get detailsEmptyError =>
+      Intl.message("Details field can not be empty");
+
+  String get adDescriptionHint => Intl.message('Descripition of the Ad');
+
+  String get adDescriptionLabel => Intl.message('Ad Details');
+
+  String get nextButton => Intl.message('Next');
+
+  String get adDetailsTitle => Intl.message('Ad Details');
+
+  String get adContactNLocation => Intl.message('Ad Location & Conatct');
+
+  String get locationSelected => Intl.message('Location Selected');
+
+  String get phoneNumberHint => Intl.message('Contact Phone Number');
+
+  String get selectAdType => Intl.message('Select Ad Type');
+
+  String get wholesaleAd => Intl.message('Wholesale');
+
+  String get normalAd => Intl.message('Normal');
+
+  String get select => Intl.message('Select');
+
+  String get normalAdExplain =>
+      Intl.message('if you have only one product you want to offer.');
+
+  String get wholesaleAdExplain =>
+      Intl.message('if you have more than one product you want to offer.');
+
+  String get adProducts => Intl.message('Ad products');
+
+  String get noProductsAdded =>
+      Intl.message('No product added\n Tap on ➕ icon to add product');
+
+  String get addProductToolTips => Intl.message('Tap to add product');
+
+  String get editButton => Intl.message('Edit');
+
+  String get addProduct => Intl.message('Add product');
+
+  String get adVideosNImages => Intl.message('Product Images/Videos');
+
+  String get productNameEmptyError =>
+      Intl.message("Product name Can not be Empty");
+
+  String get productNameField => Intl.message('Product name');
+
+  String get productQuantityEmptyError =>
+      Intl.message("quantity Can not be Empty");
+
+  String get productQuantity => Intl.message('Quantity');
+
+  String get oldPriceEmptyError => Intl.message('Old price can not be Empty');
+
+  String get oldPriceField => Intl.message('Old Price');
+
+  String get newPriceEmptyError => Intl.message('New Price Can not be Empty');
+
+  String get newPriceField => Intl.message('New Price');
+
+  String get keywordEmptyError =>
+      Intl.message("Keyword field Can not be Empty");
+
+  String get keywordFieldHelper =>
+      Intl.message('Keyword to make your Ad easier to search');
+
+  String get keywordFieldHint => Intl.message('ie: Smartphone,Android,Tv..etc');
+
+  String get keywordFieldLabel => Intl.message("Keyword");
+
+  String get selectCategory => Intl.message("Select Category");
+
+  String get selectAttributes => Intl.message("Select Attributes");
+
+  String get productDetailsEmptyError =>
+      Intl.message("Details field can not be empty");
+
+  String get productDetailsFieldHint =>
+      Intl.message('more details about the Product');
+
+  String get productDetailsFieldLabel => Intl.message('Product Details');
+
+  String get productsMedia => Intl.message('Product Images/Videos');
+
+  String get oldPriceLessThanNewPriceError =>
+      Intl.message('New price field can not be more than old price field');
+
+  String get newPriceEqualToNewPriceError =>
+      Intl.message('New price can not be equal old price');
+
+  String get attributesEmptyError =>
+      Intl.message('Attributes can not be empty');
+
+  String get mediaEmptyError => Intl.message('Select atleast 1 Video/Image');
+
+  String get adReview => Intl.message('Review your Ad');
+
+  String get adSubmitSuccessTitle => Intl.message('AD submitted successfully.');
+
+  String get adSubmitSuccessMessage =>
+      Intl.message('You will be notifed once the AD is approved.');
+
+  String get adFailedMessage =>
+      Intl.message('Posting product failed, try again');
+
+  String get pickLocation => Intl.message('Pick Location');
+
+  String get selectCurrentLocation => Intl.message('Select Current Location');
+
+  String get replayButton => Intl.message("Replay");
+
+  String get adPendingStatus => Intl.message('Pending');
+
+  String get adRejectedStatus => Intl.message('Rejected');
+
+  String get adApprovedStatus => Intl.message('Approved');
+  String get wholesaleAdType=>Intl.message("Wholesale ad");
+  String get normalAdType=>Intl.message("Normal ad");
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

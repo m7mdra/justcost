@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class NetworkErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
@@ -18,14 +18,14 @@ class NetworkErrorWidget extends StatelessWidget {
               size: 80,
             ),
             Text(
-              'No Internet Connection',
+              AppLocalizations.of(context).noInternetConnectionTitle,
               style: Theme.of(context).textTheme.title,
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
-              'No internet connection found, check your connection or tap on Try again',
+              AppLocalizations.of(context).noInternetConnectionMessage,
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -33,7 +33,7 @@ class NetworkErrorWidget extends StatelessWidget {
             ),
             OutlineButton(
               onPressed: onRetry,
-              child: Text('Try again'),
+              child: Text(AppLocalizations.of(context).tryAgainButton),
             )
           ],
         ),

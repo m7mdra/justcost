@@ -9,6 +9,7 @@ import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
 import '../../dependencies_provider.dart';
 import 'attribute_filter_bloc.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class AttributeFilterDialog extends StatefulWidget {
   final int categoryId;
@@ -89,7 +90,7 @@ class _AttributeFilterDialogState extends State<AttributeFilterDialog> {
                   return Column(
                     children: <Widget>[
                       ListTile(
-                        title: Text('Attributes'),
+                        title: Text(AppLocalizations.of(context).attributes),
                         dense: true,
                       ),
                       ListView.builder(
@@ -161,7 +162,7 @@ class _AttributeFilterDialogState extends State<AttributeFilterDialog> {
                   return Column(
                     children: <Widget>[
                       ListTile(
-                        title: Text('Brands'),
+                        title: Text(AppLocalizations.of(context).selectBrand),
                         dense: true,
                       ),
                       ListView.separated(

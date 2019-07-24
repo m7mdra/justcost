@@ -35,10 +35,10 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
       print(progress);
       print(_flutterVideoCompress.isCompressing);
     }, onDone: () {
-      Navigator.pop(context);
+      Navigator.pop(_scaffoldKey.currentState.context);
     }, onError: (error) {
       showDialog(
-          context: context,
+          context: _scaffoldKey.currentState.context,
           builder: (context) {
             return RoundedAlertDialog(
               title: Text('Failed to optimized media'),

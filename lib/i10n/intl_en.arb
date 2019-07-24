@@ -1,12 +1,77 @@
 {
-  "@@last_modified": "2019-04-29T12:11:09.863887",
+  "@@last_modified": "2019-07-24T14:01:43.071796",
+  "try again or contact support.": "try again or contact support.",
+  "@try again or contact support.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Try again": "Try again",
+  "@Try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "For you": "For you",
+  "@For you": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Post Ad": "Post Ad",
+  "@Post Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Your Location": "Your Location",
+  "@Your Location": {
+    "type": "text",
+    "placeholders": {}
+  },
   "loginLoadingMessage": "Please wait while trying to login.",
   "@loginLoadingMessage": {
     "type": "text",
     "placeholders": {}
   },
+  "Please wait while  to submit your ad": "Please wait while  to submit your ad",
+  "@Please wait while  to submit your ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to create account, try again": "Failed to create account, try again",
+  "@Failed to create account, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to verify your account, failed": "Failed to verify your account, failed",
+  "@Failed to verify your account, failed": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Internet Connection": "No Internet Connection",
+  "@No Internet Connection": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Active internet connection found, check your connection or tap on Try again": "No Active internet connection found, check your connection or tap on Try again",
+  "@No Active internet connection found, check your connection or tap on Try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Please wait while to submit your products": "Please wait while to submit your products",
+  "@Please wait while to submit your products": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Logout": "Logout",
+  "@Logout": {
+    "type": "text",
+    "placeholders": {}
+  },
   "Continue": "Continue",
   "@Continue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick City": "Pick City",
+  "@Pick City": {
     "type": "text",
     "placeholders": {}
   },
@@ -17,11 +82,6 @@
   },
   "Search": "Search",
   "@Search": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "Post Ad": "Post Ad",
-  "@Post Ad": {
     "type": "text",
     "placeholders": {}
   },
@@ -75,8 +135,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "An E-mail address was sent to your account containg instruction to verify you account": "An E-mail address was sent to your account containg instruction to verify you account",
-  "@An E-mail address was sent to your account containg instruction to verify you account": {
+  "An Sms was sent to your phone number containing the code": "An Sms was sent to your phone number containing the code",
+  "@An Sms was sent to your phone number containing the code": {
     "type": "text",
     "placeholders": {}
   },
@@ -150,6 +210,26 @@
     "type": "text",
     "placeholders": {}
   },
+  "Contact Email Address": "Contact Email Address",
+  "@Contact Email Address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Facebook Username": "Facebook Username",
+  "@Facebook Username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Instagram Username": "Instagram Username",
+  "@Instagram Username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select the ad location first.": "Select the ad location first.",
+  "@Select the ad location first.": {
+    "type": "text",
+    "placeholders": {}
+  },
   "Password field can not be empty": "Password field can not be empty",
   "@Password field can not be empty": {
     "type": "text",
@@ -197,13 +277,6 @@
     "type": "text",
     "placeholders": {}
   },
-  "copyRights": "Copyright © {date}, All Rights resereved",
-  "@copyRights": {
-    "type": "text",
-    "placeholders": {
-      "date": {}
-    }
-  },
   "Privacy": "Privacy",
   "@Privacy": {
     "type": "text",
@@ -243,5 +316,684 @@
   "@Password Changed successfully, login again.": {
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "Full Name": "Full Name",
+  "@Full Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Country": "Country",
+  "@Country": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "City": "City",
+  "@City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Gender": "Gender",
+  "@Gender": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password can not be less than 6 characters": "Password can not be less than 6 characters",
+  "@Password can not be less than 6 characters": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Full name field is required.": "Full name field is required.",
+  "@Full name field is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name field can not be empty": "Name field can not be empty",
+  "@Name field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Invalid Credentials": "Invalid Credentials",
+  "@Invalid Credentials": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Check your password/username first then try again.": "Check your password/username first then try again.",
+  "@Check your password/username first then try again.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Didnt receive verification?": "Didnt receive verification?",
+  "@Didnt receive verification?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Reset Message was sent successfully": "Reset Message was sent successfully",
+  "@Reset Message was sent successfully": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "We sent a message to ": "We sent a message to ",
+  "@We sent a message to ": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "containing": "containing",
+  "@containing": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "digit code write it below to verify that its you.": "digit code write it below to verify that its you.",
+  "@digit code write it below to verify that its you.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Phone number": "Use Phone number",
+  "@Use Phone number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Use Email address": "Use Email address",
+  "@Use Email address": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "To Reset your account you can use Phone number or E-mail address associated with the account.": "To Reset your account you can use Phone number or E-mail address associated with the account.",
+  "@To Reset your account you can use Phone number or E-mail address associated with the account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Phone number and will send you a sms message containing the instructions to reset your account.": "Type your Phone number and will send you a sms message containing the instructions to reset your account.",
+  "@Type your Phone number and will send you a sms message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type your Email Address and will send you an Email message containing the instructions to reset your account.": "Type your Email Address and will send you an Email message containing the instructions to reset your account.",
+  "@Type your Email Address and will send you an Email message containing the instructions to reset your account.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort Search Result": "Sort Search Result",
+  "@Sort Search Result": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Ascending": "Name - Ascending",
+  "@Name - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name - Descending": "Name - Descending",
+  "@Name - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Ascending": "Price - Ascending",
+  "@Price - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price - Descending": "Price - Descending",
+  "@Price - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Ascending": "Discount - Ascending",
+  "@Discount - Ascending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount - Descending": "Discount - Descending",
+  "@Discount - Descending": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Sort": "Sort",
+  "@Sort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Filter by City": "Filter by City",
+  "@Filter by City": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Name": "Name",
+  "@Name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Price": "Price",
+  "@Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discount": "Discount",
+  "@Discount": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Recent Ads": "Recent Ads",
+  "@Recent Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Edit Profile": "Edit Profile",
+  "@Edit Profile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Settings": "Settings",
+  "@Settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Capture Image": "Capture Image",
+  "@Capture Image": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick Image from gallery": "Pick Image from gallery",
+  "@Pick Image from gallery": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select A method to add avatar": "Select A method to add avatar",
+  "@Select A method to add avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Profile Avatar": "Update Profile Avatar",
+  "@Update Profile Avatar": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Personal Information": "Personal Information",
+  "@Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Not added": "Not added",
+  "@Not added": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Male": "Male",
+  "@Male": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Female": "Female",
+  "@Female": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location": "Location",
+  "@Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Information": "Account Information",
+  "@Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Account Security": "Account Security",
+  "@Account Security": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Chnage Password": "Chnage Password",
+  "@Chnage Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update": "Update",
+  "@Update": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "this proccess Requires you to relogin after chaning.": "this proccess Requires you to relogin after chaning.",
+  "@this proccess Requires you to relogin after chaning.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to update Profile, try again": "Failed to update Profile, try again",
+  "@Failed to update Profile, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Account Information": "Update Account Information",
+  "@Update Account Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Password": "Update Password",
+  "@Update Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New password Field is required.": "New password Field is required.",
+  "@New password Field is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password confirmation is required.": "New Password confirmation is required.",
+  "@New Password confirmation is required.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Password Mismatch": "Password Mismatch",
+  "@Password Mismatch": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Password": "New Password",
+  "@New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Confirm New Password": "Confirm New Password",
+  "@Confirm New Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Type old password for safity measurement": "Type old password for safity measurement",
+  "@Type old password for safity measurement": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Current Password": "Current Password",
+  "@Current Password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Update Personal Information": "Update Personal Information",
+  "@Update Personal Information": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select gender first": "Select gender first",
+  "@Select gender first": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No Data found at the moment.": "No Data found at the moment.",
+  "@No Data found at the moment.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "My Ads": "My Ads",
+  "@My Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Favorite Ads": "Favorite Ads",
+  "@Favorite Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select brand": "Select brand",
+  "@Select brand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Attributes": "Attributes",
+  "@Attributes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to post comment": "Failed to post comment",
+  "@Failed to post comment": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Write a you comment here": "Write a you comment here",
+  "@Write a you comment here": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "POST": "POST",
+  "@POST": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Report": "Report",
+  "@Report": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Save": "Save",
+  "@Save": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Share": "Share",
+  "@Share": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Phone number is not avaiable for This Ad": "Phone number is not avaiable for This Ad",
+  "@Phone number is not avaiable for This Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location for this Ad is not avaliable": "Location for this Ad is not avaliable",
+  "@Location for this Ad is not avaliable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "View Location": "View Location",
+  "@View Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyRights": "Copyright © {date}, All Rights resereved",
+  "@copyRights": {
+    "type": "text",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "discountPercentage": "{discount}% OFF",
+  "@discountPercentage": {
+    "type": "text",
+    "placeholders": {
+      "discount": {}
+    }
+  },
+  "Featured Categories": "Featured Categories",
+  "@Featured Categories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Retry": "Retry",
+  "@Retry": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Failed to load Data": "Failed to load Data",
+  "@Failed to load Data": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "See more": "See more",
+  "@See more": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Gender field is required": "Gender field is required",
+  "@Gender field is required": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Already Have an Account? ": "Already Have an Account? ",
+  "@Already Have an Account? ": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "You are using guest account, login or create account to view this page": "You are using guest account, login or create account to view this page",
+  "@You are using guest account, login or create account to view this page": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Country First": "Select Country First",
+  "@Select Country First": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Discard data?": "Discard data?",
+  "@Discard data?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Are you sure?": "Are you sure?",
+  "@Are you sure?": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Title field is empty": "Title field is empty",
+  "@Title field is empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Add Title for your ad": "Add Title for your ad",
+  "@Add Title for your ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Title": "Ad Title",
+  "@Ad Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Details field can not be empty": "Details field can not be empty",
+  "@Details field can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Descripition of the Ad": "Descripition of the Ad",
+  "@Descripition of the Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Details": "Ad Details",
+  "@Ad Details": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Next": "Next",
+  "@Next": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Location & Conatct": "Ad Location & Conatct",
+  "@Ad Location & Conatct": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Location Selected": "Location Selected",
+  "@Location Selected": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact Phone Number": "Contact Phone Number",
+  "@Contact Phone Number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Ad Type": "Select Ad Type",
+  "@Select Ad Type": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Wholesale": "Wholesale",
+  "@Wholesale": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Normal": "Normal",
+  "@Normal": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select": "Select",
+  "@Select": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "if you have only one product you want to offer.": "if you have only one product you want to offer.",
+  "@if you have only one product you want to offer.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "if you have more than one product you want to offer.": "if you have more than one product you want to offer.",
+  "@if you have more than one product you want to offer.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad products": "Ad products",
+  "@Ad products": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "No product added\n Tap on ➕ icon to add product": "No product added\n Tap on ➕ icon to add product",
+  "@No product added\n Tap on ➕ icon to add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Tap to add product": "Tap to add product",
+  "@Tap to add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Edit": "Edit",
+  "@Edit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Add product": "Add product",
+  "@Add product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product Images/Videos": "Product Images/Videos",
+  "@Product Images/Videos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product name Can not be Empty": "Product name Can not be Empty",
+  "@Product name Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product name": "Product name",
+  "@Product name": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "quantity Can not be Empty": "quantity Can not be Empty",
+  "@quantity Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Quantity": "Quantity",
+  "@Quantity": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Old price can not be Empty": "Old price can not be Empty",
+  "@Old price can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Old Price": "Old Price",
+  "@Old Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Price Can not be Empty": "New Price Can not be Empty",
+  "@New Price Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New Price": "New Price",
+  "@New Price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword field Can not be Empty": "Keyword field Can not be Empty",
+  "@Keyword field Can not be Empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword to make your Ad easier to search": "Keyword to make your Ad easier to search",
+  "@Keyword to make your Ad easier to search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "ie: Smartphone,Android,Tv..etc": "ie: Smartphone,Android,Tv..etc",
+  "@ie: Smartphone,Android,Tv..etc": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Keyword": "Keyword",
+  "@Keyword": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Category": "Select Category",
+  "@Select Category": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Attributes": "Select Attributes",
+  "@Select Attributes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "more details about the Product": "more details about the Product",
+  "@more details about the Product": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Product Details": "Product Details",
+  "@Product Details": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New price field can not be more than old price field": "New price field can not be more than old price field",
+  "@New price field can not be more than old price field": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "New price can not be equal old price": "New price can not be equal old price",
+  "@New price can not be equal old price": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Attributes can not be empty": "Attributes can not be empty",
+  "@Attributes can not be empty": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select atleast 1 Video/Image": "Select atleast 1 Video/Image",
+  "@Select atleast 1 Video/Image": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Review your Ad": "Review your Ad",
+  "@Review your Ad": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "AD submitted successfully.": "AD submitted successfully.",
+  "@AD submitted successfully.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "You will be notifed once the AD is approved.": "You will be notifed once the AD is approved.",
+  "@You will be notifed once the AD is approved.": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Posting product failed, try again": "Posting product failed, try again",
+  "@Posting product failed, try again": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Pick Location": "Pick Location",
+  "@Pick Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Select Current Location": "Select Current Location",
+  "@Select Current Location": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Replay": "Replay",
+    "@Replay": {
+      "type": "text",
+      "placeholders": {}
+    }
 }

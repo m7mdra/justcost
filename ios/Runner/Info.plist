@@ -31,14 +31,21 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to Capture Images/videos in posting an Ad</string>
+	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
+	<string>Always And In Use Permission</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>Always Permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>When In Use Permission</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used to Record Images/videos in posting an Ad</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Used to Select Images/videos in posting an Ad</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -55,6 +62,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>

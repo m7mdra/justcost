@@ -13,6 +13,7 @@ import 'package:justcost/util/tuple.dart';
 import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class AddAdProductScreen extends StatefulWidget {
   final AdditionType additionType;
@@ -82,7 +83,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Add product'),
+        title: Text(AppLocalizations.of(context).addProduct),
       ),
       body: Form(
         key: _formKey,
@@ -92,17 +93,19 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
-                      title: Text('Discard data?'),
-                      content: Text('Are you sure?'),
+                      title: Text(AppLocalizations.of(context).discardData),
+                      content: Text(AppLocalizations.of(context).areYouSure),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text('Yes'),
+                          child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
                         ),
                         FlatButton(
-                          child: Text('Cancel'),
+                          child: Text(MaterialLocalizations.of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
@@ -121,7 +124,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Product Media',
+                        AppLocalizations.of(context).productsMedia,
                         style: Theme.of(context).textTheme.subtitle,
                       ),
                       OutlineButton(
@@ -139,7 +142,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                               this.mediaList = medias;
                             });
                         },
-                        child: Text('Select'),
+                        child: Text(AppLocalizations.of(context).select),
                         textTheme: ButtonTextTheme.normal,
                       )
                     ],
@@ -173,37 +176,14 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     ),
                   ),
                 ),
-                TextFormField(
-                  controller: _nameController,
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {},
-                  validator: (title) {
-                    return title.isEmpty
-                        ? "Product name Can not be Empty"
-                        : null;
-                  },
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 8, bottom: 8),
-                      labelText: 'Product name',
-                      errorBorder: InputBorder.none,
-                      hintStyle: hintStyle),
-                ),
-                divider(),
-                Visibility(
-                  visible: widget.additionType != AdditionType.single,
+                Card(
                   child: TextFormField(
-                    controller: _quantityController,
-                    keyboardType: TextInputType.number,
+                    controller: _nameController,
                     textInputAction: TextInputAction.next,
                     onEditingComplete: () {},
-                    validator: (quantity) {
-                      if (widget.additionType == AdditionType.single)
-                        return null;
-                      return quantity.isEmpty
-                          ? "quantity Can not be Empty"
+                    validator: (title) {
+                      return title.isEmpty
+                          ? AppLocalizations.of(context).productNameEmptyError
                           : null;
                     },
                     maxLines: 1,
@@ -211,157 +191,199 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.only(
                             left: 16, right: 16, top: 8, bottom: 8),
-                        labelText: 'Quantity',
+                        labelText:
+                            AppLocalizations.of(context).productNameField,
                         errorBorder: InputBorder.none,
                         hintStyle: hintStyle),
                   ),
                 ),
                 Visibility(
-                  child: divider(),
                   visible: widget.additionType != AdditionType.single,
+                  child: Card(
+                    child: TextFormField(
+                      controller: _quantityController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {},
+                      validator: (quantity) {
+                        if (widget.additionType == AdditionType.single)
+                          return null;
+                        return quantity.isEmpty
+                            ? AppLocalizations.of(context)
+                                .productQuantityEmptyError
+                            : null;
+                      },
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.only(
+                              left: 16, right: 16, top: 8, bottom: 8),
+                          labelText:
+                              AppLocalizations.of(context).productQuantity,
+                          errorBorder: InputBorder.none,
+                          hintStyle: hintStyle),
+                    ),
+                  ),
                 ),
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: TextFormField(
-                        controller: _oldPriceController,
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () {},
-                        validator: (oldPrice) {
-                          return oldPrice.isEmpty
-                              ? "old Price Can not be Empty"
-                              : null;
-                        },
-                        keyboardType: TextInputType.phone,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(
-                                left: 16, right: 16, top: 8, bottom: 8),
-                            suffixText: 'AED',
-                            labelText: 'Old Price',
-                            hintStyle: hintStyle),
+                      child: Card(
+                        child: TextFormField(
+                          controller: _oldPriceController,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () {},
+                          validator: (oldPrice) {
+                            return oldPrice.isEmpty
+                                ? AppLocalizations.of(context)
+                                    .oldPriceEmptyError
+                                : null;
+                          },
+                          keyboardType: TextInputType.phone,
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 16, right: 16, top: 8, bottom: 8),
+                              suffixText: 'AED',
+                              labelText:
+                                  AppLocalizations.of(context).oldPriceField,
+                              hintStyle: hintStyle),
+                        ),
                       ),
                     ),
                     VerticalDivider(width: 1),
                     Expanded(
-                      child: TextFormField(
-                        controller: _newPriceController,
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () {},
-                        validator: (newPrice) {
-                          return newPrice.isEmpty
-                              ? "New Price Can not be Empty"
-                              : null;
-                        },
-                        maxLines: 1,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(
-                                left: 16, right: 16, top: 8, bottom: 8),
-                            labelText: 'New Price',
-                            suffixText: 'AED',
-                            hintStyle: hintStyle),
+                      child: Card(
+                        child: TextFormField(
+                          controller: _newPriceController,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () {},
+                          validator: (newPrice) {
+                            return newPrice.isEmpty
+                                ? AppLocalizations.of(context)
+                                    .newPriceEmptyError
+                                : null;
+                          },
+                          maxLines: 1,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 16, right: 16, top: 8, bottom: 8),
+                              labelText:
+                                  AppLocalizations.of(context).newPriceField,
+                              suffixText: 'AED',
+                              hintStyle: hintStyle),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                divider(),
-                TextFormField(
-                  focusNode: _adKeywordFocusNode,
-                  textInputAction: TextInputAction.next,
-                  validator: (keyword) {
-                    return keyword.isEmpty
-                        ? "Keyword field Can not be Empty"
-                        : null;
-                  },
-                  maxLines: 1,
-                  controller: _adKeywordController,
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10, bottom: 10),
-                      border: InputBorder.none,
-                      helperText: 'Keyword to make your Ad easier to search',
-                      labelText: 'Keyword',
-                      hintStyle: hintStyle),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  onTap: _onCategoryPickerClicked,
-                  title: Text(
-                    'Select Category',
-                  ),
-                  subtitle: Text(_category != null ? _category.name : ''),
-                  trailing: IconButton(
-                    icon: Icon(Icons.keyboard_arrow_right),
-                    onPressed: _onCategoryPickerClicked,
+                Card(
+                  child: TextFormField(
+                    focusNode: _adKeywordFocusNode,
+                    textInputAction: TextInputAction.next,
+                    validator: (keyword) {
+                      return keyword.isEmpty
+                          ? AppLocalizations.of(context).keywordEmptyError
+                          : null;
+                    },
+                    maxLines: 1,
+                    controller: _adKeywordController,
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 10, bottom: 10),
+                        border: InputBorder.none,
+                        helperText:
+                            AppLocalizations.of(context).keywordFieldHelper,
+                        hintText: AppLocalizations.of(context).keywordFieldHint,
+                        labelText:
+                            AppLocalizations.of(context).keywordFieldLabel,
+                        hintStyle: hintStyle),
                   ),
                 ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text(
-                    'Select Brand',
-                  ),
-                  onTap: _onBrandPickerClicked,
-                  subtitle: Text(_brand != null ? _brand.name : ''),
-                  trailing: IconButton(
-                    icon: Icon(Icons.keyboard_arrow_right),
-                    onPressed: _onBrandPickerClicked,
-                  ),
-                ),
-                divider(),
-                ListTile(
-                  dense: true,
-                  title: Text(
-                    'Select Attributes',
-                  ),
-                  onTap: _onAttributePickerClicked,
-                  subtitle: Wrap(
-                    children: attributeList
-                        .map((attr) => Chip(
-                              label: Text(attr.name),
-                              onDeleted: () {
-                                attributeList.forEach((attribute) {
-                                  if (attribute.id == attr.id) {
-                                    attributeList.remove(attribute);
-                                    setState(() {});
-                                  }
-                                });
-                              },
-                            ))
-                        .toList(),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.keyboard_arrow_right),
-                    onPressed: _onAttributePickerClicked,
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    onTap: _onCategoryPickerClicked,
+                    title: Text(
+                      AppLocalizations.of(context).selectCategory,
+                    ),
+                    subtitle: Text(_category != null ? _category.name : ''),
+                    trailing: IconButton(
+                      icon: Icon(Icons.keyboard_arrow_right),
+                      onPressed: _onCategoryPickerClicked,
+                    ),
                   ),
                 ),
-                divider(),
-                TextFormField(
-                  controller: _detailsController,
-                  keyboardType: TextInputType.text,
-                  maxLines: 3,
-                  maxLength: 250,
-                  validator: (text) {
-                    if (text.isEmpty)
-                      return "Details field can not be empty";
-                    else
-                      return null;
-                  },
-                  maxLengthEnforced: true,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 8, bottom: 8),
-                      hintText: 'more details about the Product',
-                      labelText: 'Product Details',
-                      alignLabelWithHint: true,
-                      hintStyle: hintStyle),
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    title: Text(
+                      AppLocalizations.of(context).selectBrand,
+                    ),
+                    onTap: _onBrandPickerClicked,
+                    subtitle: Text(_brand != null ? _brand.name : ''),
+                    trailing: IconButton(
+                      icon: Icon(Icons.keyboard_arrow_right),
+                      onPressed: _onBrandPickerClicked,
+                    ),
+                  ),
                 ),
-                divider(),
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    title: Text(
+                      AppLocalizations.of(context).selectAttributes,
+                    ),
+                    onTap: _onAttributePickerClicked,
+                    subtitle: Wrap(
+                      children: attributeList
+                          .map((attr) => Chip(
+                                label: Text(attr.name),
+                                onDeleted: () {
+                                  attributeList.forEach((attribute) {
+                                    if (attribute.id == attr.id) {
+                                      attributeList.remove(attribute);
+                                      setState(() {});
+                                    }
+                                  });
+                                },
+                              ))
+                          .toList(),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.keyboard_arrow_right),
+                      onPressed: _onAttributePickerClicked,
+                    ),
+                  ),
+                ),
+                Card(
+                  child: TextFormField(
+                    controller: _detailsController,
+                    keyboardType: TextInputType.text,
+                    maxLines: 3,
+                    validator: (text) {
+                      if (text.isEmpty)
+                        return AppLocalizations.of(context)
+                            .productDetailsEmptyError;
+                      else
+                        return null;
+                    },
+                    maxLengthEnforced: true,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 8, bottom: 8),
+                        hintText: AppLocalizations.of(context)
+                            .productDetailsFieldHint,
+                        labelText: AppLocalizations.of(context)
+                            .productDetailsFieldLabel,
+                        alignLabelWithHint: true,
+                        hintStyle: hintStyle),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
@@ -371,14 +393,16 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                         if (_formKey.currentState.validate()) {
                           if (_category == null) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Select category first')));
+                                content: Text(AppLocalizations.of(context)
+                                    .selectCategory)));
                             return;
                           }
-                          /* if (_brand == null) {
-                            _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(content: Text('Select Brand First')));
+                          if (_brand == null) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    AppLocalizations.of(context).selectBrand)));
                             return;
-                          }*/
+                          }
                           var productName = _nameController.value.text;
                           var quantity = _quantityController.value.text;
                           var oldPrice = _oldPriceController.value.text;
@@ -387,26 +411,40 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                           var keyword = _adKeywordController.value.text;
 
                           if (double.parse(newPrice) > double.parse(oldPrice)) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(
-                                    'New price field can not be more than old price field')));
+                            _scaffoldKey.currentState
+                              ..hideCurrentSnackBar(
+                                  reason: SnackBarClosedReason.hide)
+                              ..showSnackBar(SnackBar(
+                                  content: Text(AppLocalizations.of(context)
+                                      .oldPriceLessThanNewPriceError)));
                             return;
                           }
                           if (double.parse(newPrice) ==
                               double.parse(oldPrice)) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(
-                                    'New price can not be equal old price')));
+                            _scaffoldKey.currentState
+                              ..hideCurrentSnackBar(
+                                  reason: SnackBarClosedReason.hide)
+                              ..showSnackBar(SnackBar(
+                                  content: Text(AppLocalizations.of(context)
+                                      .newPriceEqualToNewPriceError)));
                             return;
                           }
                           if (attributeList == null || attributeList.isEmpty) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Attributes can not be empty.')));
+                            _scaffoldKey.currentState
+                              ..hideCurrentSnackBar(
+                                  reason: SnackBarClosedReason.hide)
+                              ..showSnackBar(SnackBar(
+                                  content: Text(AppLocalizations.of(context)
+                                      .attributesEmptyError)));
                             return;
                           }
                           if (mediaList.isEmpty) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Select atleast 1 Video/Image')));
+                            _scaffoldKey.currentState
+                              ..hideCurrentSnackBar(
+                                  reason: SnackBarClosedReason.hide)
+                              ..showSnackBar(SnackBar(
+                                  content: Text(AppLocalizations.of(context)
+                                      .mediaEmptyError)));
                             return;
                           }
                           var adProduct = AdProduct(
@@ -424,7 +462,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                           Navigator.pop(context, adProduct);
                         }
                       },
-                      child: Text('Done'),
+                      child: Text(AppLocalizations.of(context).submitButton),
                     ),
                   ),
                 )
@@ -451,8 +489,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   _onAttributePickerClicked() async {
     if (_category == null)
-      _scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text('Select Category first')));
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).selectCategory)));
     else {
       var attrs = await Navigator.push(
           context,
@@ -470,7 +508,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   _onBrandPickerClicked() async {
     if (_category == null)
       _scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text('Select Category first')));
+          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).selectCategory)));
     else {
       Brand brand = await Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => BrandPage(

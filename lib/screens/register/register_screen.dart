@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             builder: (context) => RoundedAlertDialog(
                   title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
+                  content: Text(AppLocalizations.of(context).failedToCreateAccount),
                   actions: <Widget>[
                     FlatButton(
                       child:
@@ -126,6 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: ListView(
           children: <Widget>[
@@ -141,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Hero(
+
               tag: "form",
               child: Card(
                 child: Padding(
@@ -242,9 +244,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   hintText: AppLocalizations.of(context)
-                                      .emailFieldHint,
+                                      .emailFieldLabel,
                                   labelText: AppLocalizations.of(context)
-                                      .emailFieldHint,
+                                      .emailFieldLabel,
                                   errorMaxLines: 1,
                                   errorBorder: OutlineInputBorder(
                                       borderRadius:
@@ -276,7 +278,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               onEditingComplete: () {
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
-                                _attemptRegister();
                               },
                               maxLines: 1,
                               obscureText: true,
@@ -299,6 +300,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             DropdownButtonFormField<Country>(
                               value: _selectedCountry,
                               hint: Text(AppLocalizations.of(context).country),
+                              validator: (country) {
+                                if (country == null)
+                                  return AppLocalizations.of(context)
+                                      .countryEmptyError;
+                                else
+                                  return null;
+                              },
                               onChanged: (country) {
                                 setState(() {
                                   _selectedCity = null;
@@ -327,6 +335,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 4,
                             ),
                             DropdownButtonFormField<City>(
+                              validator: (city) {
+                                if (city == null)
+                                  return AppLocalizations.of(context)
+                                      .cityEmptyError;
+                                else
+                                  return null;
+                              },
                               onChanged: (city) {
                                 setState(() {
                                   this._selectedCity = city;
@@ -383,6 +398,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             DropdownButtonFormField(
                               value: genderGroupValue,
+                              validator: (gender) {
+                                if (gender == null)
+                                  return AppLocalizations.of(context)
+                                      .genderFieldEmptyError;
+                                else
+                                  return null;
+                              },
                               hint: Text(AppLocalizations.of(context).gender),
                               onChanged: (gender) {
                                 setState(() {
@@ -391,12 +413,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               items: [
                                 DropdownMenuItem(
-                                  child: Text('Male',
+                                  child: Text(AppLocalizations.of(context).male,
                                       style: Theme.of(context).textTheme.body1),
                                   value: 1,
                                 ),
                                 DropdownMenuItem(
-                                  child: Text('Female',
+                                  child: Text(
+                                      AppLocalizations.of(context).female,
                                       style: Theme.of(context).textTheme.body1),
                                   value: 0,
                                 ),
@@ -439,17 +462,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text.rich(
-                TextSpan(text: 'Already Have an Account? ', children: [
-                  TextSpan(
-                      text: 'Login',
-                      style: TextStyle(color: Colors.lightBlue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        })
-                ]),
+                TextSpan(
+                    text: AppLocalizations.of(context).loginIfHaveAccount,
+                    children: [
+                      TextSpan(
+                          text: AppLocalizations.of(context).loginScreenName,
+                          style: TextStyle(color: Colors.lightBlue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            })
+                    ]),
                 textAlign: TextAlign.center,
               ),
             )

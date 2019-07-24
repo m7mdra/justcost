@@ -175,17 +175,25 @@ class _MainScreenState extends State<MainScreen>
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
         },
-        tooltip: 'post ad',
+        tooltip: AppLocalizations.of(context).postAd,
         child: Icon(Icons.add),
         elevation: 2.0,
       ),
       bottomNavigationBar: FABBottomAppBar(
         key: key,
         items: [
-          FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
-          FABBottomAppBarItem(iconData: Icons.search, text: 'Search'),
-          FABBottomAppBarItem(iconData: Icons.category, text: 'Category'),
-          FABBottomAppBarItem(iconData: Icons.person, text: 'Profile'),
+          FABBottomAppBarItem(
+              iconData: Icons.home,
+              text: AppLocalizations.of(context).homePageTitle),
+          FABBottomAppBarItem(
+              iconData: Icons.search,
+              text: AppLocalizations.of(context).searchPageTitle),
+          FABBottomAppBarItem(
+              iconData: Icons.category,
+              text: AppLocalizations.of(context).categoriesPageTitle),
+          FABBottomAppBarItem(
+              iconData: Icons.person,
+              text: AppLocalizations.of(context).profilePageTitle),
         ],
         onTabSelected: (index) {
           setState(() {
@@ -195,7 +203,7 @@ class _MainScreenState extends State<MainScreen>
               duration: Duration(milliseconds: 300), curve: Curves.easeIn);
         },
         selectedColor: Theme.of(context).accentColor,
-        centerItemText: 'Post Ad',
+        centerItemText: AppLocalizations.of(context).postAd,
         notchedShape: CircularNotchedRectangle(),
         color: Colors.blueGrey,
       ),

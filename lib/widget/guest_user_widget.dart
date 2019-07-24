@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class GuestUserWidget extends StatelessWidget {
   const GuestUserWidget({
@@ -14,8 +15,9 @@ class GuestUserWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+
         Text(
-          'You are using guest account, login or create account to view this page',
+          AppLocalizations.of(context).guestAccountMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subhead,
         ),
@@ -31,7 +33,7 @@ class GuestUserWidget extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: Text(
-                'Login'.toUpperCase(),
+                AppLocalizations.of(context).loginScreenName.toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               color: Theme.of(context).primaryColor,
@@ -43,7 +45,10 @@ class GuestUserWidget extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => RegisterScreen()));
               },
-              child: Text('Create Account'.toUpperCase(),
+              child: Text(
+                  AppLocalizations.of(context)
+                      .createAccountButton
+                      .toUpperCase(),
                   style: TextStyle(fontWeight: FontWeight.bold)),
               color: Theme.of(context).accentColor,
               textColor: Theme.of(context).primaryColor,

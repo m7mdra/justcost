@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class DiscountPercentageBannerWidget extends StatelessWidget {
   final int regularPrice;
@@ -16,12 +17,12 @@ class DiscountPercentageBannerWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       highlightColor: Theme.of(context).primaryColor,
       splashColor: Theme.of(context).primaryColor,
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
           color: Colors.yellow,
           child: Text(
-            '${((regularPrice - salePrice) / regularPrice * 100).round()}% OFF ',
+            AppLocalizations.of(context).discountPercentage(
+                ((regularPrice - salePrice) / regularPrice * 100).round()),
             style: TextStyle(fontWeight: FontWeight.bold),
           )),
     );

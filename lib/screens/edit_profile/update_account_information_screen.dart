@@ -100,7 +100,7 @@ class _UpdateAccountInformationScreenState
                       prefixIcon: Icon(Icons.mail),
                       contentPadding: EdgeInsets.all(10),
                       hintText: 'mail@domain.com',
-                      labelText: AppLocalizations.of(context).emailFieldHint,
+                      labelText: AppLocalizations.of(context).emailFieldLabel,
                       errorMaxLines: 1,
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),

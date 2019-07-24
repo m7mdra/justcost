@@ -42,7 +42,8 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
             context: context,
             builder: (context) => RoundedAlertDialog(
                   title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
+                  content:
+                      Text(AppLocalizations.of(context).failedToVerifyAccount),
                   actions: <Widget>[
                     FlatButton(
                       child:

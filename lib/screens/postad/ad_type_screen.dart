@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:justcost/model/media.dart';
 import 'package:justcost/screens/postad/ad.dart';
-import 'package:justcost/screens/postad/ad_contact_screen.dart';
-import 'package:justcost/screens/postad/ad_details_screen.dart';
 import 'package:justcost/screens/postad/ad_products_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class AdTypeSelectScreen extends StatefulWidget {
   final AdDetails adDetails;
@@ -20,7 +18,6 @@ class AdTypeSelectScreen extends StatefulWidget {
 class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -28,7 +25,7 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Ad Type'),
+        title: Text(AppLocalizations.of(context).selectAdType),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,17 +35,19 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => RoundedAlertDialog(
-                      title: Text('Discard data?'),
-                      content: Text('Are you sure?'),
+                      title: Text(AppLocalizations.of(context).discardData),
+                      content: Text(AppLocalizations.of(context).areYouSure),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text('Yes'),
+                          child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
                         ),
                         FlatButton(
-                          child: Text('Cancel'),
+                          child: Text(MaterialLocalizations.of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
@@ -60,63 +59,63 @@ class _AdTypeSelectScreenState extends State<AdTypeSelectScreen> {
           child: Column(
             children: <Widget>[
               Text.rich(
-                TextSpan(text: "Select ", children: [
-                  TextSpan(
-                      text: 'Normal',
-                      style: Theme.of(context).textTheme.body1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                          fontSize: 16)),
-                  TextSpan(
-                      text:
-                          ' if you have only one single product you want to offer.'),
-                  TextSpan(text: '\n'),
-                  TextSpan(text: 'Select '),
-                  TextSpan(
-                      text: 'Wholesale',
-                      style: Theme.of(context).textTheme.body1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                          fontSize: 16)),
-                  TextSpan(
-                      text:
-                          ' if you have more than one product you want to offer.'),
-                ]),
+                TextSpan(
+                    text: "${AppLocalizations.of(context).select} ",
+                    children: [
+                      TextSpan(
+                          text: AppLocalizations.of(context).normalAd,
+                          style: Theme.of(context).textTheme.body1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              fontSize: 16)),
+                      TextSpan(
+                          text:
+                              ' ${AppLocalizations.of(context).normalAdExplain}'),
+                      TextSpan(text: '\n'),
+                      TextSpan(text: "${AppLocalizations.of(context).select} "),
+                      TextSpan(
+                          text: AppLocalizations.of(context).wholesaleAd,
+                          style: Theme.of(context).textTheme.body1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              fontSize: 16)),
+                      TextSpan(
+                          text:
+                              ' ${AppLocalizations.of(context).wholesaleAdExplain}'),
+                    ]),
               ),
               SizedBox(
                 height: 16,
               ),
-              Divider(
-                height: 0,
+
+              Card(
+                child: ListTile(
+                  title: Text(AppLocalizations.of(context).normalAd),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => AdProductsScreen(
+                              additionType: AdditionType.single,
+                              adDetails: widget.adDetails,
+                              adContact: widget.adContact,
+                            )));
+                  },
+                ),
               ),
-              ListTile(
-                title: Text('Normal'),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => AdProductsScreen(
-                            additionType: AdditionType.single,
-                            adDetails: widget.adDetails,
-                            adContact: widget.adContact,
-                          )));
-                },
+
+              Card(
+                child: ListTile(
+                  title: Text(AppLocalizations.of(context).wholesaleAd),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => AdProductsScreen(
+                              additionType: AdditionType.multiple,
+                              adDetails: widget.adDetails,
+                              adContact: widget.adContact,
+                            )));
+                  },
+                ),
               ),
-              Divider(
-                height: 0,
-              ),
-              ListTile(
-                title: Text('Wholesale'),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => AdProductsScreen(
-                            additionType: AdditionType.multiple,
-                            adDetails: widget.adDetails,
-                            adContact: widget.adContact,
-                          )));
-                },
-              ),
-              Divider(
-                height: 0,
-              ),
+
             ],
           ),
         ),

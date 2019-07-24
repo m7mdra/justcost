@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class LocationPickerScreen extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pick Location'),
+        title: Text(AppLocalizations.of(context).pickLocation),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
@@ -34,7 +35,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
             : () {
                 Navigator.pop(context, marker.position);
               },
-        label: Text('Select Location'),
+        label: Text(AppLocalizations.of(context).selectCurrentLocation),
         icon: Icon(Icons.check),
       ),
       body: SafeArea(
@@ -43,6 +44,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           markers: markers,
+
           onMapCreated: (map) {
             _controller.complete(map);
           },
@@ -57,7 +59,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
               var newMarker = Marker(
                   markerId: MarkerId("marker"),
                   position: position.target,
-                  infoWindow: InfoWindow(title: "Your location"));
+                  infoWindow: InfoWindow(title: AppLocalizations.of(context).yourLocation));
               markers.add(newMarker);
               this.marker = newMarker;
               _isCameraMoving = true;
@@ -69,4 +71,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
       ),
     );
   }
+
+
 }

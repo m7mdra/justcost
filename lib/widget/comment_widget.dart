@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:justcost/data/comment/model/comment.dart';
-
+import 'package:justcost/i10n/app_localizations.dart';
 class CommentWidget extends StatelessWidget {
   final Comment comment;
   final ValueChanged<Comment> onReplayClick;
@@ -77,7 +77,7 @@ class CommentWidget extends StatelessWidget {
               onPressed: () {
                 onReplayClick(comment);
               },
-              child: Text('Replay')),
+              child: Text(AppLocalizations.of(context).replayButton)),
           const SizedBox(
             width: 8,
           ),

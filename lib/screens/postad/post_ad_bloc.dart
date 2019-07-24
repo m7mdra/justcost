@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
-import 'package:justcost/data/ad/post_ad_response.dart';
+import 'package:justcost/data/ad/model/post_ad_response.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'ad.dart';
 import 'package:justcost/data/exception/exceptions.dart';
@@ -31,9 +31,12 @@ class RetryPostProduct extends AdEvent {
 }
 
 class LoadingState extends AdState {
-  final String message;
+  final Loading loading;
 
-  LoadingState(this.message);
+  LoadingState(this.loading);
+}
+enum Loading{
+  ad,product
 }
 
 class IdleState extends AdState {}
@@ -41,6 +44,12 @@ class IdleState extends AdState {}
 class ErrorState extends AdState {}
 
 class NetworkErrorState extends AdState {}
+
+class CheckUserType extends AdEvent {}
+
+class GoatUserState extends AdState {}
+
+class NormalUserState extends AdState {}
 
 class PostProductsFailed extends AdState {
   final List<AdProduct> products;
@@ -73,8 +82,14 @@ class AdBloc extends Bloc<AdEvent, AdState> {
 
   @override
   Stream<AdState> mapEventToState(AdEvent event) async* {
+    if (event is CheckUserType) {
+      if (await _session.isUserAGoat())
+        yield GoatUserState();
+      else
+        yield NormalUserState();
+    }
     if (event is PostAdEvent) {
-      yield LoadingState("Please wait while trying to submit your ad");
+      yield LoadingState(Loading.ad);
       final userId = await _session.userId();
       try {
         final response = await _repository.postAd(
@@ -110,7 +125,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
   Stream<AdState> postProducts(
       List<AdProduct> products, bool isWholesale, int adid) async* {
     for (var i = 0; i < products.length; i++) {
-      yield LoadingState("Submitting product #$i...");
+      yield LoadingState(Loading.product);
       try {
         var res = await _repository.postProduct(
             categoryId: products[i].category.id,

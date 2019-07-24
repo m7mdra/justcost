@@ -223,7 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,
-                title: Text(AppLocalizations.of(context).emailFieldHint),
+                title: Text(AppLocalizations.of(context).emailFieldLabel),
                 subtitle: Text(user.email == null || user.email.isEmpty
                     ? AppLocalizations.of(context).na
                     : user.email)),
