@@ -53,138 +53,148 @@ class _SearchPageState extends State<SearchPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      children: <Widget>[
-        BlocBuilder(
-          bloc: _categoriesBloc,
-          builder: (BuildContext context, CategoriesState state) {
-            if (state is CategoriesLoadedState) {
-              state.categories.shuffle();
-              return Container(
-                height: 120,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    Container(
-                      height: 120,
-                      width: 120,
-                      child: Card(
-                        child: Center(
-                          child: Text(
-                            AppLocalizations.of(context).foryou,
-                            style: Theme.of(context).textTheme.subhead,
+    return RefreshIndicator(
+      onRefresh: () {
+        _categoriesBloc.dispatch(FetchCategoriesEvent());
+        _recentAdsBloc.dispatch(LoadRecentAds());
+        return Future.value(null);
+      },
+      child: ListView(
+        children: <Widget>[
+          BlocBuilder(
+            bloc: _categoriesBloc,
+            builder: (BuildContext context, CategoriesState state) {
+              if (state is CategoriesLoadedState) {
+                state.categories.shuffle();
+                return Container(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      Container(
+                        height: 120,
+                        width: 120,
+                        child: Card(
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context).foryou,
+                              style: Theme.of(context).textTheme.subhead,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 120,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => CategoryDetailsScreen(
-                                        false,
-                                        category: state.categories[index],
-                                      )));
-                            },
-                            child: Container(
-                              height: 120,
-                              width: 120,
-                              child: Card(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  state.categories[index].image == null ||
-                                          state.categories[index].image.isEmpty
-                                      ? Container(
-                                          height: 70,
-                                          width: 70,
-                                        )
-                                      : Image.network(
-                                          state.categories[index].image,
-                                          height: 70,
-                                          width: 70,
-                                        ),
-                                  Text(
-                                    state.categories[index].name,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              )),
-                            ),
-                          );
-                        },
-                        itemCount: state.categories.length,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return Container();
-          },
-        ),
-        BlocBuilder(
-          bloc: _recentAdsBloc,
-          builder: (BuildContext context, RecentAdsState state) {
-            if (state is RecentAdsLoaded) {
-              return GridView.builder(
-                primary: false,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => AdStatusScreen(
-                                products: state.products,
-                                position: index,
-                              )));
-                    },
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: <Widget>[
-                        state.products[index].media[0].url != null &&
-                                state.products[index].media[0].url.isNotEmpty
-                            ? Image.network(
-                                state.products[index].media[0].url,
-                                fit: BoxFit.cover,
+                      Container(
+                        height: 120,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => CategoryDetailsScreen(
+                                          false,
+                                          category: state.categories[index],
+                                        )));
+                              },
+                              child: Container(
                                 height: 120,
                                 width: 120,
-                              )
-                            : Container(
-                                width: 120,
-                                height: 120,
-                                color: Theme.of(context).primaryColor,
+                                child: Card(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    state.categories[index].image == null ||
+                                            state
+                                                .categories[index].image.isEmpty
+                                        ? Container(
+                                            height: 70,
+                                            width: 70,
+                                          )
+                                        : Image.network(
+                                            state.categories[index].image,
+                                            height: 70,
+                                            width: 70,
+                                          ),
+                                    Text(
+                                      state.categories[index].name,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                )),
                               ),
-                        DiscountPercentageBannerWidget(
-                          regularPrice: state.products[index].regPrice,
-                          salePrice: state.products[index].salePrice,
-                          onLike: () {},
-                        )
-                      ],
-                    ),
-                  );
-                },
-                itemCount: state.products.length,
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-              );
-            }
-            return Container();
-          },
-        ),
-      ],
+                            );
+                          },
+                          itemCount: state.categories.length,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Container();
+            },
+          ),
+          BlocBuilder(
+            bloc: _recentAdsBloc,
+            builder: (BuildContext context, RecentAdsState state) {
+              if (state is RecentAdsLoaded) {
+                return GridView.builder(
+                  primary: false,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => AdStatusScreen(
+                                  products: state.products,
+                                  position: index,
+                                )));
+                      },
+                      child: Stack(
+                        alignment: Alignment.centerLeft,
+                        children: <Widget>[
+                          state.products[index].media[0].url != null &&
+                                  state.products[index].media[0].url.isNotEmpty
+                              ? Image.network(
+                                  state.products[index].media[0].url,
+                                  fit: BoxFit.cover,
+                                  height: 120,
+                                  width: 120,
+                                )
+                              : Container(
+                                  width: 120,
+                                  height: 120,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                          DiscountPercentageBannerWidget(
+                            regularPrice: state.products[index].regPrice,
+                            salePrice: state.products[index].salePrice,
+                            onLike: () {},
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: state.products.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                );
+              }
+              if (state is RecentAdsLoading)
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              return Container();
+            },
+          ),
+        ],
+      ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
 }
-
-

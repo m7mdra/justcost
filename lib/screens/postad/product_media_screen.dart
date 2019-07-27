@@ -6,6 +6,7 @@ import 'package:justcost/widget/ad_image_view.dart';
 import 'package:justcost/widget/ad_video_view.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:flutter_video_compress/flutter_video_compress.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 const MAX_VIDEO_LENGTH = 20000.0;
 
@@ -41,11 +42,13 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
           context: _scaffoldKey.currentState.context,
           builder: (context) {
             return RoundedAlertDialog(
-              title: Text('Failed to optimized media'),
+              title: Text(AppLocalizations.of(context).failedToOptimizeMedia),
               content: Text('$error'),
               actions: <Widget>[
                 FlatButton(
-                    onPressed: () => Navigator.pop(context), child: Text('Ok'))
+                    onPressed: () => Navigator.pop(context),
+                    child:
+                        Text(MaterialLocalizations.of(context).okButtonLabel))
               ],
             );
           });
@@ -63,14 +66,14 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Product Media'),
+        title: Text(AppLocalizations.of(context).productsMedia),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.photo_camera),
               onPressed: () {
                 if (mediaList.length == 4) {
                   _scaffoldKey.currentState.showSnackBar(SnackBar(
-                    content: Text('Max media upload is 4'),
+                    content: Text(AppLocalizations.of(context).maxMedia4),
                     duration: Duration(seconds: 1),
                   ));
                 } else
@@ -78,12 +81,14 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                       context: context,
                       builder: (context) {
                         return RoundedAlertDialog(
-                          title: Text('Select Media to add to the uploads'),
+                          title: Text(AppLocalizations.of(context)
+                              .selectMediaToAddProduct),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
-                                title: Text('Capture Image'),
+                                title: Text(
+                                    AppLocalizations.of(context).captureImage),
                                 leading: Icon(Icons.camera_alt),
                                 dense: true,
                                 onTap: () async {
@@ -98,7 +103,8 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                 },
                               ),
                               ListTile(
-                                title: Text('Pick Image from gallery'),
+                                title: Text(AppLocalizations.of(context)
+                                    .pickFromGallery),
                                 leading: Icon(Icons.image),
                                 dense: true,
                                 onTap: () async {
@@ -113,7 +119,8 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                 },
                               ),
                               ListTile(
-                                title: Text('Capture Video'),
+                                title: Text(
+                                    AppLocalizations.of(context).captureVideo),
                                 leading: Icon(Icons.videocam),
                                 dense: true,
                                 onTap: () async {
@@ -123,14 +130,17 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                   if (video != null) {
                                     await optimizeVideo(video);
                                   } else {
-                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Failed to select video, try again')));
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                AppLocalizations.of(context)
+                                                    .failedToFindVideo)));
                                   }
                                 },
                               ),
                               ListTile(
-                                title: Text('Pick Video from gallery'),
+                                title: Text(AppLocalizations.of(context)
+                                    .pickFromGallery),
                                 leading: Icon(Icons.video_library),
                                 dense: true,
                                 onTap: () async {
@@ -140,9 +150,11 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                                   if (video != null) {
                                     await optimizeVideo(video);
                                   } else {
-                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Failed to select video, try again')));
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                AppLocalizations.of(context)
+                                                    .failedToFindVideo)));
                                   }
                                 },
                               ),
@@ -157,7 +169,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
           child: mediaList.isEmpty
               ? Center(
                   child: Text(
-                    'No Media selected.\ntap on the 📷 icon to add.',
+                    AppLocalizations.of(context).noMediaSelected,
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -166,7 +178,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds',
+                        AppLocalizations.of(context).maxMediaMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -221,7 +233,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                             else
                               Navigator.pop(context, mediaList);
                           },
-                          child: Text('Next'),
+                          child: Text(AppLocalizations.of(context).nextButton),
                         ),
                       ),
                     )
@@ -242,7 +254,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    'Optimizing video for faster upload time...',
+                    AppLocalizations.of(context).optimizingVideo,
                     textAlign: TextAlign.center,
                   ),
                   CircularProgressIndicator(),
@@ -257,8 +269,6 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
           includeAudio: true,
           duration: 20);
       if (compressedMediaInfo != null) {
-        debugPrint(
-            "VIDEO WAS ${compressedMediaInfo.toJson().toString()} AND NOW IS ${mediaInfo.toJson().toString()}");
         Navigator.pop(_scaffoldKey.currentContext);
         setState(() {
           mediaList

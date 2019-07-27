@@ -30,9 +30,10 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate
       ],
       supportedLocales: [
-        const Locale('en', ''),
         const Locale('ar', ''),
+        const Locale('en', ''),
       ],
+
       debugShowCheckedModeBanner: false,
       builder: (context, navigator) {
         return Theme(
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
             AuthenticationBloc(session: getIt.get(), repository: getIt.get()),
       ),
     );
+
   }
 }
 

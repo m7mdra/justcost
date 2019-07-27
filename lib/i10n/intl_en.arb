@@ -995,5 +995,95 @@
     "@Replay": {
       "type": "text",
       "placeholders": {}
+    },
+    "Pending": "Pending",
+      "@Pending": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Rejected": "Rejected",
+      "@Rejected": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Approved": "Approved",
+      "@Approved": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Wholesale ad": "Wholesale ad",
+      "@Wholesale ad": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Normal ad": "Normal ad",
+      "@Normal ad": {
+        "type": "text",
+        "placeholders": {}
+      },
+  "Active": "Active",
+  "@Active": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Status": "Status",
+  "@Status": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Enable": "Enable",
+  "@Enable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Disable": "Disable",
+  "@Disable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Inactive": "Inactive",
+  "@Inactive": {
+    "type": "text",
+    "placeholders": {}
+  },
+    "Max media upload is 4": "Max media upload is 4",
+    "@Max media upload is 4": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Select Media to add to the uploads": "Select Media to add to the uploads",
+    "@Select Media to add to the uploads": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Capture Video": "Capture Video",
+    "@Capture Video": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Failed to select video, try again": "Failed to select video, try again",
+    "@Failed to select video, try again": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "No Media selected.\ntap on the 📷 icon to add.": "No Media selected.\ntap on the 📷 icon to add.",
+    "@No Media selected.\ntap on the 📷 icon to add.": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds": "Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds",
+    "@Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Optimizing video for faster upload time...": "Optimizing video for faster upload time...",
+    "@Optimizing video for faster upload time...": {
+      "type": "text",
+      "placeholders": {}
+    },
+    "Failed to Optimize video, Try again": "Failed to Optimize video, Try again",
+    "@Failed to Optimize video, Try again": {
+      "type": "text",
+      "placeholders": {}
     }
 }

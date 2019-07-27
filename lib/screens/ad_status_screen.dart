@@ -6,7 +6,7 @@ import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/story_view.dart';
 import 'package:video_player/video_player.dart';
-import 'package:justcost/i10n/app_localizations.dart';
+
 class AdStatusScreen extends StatefulWidget {
   final List<Product> products;
   final int position;
@@ -24,14 +24,13 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
   @override
   void initState() {
     super.initState();
-    
     _pageController = PageController(initialPage: widget.position);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _pageController.dispose();
+    _pageController?.dispose();
   }
 
   @override
@@ -40,46 +39,50 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
 
       backgroundColor: Colors.black,
       body: Directionality(
-        child: PageView.builder(
-          onPageChanged: (index) {
-          },
+        child: PageView(
+
+          onPageChanged: (index) {},
           controller: _pageController,
-          itemBuilder: (BuildContext context, int index) {
-            return Stack(
-              children: <Widget>[
-                Story(
-                  product: widget.products[index],
-                  globalKey: GlobalKey(),
-                  onComplete: () {
-                    if (index == widget.products.length-1) Navigator.pop(context);
+          children: widget.products
+              .map((product) => Stack(
+                    children: <Widget>[
+                      Story(
+                        product: product,
+                        onComplete: () {
+                          if (widget.products.indexOf(product) ==
+                              widget.products.length - 1)
+                            Navigator.pop(context);
 
-                    _pageController.animateToPage(index + 1,
-                        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
-
-                  },
-                  canGoToPreviousStory: () {
-                    _pageController.animateToPage(index - 1,
-                        duration: Duration(milliseconds: 200), curve: Curves.easeOut);
-                  },
-                ),
-                Align(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AdWidget(product: widget.products[index]),
-                  ),
-                  alignment: Alignment.bottomCenter,
-                )
-              ],
-            );
-          },
-          itemCount: widget.products.length,
-        ), textDirection: TextDirection.ltr,
+                          _pageController.animateToPage(
+                              widget.products.indexOf(product) + 1,
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.easeInOut);
+                        },
+                        canGoToPreviousStory: () {
+                          _pageController.animateToPage(
+                              widget.products.indexOf(product) - 1,
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.easeOut);
+                        },
+                      ),
+                      Align(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AdWidget(product: product),
+                        ),
+                        alignment: Alignment.bottomCenter,
+                      )
+                    ],
+                  ))
+              .toList(),
+        ),
+        textDirection: TextDirection.ltr,
       ),
     );
   }
 }
 
-class Story extends StatelessWidget {
+class Story extends StatefulWidget {
   final VoidCallback onComplete;
   final VoidCallback canGoToPreviousStory;
   final VoidCallback onNextStory;
@@ -88,22 +91,34 @@ class Story extends StatelessWidget {
   const Story({
     this.canGoToPreviousStory,
     Key key,
-    @required this.globalKey,
     this.onComplete,
     this.product,
     this.onNextStory,
   }) : super(key: key);
 
-  final GlobalKey<StoryViewState> globalKey;
+  @override
+  _StoryState createState() => _StoryState();
+}
+
+class _StoryState extends State<Story> {
+  final GlobalKey<StoryViewState> globalKey = GlobalKey();
+
+  @override
+  void dispose() {
+    super.dispose();
+    globalKey?.currentState?.dispose();
+    print("||||||||||||DISPOSING A STATUS||||||||||||||");
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoryView(
-      product.media.map((media) {
+      widget.product.media.map((media) {
         if (media.flag == 1)
           return StoryItem(
               ImageStatus(
                 globalKey: globalKey,
+                key: GlobalKey(),
                 imageUrl: media.url,
               ),
               duration: Duration(seconds: 5));
@@ -112,6 +127,7 @@ class Story extends StatelessWidget {
               VideoStatus(
                 globalKey: globalKey,
                 videoUrl: media.url,
+                key: GlobalKey(),
               ),
               duration: Duration(seconds: 10));
       }).toList(),
@@ -119,10 +135,10 @@ class Story extends StatelessWidget {
 //        onNextStory();
       },
       onComplete: () {
-        onComplete();
+        widget.onComplete();
       },
       canGoPrevious: () {
-        canGoToPreviousStory();
+        widget.canGoToPreviousStory();
       },
       progressPosition: ProgressPosition.top,
       repeat: false,
@@ -132,7 +148,7 @@ class Story extends StatelessWidget {
   }
 }
 
-class ImageStatus extends StatelessWidget {
+class ImageStatus extends StatefulWidget {
   final String imageUrl;
   final GlobalKey<StoryViewState> globalKey;
 
@@ -143,11 +159,16 @@ class ImageStatus extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  ImageStatusState createState() => ImageStatusState();
+}
+
+class ImageStatusState extends State<ImageStatus> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<File>(
-      future: DefaultCacheManager().getSingleFile(imageUrl),
+      future: DefaultCacheManager().getSingleFile(widget.imageUrl),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        globalKey.currentState.pause();
+        widget.globalKey.currentState.pause();
 
         if (snapshot.connectionState == ConnectionState.done) if (snapshot
             .hasError) {
@@ -156,7 +177,7 @@ class ImageStatus extends StatelessWidget {
             style: TextStyle(color: Colors.red),
           );
         } else {
-          globalKey.currentState.resume();
+          widget.globalKey.currentState.resume();
           return Center(child: Image.file(snapshot.data));
         }
         else
@@ -177,24 +198,26 @@ class VideoStatus extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _VideoStatusState createState() => _VideoStatusState();
+  VideoStatusState createState() => VideoStatusState();
 }
 
-class _VideoStatusState extends State<VideoStatus> {
+class VideoStatusState extends State<VideoStatus> {
   VideoPlayerController controller;
 
   @override
   void dispose() {
     super.dispose();
-    if (controller != null) controller.dispose();
+    disposeVideo();
+
   }
+  disposeVideo() async =>await controller?.dispose();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<File>(
       builder: (context, AsyncSnapshot<File> snapshot) {
         print(snapshot);
-        widget.globalKey.currentState.pause();
+        widget.globalKey?.currentState?.pause();
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError)
             return Container(
@@ -211,10 +234,9 @@ class _VideoStatusState extends State<VideoStatus> {
             return FutureBuilder<void>(
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  widget.globalKey.currentState.resume();
+                  widget.globalKey?.currentState?.resume();
 
                   controller.play();
-                  controller.setLooping(true);
 
                   return Center(
                     child: AspectRatio(

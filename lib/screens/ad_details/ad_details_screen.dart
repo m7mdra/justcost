@@ -10,10 +10,13 @@ import 'package:justcost/screens/ad_details/attribute_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
+import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
+import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
+import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:share/share.dart';
@@ -44,7 +47,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
-    _likeProductBloc = LikeProductBloc(DependenciesProvider.provide());
+    _likeProductBloc = LikeProductBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
     _attributesBloc = AttributesBloc(DependenciesProvider.provide());
     _commentsBloc.dispatch(LoadComments(product.productId));
@@ -106,8 +110,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               ),
               BlocBuilder(
                 bloc: _likeProductBloc,
-                // ignore: missing_return
                 builder: (BuildContext context, LikeState state) {
+                  print(state);
                   if (state is LikeLoading || state is LikeIdle)
                     return IconText(
                         icon: Icon(
@@ -118,6 +122,30 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         onPressed: null);
                   if (state is LikeLoaded) return likeWidget(state.isLiked);
                   if (state is LikeToggled) return likeWidget(state.isLiked);
+                  if (state is UserSessionExpired) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) =>
+                            LoginScreen(NavigationReason.session_expired)));
+                    return IgnorePointer(
+                      child: likeWidget(false),
+                    );
+                  }
+                  if (state is GoatUserState)
+                    return IconText(
+                      onPressed: () {
+                        scaffoldKey.currentState
+                          ..hideCurrentSnackBar(
+                              reason: SnackBarClosedReason.hide)
+                          ..showSnackBar(SnackBar(
+                              content: Text(AppLocalizations.of(context)
+                                  .guestAccountMessage)));
+                      },
+                      icon: Icon(Icons.favorite_border),
+                      text: Text(AppLocalizations.of(context).saveButton),
+                    );
+                  return IgnorePointer(
+                    child: likeWidget(false),
+                  );
                 },
               ),
               IconText(
@@ -160,7 +188,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                       ),
                     ),
                     Text(
-                      //TODO
                       '${product.salePrice} AED',
                       style: TextStyle(
                           color: Colors.red,

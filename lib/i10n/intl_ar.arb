@@ -995,5 +995,95 @@
     "@Replay": {
       "type": "text",
       "placeholders": {}
-    }
+    },
+    "Pending": "معلق",
+      "@Pending": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Rejected": "مرفوض",
+      "@Rejected": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Approved": "مقبول",
+      "@Approved": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Wholesale ad": "اعلان جملة",
+      "@Wholesale ad": {
+        "type": "text",
+        "placeholders": {}
+      },
+      "Normal ad": "اعلان فردي",
+      "@Normal ad": {
+        "type": "text",
+        "placeholders": {}
+      },
+        "Active": "نشط",
+        "@Active": {
+          "type": "text",
+          "placeholders": {}
+        },
+        "Status": "الحالة",
+        "@Status": {
+          "type": "text",
+          "placeholders": {}
+        },
+        "Enable": "تفعيل",
+        "@Enable": {
+          "type": "text",
+          "placeholders": {}
+        },
+        "Disable": "تعطيل",
+        "@Disable": {
+          "type": "text",
+          "placeholders": {}
+        },
+        "Inactive": "غير نشط",
+        "@Inactive": {
+          "type": "text",
+          "placeholders": {}
+        },
+          "Max media upload is 4": "الحد الاعلى للصور او الفيديوهات هو ٤",
+          "@Max media upload is 4": {
+            "type": "text",
+            "placeholders": {}
+          },
+          "Select Media to add to the uploads": "اختر صوؤة او فيديو ليتم رفعها",
+          "@Select Media to add to the uploads": {
+            "type": "text",
+            "placeholders": {}
+          },
+          "Capture Video": "صور فيديو",
+          "@Capture Video": {
+            "type": "text",
+            "placeholders": {}
+          },
+          "Failed to select video, try again": "فشل اختيار الفيديو. حاول مجددا",
+          "@Failed to select video, try again": {
+            "type": "text",
+            "placeholders": {}
+          },
+          "No Media selected.\ntap on the 📷 icon to add.": " لم يتم اختيار صور او فيدوهات, اضغط على زر 📷 للاضافة ",
+          "@No Media selected.\ntap on the 📷 icon to add.": {
+            "type": "text",
+            "placeholders": {}
+          },
+"Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds": "الحد الاقصى للصور او الفيديوهات هو ٤ . الطول الاقصى للفيديو هو ٢٠ ثانية",
+    "@Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds": {
+      "type": "text",
+      "placeholders": {}
+    },
+          "Optimizing video for faster upload time...": "جاري تقليل حجم الفيديو لتسهيل الارسال",
+          "@Optimizing video for faster upload time...": {
+            "type": "text",
+            "placeholders": {}
+          },
+          "Failed to Optimize video, Try again": "فشل عملية تقليل حجم الفيديو. حاول مجددا",
+          "@Failed to Optimize video, Try again": {
+            "type": "text",
+            "placeholders": {}
+          }
 }

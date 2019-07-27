@@ -69,7 +69,6 @@ class AppLocalizations {
   String get profilePageTitle => Intl.message('Profile');
 
   String get resetAccount => Intl.message('Reset Account');
-
   String get resetAccountSuccess =>
       Intl.message('An email was sent successfully to your account');
 
@@ -513,8 +512,43 @@ class AppLocalizations {
   String get adRejectedStatus => Intl.message('Rejected');
 
   String get adApprovedStatus => Intl.message('Approved');
-  String get wholesaleAdType=>Intl.message("Wholesale ad");
-  String get normalAdType=>Intl.message("Normal ad");
+
+  String get wholesaleAdType => Intl.message("Wholesale ad");
+
+  String get normalAdType => Intl.message("Normal ad");
+
+  String get active => Intl.message('Active');
+
+  String get status => Intl.message('Status');
+
+  String get enable => Intl.message('Enable');
+
+  String get disable => Intl.message('Disable');
+
+  String get inactive => Intl.message('Inactive');
+
+  String get maxMedia4 => Intl.message('Max media upload is 4');
+
+  String get selectMediaToAddProduct =>
+      Intl.message('Select Media to add to the uploads');
+
+  String get captureVideo => Intl.message('Capture Video');
+
+  String get failedToFindVideo =>
+      Intl.message('Failed to select video, try again');
+
+  String get noMediaSelected =>
+      Intl.message('No Media selected.\ntap on the 📷 icon to add.');
+
+  String get maxMediaMessage => Intl.message(
+      'Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds');
+
+  String get optimizingVideo =>
+      Intl.message('Optimizing video for faster upload time...');
+
+  String get failedToOptimizeMedia =>
+      Intl.message("Failed to Optimize video, Try again");
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -527,5 +561,5 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   Future<AppLocalizations> load(Locale locale) => AppLocalizations.load(locale);
 
   @override
-  bool shouldReload(AppLocalizationsDelegate old) => false;
+  bool shouldReload(AppLocalizationsDelegate old) => true;
 }

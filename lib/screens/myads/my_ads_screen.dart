@@ -4,6 +4,7 @@ import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/myad_details/my_ad_details_screen.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
@@ -53,22 +54,45 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
               ),
             );
           if (state is MyAdsLoadedState) {
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                var ad = state.ads[index];
-                return Card(
-                    child: ListTile(
-                  leading: Text(ad.iswholesale
-                      ? AppLocalizations.of(context).wholesaleAdType
-                      : AppLocalizations.of(context).normalAdType),
-                  trailing: _getStatusFromCode(context, ad.status),
-                  title: Text(ad.adTitle ??
-                      "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
-                  subtitle: Text(ad.adDescription ??
-                      "${AppLocalizations.of(context).adDetailsTitle} ${AppLocalizations.of(context).na}"),
-                ));
+            return RefreshIndicator(
+              onRefresh: () {
+                _bloc.dispatch(LoadMyAds());
+
+                return Future.value(null);
               },
-              itemCount: state.ads.length,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  var ad = state.ads[index];
+                  return Card(
+                      child: ListTile(
+                    leading: Text(ad.iswholesale
+                        ? AppLocalizations.of(context).wholesaleAdType
+                        : AppLocalizations.of(context).normalAdType),
+                    trailing: _getStatusFromCode(context, ad.status),
+                    title: Text(ad.adTitle ??
+                        "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
+                    subtitle: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(ad.adDescription ??
+                            "${AppLocalizations.of(context).adDetailsTitle} ${AppLocalizations.of(context).na}"),
+                        Text(
+                            '${AppLocalizations.of(context).status}: ${ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive}'),
+                        OutlineButton(
+                          onPressed: () {},
+                          child: ad.status == 1
+                              ? Text(AppLocalizations.of(context).disable)
+                              : Text(AppLocalizations.of(context).enable),
+                          padding: const EdgeInsets.all(0),
+                        )
+                      ],
+                    ),
+                    isThreeLine: true,
+                  ));
+                },
+                itemCount: state.ads.length,
+              ),
             );
           }
           if (state is EmptyState) return NoDataWidget();

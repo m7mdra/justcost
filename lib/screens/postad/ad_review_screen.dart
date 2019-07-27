@@ -58,103 +58,99 @@ class _AdReviewScreenState extends State<AdReviewScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).adReview),
       ),
-      body: BlocListener(
+      body: BlocBuilder(
         bloc: _bloc,
-        listener: (context, state) {},
-        child: BlocBuilder(
-          bloc: _bloc,
-          builder: (BuildContext context, AdState state) {
-            if (state is LoadingState)
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text(
-                        '${state.loading == Loading.ad ? AppLocalizations.of(context).postAdLoading : AppLocalizations.of(context).postProductsLoading}')
-                  ],
-                ),
-              );
-            if (state is SuccessState)
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 80,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      AppLocalizations.of(context).adSubmitSuccessTitle,
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    Text(AppLocalizations.of(context).adSubmitSuccessMessage),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                    )
-                  ],
-                ),
-              );
-            if (state is NetworkErrorState ||
-                state is ErrorState ||
-                state is PostAdFailed) {
-              return Center(
-                child: NetworkErrorWidget(
-                  onRetry: () {
-                    _bloc.dispatch(PostAdEvent(adDetails, adContact, products,
-                        widget.additionType == AdditionType.multiple));
-                  },
-                ),
-              );
-            }
-            if (state is PostProductsFailed) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(AppLocalizations.of(context).adFailedMessage),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        _bloc.dispatch(RetryPostProduct(
-                            state.products, state.adId, state.isWholeSale));
-                      },
-                      child: Text(AppLocalizations.of(context).retryButton),
-                    )
-                  ],
-                ),
-              );
-            }
-            return BlocProvider.value(
-              value: _bloc,
-              child: AdDetailsWidget(
-                additionType: widget.additionType,
-                adContact: adContact,
-                adDetails: adDetails,
-                products: products,
+        builder: (BuildContext context, AdState state) {
+          if (state is LoadingState)
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  Text(
+                      '${state.loading == Loading.ad ? AppLocalizations.of(context).postAdLoading : AppLocalizations.of(context).postProductsLoading}')
+                ],
               ),
             );
-          },
-        ),
+          if (state is SuccessState)
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                    size: 80,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    AppLocalizations.of(context).adSubmitSuccessTitle,
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  Text(AppLocalizations.of(context).adSubmitSuccessMessage),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child:
+                        Text(MaterialLocalizations.of(context).okButtonLabel),
+                  )
+                ],
+              ),
+            );
+          if (state is NetworkErrorState ||
+              state is ErrorState ||
+              state is PostAdFailed) {
+            return Center(
+              child: NetworkErrorWidget(
+                onRetry: () {
+                  _bloc.dispatch(PostAdEvent(adDetails, adContact, products,
+                      widget.additionType == AdditionType.multiple));
+                },
+              ),
+            );
+          }
+          if (state is PostProductsFailed) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(AppLocalizations.of(context).adFailedMessage),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      _bloc.dispatch(RetryPostProduct(
+                          state.products, state.adId, state.isWholeSale));
+                    },
+                    child: Text(AppLocalizations.of(context).retryButton),
+                  )
+                ],
+              ),
+            );
+          }
+          return BlocProvider.value(
+            value: _bloc,
+            child: AdDetailsWidget(
+              additionType: widget.additionType,
+              adContact: adContact,
+              adDetails: adDetails,
+              products: products,
+            ),
+          );
+        },
       ),
     );
   }

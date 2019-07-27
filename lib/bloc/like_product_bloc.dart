@@ -4,6 +4,7 @@ import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/product/model/like.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/data/product/product_repository.dart';
+import 'package:justcost/data/user_sessions.dart';
 
 abstract class LikeEvent {}
 
@@ -31,6 +32,9 @@ class LikeToggled extends LikeState {
 
   LikeToggled(this.isLiked);
 }
+class GoatUserState extends LikeState{
+
+}
 
 class UserSessionExpired extends LikeState {}
 
@@ -45,8 +49,9 @@ class LikeLoaded extends LikeState {
 class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   final ProductRepository _repository;
   bool isLiked;
+  final UserSession _session;
 
-  LikeProductBloc(this._repository);
+  LikeProductBloc(this._repository, this._session);
 
   @override
   LikeState get initialState => LikeIdle();
@@ -54,21 +59,25 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
   @override
   Stream<LikeState> mapEventToState(LikeEvent event) async* {
     if (event is CheckLikeEvent) {
-      yield LikeLoading();
-      try {
-        LikeStatus response = await _repository.checkLiked(event.productId);
+      if (await _session.isUserAGoat()) {
+        yield GoatUserState();
+      } else {
+        yield LikeLoading();
+        try {
+          LikeStatus response = await _repository.checkLiked(event.productId);
 
-        if (response.success) {
-          isLiked = response.liked;
-          yield LikeLoaded(response.liked);
-        } else
+          if (response.success) {
+            isLiked = response.liked;
+            yield LikeLoaded(response.liked);
+          } else
+            yield LikeError();
+        } on SessionExpired {
+          yield UserSessionExpired();
+        } on DioError {
           yield LikeError();
-      } on SessionExpired {
-        yield UserSessionExpired();
-      } on DioError {
-        yield LikeError();
-      } catch (error) {
-        yield LikeError();
+        } catch (error) {
+          yield LikeError();
+        }
       }
     }
     if (event is ToggleLike) {
@@ -92,6 +101,7 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
             yield LikeError();
         }
       } on SessionExpired {
+
         yield UserSessionExpired();
       } on DioError {
         yield LikeError();

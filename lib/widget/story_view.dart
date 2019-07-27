@@ -29,7 +29,7 @@ class StoryItem {
   bool shown;
 
   /// The page content
-  final Widget view;
+  final StatefulWidget view;
 
   StoryItem(
     this.view, {
@@ -84,9 +84,7 @@ class StoryView extends StatefulWidget {
         super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return StoryViewState();
-  }
+  State<StatefulWidget> createState() => StoryViewState();
 }
 
 class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
@@ -217,6 +215,10 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
         }
       }
     }
+  }
+
+  _disposeStory(StoryItem storyItem) {
+    (storyItem.view.key as GlobalKey).currentState.dispose();
   }
 
   void pause() {
