@@ -2,12 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:justcost/data/comment/comment_repository.dart';
 import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 
 class PostCommentBloc extends Bloc<PostEvent, PostState> {
-  final CommentRepository repository;
+  final CommentRepository _repository;
+  final UserSession _session;
 
-  PostCommentBloc(this.repository);
+  PostCommentBloc(this._repository, this._session);
 
   @override
   // TODO: implement initialState
@@ -15,10 +17,17 @@ class PostCommentBloc extends Bloc<PostEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
+    if (event is CheckIfUserIsGoat) {
+      if (await _session.isUserAGoat()) {
+        yield GoatUser();
+      } else {
+        yield NormalUser();
+      }
+    }
     if (event is PostComment) {
       try {
         yield PostCommentLoading();
-        var response = await repository.addCommentToProduct(
+        var response = await _repository.addCommentToProduct(
             event.productId, event.comment, event.parentId);
         if (response.success) {
           yield PostCommentSuccess();
@@ -49,6 +58,12 @@ class PostComment extends PostEvent {
 }
 
 class SessionExpiredState extends PostState {}
+
+class CheckIfUserIsGoat extends PostEvent {}
+
+class NormalUser extends PostState {}
+
+class GoatUser extends PostState {}
 
 class PostCommentIdle extends PostState {}
 

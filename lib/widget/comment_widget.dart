@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:justcost/data/comment/model/comment.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+
 class CommentWidget extends StatelessWidget {
   final Comment comment;
+  final bool showReplayButton;
   final ValueChanged<Comment> onReplayClick;
   final ValueChanged<Comment> onReportClick;
 
   const CommentWidget(
-      {Key key, this.comment, this.onReplayClick, this.onReportClick})
+      {Key key,
+      this.comment,
+      this.onReplayClick,
+      this.onReportClick,
+      this.showReplayButton})
       : super(key: key);
 
   @override
@@ -16,6 +22,7 @@ class CommentWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -41,16 +48,21 @@ class CommentWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(comment.customerName),
+                      Text(
+                        comment.customerName,
+                        textAlign: TextAlign.start,
+                      ),
                       const SizedBox(
                         width: 16,
                       ),
                       FlutterRatingBarIndicator(
                         rating: comment.rate[0].rate.toDouble(),
                         itemSize: 12,
-                        emptyColor: Theme.of(context).accentColor.withAlpha(40),
+                        emptyColor: Theme.of(context).accentColor.withAlpha(60),
                         itemPadding: const EdgeInsets.all(0),
                       ),
                     ],
@@ -60,10 +72,10 @@ class CommentWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   Container(
+                    alignment: Alignment.centerRight,
                     width: MediaQuery.of(context).size.width - 120,
                     child: Text(
                       comment.comment,
-                      style: Theme.of(context).textTheme.body2,
                       textAlign: TextAlign.justify,
                       overflow: TextOverflow.visible,
                       maxLines: null,
@@ -73,11 +85,13 @@ class CommentWidget extends StatelessWidget {
               ),
             ],
           ),
-          OutlineButton(
-              onPressed: () {
-                onReplayClick(comment);
-              },
-              child: Text(AppLocalizations.of(context).replayButton)),
+          showReplayButton
+              ? OutlineButton(
+                  onPressed: () {
+                    onReplayClick(comment);
+                  },
+                  child: Text(AppLocalizations.of(context).replayButton))
+              : Container(height: 8,),
           const SizedBox(
             width: 8,
           ),
@@ -88,6 +102,7 @@ class CommentWidget extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return ReplayWidget(
                 replay: comment.replies[index],
+                key: ValueKey(comment.replies[index].commentId),
               );
             },
             itemCount: comment.replies.length,
@@ -146,7 +161,6 @@ class ReplayWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width - 150,
                   child: Text(
                     replay.comment,
-                    style: Theme.of(context).textTheme.body2,
                     textAlign: TextAlign.justify,
                     overflow: TextOverflow.visible,
                     maxLines: null,

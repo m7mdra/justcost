@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/intro/intro_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -15,12 +20,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   AuthenticationBloc _authenticationBloc;
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       backgroundColor: Theme.of(context).primaryColor,
       body: BlocBuilder(
         bloc: _authenticationBloc,
@@ -42,25 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-    firebaseMessaging.onTokenRefresh.listen((newToken) {
-      _authenticationBloc.dispatch(UpdateMessagingId(newToken));
-    });
-    firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, alert: true, badge: true));
-    firebaseMessaging.setAutoInitEnabled(true);
-    firebaseMessaging.configure(
-      onLaunch: (Map<String, dynamic> message) {
-        print("onLaunch: $message");
-      },
-      onMessage: (Map<String, dynamic> message) {
-        print("onMessage: $message");
-      },
-      onResume: (Map<String, dynamic> message) {
-        print("onResume: $message");
-      },
-    );
-
+    _authenticationBloc = BlocProvider.of(context);
     _authenticationBloc.dispatch(AppStarted());
     _authenticationBloc.state.listen((state) {
       if (state is UserAuthenticated)

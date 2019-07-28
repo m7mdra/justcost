@@ -1085,5 +1085,11 @@
     "@Failed to Optimize video, Try again": {
       "type": "text",
       "placeholders": {}
-    }
+    },
+
+      "No Comments added, be the first to comment": "No Comments added, be the first to comment",
+      "@No Comments added, be the first to comment": {
+        "type": "text",
+        "placeholders": {}
+      }
 }

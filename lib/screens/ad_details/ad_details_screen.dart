@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -10,13 +12,12 @@ import 'package:justcost/screens/ad_details/attribute_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
+import 'package:justcost/screens/ad_details/product_comments.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
-import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
-import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:share/share.dart';
@@ -49,10 +50,12 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
     _likeProductBloc = LikeProductBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
-    _postCommentBloc = PostCommentBloc(DependenciesProvider.provide());
+    _postCommentBloc = PostCommentBloc(
+        DependenciesProvider.provide(), DependenciesProvider.provide());
     _attributesBloc = AttributesBloc(DependenciesProvider.provide());
     _commentsBloc.dispatch(LoadComments(product.productId));
     _bloc.dispatch(LoadEvent(product.productId));
+    _postCommentBloc.dispatch(CheckIfUserIsGoat());
     _likeProductBloc.dispatch(CheckLikeEvent(product.productId));
     _attributesBloc.dispatch(LoadProductAttribute(product.productId));
     _postCommentBloc.state.listen((state) {
@@ -347,6 +350,21 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             child: BlocBuilder(
               bloc: _postCommentBloc,
               builder: (BuildContext context, PostState state) {
+                if (state is GoatUser) {
+                  return Stack(
+                    children: <Widget>[
+
+                      IgnorePointer(
+                        ignoring: true,
+                        child: Opacity(
+                          opacity: 0.3,
+                          child: commentBox(),
+                        ),
+                      )
+                    ],
+                  );
+                }
+                if (state is NormalUser) return commentBox();
                 if (state is PostCommentLoading)
                   return IgnorePointer(
                     ignoring: true,
@@ -406,7 +424,9 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                       ],
                     ),
                   );
-                if (state is CommentsLoaded)
+                if (state is CommentsLoaded) {
+                  print(
+                      "Should 'show more comments button?' ${state.comments.length < 4 ? state.comments.length : 4 == 4}");
                   return Column(
                     children: <Widget>[
                       ListView.separated(
@@ -414,6 +434,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         primary: false,
                         itemBuilder: (context, index) {
                           return CommentWidget(
+                            showReplayButton: true,
+                            key: ValueKey(state.comments[index].commentId),
                             comment: state.comments[index],
                             onReplayClick: (comment) async {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -427,25 +449,40 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                             },
                           );
                         },
-                        itemCount: state
-                            .comments.length/*< 4 ? state.comments.length : 4*/,
+                        itemCount: state.comments.length < 4
+                            ? state.comments.length
+                            : 4,
                         separatorBuilder: (BuildContext context, int index) {
                           return Divider(
                             height: 1,
                           );
                         },
                       ),
-                      /* state.comments.length > 4
+                      state.comments.length > 4
                           ? Container(
                               width: MediaQuery.of(context).size.width,
                               child: OutlineButton(
-                                onPressed: () {},
-                                child: Text('Show more comments'),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BlocProvider.value(
+                                                value: _commentsBloc,
+                                                child: ProductComments(
+                                                  comments: state.comments,
+                                                  product: product,
+                                                ),
+                                              )));
+                                },
+                                child: Text(AppLocalizations.of(context)
+                                    .showAllCommentButton),
                               ),
                             )
-                          : Container()*/
+                          : Container()
                     ],
                   );
+                }
                 return Container();
               },
             ),

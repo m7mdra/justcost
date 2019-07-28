@@ -129,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "New price field can not be more than old price field" : MessageLookupByLibrary.simpleMessage("New price field can not be more than old price field"),
     "Next" : MessageLookupByLibrary.simpleMessage("Next"),
     "No Active internet connection found, check your connection or tap on Try again" : MessageLookupByLibrary.simpleMessage("No Active internet connection found, check your connection or tap on Try again"),
+    "No Comments added, be the first to comment" : MessageLookupByLibrary.simpleMessage("No Comments added, be the first to comment"),
     "No Data found at the moment." : MessageLookupByLibrary.simpleMessage("No Data found at the moment."),
     "No Internet Connection" : MessageLookupByLibrary.simpleMessage("No Internet Connection"),
     "No Media selected.\ntap on the 📷 icon to add." : MessageLookupByLibrary.simpleMessage("No Media selected.\ntap on the 📷 icon to add."),

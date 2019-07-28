@@ -69,6 +69,7 @@ class AppLocalizations {
   String get profilePageTitle => Intl.message('Profile');
 
   String get resetAccount => Intl.message('Reset Account');
+
   String get resetAccountSuccess =>
       Intl.message('An email was sent successfully to your account');
 
@@ -356,8 +357,6 @@ class AppLocalizations {
 
   String get viewLocationButton => Intl.message('View Location');
 
-  String get noCommentFound => Intl.message('Failed to post comment');
-
   String copyRights(int date) =>
       Intl.message('Copyright © $date, All Rights resereved',
           args: [date], name: 'copyRights');
@@ -549,6 +548,10 @@ class AppLocalizations {
   String get failedToOptimizeMedia =>
       Intl.message("Failed to Optimize video, Try again");
 
+  String get noCommentFound =>
+      Intl.message('No Comments added, be the first to comment');
+
+  String get showAllCommentButton => Intl.message('Show all comments');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

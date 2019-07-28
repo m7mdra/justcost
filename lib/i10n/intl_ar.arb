@@ -1085,5 +1085,10 @@
           "@Failed to Optimize video, Try again": {
             "type": "text",
             "placeholders": {}
-          }
+          },
+          "No Comments added, be the first to comment": "لم تتم اضافة تعليقات, كن الاول",
+                "@No Comments added, be the first to comment": {
+                  "type": "text",
+                  "placeholders": {}
+                }
 }

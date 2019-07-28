@@ -30,7 +30,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
     super.initState();
     _formNode = FocusNode();
     _commentTextEditingController = TextEditingController();
-    _bloc = PostCommentBloc(DependenciesProvider.provide());
+    _bloc = PostCommentBloc(DependenciesProvider.provide(),DependenciesProvider.provide());
     _bloc.state.listen((state) {
       if (state is PostCommentSuccess) {
         _commentTextEditingController.clear();
@@ -52,6 +52,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Replay'),),
       key: _globalKey,
       body: SafeArea(
         child: Padding(
@@ -59,6 +60,8 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
           child: ListView(
             children: <Widget>[
               CommentWidget(
+                key: ValueKey(widget.comment.commentId),
+                showReplayButton: false,
                 comment: widget.comment,
                 onReplayClick: (comment) {
                   FocusScope.of(context).requestFocus(_formNode);

@@ -22,6 +22,7 @@ class CommentsNetworkError extends CommentsState {}
 
 class NoComments extends CommentsState {}
 
+
 class CommentsLoaded extends CommentsState {
   final List<Comment> comments;
 
@@ -59,7 +60,9 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         }
       } on DioError catch (e) {
         yield CommentsNetworkError();
-      } catch (e) {
+      }
+
+      catch (e) {
         yield CommentsError();
       }
     }
