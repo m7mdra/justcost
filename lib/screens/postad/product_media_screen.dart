@@ -36,7 +36,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
       print(progress);
       print(_flutterVideoCompress.isCompressing);
     }, onDone: () {
-      Navigator.pop(_scaffoldKey.currentState.context);
+
     }, onError: (error) {
       showDialog(
           context: _scaffoldKey.currentState.context,

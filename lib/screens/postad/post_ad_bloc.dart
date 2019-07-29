@@ -35,9 +35,8 @@ class LoadingState extends AdState {
 
   LoadingState(this.loading);
 }
-enum Loading{
-  ad,product
-}
+
+enum Loading { ad, product }
 
 class IdleState extends AdState {}
 
@@ -46,6 +45,7 @@ class ErrorState extends AdState {}
 class NetworkErrorState extends AdState {}
 
 class CheckUserType extends AdEvent {}
+
 
 class GoatUserState extends AdState {}
 
@@ -83,7 +83,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
   @override
   Stream<AdState> mapEventToState(AdEvent event) async* {
     if (event is CheckUserType) {
-      if (await _session.isUserAGoat())
+      if ( await _session.isUserAGoat() )
         yield GoatUserState();
       else
         yield NormalUserState();

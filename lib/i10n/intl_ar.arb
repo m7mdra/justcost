@@ -225,7 +225,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "Select the ad location first.": "قم باختيار موقع الاعلان اولا",
+  "Select the ad location first.": "قم باختيار موقع الاعلان ",
   "@Select the ad location first.": {
     "type": "text",
     "placeholders": {}
@@ -736,7 +736,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "Select Country First": "اختر التصنيف اولا",
+  "Select Country First": "اختر المدينة اولا",
   "@Select Country First": {
     "type": "text",
     "placeholders": {}

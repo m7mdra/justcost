@@ -36,11 +36,13 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       backgroundColor: Colors.black,
       body: Directionality(
         child: PageView(
-
           onPageChanged: (index) {},
           controller: _pageController,
           children: widget.products
@@ -208,9 +210,9 @@ class VideoStatusState extends State<VideoStatus> {
   void dispose() {
     super.dispose();
     disposeVideo();
-
   }
-  disposeVideo() async =>await controller?.dispose();
+
+  disposeVideo() async => await controller?.dispose();
 
   @override
   Widget build(BuildContext context) {

@@ -12,8 +12,8 @@ import 'package:justcost/screens/home/search/search_page.dart';
 import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/fab_bottom_appbar.dart';
 
-import 'package:justcost/screens/postad/ad_details_screen.dart';
-import 'package:justcost/screens/postad/ad_type_screen.dart';
+import '../../post_ad_screen.dart';
+
 
 class MainScreen extends StatefulWidget {
   @override
@@ -173,7 +173,7 @@ class _MainScreenState extends State<MainScreen>
         heroTag: "addad",
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
+              .push(MaterialPageRoute(builder: (context) => PostAdScreen()));
         },
         tooltip: AppLocalizations.of(context).postAd,
         child: Icon(Icons.add),

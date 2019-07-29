@@ -54,6 +54,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _newPriceController.text = product.newPrice;
       _detailsController.text = product.details;
       _category = product.category;
+      _adKeywordController.text=product.keyword;
       _brand = product.brand;
       attributeList = product.attributes;
       mediaList = product.mediaList;

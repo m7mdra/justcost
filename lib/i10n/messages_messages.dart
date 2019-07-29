@@ -195,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Session Expired, log in again" : MessageLookupByLibrary.simpleMessage("Session Expired, log in again"),
     "Settings" : MessageLookupByLibrary.simpleMessage("Settings"),
     "Share" : MessageLookupByLibrary.simpleMessage("Share"),
+    "Show all comments" : MessageLookupByLibrary.simpleMessage("Show all comments"),
     "Sort" : MessageLookupByLibrary.simpleMessage("Sort"),
     "Sort Search Result" : MessageLookupByLibrary.simpleMessage("Sort Search Result"),
     "Status" : MessageLookupByLibrary.simpleMessage("Status"),

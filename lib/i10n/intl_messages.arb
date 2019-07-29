@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-07-28T09:36:34.382960",
+  "@@last_modified": "2019-07-29T14:19:09.513076",
   "try again or contact support.": "try again or contact support.",
   "@try again or contact support.": {
     "type": "text",
@@ -1088,6 +1088,11 @@
   },
   "No Comments added, be the first to comment": "No Comments added, be the first to comment",
   "@No Comments added, be the first to comment": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Show all comments": "Show all comments",
+  "@Show all comments": {
     "type": "text",
     "placeholders": {}
   }
