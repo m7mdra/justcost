@@ -103,7 +103,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
         child: BlocBuilder(
           bloc: _bloc,
           builder: (BuildContext context, AdState state) {
-/*            if (state is GoatUserState) return Center(child: GuestUserWidget());
+            if (state is GoatUserState) return Center(child: GuestUserWidget());
             if (state is SuccessState)
               return Center(
                 child: Column(
@@ -195,7 +195,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                         '${state.loading == Loading.ad ? AppLocalizations.of(context).postAdLoading : AppLocalizations.of(context).postProductsLoading}')
                   ],
                 ),
-              );*/
+              );
             return buildFormStepper(context);
           },
         ),
