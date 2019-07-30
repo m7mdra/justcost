@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/user.dart';
+import 'package:justcost/screens/postad/ad.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const USER_RESPONSE_KEY = "data";
@@ -54,6 +55,12 @@ class UserSession {
    /* SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.reload();*/
   }
+  Future<bool> saveAd(Ad ad) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.setString("ad", jsonEncode(ad.toJson()));
+
+  }
+
 
   Future saveUser(User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

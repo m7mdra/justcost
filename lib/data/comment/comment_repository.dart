@@ -20,12 +20,13 @@ class CommentRepository {
   }
 
   Future<PostCommentResponse> addCommentToProduct(
-      int productId, String comment, int parentId) async {
+      int productId, String comment, int parentId,) async {
     try {
       var data = {};
       if (productId != null) data['productid'] = productId;
       if (comment != null) data['comment'] = comment;
       if (parentId != null) data['parent_id'] = parentId;
+
       var response = await _client.post('comments', data: data);
       return PostCommentResponse.fromJson(response.data);
     } on DioError catch (error) {

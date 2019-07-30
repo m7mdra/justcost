@@ -178,6 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),
     "Review your Ad" : MessageLookupByLibrary.simpleMessage("مراجعة الاعلان"),
     "Save" : MessageLookupByLibrary.simpleMessage("تفضيل"),
+    "Save as Draft" : MessageLookupByLibrary.simpleMessage("حفظ كمسودة"),
     "Search" : MessageLookupByLibrary.simpleMessage("بحث"),
     "See more" : MessageLookupByLibrary.simpleMessage("عرض المزيد"),
     "Select" : MessageLookupByLibrary.simpleMessage("اختر"),

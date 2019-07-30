@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/screens/postad/ad_review_screen.dart';
+import 'package:justcost/widget/ad_tile.dart';
 
 class MyAdDetailsScreen extends StatefulWidget {
   final Ad ad;

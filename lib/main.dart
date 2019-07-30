@@ -10,7 +10,7 @@ import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/splash/AuthenticationBloc.dart';
 import 'package:justcost/screens/splash/splash_screen.dart';
-import 'package:justcost/post_ad_screen.dart';
+import 'package:justcost/screens/postad/post_ad_screen.dart';
 
 import 'dependencies_provider.dart';
 import 'package:bloc/bloc.dart';

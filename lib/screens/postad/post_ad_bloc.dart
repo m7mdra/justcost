@@ -46,6 +46,32 @@ class NetworkErrorState extends AdState {}
 
 class CheckUserType extends AdEvent {}
 
+class SavePostAsDraft extends AdEvent {
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<AdProduct> products;
+  final bool isWholeSale;
+
+  SavePostAsDraft(this.adDetails, this.adContact, this.products, this.isWholeSale);
+
+  @override
+  String toString() {
+    return 'SavePostAsDraft{adDetails: $adDetails, adContact: $adContact, products: $products, isWholeSale: $isWholeSale}';
+  }
+
+
+}
+
+class CheckIfDraftExists extends AdEvent {}
+
+class DraftLoaded extends AdState {
+  final AdDetails adDetails;
+  final AdContact adContact;
+  final List<AdProduct> products;
+  final bool isWholeSale;
+
+  DraftLoaded(this.adDetails, this.adContact, this.products, this.isWholeSale);
+}
 
 class GoatUserState extends AdState {}
 
@@ -83,10 +109,13 @@ class AdBloc extends Bloc<AdEvent, AdState> {
   @override
   Stream<AdState> mapEventToState(AdEvent event) async* {
     if (event is CheckUserType) {
-      if ( await _session.isUserAGoat() )
+      if (await _session.isUserAGoat())
         yield GoatUserState();
       else
         yield NormalUserState();
+    }
+    if (event is SavePostAsDraft) {
+      print(event);
     }
     if (event is PostAdEvent) {
       yield LoadingState(Loading.ad);
@@ -111,6 +140,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
         print(error);
         yield NetworkErrorState();
       } on SessionExpired {
+        await _session.clear();
         yield SessionExpiredState();
       } catch (error) {
         print(error);

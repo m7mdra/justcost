@@ -2,25 +2,26 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:intl/intl.dart';
 import 'package:justcost/bloc/like_product_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
-import 'package:justcost/screens/ad_details/attribute_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
-import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
 import 'package:justcost/screens/ad_details/product_comments.dart';
+import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:justcost/i10n/app_localizations.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'attribute_bloc.dart';
+import 'comment_replay_screen.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
@@ -85,19 +86,14 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           Stack(
             children: <Widget>[
               Container(
-                height: product.media.isEmpty ? 30 : 200,
-                child: Swiper(
-                  autoplay: true,
-                  duration: 500,
-                  itemCount: product.media.length,
-                  itemBuilder: (context, index) {
-                    return Image.network(
-                      product.media[index].url,
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-              ),
+                  height: product.media.isEmpty ? 30 : 200,
+                  child: Story(
+                    onComplete: () {
+//                      setState(() {});
+                    },
+                    repeat: true,
+                    product: product,
+                  )),
               BackButton(
                 color: Colors.black,
               ),
@@ -353,7 +349,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 if (state is GoatUser) {
                   return Stack(
                     children: <Widget>[
-
                       IgnorePointer(
                         ignoring: true,
                         child: Opacity(
@@ -504,6 +499,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
 
   Widget commentBox() {
     return Column(
+
       children: <Widget>[
         Text(AppLocalizations.of(context).writeComment),
         TextField(

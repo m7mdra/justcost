@@ -89,6 +89,7 @@ class Story extends StatefulWidget {
   final VoidCallback canGoToPreviousStory;
   final VoidCallback onNextStory;
   final Product product;
+  final bool repeat;
 
   const Story({
     this.canGoToPreviousStory,
@@ -96,6 +97,7 @@ class Story extends StatefulWidget {
     this.onComplete,
     this.product,
     this.onNextStory,
+    this.repeat = false,
   }) : super(key: key);
 
   @override
@@ -106,6 +108,14 @@ class _StoryState extends State<Story> {
   final GlobalKey<StoryViewState> globalKey = GlobalKey();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    print(widget.product.media.map((media) => media.toJson()).join());
+  }
+
+  @override
   void dispose() {
     super.dispose();
     globalKey?.currentState?.dispose();
@@ -114,38 +124,41 @@ class _StoryState extends State<Story> {
 
   @override
   Widget build(BuildContext context) {
-    return StoryView(
-      widget.product.media.map((media) {
-        if (media.flag == 1)
-          return StoryItem(
-              ImageStatus(
-                globalKey: globalKey,
-                key: GlobalKey(),
-                imageUrl: media.url,
-              ),
-              duration: Duration(seconds: 5));
-        else
-          return StoryItem(
-              VideoStatus(
-                globalKey: globalKey,
-                videoUrl: media.url,
-                key: GlobalKey(),
-              ),
-              duration: Duration(seconds: 10));
-      }).toList(),
-      onStoryShow: (s) {
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: StoryView(
+        widget.product.media.map((media) {
+          if (media.flag == 1)
+            return StoryItem(
+                ImageStatus(
+                  globalKey: globalKey,
+                  key: GlobalKey(),
+                  imageUrl: media.url,
+                ),
+                duration: Duration(seconds: 5));
+          else
+            return StoryItem(
+                VideoStatus(
+                  globalKey: globalKey,
+                  videoUrl: media.url,
+                  key: GlobalKey(),
+                ),
+                duration: Duration(seconds: 10));
+        }).toList(),
+        onStoryShow: (s) {
 //        onNextStory();
-      },
-      onComplete: () {
-        widget.onComplete();
-      },
-      canGoPrevious: () {
-        widget.canGoToPreviousStory();
-      },
-      progressPosition: ProgressPosition.top,
-      repeat: false,
-      inline: true,
-      key: globalKey,
+        },
+        onComplete: () {
+          widget.onComplete();
+        },
+        canGoPrevious: () {
+          widget.canGoToPreviousStory();
+        },
+        progressPosition: ProgressPosition.top,
+        repeat: widget.repeat,
+        inline: true,
+        key: globalKey,
+      ),
     );
   }
 }
@@ -180,7 +193,13 @@ class ImageStatusState extends State<ImageStatus> {
           );
         } else {
           widget.globalKey.currentState.resume();
-          return Center(child: Image.file(snapshot.data));
+          return Center(
+              child: Image.file(
+            snapshot.data,
+            fit: BoxFit.fitWidth,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ));
         }
         else
           return Center(child: CircularProgressIndicator());
@@ -212,7 +231,10 @@ class VideoStatusState extends State<VideoStatus> {
     disposeVideo();
   }
 
-  disposeVideo() async => await controller?.dispose();
+  disposeVideo() async {
+    await controller?.pause();
+    await controller?.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +265,7 @@ class VideoStatusState extends State<VideoStatus> {
                   return Center(
                     child: AspectRatio(
                       child: VideoPlayer(controller),
-                      aspectRatio: controller.value.aspectRatio,
+                      aspectRatio: 16 / 9,
                     ),
                   );
                 } else

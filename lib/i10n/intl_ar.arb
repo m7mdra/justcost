@@ -1090,5 +1090,10 @@
                 "@No Comments added, be the first to comment": {
                   "type": "text",
                   "placeholders": {}
-                }
+                },
+                   "Save as Draft": "حفظ كمسودة",
+                   "@Save as Draft": {
+                     "type": "text",
+                     "placeholders": {}
+                   }
 }

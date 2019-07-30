@@ -5,8 +5,6 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/model/media.dart';
 
-import 'package:justcost/screens/postad/ad_contact_screen.dart';
-import 'package:justcost/screens/postad/ad_details_screen.dart';
 
 class Ad {
   AdDetails adDetails;
@@ -22,6 +20,7 @@ class Ad {
         "adContact": adContact.toJson(),
         "adProducts": adProducts.map((product) => product.toJson()).toList()
       };
+
 }
 
 class AdProduct {

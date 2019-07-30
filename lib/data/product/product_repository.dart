@@ -108,4 +108,20 @@ class ProductRepository {
       throw error;
     }
   }
+
+  Future<ProductResponse> getLikedProduct() async {
+    try {
+      var response = await _client.get('like/likedProducts');
+      return ProductResponse.fromJson(response.data);
+    } on DioError catch (error) {
+
+      if (error.response.statusCode == 401)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+
+      throw error;
+    }
+  }
 }

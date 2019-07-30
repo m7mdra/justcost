@@ -1091,5 +1091,10 @@
       "@No Comments added, be the first to comment": {
         "type": "text",
         "placeholders": {}
-      }
+      },
+         "Save as Draft": "Save as Draft",
+         "@Save as Draft": {
+           "type": "text",
+           "placeholders": {}
+         }
 }

@@ -12,7 +12,7 @@ import 'package:justcost/screens/home/search/search_page.dart';
 import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/fab_bottom_appbar.dart';
 
-import '../../post_ad_screen.dart';
+import 'package:justcost/screens/postad/post_ad_screen.dart';
 
 
 class MainScreen extends StatefulWidget {
