@@ -54,7 +54,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _newPriceController.text = product.newPrice;
       _detailsController.text = product.details;
       _category = product.category;
-      _adKeywordController.text=product.keyword;
+      _adKeywordController.text = product.keyword;
       _brand = product.brand;
       attributeList = product.attributes;
       mediaList = product.mediaList;
@@ -65,7 +65,6 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
     _quantityController.dispose();
@@ -485,6 +484,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
         this._category = category.item1;
       else
         this._category = category.item2;
+
     });
   }
 
@@ -508,12 +508,12 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   _onBrandPickerClicked() async {
     if (_category == null)
-      _scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).selectCategory)));
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).selectCategory)));
     else {
       Brand brand = await Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => BrandPage(
-                categoryId: _parentCategory.id,
+                categoryId: _category.id,
               )));
       setState(() {
         this._brand = brand;

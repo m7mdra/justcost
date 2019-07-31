@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-07-30T12:31:49.644782",
+  "@@last_modified": "2019-07-31T14:39:20.194058",
   "try again or contact support.": "try again or contact support.",
   "@try again or contact support.": {
     "type": "text",
@@ -1098,6 +1098,21 @@
   },
   "Save as Draft": "Save as Draft",
   "@Save as Draft": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Change language": "Change language",
+  "@Change language": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Arabic": "Arabic",
+  "@Arabic": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "English": "English",
+  "@English": {
     "type": "text",
     "placeholders": {}
   }

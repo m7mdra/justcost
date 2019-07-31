@@ -74,7 +74,6 @@ class _PostAdScreenState extends State<PostAdScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _bloc.dispose();
     _adTitleController.dispose();
@@ -816,7 +815,6 @@ class _RadioLikeButtonState extends State<RadioLikeButton> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.additionType != null) _additionType = widget.additionType;
   }

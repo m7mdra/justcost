@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/city/model/country.dart';
+import 'package:justcost/data/user/model/register_error_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
@@ -77,27 +78,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           yield RegisterError(response.message);
         }
       } on DioError catch (e) {
-        switch (e.type) {
-          case DioErrorType.CONNECT_TIMEOUT:
-            yield RegisterError("Connection timedout, try again");
-            break;
-          case DioErrorType.SEND_TIMEOUT:
-            yield RegisterError("Connection timedout, try again");
-            break;
-          case DioErrorType.RECEIVE_TIMEOUT:
-            yield RegisterError("Connection timedout, try again");
-            break;
-          case DioErrorType.RESPONSE:
-            yield RegisterError(
-                "Server error, please try again or contact support team");
-            break;
-          case DioErrorType.CANCEL:
-            break;
-          case DioErrorType.DEFAULT:
-            yield RegisterError(
-                "Server error, please try again or contact support team");
-            break;
-        }
+        var errorRes = RegisterErrorResponse.fromJson(e.response.data);
+        var validationError = errorRes.error.validationError;
+        print(validationError.toJson());
+        var errors = List.from(
+          [
+            validationError?.name?.join('\n'),
+            validationError?.city?.join('\n'),
+            validationError?.cPassword?.join('\n'),
+            validationError?.password?.join('\n'),
+            validationError?.mobile?.join('\n'),
+            validationError?.firebaseToken?.join('\n'),
+            validationError?.email?.join('\n'),
+            validationError?.username?.join('\n')
+          ],
+        );
+        errors.removeWhere((error)=>error==null);
+        yield RegisterError(errors.join("\n"));
       }
     }
   }

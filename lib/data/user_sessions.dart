@@ -24,6 +24,7 @@ const CITY_KEY = 'city_obj';
 const MOBILE_NUMBER_KEY = "mobile_number";
 const FIRST_TIME_LAUNCH_KEY = "firstTimeLaunch";
 const COUNTRY_KEY = "country";
+const LANGUAGE_KEY = "lang";
 
 class UserSession {
   Future<void> save(AuthenticationResponse response) async {
@@ -48,19 +49,27 @@ class UserSession {
     sharedPreferences.setBool(
         ACCOUNT_STATUS_KEY, response.data.user.isVerified);
     await refresh();
+  }
 
+  Future<bool> saveLanguage(String code) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.setString(LANGUAGE_KEY, code);
+  }
+
+  Future<String> getCurrentLanguage() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(LANGUAGE_KEY) ?? "en";
   }
 
   Future<void> refresh() async {
-   /* SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    /* SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.reload();*/
   }
+
   Future<bool> saveAd(Ad ad) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.setString("ad", jsonEncode(ad.toJson()));
-
   }
-
 
   Future saveUser(User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -75,7 +84,6 @@ class UserSession {
     sharedPreferences.setString(CITY_KEY, jsonEncode(user.city.toJson()));
     sharedPreferences.setString(COUNTRY_KEY, jsonEncode(user.country.toJson()));
     await refresh();
-
   }
 
   Future<bool> guestLogin() async {
@@ -83,6 +91,7 @@ class UserSession {
 
     return sharedPreferences.setString(USER_TYPE_KEY, "guest");
   }
+
   /// returns true if the current user is authenticated.
   /// returns false if the current user is guest or a goat for all we know
   Future<bool> isUserAGoat() async {
@@ -145,9 +154,10 @@ class UserSession {
 
   Future<bool> clear() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.clear()..then((clear){
-      print("Did clear sessions? $clear");
-    });
+    return sharedPreferences.clear()
+      ..then((clear) {
+        print("Did clear sessions? $clear");
+      });
   }
 
   Future<bool> isFirstTimeLaunch() async {
@@ -163,6 +173,5 @@ class UserSession {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(FIRST_TIME_LAUNCH_KEY, false);
     await refresh();
-
   }
 }

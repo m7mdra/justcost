@@ -75,6 +75,8 @@ class _BrandPageState extends State<BrandPage> {
                 );
               },
             );
+          if(state is BrandsEmpty)
+            return NoDataWidget();
         },
       ),
     );
@@ -93,7 +95,7 @@ class BrandWidget extends StatelessWidget {
       dense: true,
       leading: brand.img == null || brand.img.isEmpty
           ? Container(width: 50, height: 50, color: Colors.red)
-          : Image.network(brand.img),
+          : Image.network(brand.img,width: 50,height: 50,fit: BoxFit.contain,),
       title: Text(brand.name),
       onTap: () => onTap(brand),
     );

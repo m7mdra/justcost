@@ -28,9 +28,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield LoadingState();
         var response = await _userRepository.updateAccountInformation(
             event.username, event.email, event.password);
-        if (response.success == null
-            ? response.data.success
-            : response.success) {
+        if (response.success) {
           await _userSession.saveUser(response.data.userInfo);
           userProfileBloc.dispatch(LoadProfileEvent());
 
@@ -75,6 +73,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           yield ErrorState<UpdateProfileAvatarEvent>(
               response.message, ErrorType.avatar, event);
           dispatch(LoadUserDataEvent());
+
         }
       }
       if (event is UpdatePersonalInformationEvent) {
@@ -120,13 +119,17 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
               null);
           break;
       }
+
+      dispatch(LoadUserDataEvent());
     } on SessionExpired catch (error) {
       await _userSession.clear();
 
       yield SessionExpiredState();
     } catch (error) {
+
       yield ErrorState("Unknown error: $error}", ErrorType.none, null);
       dispatch(LoadUserDataEvent());
+
     }
   }
 }

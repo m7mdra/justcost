@@ -14,7 +14,7 @@ class ImageCropperScreen extends StatefulWidget {
 
 class _ImageCropperScreenState extends State<ImageCropperScreen> {
   final cropKey = GlobalKey<CropState>();
-
+//TODO add translation
   @override
   Widget build(BuildContext context) {
     return Scaffold(

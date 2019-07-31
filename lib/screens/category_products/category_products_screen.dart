@@ -12,6 +12,7 @@ import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 class CategoryProductsScreen extends StatefulWidget {
   final Category category;
@@ -101,7 +102,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               },
               controller: _controller,
               decoration:
-                  InputDecoration.collapsed(hintText: 'Search').copyWith(
+                  InputDecoration.collapsed(hintText: AppLocalizations.of(context).search).copyWith(
                 contentPadding: const EdgeInsets.all(10),
                 icon: Icon(Icons.search),
               ),

@@ -12,7 +12,6 @@ class PostCommentBloc extends Bloc<PostEvent, PostState> {
   PostCommentBloc(this._repository, this._session);
 
   @override
-  // TODO: implement initialState
   PostState get initialState => PostCommentIdle();
 
   @override

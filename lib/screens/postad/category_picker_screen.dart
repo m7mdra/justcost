@@ -83,6 +83,7 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
                                         true,
                                         category: category,
                                       )));
+
                           Navigator.of(context).pop(Tuple2(category, cat));
                         } else {
                           Navigator.of(context).pop(Tuple2(category, null));

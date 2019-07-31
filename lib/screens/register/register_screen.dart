@@ -52,7 +52,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     });
 
-    ///TODO replace bloc.state.listen with [BlocListener]
 
     _registerBloc = RegisterBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
@@ -71,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             builder: (context) => RoundedAlertDialog(
                   title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(AppLocalizations.of(context).failedToCreateAccount),
+                  content: Text(state.message),
                   actions: <Widget>[
                     FlatButton(
                       child:

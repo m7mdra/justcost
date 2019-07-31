@@ -552,7 +552,14 @@ class AppLocalizations {
       Intl.message('No Comments added, be the first to comment');
 
   String get showAllCommentButton => Intl.message('Show all comments');
-  String get saveAsDraft =>Intl.message('Save as Draft');
+
+  String get saveAsDraft => Intl.message('Save as Draft');
+
+  String get changeLanguage => Intl.message("Change language");
+
+  String get arabic => Intl.message('Arabic');
+
+  String get english => Intl.message('English');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

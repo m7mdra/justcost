@@ -31,6 +31,8 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
     _formNode = FocusNode();
     _commentTextEditingController = TextEditingController();
     _bloc = PostCommentBloc(DependenciesProvider.provide(),DependenciesProvider.provide());
+    _bloc.dispatch(CheckIfUserIsGoat());
+
     _bloc.state.listen((state) {
       if (state is PostCommentSuccess) {
         _commentTextEditingController.clear();
@@ -87,6 +89,14 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
                           style: TextStyle(color: Theme.of(context).errorColor),
                         )
                       ],
+                    );
+                  if(state is GoatUser)
+                    return IgnorePointer(
+                      ignoring: true,
+                      child: Opacity(
+                        opacity: 0.3,
+                        child: commentBox(),
+                      ),
                     );
                   return commentBox();
                 },

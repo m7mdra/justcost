@@ -104,7 +104,6 @@ class _UpdatePersonalInformationScreenState
                               ? AppLocalizations.of(context)
                                   .phoneNumberEmptyError
                               : null;
-                          //TODO: change error message.
                         },
                         controller: _cityController,
                         decoration: InputDecoration(

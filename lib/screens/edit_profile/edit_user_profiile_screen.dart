@@ -85,6 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: BlocBuilder(
         bloc: _bloc,
         builder: (BuildContext context, EditProfileState state) {
+          print(state);
           if (state is UserLoadedState)
             return buildListView(context, state.payload);
           if (state is AccountInformationUpdateSuccessState) {
@@ -108,8 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   ListView buildListView(BuildContext context, User user) {
-    print(user.image);
-    print(user.gender);
+
     return ListView(
       padding: const EdgeInsets.all(16),
       children: <Widget>[
@@ -192,7 +192,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     : user?.gender == 1
                         ? AppLocalizations.of(context).male
                         : AppLocalizations.of(context).female)),
-            //TODO
             ListTile(
                 contentPadding: tilePadding(),
                 dense: true,

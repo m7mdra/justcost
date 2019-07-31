@@ -36,7 +36,6 @@ class AdDetailsBloc extends Bloc<AdDetailsEvent, AdDetailsState> {
   AdDetailsState get initialState => AdsDetailsLoading();
 @override
   void onError(Object error, StackTrace stacktrace) {
-    // TODO: implement onError
     super.onError(error, stacktrace);
     print(error);
     print(stacktrace);

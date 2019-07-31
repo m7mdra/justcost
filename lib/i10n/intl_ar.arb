@@ -1095,5 +1095,20 @@
                    "@Save as Draft": {
                      "type": "text",
                      "placeholders": {}
-                   }
+                   },
+                    "Change language": "تغيير اللغة",
+                     "@Change language": {
+                       "type": "text",
+                       "placeholders": {}
+                     },
+                     "Arabic": "العربية",
+                     "@Arabic": {
+                       "type": "text",
+                       "placeholders": {}
+                     },
+                     "English": "انجليزي",
+                     "@English": {
+                       "type": "text",
+                       "placeholders": {}
+                     }
 }

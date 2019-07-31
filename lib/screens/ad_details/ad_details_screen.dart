@@ -46,6 +46,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   void initState() {
     super.initState();
     product = widget.product;
+    print(product.media.map((media)=>media.toJson()).join());
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());

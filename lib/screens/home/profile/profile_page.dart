@@ -12,6 +12,8 @@ import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/settings_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 
+import 'package:justcost/screens/settings/settings_screen.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -21,12 +23,6 @@ class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
   UserProfileBloc _bloc;
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    _bloc.dispatch(LoadProfileEvent());
-  }
 
   @override
   void initState() {
@@ -133,6 +129,13 @@ class _ProfilePageState extends State<ProfilePage>
           title: Text(AppLocalizations.of(context).logout),
           onTap: () => _onLogout(),
         ),
+        divider(),
+        ListTile(leading: Icon(Icons.settings),
+        title: Text(AppLocalizations.of(context).settings),
+        dense: true,
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsScreen()));
+        },)
       ],
     );
   }

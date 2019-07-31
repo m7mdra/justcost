@@ -31,9 +31,12 @@ class StoryItem {
   /// The page content
   final StatefulWidget view;
 
+  final ValueChanged<bool> shouldPause;
+
   StoryItem(
     this.view, {
-    this.duration = const Duration(seconds: 3),
+        this.shouldPause,
+        this.duration = const Duration(seconds: 3),
     this.shown = false,
   }) : assert(duration != null, "[duration] should not be null");
 }
@@ -279,6 +282,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                       pause();
                       debouncer?.cancel();
                       debouncer = Timer(Duration(milliseconds: 500), () {});
+                      lastShowing.shouldPause(true);
                     }
                     ..onTapUp = (details) {
                       print("onTapUp");
@@ -297,6 +301,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                         } else {
                           debouncer.cancel();
                           debouncer = null;
+                          lastShowing.shouldPause(false);
 
                           resume();
                         }

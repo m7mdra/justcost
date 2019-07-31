@@ -11,6 +11,7 @@ import 'package:justcost/data/product/product_repository.dart';
 import 'package:justcost/data/token_interceptor.dart';
 import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
+import 'package:justcost/screens/settings/setting_bloc.dart';
 
 import 'data/brand/brand_repository.dart';
 
@@ -22,7 +23,7 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://192.168.1.76:8000/api/";
+    final String _baseUrl = "http://skilledtechuae-001-site3.htempurl.com/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       responseType: ResponseType.json,
@@ -68,6 +69,8 @@ class DependenciesProvider {
     getIt.registerFactory<AdRepository>(() {
       return AdRepository(client);
     });
+  var bloc= SettingBloc(userSession);
+    getIt.registerSingleton<SettingBloc>((bloc));
   }
 
   static T provide<T>() {

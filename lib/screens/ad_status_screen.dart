@@ -105,11 +105,11 @@ class Story extends StatefulWidget {
 }
 
 class _StoryState extends State<Story> {
-  final GlobalKey<StoryViewState> globalKey = GlobalKey();
+  final GlobalKey<StoryViewState> _globalKey = GlobalKey();
+  final GlobalKey<VideoStatusState> _videoStatusKey = GlobalKey();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     print(widget.product.media.map((media) => media.toJson()).join());
@@ -118,7 +118,7 @@ class _StoryState extends State<Story> {
   @override
   void dispose() {
     super.dispose();
-    globalKey?.currentState?.dispose();
+    _globalKey?.currentState?.dispose();
     print("||||||||||||DISPOSING A STATUS||||||||||||||");
   }
 
@@ -131,19 +131,24 @@ class _StoryState extends State<Story> {
           if (media.flag == 1)
             return StoryItem(
                 ImageStatus(
-                  globalKey: globalKey,
+                  globalKey: _globalKey,
                   key: GlobalKey(),
                   imageUrl: media.url,
                 ),
+                shouldPause: (pause) {},
                 duration: Duration(seconds: 5));
           else
             return StoryItem(
                 VideoStatus(
-                  globalKey: globalKey,
+                  globalKey: _globalKey,
                   videoUrl: media.url,
-                  key: GlobalKey(),
-                ),
-                duration: Duration(seconds: 10));
+                  key: _videoStatusKey,
+                ), shouldPause: (should) {
+              if (should)
+                _videoStatusKey.currentState.pause();
+              else
+                _videoStatusKey.currentState.play();
+            }, duration: Duration(seconds: 10));
         }).toList(),
         onStoryShow: (s) {
 //        onNextStory();
@@ -157,7 +162,7 @@ class _StoryState extends State<Story> {
         progressPosition: ProgressPosition.top,
         repeat: widget.repeat,
         inline: true,
-        key: globalKey,
+        key: _globalKey,
       ),
     );
   }
@@ -231,6 +236,14 @@ class VideoStatusState extends State<VideoStatus> {
     disposeVideo();
   }
 
+  Future<void> pause() {
+    return controller?.pause();
+  }
+
+  Future<void> play() {
+    return controller?.play();
+  }
+
   disposeVideo() async {
     await controller?.pause();
     await controller?.dispose();
@@ -265,7 +278,7 @@ class VideoStatusState extends State<VideoStatus> {
                   return Center(
                     child: AspectRatio(
                       child: VideoPlayer(controller),
-                      aspectRatio: 16 / 9,
+                      aspectRatio: controller.value.aspectRatio,
                     ),
                   );
                 } else

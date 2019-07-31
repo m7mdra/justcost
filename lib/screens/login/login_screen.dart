@@ -237,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               FlatButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => RegisterScreen()));
                 },
                 child: Text(AppLocalizations.of(context).createAccountButton),
