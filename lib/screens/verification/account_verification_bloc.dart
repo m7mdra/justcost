@@ -64,8 +64,7 @@ class AccountVerificationBloc
       try {
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
-          var data = response.data;
-          await _session.save(AuthenticationResponse(data: Data(user: data)));
+          await _session.save(response);
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);

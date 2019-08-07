@@ -74,7 +74,7 @@ class CategoryProductsBloc
             brands: event.brands);
         if (response.success) {
           if (response.data != null && response.data.isNotEmpty)
-            yield CategoryProductsLoaded(response.data, false);
+            yield CategoryProductsLoaded(response.data, true);
           else
             yield EmptyState();
         } else {

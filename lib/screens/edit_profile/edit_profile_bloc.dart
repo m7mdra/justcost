@@ -29,10 +29,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         var response = await _userRepository.updateAccountInformation(
             event.username, event.email, event.password);
         if (response.success) {
-          await _userSession.saveUser(response.data.userInfo);
+          await _userSession.save(response);
           userProfileBloc.dispatch(LoadProfileEvent());
 
-          yield AccountInformationUpdateSuccessState(response.data.userInfo);
+          yield AccountInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdateAccountInformationEvent>(
               response.message, ErrorType.account, event);
@@ -82,9 +82,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             event.fullName, event.gender, event.city);
         if (response.success) {
           userProfileBloc.dispatch(LoadProfileEvent());
-          await _userSession.saveUser(response.data.userInfo);
+          await _userSession.save(response);
           await _userSession.refresh();
-          yield PersonalInformationUpdateSuccessState(response.data.userInfo);
+          yield PersonalInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdatePersonalInformationEvent>(
               response.message, ErrorType.personal, event);

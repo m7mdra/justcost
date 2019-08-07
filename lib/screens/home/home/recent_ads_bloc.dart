@@ -22,6 +22,7 @@ class RecentAdsLoaded extends RecentAdsState {
       hasReachedMax ?? this.hasReachedMax,
     );
   }
+
 }
 
 class RecentAdsError extends RecentAdsState {}
@@ -53,7 +54,7 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         yield RecentAdsLoading();
         var response = await repository.getProducts(page: _currentPage);
         if (response.success)
-          yield RecentAdsLoaded(response.data, false);
+          yield RecentAdsLoaded(response.data, true);
         else
           yield RecentAdsError();
       } on DioError catch (e) {

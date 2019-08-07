@@ -28,6 +28,7 @@ class MyAdsLoadedState extends MyAdsState {
   MyAdsLoadedState(this.ads);
 }
 
+
 class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
   final AdRepository _repository;
 
@@ -35,7 +36,13 @@ class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
 
   @override
   MyAdsState get initialState => IdleState();
-
+  @override
+  void onError(Object error, StackTrace stacktrace) {
+    // TODO: implement onError
+    super.onError(error, stacktrace);
+    print(error);
+    print(stacktrace);
+  }
   @override
   Stream<MyAdsState> mapEventToState(MyAdsEvent event) async* {
     if (event is LoadMyAds) {
@@ -52,9 +59,11 @@ class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
         }
       } on SessionExpired {
         yield SessionExpiredState();
-      } on DioError {
+      } on DioError catch(error){
         yield NetworkErrorState();
+        print(error);
       } catch (error) {
+        print(error);
         yield ErrorState();
       }
     }

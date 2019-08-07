@@ -23,7 +23,7 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://skilledtechuae-001-site3.htempurl.com/api/";
+    final String _baseUrl = "http://192.168.1.76:8000/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       responseType: ResponseType.json,

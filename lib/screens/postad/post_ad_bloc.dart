@@ -115,7 +115,6 @@ class AdBloc extends Bloc<AdEvent, AdState> {
         yield NormalUserState();
     }
     if (event is SavePostAsDraft) {
-      print(event);
     }
     if (event is PostAdEvent) {
       yield LoadingState(Loading.ad);
@@ -148,8 +147,44 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       }
     }
     if (event is RetryPostProduct) {
-      yield* postProducts(event.adProduct, event.isWholesale, event.adId);
-    }
+     print("retrying");
+     var products=event.adProduct;
+
+    for (var i = 0; i < products.length; i++) {
+       yield LoadingState(Loading.product);
+       try {
+         var res = await _repository.postProduct(
+             categoryId: products[i].category.id,
+             description: products[i].details,
+             title: products[i].name,
+             brandId: products[i].brand.id,
+             quantity: event.isWholesale ? products[i].quantity : "0",
+             regularPrice: products[i].oldPrice,
+             salePrice: products[i].newPrice,
+             isPaid: 0,
+             attributes: products[i]
+                 .attributes
+                 .map((attribute) => attribute.id)
+                 .toList(),
+             isWholeSale: event.isWholesale ? 1 : 0,
+             adId: event.adId,
+             medias: products[i].mediaList);
+         if (!res.status) failedRequest.add(products[i]);
+         if (i == products.length - 1) {
+           yield SuccessState();
+           break;
+         }
+       } on DioError {
+         yield PostProductsFailed(failedRequest, event.adId, event.isWholesale);
+         break;
+       } on SessionExpired {
+         yield SessionExpiredState();
+         break;
+       } catch (error) {
+         yield PostProductsFailed(failedRequest, event.adId, event.isWholesale);
+         break;
+       }
+     }    }
   }
 
   Stream<AdState> postProducts(

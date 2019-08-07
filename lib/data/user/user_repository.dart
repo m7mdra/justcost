@@ -6,7 +6,6 @@ import 'package:justcost/data/user/model/auth_response.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 import 'package:justcost/data/user/model/user_update_response.dart';
 import 'package:justcost/data/user/model/user.dart';
-import 'package:justcost/data/user/model/verification_response.dart';
 
 const UNAUTHORIZED_CODE = 401;
 
@@ -95,11 +94,11 @@ class UserRepository {
     }
   }
 
-  Future<VerificationResponse> submitActivationCode(String code) async {
+  Future<AuthenticationResponse> submitActivationCode(String code) async {
     try {
       var response = await _client
           .post('customer/verificationcode', data: {"verificationCode": code});
-      return VerificationResponse.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
@@ -160,12 +159,12 @@ class UserRepository {
     }
   }
 
-  Future<UserUpdateResponse> updatePersonalInformation(
+  Future<AuthenticationResponse> updatePersonalInformation(
       fullName, gender, city) async {
     try {
       var response = await _client.post('customer/setPersonal',
           data: {"name": fullName, "gender": gender, "city": city});
-      return UserUpdateResponse.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();
@@ -176,12 +175,12 @@ class UserRepository {
     }
   }
 
-  Future<UserUpdateResponse> updateAccountInformation(
+  Future<AuthenticationResponse> updateAccountInformation(
       username, email, password) async {
     try {
       var response = await _client.post('customer/setProfile',
           data: {"username": username, "email": email, "password": password});
-      return UserUpdateResponse.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();

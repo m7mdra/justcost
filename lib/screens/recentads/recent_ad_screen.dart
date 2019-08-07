@@ -48,11 +48,12 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
       body: BlocBuilder(
         bloc: _recentAdsBloc,
         builder: (BuildContext context, RecentAdsState state) {
+
           if (state is RecentAdsLoaded) {
             return ListView.builder(
               controller: _scrollController,
               itemBuilder: (context, index) {
-                if (index >= state.products.length)
+                if (index >  state.products.length)
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
