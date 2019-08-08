@@ -80,8 +80,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "Search": "Search",
-  "@Search": {
+"Discover": "Discover",
+  "@Discover": {
     "type": "text",
     "placeholders": {}
   },
@@ -1111,5 +1111,25 @@
            "@English": {
              "type": "text",
              "placeholders": {}
-           }
+           },
+             "Twitter account": "Twitter account",
+             "@Twitter account": {
+               "type": "text",
+               "placeholders": {}
+             },
+             "Snapchat account": "Snapchat account",
+             "@Snapchat account": {
+               "type": "text",
+               "placeholders": {}
+             },
+               "Crop your image": "Crop your image",
+               "@Crop your image": {
+                 "type": "text",
+                 "placeholders": {}
+               },
+               "Crop": "Crop",
+               "@Crop": {
+                 "type": "text",
+                 "placeholders": {}
+               }
 }

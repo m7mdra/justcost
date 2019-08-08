@@ -80,11 +80,11 @@
     "type": "text",
     "placeholders": {}
   },
-  "Search": "بحث",
-  "@Search": {
-    "type": "text",
-    "placeholders": {}
-  },
+ "Discover": "استكشف",
+   "@Discover": {
+     "type": "text",
+     "placeholders": {}
+   },
   "Categories": "تصنيفات",
   "@Categories": {
     "type": "text",
@@ -215,12 +215,12 @@
     "type": "text",
     "placeholders": {}
   },
-  "Facebook Username": "اسم مستخدم فيسبوك",
+  "Facebook Username": "حساب فيسبوك",
   "@Facebook Username": {
     "type": "text",
     "placeholders": {}
   },
-  "Instagram Username": "اسم مستخدم انستغرام",
+  "Instagram Username": "حساب انستغرام",
   "@Instagram Username": {
     "type": "text",
     "placeholders": {}
@@ -1110,5 +1110,25 @@
                      "@English": {
                        "type": "text",
                        "placeholders": {}
-                     }
+                     },
+                       "Twitter account": "حساب تويتر",
+                       "@Twitter account": {
+                         "type": "text",
+                         "placeholders": {}
+                       },
+                       "Snapchat account": "حساب سنابشات",
+                       "@Snapchat account": {
+                         "type": "text",
+                         "placeholders": {}
+                       },
+                         "Crop your image": "قص الصورة الشخصية",
+                         "@Crop your image": {
+                           "type": "text",
+                           "placeholders": {}
+                         },
+                         "Crop": "قص",
+                         "@Crop": {
+                           "type": "text",
+                           "placeholders": {}
+                         }
 }

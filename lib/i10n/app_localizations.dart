@@ -60,7 +60,7 @@ class AppLocalizations {
 
   String get homePageTitle => Intl.message('Home');
 
-  String get searchPageTitle => Intl.message('Search');
+  String get searchPageTitle => Intl.message('Discover');
 
   String get postAdPageTitle => Intl.message('Post Ad');
 
@@ -560,6 +560,14 @@ class AppLocalizations {
   String get arabic => Intl.message('Arabic');
 
   String get english => Intl.message('English');
+
+  String get twitterAccount => Intl.message('Twitter account');
+
+  String get snapChatAccount => Intl.message('Snapchat account');
+
+  String get cropYourImage => Intl.message('Crop your image');
+
+  String get cropButton => Intl.message('Crop');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

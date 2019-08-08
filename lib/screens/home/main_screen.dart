@@ -161,7 +161,9 @@ class _MainScreenState extends State<MainScreen>
           });
           key.currentState.selectedIndex = index;
         },
+        // ignore: missing_return
         itemBuilder: (BuildContext context, int index) {
+
           if (index == 0) return HomePage();
           if (index == 1) return SearchPage();
           if (index == 2) return CategoriesPage();

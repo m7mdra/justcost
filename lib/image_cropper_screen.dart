@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_crop/image_crop.dart';
-
+import 'i10n/app_localizations.dart';
 class ImageCropperScreen extends StatefulWidget {
   final File imageFile;
 
@@ -14,12 +14,11 @@ class ImageCropperScreen extends StatefulWidget {
 
 class _ImageCropperScreenState extends State<ImageCropperScreen> {
   final cropKey = GlobalKey<CropState>();
-//TODO add translation
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crop Your Image'),
+        title: Text(AppLocalizations.of(context).cropYourImage),
       ),
       body: SafeArea(
         child: Container(
@@ -39,7 +38,7 @@ class _ImageCropperScreenState extends State<ImageCropperScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _cropImage(),
-        label: Text('Crop'),
+        label: Text(AppLocalizations.of(context).cropButton),
         icon: Icon(Icons.crop),
       ),
     );

@@ -16,7 +16,7 @@ import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/product_dissmisable_widget.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../dependencies_provider.dart';
 
 class PostAdScreen extends StatefulWidget {
@@ -37,6 +37,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
   TextEditingController _adEmailController;
   TextEditingController _adFacebookController;
   TextEditingController _adInstagramController;
+  TextEditingController _adTwitterController;
+  TextEditingController _adSnapchatController;
   LatLng location;
   FocusNode _adPhoneNumberFocusNode = FocusNode();
   FocusNode _adEmailFocusNode = FocusNode();
@@ -70,6 +72,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
     _adEmailController = TextEditingController();
     _adInstagramController = TextEditingController();
     _adFacebookController = TextEditingController();
+    _adSnapchatController = TextEditingController();
+    _adTwitterController = TextEditingController();
   }
 
   @override
@@ -82,6 +86,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
     _adEmailController.dispose();
     _adInstagramController.dispose();
     _adFacebookController.dispose();
+    _adSnapchatController.dispose();
+    _adTwitterController.dispose();
   }
 
   void loadData() async {
@@ -102,7 +108,6 @@ class _PostAdScreenState extends State<PostAdScreen> {
         child: BlocBuilder(
           bloc: _bloc,
           builder: (BuildContext context, AdState state) {
-            if (state is GoatUserState) return Center(child: GuestUserWidget());
             if (state is SuccessState)
               return Center(
                 child: Column(
@@ -151,8 +156,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
                             city: _selectedCity,
                             country: _selectedCountry,
                             email: _adEmailController.text,
-                            facebookPage: _adFacebookController.text,
-                            instagramPage: _adInstagramController.text),
+                            facebookAccount: _adFacebookController.text,
+                            instagramAccount: _adInstagramController.text),
                         productList,
                         additionType == AdditionType.multiple));
                   },
@@ -304,7 +309,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
         steps: [
           Step(
             subtitle: Container(
-              width: MediaQuery.of(context).size.width-100,
+              width: MediaQuery.of(context).size.width - 100,
               child: Text.rich(
                 TextSpan(
                     text: "${AppLocalizations.of(context).select} ",
@@ -523,6 +528,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                                 : null;
                           },
                           maxLines: 1,
+                          textDirection: TextDirection.ltr,
                           focusNode: _adPhoneNumberFocusNode,
                           controller: _adPhoneNumberController,
                           keyboardType: TextInputType.phone,
@@ -576,9 +582,9 @@ class _PostAdScreenState extends State<PostAdScreen> {
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 10, bottom: 10),
+                              prefixIcon: Icon(FontAwesomeIcons.facebookF),
                               labelText:
                                   AppLocalizations.of(context).facebookAccount,
-                              prefixText: 'https://facebook.com/',
                               hintStyle: hintStyle),
                         ),
                       ),
@@ -590,11 +596,43 @@ class _PostAdScreenState extends State<PostAdScreen> {
                           controller: _adInstagramController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
+                              prefixIcon: Icon(FontAwesomeIcons.instagram),
                               contentPadding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 10, bottom: 10),
                               labelText:
                                   AppLocalizations.of(context).instagramAccount,
-                              prefixText: 'https://www.instagram.com/',
+                              hintStyle: hintStyle),
+                        ),
+                      ),
+                      Card(
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () {},
+                          maxLines: 1,
+                          controller: _adTwitterController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(FontAwesomeIcons.twitter),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 16, right: 16, top: 10, bottom: 10),
+                              labelText:
+                                  AppLocalizations.of(context).twitterAccount,
+                              hintStyle: hintStyle),
+                        ),
+                      ),
+                      Card(
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () {},
+                          maxLines: 1,
+                          controller: _adSnapchatController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(FontAwesomeIcons.snapchat),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 16, right: 16, top: 10, bottom: 10),
+                              labelText:
+                                  AppLocalizations.of(context).snapChatAccount,
                               hintStyle: hintStyle),
                         ),
                       ),
@@ -724,8 +762,12 @@ class _PostAdScreenState extends State<PostAdScreen> {
                                       city: _selectedCity,
                                       country: _selectedCountry,
                                       email: _adEmailController.text,
-                                      facebookPage: _adFacebookController.text,
-                                      instagramPage:
+                                      facebookAccount:
+                                          _adFacebookController.text,
+                                      twitterAccount: _adTwitterController.text,
+                                      snapchatAccount:
+                                          _adSnapchatController.text,
+                                      instagramAccount:
                                           _adInstagramController.text),
                                   productList,
                                   additionType == AdditionType.multiple));

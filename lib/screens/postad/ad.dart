@@ -5,7 +5,6 @@ import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/model/media.dart';
 
-
 class Ad {
   AdDetails adDetails;
   AdContact adContact;
@@ -14,12 +13,6 @@ class Ad {
 
   Ad({this.adContact, this.adProducts, this.adDetails, this.isWholeSale});
 
-  Map<String, dynamic> toJson() => {
-        "isWholeSale": isWholeSale,
-        "adDetails": adDetails.toJson(),
-        "adContact": adContact.toJson(),
-        "adProducts": adProducts.map((product) => product.toJson()).toList()
-      };
 
 }
 
@@ -82,30 +75,14 @@ class AdContact {
   LatLng location;
   String phoneNumber;
   String email;
-  String facebookPage;
-  String instagramPage;
+  String facebookAccount;
+  String instagramAccount;
+  String twitterAccount;
+  String snapchatAccount;
 
-  AdContact(
-      {this.phoneNumber,
-      this.location,
-      this.city,
-      this.country,
-      this.email,
-      this.facebookPage,
-      this.instagramPage});
+  AdContact({this.country, this.city, this.location, this.phoneNumber,
+      this.email, this.facebookAccount, this.instagramAccount,
+      this.twitterAccount, this.snapchatAccount});
 
-  @override
-  String toString() {
-    return 'AdContact{country: $country, city: $city, location: $location, phoneNumber: $phoneNumber, email: $email, facebookPage: $facebookPage, instagramPage: $instagramPage}';
-  }
 
-  Map<String, dynamic> toJson() => {
-        "country": country.toJson(),
-        "city": city.toJson(),
-        "location": "${location.latitude},${location.longitude}",
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "facebookPage": facebookPage,
-        "instagramPage": instagramPage,
-      };
 }

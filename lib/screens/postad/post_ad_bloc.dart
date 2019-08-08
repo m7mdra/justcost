@@ -52,14 +52,13 @@ class SavePostAsDraft extends AdEvent {
   final List<AdProduct> products;
   final bool isWholeSale;
 
-  SavePostAsDraft(this.adDetails, this.adContact, this.products, this.isWholeSale);
+  SavePostAsDraft(
+      this.adDetails, this.adContact, this.products, this.isWholeSale);
 
   @override
   String toString() {
     return 'SavePostAsDraft{adDetails: $adDetails, adContact: $adContact, products: $products, isWholeSale: $isWholeSale}';
   }
-
-
 }
 
 class CheckIfDraftExists extends AdEvent {}
@@ -114,8 +113,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       else
         yield NormalUserState();
     }
-    if (event is SavePostAsDraft) {
-    }
+    if (event is SavePostAsDraft) {}
     if (event is PostAdEvent) {
       yield LoadingState(Loading.ad);
       final userId = await _session.userId();
@@ -123,6 +121,10 @@ class AdBloc extends Bloc<AdEvent, AdState> {
         final response = await _repository.postAd(
             customerId: userId,
             cityId: event.adContact.city.id,
+            facebookAccount: event.adContact.facebookAccount,
+            twitterAccount: event.adContact.twitterAccount,
+            snapchatAccount: event.adContact.snapchatAccount,
+            instagramAccount: event.adContact.instagramAccount,
             lat: event.adContact.location.latitude,
             lng: event.adContact.location.longitude,
             mobile: event.adContact.phoneNumber,
@@ -147,44 +149,47 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       }
     }
     if (event is RetryPostProduct) {
-     print("retrying");
-     var products=event.adProduct;
+      print("retrying");
+      var products = event.adProduct;
 
-    for (var i = 0; i < products.length; i++) {
-       yield LoadingState(Loading.product);
-       try {
-         var res = await _repository.postProduct(
-             categoryId: products[i].category.id,
-             description: products[i].details,
-             title: products[i].name,
-             brandId: products[i].brand.id,
-             quantity: event.isWholesale ? products[i].quantity : "0",
-             regularPrice: products[i].oldPrice,
-             salePrice: products[i].newPrice,
-             isPaid: 0,
-             attributes: products[i]
-                 .attributes
-                 .map((attribute) => attribute.id)
-                 .toList(),
-             isWholeSale: event.isWholesale ? 1 : 0,
-             adId: event.adId,
-             medias: products[i].mediaList);
-         if (!res.status) failedRequest.add(products[i]);
-         if (i == products.length - 1) {
-           yield SuccessState();
-           break;
-         }
-       } on DioError {
-         yield PostProductsFailed(failedRequest, event.adId, event.isWholesale);
-         break;
-       } on SessionExpired {
-         yield SessionExpiredState();
-         break;
-       } catch (error) {
-         yield PostProductsFailed(failedRequest, event.adId, event.isWholesale);
-         break;
-       }
-     }    }
+      for (var i = 0; i < products.length; i++) {
+        yield LoadingState(Loading.product);
+        try {
+          var res = await _repository.postProduct(
+              categoryId: products[i].category.id,
+              description: products[i].details,
+              title: products[i].name,
+              brandId: products[i].brand.id,
+              quantity: event.isWholesale ? products[i].quantity : "0",
+              regularPrice: products[i].oldPrice,
+              salePrice: products[i].newPrice,
+              isPaid: 0,
+              attributes: products[i]
+                  .attributes
+                  .map((attribute) => attribute.id)
+                  .toList(),
+              isWholeSale: event.isWholesale ? 1 : 0,
+              adId: event.adId,
+              medias: products[i].mediaList);
+          if (!res.status) failedRequest.add(products[i]);
+          if (i == products.length - 1) {
+            yield SuccessState();
+            break;
+          }
+        } on DioError {
+          yield PostProductsFailed(
+              failedRequest, event.adId, event.isWholesale);
+          break;
+        } on SessionExpired {
+          yield SessionExpiredState();
+          break;
+        } catch (error) {
+          yield PostProductsFailed(
+              failedRequest, event.adId, event.isWholesale);
+          break;
+        }
+      }
+    }
   }
 
   Stream<AdState> postProducts(

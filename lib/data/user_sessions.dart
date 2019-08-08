@@ -58,7 +58,7 @@ class UserSession {
 
   Future<String> getCurrentLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString(LANGUAGE_KEY) ?? "en";
+    return sharedPreferences.getString(LANGUAGE_KEY) ?? "ar";
   }
 
   Future<void> refresh() async {
@@ -66,10 +66,6 @@ class UserSession {
     await sharedPreferences.reload();*/
   }
 
-  Future<bool> saveAd(Ad ad) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.setString("ad", jsonEncode(ad.toJson()));
-  }
 
   Future saveUser(User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

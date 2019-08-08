@@ -38,7 +38,6 @@ class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
   MyAdsState get initialState => IdleState();
   @override
   void onError(Object error, StackTrace stacktrace) {
-    // TODO: implement onError
     super.onError(error, stacktrace);
     print(error);
     print(stacktrace);
