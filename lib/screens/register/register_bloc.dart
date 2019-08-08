@@ -80,7 +80,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       } on DioError catch (e) {
         var errorRes = RegisterErrorResponse.fromJson(e.response.data);
         var validationError = errorRes.error.validationError;
-        print(validationError.toJson());
         var errors = List.from(
           [
             validationError?.name?.join('\n'),

@@ -365,32 +365,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SizedBox(
                               height: 4,
                             ),
-                            TextFormField(
-                              focusNode: _phoneNumberFocusNode,
-                              maxLines: 1,
-                              textInputAction: TextInputAction.next,
-                              validator: (phone) {
-                                return phone.isEmpty
-                                    ? AppLocalizations.of(context)
-                                        .phoneNumberEmptyError
-                                    : null;
-                              },
-                              keyboardType: TextInputType.phone,
-                              controller: _phoneNumberController,
-                              onEditingComplete: () {},
-                              decoration: InputDecoration(
-                                  labelStyle: Theme.of(context).textTheme.body1,
-                                  contentPadding: EdgeInsets.only(
-                                      left: 16, right: 16, top: 8, bottom: 8),
-                                  hintText: '00-000-0000',
-                                  labelText: AppLocalizations.of(context)
-                                      .phoneNumberField,
-                                  prefixText: '+$_countryCode',
-                                  errorMaxLines: 1,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.redAccent, width: 0.5),
-                                      borderRadius: BorderRadius.circular(2))),
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: TextFormField(
+                                focusNode: _phoneNumberFocusNode,
+                                maxLines: 1,
+                                textInputAction: TextInputAction.next,
+                                validator: (phone) {
+                                  return phone.isEmpty
+                                      ? AppLocalizations.of(context)
+                                          .phoneNumberEmptyError
+                                      : null;
+                                },
+                                keyboardType: TextInputType.phone,
+                                controller: _phoneNumberController,
+                                onEditingComplete: () {},
+                                decoration: InputDecoration(
+                                    labelStyle: Theme.of(context).textTheme.body1,
+                                    contentPadding: EdgeInsets.only(
+                                        left: 16, right: 16, top: 8, bottom: 8),
+                                    hintText: '00-000-0000',
+                                    labelText: AppLocalizations.of(context)
+                                        .phoneNumberField,
+                                    prefixText: '+$_countryCode',
+                                    errorMaxLines: 1,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent, width: 0.5),
+                                        borderRadius: BorderRadius.circular(2))),
+                              ),
                             ),
                             SizedBox(
                               height: 4,
