@@ -23,7 +23,8 @@ class DependenciesProvider {
   static void build() {
     final Dio client = Dio();
     final UserSession userSession = UserSession();
-    final String _baseUrl = "http://mysql7003.site4now.net/api/";
+    final String _baseUrl =
+        "http://skilledtechuae-001-site3.htempurl.com/api/";
     client.options = BaseOptions(
       baseUrl: _baseUrl,
       responseType: ResponseType.json,
@@ -69,7 +70,7 @@ class DependenciesProvider {
     getIt.registerFactory<AdRepository>(() {
       return AdRepository(client);
     });
-  var bloc= SettingBloc(userSession);
+    var bloc = SettingBloc(userSession);
     getIt.registerSingleton<SettingBloc>((bloc));
   }
 
