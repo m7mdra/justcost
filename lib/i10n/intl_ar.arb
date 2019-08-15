@@ -1130,5 +1130,15 @@
                          "@Crop": {
                            "type": "text",
                            "placeholders": {}
-                         }
+                         },
+                           "Several products": "بضائع متنوعة",
+                           "@Several products": {
+                             "type": "text",
+                             "placeholders": {}
+                           },
+                           "Single product": "بضاعة واحده",
+                           "@Single product": {
+                             "type": "text",
+                             "placeholders": {}
+                           }
 }

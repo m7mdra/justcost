@@ -512,9 +512,9 @@ class AppLocalizations {
 
   String get adApprovedStatus => Intl.message('Approved');
 
-  String get wholesaleAdType => Intl.message("Wholesale ad");
+  String get wholesaleAdType => Intl.message("Several products");
 
-  String get normalAdType => Intl.message("Normal ad");
+  String get normalAdType => Intl.message("Single product");
 
   String get active => Intl.message('Active');
 

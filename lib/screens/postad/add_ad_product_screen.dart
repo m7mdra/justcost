@@ -84,6 +84,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).addProduct),
+        leading: BackButton(),
       ),
       body: Form(
         key: _formKey,

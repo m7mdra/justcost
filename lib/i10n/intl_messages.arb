@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-08-08T18:32:53.892897",
+  "@@last_modified": "2019-08-15T09:16:28.302869",
   "try again or contact support.": "try again or contact support.",
   "@try again or contact support.": {
     "type": "text",
@@ -1016,13 +1016,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "Wholesale ad": "Wholesale ad",
-  "@Wholesale ad": {
+  "Several products": "Several products",
+  "@Several products": {
     "type": "text",
     "placeholders": {}
   },
-  "Normal ad": "Normal ad",
-  "@Normal ad": {
+  "Single product": "Single product",
+  "@Single product": {
     "type": "text",
     "placeholders": {}
   },

@@ -1131,5 +1131,15 @@
                "@Crop": {
                  "type": "text",
                  "placeholders": {}
-               }
+               },
+                 "Several products": "Several products",
+                 "@Several products": {
+                   "type": "text",
+                   "placeholders": {}
+                 },
+                 "Single product": "Single product",
+                 "@Single product": {
+                   "type": "text",
+                   "placeholders": {}
+                 }
 }

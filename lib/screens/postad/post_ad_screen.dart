@@ -308,35 +308,6 @@ class _PostAdScreenState extends State<PostAdScreen> {
         currentStep: _currentStep,
         steps: [
           Step(
-            subtitle: Container(
-              width: MediaQuery.of(context).size.width - 100,
-              child: Text.rich(
-                TextSpan(
-                    text: "${AppLocalizations.of(context).select} ",
-                    children: [
-                      TextSpan(
-                          text: AppLocalizations.of(context).normalAd,
-                          style: Theme.of(context).textTheme.body1.copyWith(
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                              fontSize: 16)),
-                      TextSpan(
-                          text:
-                              ' ${AppLocalizations.of(context).normalAdExplain}'),
-                      TextSpan(text: '\n'),
-                      TextSpan(text: "${AppLocalizations.of(context).select} "),
-                      TextSpan(
-                          text: AppLocalizations.of(context).wholesaleAd,
-                          style: Theme.of(context).textTheme.body1.copyWith(
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                              fontSize: 16)),
-                      TextSpan(
-                          text:
-                              ' ${AppLocalizations.of(context).wholesaleAdExplain}'),
-                    ]),
-              ),
-            ),
             state: _firstStepState,
             title: Text(AppLocalizations.of(context).selectAdType),
             content: RadioLikeButton(
