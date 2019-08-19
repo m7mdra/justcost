@@ -19,8 +19,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   @override
   EditProfileState get initialState => IdleState();
 
-
-
   @override
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {
     try {
@@ -31,7 +29,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         if (response.success) {
           await _userSession.save(response);
           userProfileBloc.dispatch(LoadProfileEvent());
-
           yield AccountInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdateAccountInformationEvent>(
@@ -42,15 +39,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       if (event is LoadUserDataEvent) {
         var localUser = await _userSession.user();
         yield UserLoadedState(localUser.data.user);
-//        var updateUser = await _userRepository.parse();
+        var updateUser = await _userRepository.parse();
 
-//        yield UserLoadedState(updateUser);
+        yield UserLoadedState(updateUser.data.user);
       }
       if (event is UpdatePasswordEvent) {
         yield LoadingState();
         var response = await _userRepository.updatePassword(
             event.newPassword, event.confirmNewPassword, event.currentPassword);
-
         if (response.status) {
           await _userSession.clear();
           yield PasswordChangedSuccess();
@@ -64,16 +60,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         yield LoadingState();
         var response = await _userRepository.updateProfileImage(
             event.originalImage, event.croppedImage);
-        if (response.status) {
-          var user = await _userRepository.parse();
-          await _userSession.saveUser(user.data.user);
+        if (response.success) {
+          await _userSession.save(response);
           userProfileBloc.dispatch(LoadProfileEvent());
-          yield AvatarUpdateSuccess(user.data.user);
+          yield AvatarUpdateSuccess(response.data.user);
         } else {
           yield ErrorState<UpdateProfileAvatarEvent>(
               response.message, ErrorType.avatar, event);
           dispatch(LoadUserDataEvent());
-
         }
       }
       if (event is UpdatePersonalInformationEvent) {
@@ -81,9 +75,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         var response = await _userRepository.updatePersonalInformation(
             event.fullName, event.gender, event.city);
         if (response.success) {
-          userProfileBloc.dispatch(LoadProfileEvent());
           await _userSession.save(response);
-          await _userSession.refresh();
+          userProfileBloc.dispatch(LoadProfileEvent());
           yield PersonalInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdatePersonalInformationEvent>(
@@ -119,17 +112,18 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
               null);
           break;
       }
-
+      print(error);
       dispatch(LoadUserDataEvent());
     } on SessionExpired catch (error) {
       await _userSession.clear();
+      await _userSession.refresh();
 
       yield SessionExpiredState();
     } catch (error) {
-
       yield ErrorState("Unknown error: $error}", ErrorType.none, null);
-      dispatch(LoadUserDataEvent());
+      print(error);
 
+      dispatch(LoadUserDataEvent());
     }
   }
 }

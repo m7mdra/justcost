@@ -67,7 +67,7 @@ class _SearchPageState extends State<SearchPage>
               if (state is CategoriesLoadedState) {
                 state.categories.shuffle();
                 return Container(
-                  height: 120,
+                  height: 140,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
@@ -118,7 +118,9 @@ class _SearchPageState extends State<SearchPage>
                                             width: 70,
                                           ),
                                     Text(
+
                                       state.categories[index].name,
+                                      maxLines: 2,
                                       textAlign: TextAlign.center,
                                     )
                                   ],

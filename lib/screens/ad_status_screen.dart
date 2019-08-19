@@ -111,8 +111,9 @@ class _StoryState extends State<Story> {
   @override
   void initState() {
     super.initState();
-
-    print(widget.product.media.map((media) => media.toJson()).join());
+    widget.product.media.removeWhere((media) {
+      return media.url == null || media.url.isEmpty;
+    });
   }
 
   @override

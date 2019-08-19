@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +55,9 @@ class _SplashScreenState extends State<SplashScreen> {
     _authenticationBloc = BlocProvider.of(context);
     _authenticationBloc.dispatch(AppStarted());
     _authenticationBloc.state.listen((state) {
-      if (state is UserAuthenticated)
+      if (state is UserAuthenticated || state is UserUnauthenticated)
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
-      if (state is UserUnauthenticated)
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
       if (state is AccountNotVerified)
         Navigator.pushReplacement(
             context,
@@ -76,15 +74,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
     _authenticationBloc.dispose();
   }
+
   Future onSelectNotification(String payload) async {
     print(payload);
 
-    globalKey.currentState.push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
-
+    globalKey.currentState
+        .push(MaterialPageRoute(builder: (context) => AdDetailsScreen()));
   }
+
   void initNotificationAndListen() {
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('app_icon');
+        new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
@@ -150,15 +150,15 @@ class SplashLoadingWidget extends StatelessWidget {
           Card(
             child: Image.asset(
               'assets/icon/android/logo-500.png',
-              width: 150,
-              height: 150,
+              width: 200,
+              height: 200,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               child: LinearProgressIndicator(),
-              width: 150,
+              width: 200,
               height: 2,
             ),
           )

@@ -38,7 +38,7 @@ class Ad {
   ///2 rejected
   ///3 approved
   int status;
-  String approvedBy;
+  int approvedBy;
   String lat;
   String lng;
   bool iswholesale;

@@ -66,12 +66,12 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           await _repository.logout();
           await Future.wait(
-              [_session.clear(), FirebaseMessaging().deleteInstanceID()]);
+              [_session.clear(),_session.refresh(), FirebaseMessaging().deleteInstanceID()]);
 
           yield LogoutSuccessState();
         } catch (error) {
           await Future.wait(
-              [_session.clear(), FirebaseMessaging().deleteInstanceID()]);
+              [_session.clear(),_session.refresh(), FirebaseMessaging().deleteInstanceID()]);
           yield LogoutSuccessState();
         }
       }
@@ -82,7 +82,6 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         try {
           var user = await _session.user();
-
           yield ProfileLoadedSuccessState(user.data.user);
           var response = await _repository.parse();
           if (response != null) {
@@ -94,13 +93,17 @@ class UserProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         } on DioError catch (error) {
           print(error);
           var user = await _session.user();
-
+          print(error);
           yield ProfileReloadFailedState(user.data.user);
         } on SessionExpired catch (error) {
           yield SessionsExpiredState();
-          _session.clear();
+          await _session.clear();
+          await _session.refresh();
+
+          print(error);
         } catch (error) {
           var user = await _session.user();
+          print(error);
 
           yield ProfileReloadFailedState(user.data.user);
         }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/user.dart';
@@ -22,7 +24,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin<ProfilePage> {
   UserProfileBloc _bloc;
-
 
   @override
   void initState() {
@@ -82,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage>
           child: ClipOval(
               child: user.image != null && user.image.isNotEmpty
                   ? Image.network(
-                      user.image,
+                      '${user.image}?${Random().nextDouble()}',
                       width: 90,
                       height: 90,
                     )
@@ -119,7 +120,8 @@ class _ProfilePageState extends State<ProfilePage>
           title: Text(AppLocalizations.of(context).favoriteAds),
           dense: true,
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>LikedProductsScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LikedProductsScreen()));
           },
         ),
         divider(),
@@ -130,12 +132,15 @@ class _ProfilePageState extends State<ProfilePage>
           onTap: () => _onLogout(),
         ),
         divider(),
-        ListTile(leading: Icon(Icons.settings),
-        title: Text(AppLocalizations.of(context).settings),
-        dense: true,
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsScreen()));
-        },)
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text(AppLocalizations.of(context).settings),
+          dense: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()));
+          },
+        )
       ],
     );
   }

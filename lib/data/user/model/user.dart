@@ -36,7 +36,7 @@ class User {
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender = json['gender'];
-    image = json['image'];
+    image = json['image'] != null ? json['image'] : '';
     isVerified = json['isVerified'];
     firebaseToken = json['firebaseToken'];
   }

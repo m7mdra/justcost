@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
                     Container(
-                      height: 120,
+                      height: 140,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
@@ -297,10 +297,10 @@ class FeatureCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120,
-      height: 120,
+      height: 140,
       child: Card(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           category.image == null || category.image.isEmpty
               ? Container(
@@ -314,6 +314,7 @@ class FeatureCategoryWidget extends StatelessWidget {
                 ),
           Text(
             category.name,
+            maxLines: 1,
             textAlign: TextAlign.center,
           )
         ],

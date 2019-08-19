@@ -164,6 +164,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
                 ),
               );
             }
+            if(state is GoatUserState)
+              return Center(child: GuestUserWidget(),);
             if (state is PostProductsFailed) {
               return Center(
                 child: Column(
@@ -200,6 +202,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                   ],
                 ),
               );
+
             return buildFormStepper(context);
           },
         ),

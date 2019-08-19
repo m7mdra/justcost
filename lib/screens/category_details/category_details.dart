@@ -72,19 +72,14 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
           if (state is CategoriesLoadedState)
             return RefreshIndicator(
               key: _refreshIndicatorKey,
-              child: GridView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: state.categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 1,
-                ),
+              child: ListView.separated(
+                padding: const EdgeInsets.all(16),
                 itemBuilder: (BuildContext context, int index) {
-                  return CategoryWidget(
-                    category: state.categories[index],
-                    onClick: (category) async {
+                  return ListTile(
+                    leading: Icon(Icons.keyboard_arrow_right),
+                    title: Text(state.categories[index].name),
+                    onTap: () async {
+                      var category = state.categories[index];
                       if (category.hasDescendants()) {
                         var cat =
                             await Navigator.of(context).push(MaterialPageRoute(
@@ -103,6 +98,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                       }
                     },
                   );
+                },
+                itemCount: state.categories.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(height: 1,);
                 },
               ),
               onRefresh: () {

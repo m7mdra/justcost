@@ -121,15 +121,15 @@ class UserRepository {
     }
   }
 
-  Future<ResponseStatus> updateProfileImage(
+  Future<AuthenticationResponse> updateProfileImage(
       File originalFile, File downSampledFile) async {
     try {
       var response = await _client.post('customer/uploadImage',
           data: FormData.from({
             "image": UploadFileInfo(
-                downSampledFile, "${DateTime.now()}_image_original"),
+                downSampledFile, "image_${DateTime.now()}"),
           }));
-      return ResponseStatus.fromJson(response.data);
+      return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
         throw SessionExpired();

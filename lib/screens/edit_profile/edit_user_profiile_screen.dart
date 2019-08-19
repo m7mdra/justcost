@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:justcost/screens/edit_profile/update_password_screen.dart';
 import 'package:justcost/screens/edit_profile/update_personal_information_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/login/login_screen.dart';
+import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 import 'account_information.dart';
@@ -109,7 +111,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   ListView buildListView(BuildContext context, User user) {
-
     return ListView(
       padding: const EdgeInsets.all(16),
       children: <Widget>[
@@ -119,15 +120,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: ClipOval(
                   child: user.image != null && user.image.isNotEmpty
                       ? Image.network(
-                          user.image,
+                          '${user.image}?${Random().nextDouble()}',
                           width: 100,
                           height: 100,
                         )
-                      : Image.asset(
-                          'assets/images/default-avatar.png',
-                          width: 100,
-                          height: 100,
-                        )),
+                      : DefaultUserAvatarWidget()),
             ),
             OutlineButton(
               onPressed: () {

@@ -66,9 +66,6 @@ class _CategoriesPageState extends State<CategoriesPage>
         if (state is CategoriesLoadedState) {
           var size = MediaQuery.of(context).size;
 
-          final double itemHeight = (size.height - kToolbarHeight - 30) / 2;
-          final double itemWidth = size.width / 2;
-
           return RefreshIndicator(
             child: GridView.builder(
               padding: const EdgeInsets.all(8),

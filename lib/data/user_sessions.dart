@@ -66,7 +66,6 @@ class UserSession {
     await sharedPreferences.reload();*/
   }
 
-
   Future saveUser(User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(MOBILE_NUMBER_KEY, user.mobile);
@@ -92,8 +91,9 @@ class UserSession {
   /// returns false if the current user is guest or a goat for all we know
   Future<bool> isUserAGoat() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    return sharedPreferences.getString(USER_TYPE_KEY) == "guest";
+    var userType = sharedPreferences.getString(USER_TYPE_KEY);
+    if (userType == null) return true;
+    return userType == "guest";
   }
 
   Future<bool> hasToken() async {
