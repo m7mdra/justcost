@@ -186,31 +186,39 @@ class ImageStatus extends StatefulWidget {
 class ImageStatusState extends State<ImageStatus> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<File>(
-      future: DefaultCacheManager().getSingleFile(widget.imageUrl),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        widget.globalKey.currentState.pause();
+    print('');
+    print('');
+    print("IMAGE: ${widget.imageUrl}");
+    print('');
+    print('');
+    if (widget.imageUrl == null || widget.imageUrl.isEmpty)
+      return Container();
+    else
+      return FutureBuilder<File>(
+        future: DefaultCacheManager().getSingleFile(widget.imageUrl),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          widget.globalKey.currentState.pause();
 
-        if (snapshot.connectionState == ConnectionState.done) if (snapshot
-            .hasError) {
-          return Text(
-            '${snapshot.error}',
-            style: TextStyle(color: Colors.red),
-          );
-        } else {
-          widget.globalKey.currentState.resume();
-          return Center(
-              child: Image.file(
-            snapshot.data,
-            fit: BoxFit.fitWidth,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ));
-        }
-        else
-          return Center(child: CircularProgressIndicator());
-      },
-    );
+          if (snapshot.connectionState == ConnectionState.done) if (snapshot
+              .hasError) {
+            return Text(
+              '${snapshot.error}',
+              style: TextStyle(color: Colors.red),
+            );
+          } else {
+            widget.globalKey.currentState.resume();
+            return Center(
+                child: Image.file(
+              snapshot.data,
+              fit: BoxFit.fitWidth,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ));
+          }
+          else
+            return Center(child: CircularProgressIndicator());
+        },
+      );
   }
 }
 
@@ -252,66 +260,74 @@ class VideoStatusState extends State<VideoStatus> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<File>(
-      builder: (context, AsyncSnapshot<File> snapshot) {
-        print(snapshot);
-        widget.globalKey?.currentState?.pause();
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError)
+    print('');
+    print('');
+    print("VIDEO: ${widget.videoUrl}");
+    print('');
+    print('');
+    if (widget.videoUrl == null || widget.videoUrl.isEmpty)
+      return Container();
+    else
+      return FutureBuilder<File>(
+        builder: (context, AsyncSnapshot<File> snapshot) {
+          print(snapshot);
+          widget.globalKey?.currentState?.pause();
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError)
+              return Container(
+                child: Text(
+                  'error occurred: ${snapshot.error}',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.black,
+              );
+
+            if (snapshot.hasData) {
+              controller = VideoPlayerController.file(snapshot.data);
+
+              return FutureBuilder<void>(
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    widget.globalKey?.currentState?.resume();
+
+                    controller.play();
+
+                    return Center(
+                      child: AspectRatio(
+                        child: VideoPlayer(controller),
+                        aspectRatio: controller.value.aspectRatio,
+                      ),
+                    );
+                  } else
+                    return Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    );
+                },
+                future: controller.initialize(),
+              );
+            }
             return Container(
-              child: Text(
-                'error occurred: ${snapshot.error}',
-                style: TextStyle(color: Colors.white),
-              ),
               color: Colors.black,
+              child: Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
             );
-
-          if (snapshot.hasData) {
-            controller = VideoPlayerController.file(snapshot.data);
-
-            return FutureBuilder<void>(
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  widget.globalKey?.currentState?.resume();
-
-                  controller.play();
-
-                  return Center(
-                    child: AspectRatio(
-                      child: VideoPlayer(controller),
-                      aspectRatio: controller.value.aspectRatio,
-                    ),
-                  );
-                } else
-                  return Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  );
-              },
-              future: controller.initialize(),
+          } else {
+            return Container(
+              color: Colors.black,
+              child: Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
             );
           }
-          return Container(
-            color: Colors.black,
-            child: Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ),
-            ),
-          );
-        } else {
-          return Container(
-            color: Colors.black,
-            child: Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ),
-            ),
-          );
-        }
-      },
-      future: DefaultCacheManager().getSingleFile(widget.videoUrl),
-    );
+        },
+        future: DefaultCacheManager().getSingleFile(widget.videoUrl),
+      );
   }
 }
