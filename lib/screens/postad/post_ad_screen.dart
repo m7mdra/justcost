@@ -164,8 +164,10 @@ class _PostAdScreenState extends State<PostAdScreen> {
                 ),
               );
             }
-            if(state is GoatUserState)
-              return Center(child: GuestUserWidget(),);
+            if (state is GoatUserState)
+              return Center(
+                child: GuestUserWidget(),
+              );
             if (state is PostProductsFailed) {
               return Center(
                 child: Column(
@@ -179,7 +181,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                     RaisedButton(
                       onPressed: () {
                         _bloc.dispatch(RetryPostProduct(
-                            state.products, state.adId, state.isWholeSale));
+                            productList, state.adId, state.isWholeSale));
                       },
                       child: Text(AppLocalizations.of(context).retryButton),
                     )
@@ -843,6 +845,8 @@ class _RadioLikeButtonState extends State<RadioLikeButton> {
     return ButtonBar(
       children: <Widget>[
         RaisedButton(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.all(1),
           color: _additionType == AdditionType.single
               ? Theme.of(context).accentColor
               : Colors.grey,
@@ -855,6 +859,8 @@ class _RadioLikeButtonState extends State<RadioLikeButton> {
           },
         ),
         RaisedButton(
+          padding: const EdgeInsets.all(1),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           color: _additionType == AdditionType.multiple
               ? Theme.of(context).accentColor
               : Colors.grey,
@@ -869,6 +875,7 @@ class _RadioLikeButtonState extends State<RadioLikeButton> {
         ),
       ],
       mainAxisSize: MainAxisSize.min,
+      alignment: MainAxisAlignment.start,
     );
   }
 }

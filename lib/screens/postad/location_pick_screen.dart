@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocationPickerScreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   void initState() {
     super.initState();
     markers.add(marker);
+    _requestPermission();
   }
 
   @override
@@ -44,7 +46,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           markers: markers,
-
           onMapCreated: (map) {
             _controller.complete(map);
           },
@@ -59,7 +60,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
               var newMarker = Marker(
                   markerId: MarkerId("marker"),
                   position: position.target,
-                  infoWindow: InfoWindow(title: AppLocalizations.of(context).yourLocation));
+                  infoWindow: InfoWindow(
+                      title: AppLocalizations.of(context).yourLocation));
               markers.add(newMarker);
               this.marker = newMarker;
               _isCameraMoving = true;
@@ -72,5 +74,16 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
     );
   }
 
-
+  Future _requestPermission() async {
+    PermissionStatus status = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.location);
+    if (status != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.location]);
+      if (permissions[PermissionGroup.location] == PermissionStatus.granted) {
+        setState(() {});
+      }
+    }
+  }
 }

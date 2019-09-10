@@ -19,14 +19,14 @@ class CategoryWidget extends StatelessWidget {
         child: Column(
           children: <Widget>[
             category.image == null || category.image.isEmpty
-                ? Container(
-                    width: 150,
+                ? Image.asset(
+                    'assets/icon/android/logo-500.png',
+                    width: 130,
                     height: 135,
-                    color: Colors.red,
                   )
                 : Image.network(
                     category.image,
-                    width: 150,
+                    width: 130,
                     height: 135,
                   ),
             const SizedBox(

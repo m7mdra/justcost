@@ -77,11 +77,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is SearchProductByName) {
       yield SearchLoading();
       try {
-        _currentPage = 0;
         var response = await _repository.findProductsByName(
             event.name, event.cityId, _currentPage);
         if (response.success) {
-          yield SearchFound(response.data, response.data.isEmpty);
+          yield SearchFound(response.data, true);
         } else {
           yield SearchError();
         }

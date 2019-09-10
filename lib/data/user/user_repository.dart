@@ -124,10 +124,19 @@ class UserRepository {
   Future<AuthenticationResponse> updateProfileImage(
       File originalFile, File downSampledFile) async {
     try {
+      final fileName = "image_${DateTime
+          .now()
+          .millisecondsSinceEpoch}";
+      print("");
+      print("");
+      print(fileName);
+      print(downSampledFile.path);
+      print("");
+      print("");
       var response = await _client.post('customer/uploadImage',
           data: FormData.from({
             "image": UploadFileInfo(
-                downSampledFile, "image_${DateTime.now()}"),
+                downSampledFile, downSampledFile.path),
           }));
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {

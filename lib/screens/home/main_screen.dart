@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/screens/home/category/categories_page.dart';
 import 'package:justcost/screens/home/home/home_page.dart';
 import 'package:justcost/screens/home/profile/profile_page.dart';
@@ -24,7 +22,7 @@ class _MainScreenState extends State<MainScreen>
     with AutomaticKeepAliveClientMixin<MainScreen> {
   PageController _pageController;
   var _currentPage = 0;
-  GlobalKey<FABBottomAppBarState> key = GlobalKey<FABBottomAppBarState>();
+  GlobalKey<FABBottomAppBarState> _key = GlobalKey<FABBottomAppBarState>();
 
   @override
   void initState() {
@@ -159,7 +157,7 @@ class _MainScreenState extends State<MainScreen>
           setState(() {
             _currentPage = index;
           });
-          key.currentState.selectedIndex = index;
+          _key.currentState.selectedIndex = index;
         },
         // ignore: missing_return
         itemBuilder: (BuildContext context, int index) {
@@ -182,7 +180,7 @@ class _MainScreenState extends State<MainScreen>
         elevation: 2.0,
       ),
       bottomNavigationBar: FABBottomAppBar(
-        key: key,
+        key: _key,
         items: [
           FABBottomAppBarItem(
               iconData: Icons.home,
