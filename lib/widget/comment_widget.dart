@@ -59,12 +59,6 @@ class CommentWidget extends StatelessWidget {
                       const SizedBox(
                         width: 16,
                       ),
-                      FlutterRatingBarIndicator(
-                        rating: comment.rate[0].rate.toDouble(),
-                        itemSize: 12,
-                        emptyColor: Theme.of(context).accentColor.withAlpha(60),
-                        itemPadding: const EdgeInsets.all(0),
-                      ),
                     ],
                   ),
                   Text(

@@ -6,7 +6,6 @@ import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_replay_screen.dart';
 import 'package:justcost/widget/comment_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 

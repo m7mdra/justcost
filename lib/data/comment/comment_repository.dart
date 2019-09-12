@@ -20,7 +20,7 @@ class CommentRepository {
   }
 
   Future<PostCommentResponse> addCommentToProduct(
-      int productId, String comment, int parentId,) async {
+      int productId, String comment, int parentId) async {
     try {
       var data = {};
       if (productId != null) data['productid'] = productId;

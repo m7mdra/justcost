@@ -19,7 +19,7 @@ import 'package:justcost/widget/icon_text.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'attribute_bloc.dart';
 import 'comment_replay_screen.dart';
 
@@ -46,7 +46,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   void initState() {
     super.initState();
     product = widget.product;
-    print(product.media.map((media)=>media.toJson()).join());
+    print(product.media.map((media) => media.toJson()).join());
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
@@ -62,6 +62,17 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _attributesBloc.dispatch(LoadProductAttribute(product.productId));
     _postCommentBloc.state.listen((state) {
       if (state is PostCommentSuccess) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                actions: <Widget>[
+                  FlatButton(onPressed: () {}, child: Text('Submit'))
+                ],
+                title: Text('Rate this product'),
+                content: FlutterRatingBar(onRatingUpdate: (rate) {}),
+              );
+            });
         _commentTextEditingController.clear();
         _commentsBloc.dispatch(LoadComments(product.productId));
       }
@@ -75,6 +86,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentsBloc.dispose();
     _likeProductBloc.dispose();
     _postCommentBloc.dispose();
+
   }
 
   @override
@@ -500,7 +512,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
 
   Widget commentBox() {
     return Column(
-
       children: <Widget>[
         Text(AppLocalizations.of(context).writeComment),
         TextField(
