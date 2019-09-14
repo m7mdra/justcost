@@ -35,8 +35,8 @@ class StoryItem {
 
   StoryItem(
     this.view, {
-        this.shouldPause,
-        this.duration = const Duration(seconds: 3),
+    this.shouldPause,
+    this.duration = const Duration(seconds: 3),
     this.shown = false,
   }) : assert(duration != null, "[duration] should not be null");
 }
@@ -376,7 +376,7 @@ class PageBarState extends State<PageBar> {
     spacing = count > 15 ? 1 : count > 10 ? 2 : 4;
 
     widget.animation.addListener(() {
-      setState(() {});
+      if (mounted) setState(() {});
     });
   }
 

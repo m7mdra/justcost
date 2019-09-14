@@ -11,6 +11,7 @@ import 'package:justcost/screens/ad_details/ad_details_bloc.dart';
 import 'package:justcost/screens/ad_details/comment_bloc.dart';
 import 'package:justcost/screens/ad_details/post_comment_bloc.dart';
 import 'package:justcost/screens/ad_details/product_comments.dart';
+import 'package:justcost/screens/ad_details/rate_bloc.dart';
 import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/comment_widget.dart';
@@ -40,6 +41,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   TextEditingController _commentTextEditingController;
   LikeProductBloc _likeProductBloc;
   AttributesBloc _attributesBloc;
+  RateBloc _rateBloc;
+  int _rating;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -49,6 +52,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     print(product.media.map((media) => media.toJson()).join());
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
+    _rateBloc = RateBloc(DependenciesProvider.provide());
+    _rateBloc.dispatch(LoadRates(product.productId));
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
     _likeProductBloc = LikeProductBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
@@ -61,18 +66,30 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _likeProductBloc.dispatch(CheckLikeEvent(product.productId));
     _attributesBloc.dispatch(LoadProductAttribute(product.productId));
     _postCommentBloc.state.listen((state) {
-      if (state is PostCommentSuccess) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                actions: <Widget>[
-                  FlatButton(onPressed: () {}, child: Text('Submit'))
-                ],
-                title: Text('Rate this product'),
-                content: FlutterRatingBar(onRatingUpdate: (rate) {}),
-              );
-            });
+      if (state is ShowRatingAfterSuccess) {
+        if (state.show)
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () {
+                          if (_rating != 0)
+                            _rateBloc.dispatch(
+                                RateProduct(widget.product.productId, _rating));
+                          Navigator.pop(context);
+                        },
+                        child: Text('Submit'))
+                  ],
+                  title: Text('Rate this product'),
+                  content: FlutterRatingBar(onRatingUpdate: (rate) {
+                    setState(() {
+                      _rating = rate.toInt();
+                    });
+                  }),
+                );
+              });
         _commentTextEditingController.clear();
         _commentsBloc.dispatch(LoadComments(product.productId));
       }
@@ -86,7 +103,6 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentsBloc.dispose();
     _likeProductBloc.dispose();
     _postCommentBloc.dispose();
-
   }
 
   @override
@@ -101,9 +117,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               Container(
                   height: product.media.isEmpty ? 30 : 200,
                   child: Story(
-                    onComplete: () {
-//                      setState(() {});
-                    },
+                   
                     repeat: true,
                     product: product,
                   )),
@@ -176,15 +190,36 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
             padding:
                 const EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Expanded(
-                  child: Text(
-                    product.title,
-                    style: Theme.of(context).textTheme.title,
-                    maxLines: 2,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        product.title,
+                        style: Theme.of(context).textTheme.title,
+                        maxLines: 2,
+                      ),
+                      BlocBuilder(
+                          bloc: _rateBloc,
+                          builder: (context, state) {
+                            if (state is RateLoaded)
+                              return FlutterRatingBarIndicator(
+                                emptyColor:
+                                    Theme.of(context).accentColor.withAlpha(30),
+                                rating: state.rate.toDouble(),
+                              );
+                            return FlutterRatingBarIndicator(
+                              rating: 0,
+                              emptyColor:
+                                  Theme.of(context).accentColor.withAlpha(30),
+                            );
+                          })
+                    ],
                   ),
                 ),
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.only(

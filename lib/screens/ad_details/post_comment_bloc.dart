@@ -30,7 +30,7 @@ class PostCommentBloc extends Bloc<PostEvent, PostState> {
             event.productId, event.comment, event.parentId);
         if (response.success) {
           yield PostCommentSuccess();
-          yield ShowRatingAfterSuccess(response.data.rated);
+          yield ShowRatingAfterSuccess(!response.data.rated);
         } else {
           yield PostCommentFailed();
         }
