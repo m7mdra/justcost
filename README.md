@@ -1,5 +1,6 @@
 [![Codemagic build status](https://api.codemagic.io/apps/5ca067db581a2d000a79e1db/5ca067db581a2d000a79e1da/status_badge.svg)](https://codemagic.io/apps/5ca067db581a2d000a79e1db/5ca067db581a2d000a79e1da/latest_build)
 ## dependencies:
+```
 Dart SDK 2.3.0-dev.0.5.flutter-a1668566e5
 Flutter SDK 1.5.4-hotfix.2
 justcost 1.0.0+1
@@ -171,7 +172,7 @@ justcost 1.0.0+1
 '-- video_player 0.10.1+3
     |-- flutter...
     '-- meta...
-
+```
  
  
  ### How to Build? 
