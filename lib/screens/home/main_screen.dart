@@ -9,9 +9,8 @@ import 'package:justcost/screens/home/profile/profile_page.dart';
 import 'package:justcost/screens/home/search/search_page.dart';
 import 'package:justcost/screens/search/search_screen.dart';
 import 'package:justcost/widget/fab_bottom_appbar.dart';
-
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:justcost/screens/postad/post_ad_screen.dart';
-
 
 class MainScreen extends StatefulWidget {
   @override
@@ -20,14 +19,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with AutomaticKeepAliveClientMixin<MainScreen> {
-  PageController _pageController;
+  PreloadPageController _pageController;
   var _currentPage = 0;
   GlobalKey<FABBottomAppBarState> _key = GlobalKey<FABBottomAppBarState>();
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(keepPage: true);
+    _pageController = PreloadPageController(keepPage: true);
   }
 
   @override
@@ -57,6 +56,7 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       /* endDrawer: SafeArea(
         child: Drawer(
@@ -150,9 +150,11 @@ class _MainScreenState extends State<MainScreen>
               : Container()
         ],
       ),
-      body: PageView.builder(
+      body: PreloadPageView.builder(
         controller: _pageController,
         itemCount: 4,
+        preloadPagesCount: 4,
+
         onPageChanged: (index) {
           setState(() {
             _currentPage = index;
@@ -161,7 +163,6 @@ class _MainScreenState extends State<MainScreen>
         },
         // ignore: missing_return
         itemBuilder: (BuildContext context, int index) {
-
           if (index == 0) return HomePage();
           if (index == 1) return SearchPage();
           if (index == 2) return CategoriesPage();

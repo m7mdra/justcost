@@ -155,7 +155,7 @@ class _SearchPageState extends State<SearchPage>
                                 )));
                       },
                       child: Stack(
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         children: <Widget>[
                           state.products[index].media[0].url != null &&
                                   state.products[index].media[0].url.isNotEmpty
@@ -170,10 +170,13 @@ class _SearchPageState extends State<SearchPage>
                                   height: 120,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                          DiscountPercentageBannerWidget(
-                            regularPrice: state.products[index].regPrice,
-                            salePrice: state.products[index].salePrice,
-                            onLike: () {},
+                          Align(
+                            alignment: Alignment.centerLeft,
+
+                            child: DiscountPercentageBannerWidget(
+                              regularPrice: state.products[index].regPrice,
+                              salePrice: state.products[index].salePrice,
+                            ),
                           )
                         ],
                       ),
@@ -182,7 +185,7 @@ class _SearchPageState extends State<SearchPage>
                   itemCount: state.products.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
+                      crossAxisCount: 4,mainAxisSpacing: 4,crossAxisSpacing: 4),
                 );
               }
               if (state is RecentAdsLoading)

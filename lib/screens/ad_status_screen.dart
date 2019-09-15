@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/story_view.dart';
 import 'package:video_player/video_player.dart';
@@ -70,7 +71,15 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
                       Align(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: AdWidget(product: product),
+                          child: AdWidget(
+                            product: product,
+                            onTap: () {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return AdDetailsScreen(product: product);
+                              }));
+                            },
+                          ),
                         ),
                         alignment: Alignment.bottomCenter,
                       )
@@ -155,10 +164,11 @@ class _StoryState extends State<Story> {
 //        onNextStory();
         },
         onComplete: () {
-          widget.onComplete();
+          if (mounted) if (widget.onComplete != null) widget.onComplete();
         },
         canGoPrevious: () {
-          widget.canGoToPreviousStory();
+          if (mounted) if (widget.canGoToPreviousStory != null)
+            widget.canGoToPreviousStory();
         },
         progressPosition: ProgressPosition.top,
         repeat: widget.repeat,

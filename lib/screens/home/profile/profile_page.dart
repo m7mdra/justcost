@@ -55,10 +55,10 @@ class _ProfilePageState extends State<ProfilePage>
             child: Column(
               children: <Widget>[
                 GuestUserWidget(),
-                Expanded(
-                    child: SettingsWidget(
-                  onLogout: _onLogout,
-                ))
+                _settingsTile(context),
+                divider(),
+                _logoutTile(context)
+
               ],
             ),
           );
@@ -70,6 +70,27 @@ class _ProfilePageState extends State<ProfilePage>
       },
       bloc: _bloc,
     );
+  }
+
+  ListTile _logoutTile(BuildContext context) {
+    return ListTile(
+                leading: Icon(Icons.exit_to_app),
+                dense: true,
+                title: Text(AppLocalizations.of(context).logout),
+                onTap: () => _onLogout(),
+              );
+  }
+
+  ListTile _settingsTile(BuildContext context) {
+    return ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(AppLocalizations.of(context).settings),
+                dense: true,
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SettingsScreen()));
+                },
+              );
   }
 
   @override
@@ -125,22 +146,10 @@ class _ProfilePageState extends State<ProfilePage>
           },
         ),
         divider(),
-        ListTile(
-          leading: Icon(Icons.exit_to_app),
-          dense: true,
-          title: Text(AppLocalizations.of(context).logout),
-          onTap: () => _onLogout(),
-        ),
+        _settingsTile(context),
         divider(),
-        ListTile(
-          leading: Icon(Icons.settings),
-          title: Text(AppLocalizations.of(context).settings),
-          dense: true,
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()));
-          },
-        )
+        _logoutTile(context)
+
       ],
     );
   }

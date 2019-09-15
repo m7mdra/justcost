@@ -117,7 +117,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               Container(
                   height: product.media.isEmpty ? 30 : 200,
                   child: Story(
-                   
+
                     repeat: true,
                     product: product,
                   )),
@@ -194,6 +194,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               children: <Widget>[
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         product.title,
@@ -205,11 +206,15 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                           builder: (context, state) {
                             if (state is RateLoaded)
                               return FlutterRatingBarIndicator(
+                                itemSize: 15,
+                                itemPadding: const EdgeInsets.all(2),
                                 emptyColor:
                                     Theme.of(context).accentColor.withAlpha(30),
                                 rating: state.rate.toDouble(),
                               );
                             return FlutterRatingBarIndicator(
+                              itemSize: 15,
+                              itemPadding: const EdgeInsets.all(2),
                               rating: 0,
                               emptyColor:
                                   Theme.of(context).accentColor.withAlpha(30),

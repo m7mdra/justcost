@@ -36,7 +36,6 @@ class AdWidget extends StatelessWidget {
                 DiscountPercentageBannerWidget(
                   regularPrice: product.regPrice,
                   salePrice: product.salePrice,
-                  onLike: () {},
                 ),
               ],
             ),
