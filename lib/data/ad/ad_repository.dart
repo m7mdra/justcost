@@ -84,6 +84,7 @@ class AdRepository {
             .map((media) => UploadFileInfo(media.file, media.file.path))
             .toList()
       });
+      print(formData);
       var response = await _client.post('products',
           data: formData, onSendProgress: progressCallback);
       return ResponseStatus.fromJson(response.data);

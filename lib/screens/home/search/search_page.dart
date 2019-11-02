@@ -159,12 +159,12 @@ class _SearchPageState extends State<SearchPage>
                         children: <Widget>[
                           state.products[index].media[0].url != null &&
                                   state.products[index].media[0].url.isNotEmpty
-                              ? Image.network(
-                                  state.products[index].media[0].url,
-                                  fit: BoxFit.cover,
-                                  height: 120,
-                                  width: 120,
-                                )
+                              ? FadeInImage.assetNetwork(
+                                placeholder: 'assets/icon/android/logo-500.png',
+                                image: state.products[index].media[0].url,
+                                height: 120,
+                                width: 150,
+                              )
                               : Container(
                                   width: 120,
                                   height: 120,

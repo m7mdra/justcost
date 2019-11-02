@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:justcost/data/home/%20model/slider_response.dart';
+import 'package:justcost/data/home/model/slider_response.dart';
 
 class HomeRepository {
   final Dio _client;

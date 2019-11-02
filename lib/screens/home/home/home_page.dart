@@ -347,12 +347,16 @@ class FeaturedAdsWidget extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
-                  child: Image.network(
-                    product.media[0].url,
+                  child:
+                  FadeInImage.assetNetwork(
+                    placeholder: 'assets/icon/android/logo-500.png',
+                    image: product.media.length != 0 ? product.media[0].url : 'http://185.151.29.205:8099/images/logo.png',
                     height: 120,
                     width: 150,
-                    fit: BoxFit.cover,
-                  ),
+                  )
+
+
+
                 ),
                 DiscountPercentageBannerWidget(
                   regularPrice: product.regPrice,

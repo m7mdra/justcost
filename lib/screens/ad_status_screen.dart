@@ -138,20 +138,22 @@ class _StoryState extends State<Story> {
       textDirection: TextDirection.ltr,
       child: StoryView(
         widget.product.media.map((media) {
-          if (media.flag == 1)
+          if (media.flag == 1) {
+            print(media.url);
             return StoryItem(
                 ImageStatus(
                   globalKey: _globalKey,
                   key: GlobalKey(),
-                  imageUrl: media.url,
+                  imageUrl: media.url == null ? 'logo-500.png' : media.url,
                 ),
                 shouldPause: (pause) {},
                 duration: Duration(seconds: 5));
+          }
           else
             return StoryItem(
                 VideoStatus(
                   globalKey: _globalKey,
-                  videoUrl: media.url,
+                  videoUrl: media.url == null ? 'logo-500.png' : media.url,
                   key: _videoStatusKey,
                 ), shouldPause: (should) {
               if (should)
@@ -218,12 +220,20 @@ class ImageStatusState extends State<ImageStatus> {
           } else {
             widget.globalKey.currentState.resume();
             return Center(
-                child: Image.file(
-              snapshot.data,
-              fit: BoxFit.fitWidth,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-            ));
+                child: snapshot.data != null
+                    ? Image.file(
+                    snapshot.data,
+                    fit: BoxFit.fitWidth,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                  )
+                :  Image.asset(
+                  'assets/icon/android/logo-500.png',
+                  fit: BoxFit.fitWidth,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                ),
+            );
           }
           else
             return Center(child: CircularProgressIndicator());

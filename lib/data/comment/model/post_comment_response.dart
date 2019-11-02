@@ -38,7 +38,7 @@ class Data {
         this.updatedAt,
         this.createdAt,
         this.id,
-        this.rated});
+        });
 
   Data.fromJson(Map<String, dynamic> json) {
     productid = json['productid'];
@@ -47,7 +47,6 @@ class Data {
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
-    rated = json['rated'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +57,6 @@ class Data {
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;
-    data['rated'] = this.rated;
     return data;
   }
 }

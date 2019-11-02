@@ -69,12 +69,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.password,
             event.password,
             event.messagingId,
-            "${event.country.code}${event.phoneNumber}",
+            "${event.country.code}$event.phoneNumber",
             event.city);
         if (response.success) {
+          print(response.data);
           await userSession.save(response);
           yield RegisterSuccess();
         } else {
+          print(response.message);
           yield RegisterError(response.message);
         }
       } on DioError catch (e) {

@@ -34,6 +34,7 @@ class UserRepository {
         "c_password": password,
         "firebaseToken": messagingId,
       });
+      print(response.data);
       var authResponse = AuthenticationResponse.fromJson(response.data);
       return authResponse;
     } on DioError catch (error) {

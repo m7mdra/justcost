@@ -53,8 +53,11 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
       try {
         yield RecentAdsLoading();
         var response = await repository.getProducts(page: _currentPage);
-        if (response.success)
+        if (response.success){
           yield RecentAdsLoaded(response.data, true);
+          print(response.data);
+
+        }
         else
           yield RecentAdsError();
       } on DioError catch (e) {

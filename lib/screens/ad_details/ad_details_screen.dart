@@ -115,9 +115,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           Stack(
             children: <Widget>[
               Container(
-                  height: product.media.isEmpty ? 30 : 200,
+                  height: product.media.isEmpty ? 50 : 200,
                   child: Story(
-
                     repeat: true,
                     product: product,
                   )),
@@ -431,6 +430,17 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                       )
                     ],
                   );
+                if (state is PostCommentSuccess){
+                  _commentTextEditingController.clear();
+                  _commentsBloc.dispatch(LoadComments(product.productId));
+//                  return Column(
+//                    children: <Widget>[
+//                      commentBox(),
+//                      Icon(Icons.check,color: Colors.green,size: 15,)
+//                    ],
+//                  );
+                }
+
                 return commentBox();
               },
             ),
@@ -480,6 +490,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                       ListView.separated(
                         shrinkWrap: true,
                         primary: false,
+                        reverse: true,
                         itemBuilder: (context, index) {
                           return CommentWidget(
                             showReplayButton: true,

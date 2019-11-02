@@ -31,11 +31,15 @@ class UserSession {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(
         USER_RESPONSE_KEY, jsonEncode(response.toJson()));
+    print("Success");
+    print(response);
     var user = response.data.user;
+    print("Success1");
+    print(user);
     sharedPreferences.setString(MOBILE_NUMBER_KEY, user.mobile);
     sharedPreferences.setString(TOKEN_KEY, response.data.token);
     sharedPreferences.setString(USER_TYPE_KEY, "member");
-    sharedPreferences.setString(AVATAR_URL_KEY, user.image);
+//    sharedPreferences.setString(AVATAR_URL_KEY, user.image);
     sharedPreferences.setInt(USER_ID_KEY, user.id);
     sharedPreferences.setString(USERNAME_KEY, user.username);
     sharedPreferences.setString(EMAIL_KEY, user.email);
@@ -48,6 +52,18 @@ class UserSession {
 
     sharedPreferences.setBool(
         ACCOUNT_STATUS_KEY, response.data.user.isVerified);
+    await refresh();
+  }
+  Future<void> saveAvater(AuthenticationResponse response) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString(
+        USER_RESPONSE_KEY, jsonEncode(response.toJson()));
+    print("Success");
+    print(response);
+    var user = response.data.user;
+    print("Success1");
+    print(user);
+    sharedPreferences.setString(AVATAR_URL_KEY, user.image);
     await refresh();
   }
 

@@ -138,8 +138,8 @@ class _MainScreenState extends State<MainScreen>
               );
             },
           ),*/
-          _currentPage == 1
-              ? IconButton(
+//          _currentPage == 1
+               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
                     Navigator.push(
@@ -147,7 +147,7 @@ class _MainScreenState extends State<MainScreen>
                         MaterialPageRoute(
                             builder: (context) => SearchScreen()));
                   })
-              : Container()
+//              : Container()
         ],
       ),
       body: PreloadPageView.builder(

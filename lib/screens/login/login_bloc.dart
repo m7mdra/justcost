@@ -68,7 +68,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           else
             yield AccountNotVerified();
         } else {
-          yield LoginError(authResponse.message);
+          if(authResponse.message == "User login Unauthorized."){
+            yield LoginError("Username or password is wronge");
+          }
         }
       } on SessionExpired {
         yield UserNameOrPasswordInvalid();

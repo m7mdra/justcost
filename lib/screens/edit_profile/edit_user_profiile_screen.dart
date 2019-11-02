@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -119,11 +120,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Align(
               child: ClipOval(
                   child: user.image != null && user.image.isNotEmpty
-                      ? Image.network(
-                          '${user.image}?${Random().nextDouble()}',
-                          width: 100,
-                          height: 100,
-                        )
+                      ? Container(
+                        width: 100,
+                        height: 100,
+                        child: CachedNetworkImage(
+                          imageUrl: '${user.image}?${Random().nextDouble()}',
+                          placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => Image.asset('assets/icon/android/logo-500.png',width: 100,height: 100,),
+
+                        ),
+                      )
                       : DefaultUserAvatarWidget()),
             ),
             OutlineButton(

@@ -430,15 +430,15 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                       .newPriceEqualToNewPriceError)));
                             return;
                           }
-                          if (attributeList == null || attributeList.isEmpty) {
-                            _scaffoldKey.currentState
-                              ..hideCurrentSnackBar(
-                                  reason: SnackBarClosedReason.hide)
-                              ..showSnackBar(SnackBar(
-                                  content: Text(AppLocalizations.of(context)
-                                      .attributesEmptyError)));
-                            return;
-                          }
+//                          if (attributeList == null || attributeList.isEmpty) {
+//                            _scaffoldKey.currentState
+//                              ..hideCurrentSnackBar(
+//                                  reason: SnackBarClosedReason.hide)
+//                              ..showSnackBar(SnackBar(
+//                                  content: Text(AppLocalizations.of(context)
+//                                      .attributesEmptyError)));
+//                            return;
+//                          }
                           if (mediaList.isEmpty) {
                             _scaffoldKey.currentState
                               ..hideCurrentSnackBar(

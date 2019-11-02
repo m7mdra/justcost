@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:core' as prefix0;
+import 'dart:core';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -65,6 +69,7 @@ class AccountVerificationBloc
         var response = await _userRepository.submitActivationCode(event.code);
         if (response.success) {
           await _session.save(response);
+          print("SUCCESS");
           yield AccountVerifiedSuccessfully();
         } else {
           yield AccountVerificationFailed(response.message);

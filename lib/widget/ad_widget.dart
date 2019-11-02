@@ -23,12 +23,12 @@ class AdWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               children: <Widget>[
                 ClipRRect(
-                  child: Image.network(
-                    product.media[0].url,
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                  ),
+                  child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/icon/android/logo-500.png',
+                  image: product.media.length != 0 ? product.media[0].url : 'http://185.151.29.205:8099/images/logo.png',
+                  height: 120,
+                  width: 150,
+                ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8)),

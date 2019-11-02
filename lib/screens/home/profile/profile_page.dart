@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/user.dart';
@@ -103,11 +104,13 @@ class _ProfilePageState extends State<ProfilePage>
           padding: const EdgeInsets.all(8.0),
           child: ClipOval(
               child: user.image != null && user.image.isNotEmpty
-                  ? Image.network(
-                      '${user.image}?${Random().nextDouble()}',
-                      width: 90,
-                      height: 90,
-                    )
+                  ? CachedNetworkImage(
+                    width: 90,
+                    height: 90,
+                    imageUrl: '${user.image}?${Random().nextDouble()}',
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Container(width:90,height: 90,child: Center(child: CircularProgressIndicator())),
+                    errorWidget: (context, url, error) => Image.asset('images/image404.png'))
                   : DefaultUserAvatarWidget()),
         ),
         SizedBox(

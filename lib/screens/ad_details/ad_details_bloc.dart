@@ -51,8 +51,10 @@ class AdDetailsBloc extends Bloc<AdDetailsEvent, AdDetailsState> {
         else
           yield AdsDetailsError();
       } on DioError catch (e) {
+        print(e);
         yield AdsDetailsNetworkError();
       } catch (e) {
+        print(e);
         yield AdsDetailsNetworkError();
       }
     }

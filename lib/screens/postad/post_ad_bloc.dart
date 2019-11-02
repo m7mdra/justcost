@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:core' as prefix0;
+import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
@@ -165,6 +167,19 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       List<AdProduct> products, bool isWholesale, int adid) async* {
     for (var i = 0; i < products.length; i++) {
       yield LoadingState(Loading.product);
+      prefix0.print("Loading ADD POST TEST");
+      prefix0.print(products[i].category.id);
+      prefix0.print(products[i].details);
+      prefix0.print(products[i].name);
+      prefix0.print(products[i].brand.id);
+      prefix0.print(products[i].quantity);
+      prefix0.print(products[i].oldPrice);
+      prefix0.print(products[i].newPrice);
+      prefix0.print(products[i].attributes);
+      prefix0.print(adid);
+      prefix0.print(products[i].mediaList);
+      prefix0.print("Loading ADD POST TEST");
+
       try {
         var res = await _repository.postProduct(
             categoryId: products[i].category.id,
@@ -182,6 +197,8 @@ class AdBloc extends Bloc<AdEvent, AdState> {
             isWholeSale: isWholesale ? 1 : 0,
             adId: adid,
             medias: products[i].mediaList);
+        prefix0.print("ADD POST");
+        print(res);
         if (!res.status) failedRequest.add(products[i]);
         if (i == products.length - 1) {
           yield SuccessState();

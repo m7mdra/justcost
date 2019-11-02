@@ -61,7 +61,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         var response = await _userRepository.updateProfileImage(
             event.originalImage, event.croppedImage);
         if (response.success) {
-          await _userSession.save(response);
+          await _userSession.saveAvater(response);
           userProfileBloc.dispatch(LoadProfileEvent());
           yield AvatarUpdateSuccess(response.data.user);
         } else {
