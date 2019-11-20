@@ -157,8 +157,9 @@ class _SearchPageState extends State<SearchPage>
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          state.products[index].media[0].url != null &&
-                                  state.products[index].media[0].url.isNotEmpty
+//                          state.products[index].media[0].url != null &&
+//                                  state.products[index].media[0].url.isNotEmpty
+                            state.products[index].media.length != 0
                               ? FadeInImage.assetNetwork(
                                 placeholder: 'assets/icon/android/logo-500.png',
                                 image: state.products[index].media[0].url,
@@ -166,16 +167,17 @@ class _SearchPageState extends State<SearchPage>
                                 width: 150,
                               )
                               : Container(
-                                  width: 120,
+                                  width: 150,
                                   height: 120,
-                                  color: Theme.of(context).primaryColor,
+//                                  color: Theme.of(context).primaryColor,
+                                  child: Image.asset('assets/icon/android/logo-500.png'),
                                 ),
                           Align(
                             alignment: Alignment.centerLeft,
 
                             child: DiscountPercentageBannerWidget(
-                              regularPrice: state.products[index].regPrice,
-                              salePrice: state.products[index].salePrice,
+                              regularPrice: state.products[index].regPrice == null ? 0 : state.products[index].regPrice,
+                              salePrice: state.products[index].salePrice == null ? 0 : state.products[index].salePrice,
                             ),
                           )
                         ],

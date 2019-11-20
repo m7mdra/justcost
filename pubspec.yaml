@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+6
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -52,7 +52,6 @@ dependencies:
   permission_handler: '^3.2.0'
   cached_network_image: ^1.1.2+1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -79,6 +78,7 @@ flutter:
     - assets/icon/android/logo-500.png
     - assets/icon/android/justcost-title.png
     - assets/images/default-avatar.png
+    - assets/images/loading.jpg
     - assets/countries.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

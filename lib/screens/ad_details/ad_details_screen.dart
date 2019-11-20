@@ -115,13 +115,28 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           Stack(
             children: <Widget>[
               Container(
-                  height: product.media.isEmpty ? 50 : 200,
-                  child: Story(
+                  height: 200,
+                  child:product.media.length == 0
+                      ? Image.asset(
+                    'assets/icon/android/logo-500.png',
+                    fit: BoxFit.fitWidth,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                  )
+                      : Story(
                     repeat: true,
                     product: product,
                   )),
-              BackButton(
-                color: Colors.black,
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.greenAccent,
+                ),
+                margin: EdgeInsets.only(top: 15,right: 5),
+                height: 40,
+                child: BackButton(
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

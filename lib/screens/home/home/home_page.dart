@@ -349,7 +349,7 @@ class FeaturedAdsWidget extends StatelessWidget {
                       topRight: Radius.circular(16)),
                   child:
                   FadeInImage.assetNetwork(
-                    placeholder: 'assets/icon/android/logo-500.png',
+                    placeholder: 'assets/images/loading.jpg',
                     image: product.media.length != 0 ? product.media[0].url : 'http://185.151.29.205:8099/images/logo.png',
                     height: 120,
                     width: 150,
