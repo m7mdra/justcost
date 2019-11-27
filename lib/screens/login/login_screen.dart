@@ -183,8 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               minLines: 1,
                               decoration: InputDecoration(
                                   labelStyle: Theme.of(context).textTheme.body1,
-                                  hintText: AppLocalizations.of(context)
-                                      .usernameFieldHint,
+//                                  hintText: AppLocalizations.of(context)
+//                                      .usernameFieldHint,
                                   labelText: AppLocalizations.of(context)
                                       .usernameFieldHint,
                                   contentPadding: EdgeInsets.all(10),
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onEditingComplete: () => _attemptLogin(),
                               minLines: 1,
                               decoration: InputDecoration(
-                                  hintText: '**********',
+//                                  hintText: '**********',
                                   labelStyle: Theme.of(context).textTheme.body1,
                                   labelText: AppLocalizations.of(context)
                                       .passwordFieldHint,

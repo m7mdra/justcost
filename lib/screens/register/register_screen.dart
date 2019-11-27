@@ -182,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         borderRadius:
                                             BorderRadius.circular(2)))),
                             SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             TextFormField(
                               scrollPadding: EdgeInsets.all(0),
@@ -204,9 +204,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
                                   labelStyle: Theme.of(context).textTheme.body1,
-                                  hintText: AppLocalizations.of(context)
-                                      .usernameFieldHint,
-                                  prefixText: '@',
+//                                  hintText: AppLocalizations.of(context)
+//                                      .usernameFieldHint,
+//                                  prefixText: '@',
                                   labelText: AppLocalizations.of(context)
                                       .usernameFieldHint,
                                   errorMaxLines: 1,
@@ -216,7 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             TextFormField(
                               controller: _emailController,
@@ -242,8 +242,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelStyle: Theme.of(context).textTheme.body1,
                                   contentPadding: const EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
-                                  hintText: AppLocalizations.of(context)
-                                      .emailFieldLabel,
+//                                  hintText: AppLocalizations.of(context)
+//                                      .emailFieldLabel,
                                   labelText: AppLocalizations.of(context)
                                       .emailFieldLabel,
                                   errorMaxLines: 1,
@@ -259,7 +259,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             TextFormField(
                               focusNode: _passwordFocusNode,
@@ -284,7 +284,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   errorMaxLines: 1,
                                   contentPadding: EdgeInsets.only(
                                       left: 16, right: 16, top: 8, bottom: 8),
-                                  hintText: '**********',
+//                                  hintText: '**********',
                                   labelStyle: Theme.of(context).textTheme.body1,
                                   labelText: AppLocalizations.of(context)
                                       .passwordFieldHint,
@@ -294,7 +294,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             DropdownButtonFormField<Country>(
                               value: _selectedCountry,
@@ -331,7 +331,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             const SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             DropdownButtonFormField<City>(
                               validator: (city) {
@@ -363,7 +363,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderRadius: BorderRadius.circular(2))),
                             ),
                             SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             Directionality(
                               textDirection: TextDirection.ltr,
@@ -384,10 +384,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     labelStyle: Theme.of(context).textTheme.body1,
                                     contentPadding: EdgeInsets.only(
                                         left: 16, right: 16, top: 8, bottom: 8),
-                                    hintText: '00-000-0000',
+//                                    hintText: '00-000-0000',
                                     labelText: AppLocalizations.of(context)
                                         .phoneNumberField,
-                                    prefixText: '+$_countryCode',
+                                    prefixText: '+$_countryCode ',
                                     errorMaxLines: 1,
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -396,7 +396,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 4,
+                              height: 10,
                             ),
                             DropdownButtonFormField(
                               value: genderGroupValue,
@@ -438,6 +438,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         key: _formKey,
                       ),
+                      SizedBox(height: 5,),
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                         child: Align(
