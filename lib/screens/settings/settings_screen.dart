@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/screens/home/home/home_page.dart';
+import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/settings/setting_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
@@ -50,6 +52,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     onTap: () {
                                       _bloc.dispatch(ChangeLanguage('ar'));
                                       Navigator.pop(context);
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => MainScreen()));
                                     },
                                     dense: true,
                                     selected: state.languageCode == "ar",
@@ -60,6 +64,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     onTap: () {
                                       _bloc.dispatch(ChangeLanguage('en'));
                                       Navigator.pop(context);
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => MainScreen()));
                                     },
                                     dense: true,
                                     selected: state.languageCode == "en",

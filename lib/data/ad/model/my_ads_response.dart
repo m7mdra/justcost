@@ -67,16 +67,16 @@ class Ad {
     adTitle = json['ad_title'];
     adDescription = json['ad_description'];
     mobile = json['mobile'];
-    customerId = json['customerId'];
-    cityId = json['cityId'];
-    status = json['status'];
+    customerId = json['customerId']['id'];
+    cityId = json['cityId']['id'];
+    status = json['status']['id'];
     approvedBy = json['approved_by'];
     lat = json['lat'];
     lng = json['lng'];
     iswholesale = json['iswholesale'];
-    deletedAt = json['deleted_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+//    deletedAt = json['deleted_at'];
+//    createdAt = json['created_at'];
+//    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {

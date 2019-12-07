@@ -67,7 +67,7 @@ class Product {
     customerName = json['customerName'];
     description = json['description'];
     mobile = json['mobile'];
-    location = json['location'];
+    location = json['location']['long'] + json['location']['lat'];
     regPrice = json['reg_price'];
     salePrice = json['sale_price'];
     city = json['city'];
@@ -81,7 +81,6 @@ class Product {
     }
     postedOn = json['postedOn'];
   }
-
   int calculateDiscount() {
     var discount = ((regPrice - salePrice) / regPrice * 100).round();
     print(discount);

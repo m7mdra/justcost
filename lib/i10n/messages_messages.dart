@@ -248,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "if you have only one product you want to offer." : MessageLookupByLibrary.simpleMessage("if you have only one product you want to offer."),
     "loginLoadingMessage" : MessageLookupByLibrary.simpleMessage("Please wait while trying to login."),
     "loginScreenName" : MessageLookupByLibrary.simpleMessage("Login"),
+    "forgetPassword" : MessageLookupByLibrary.simpleMessage("Forget Password ?"),
     "more details about the Product" : MessageLookupByLibrary.simpleMessage("more details about the Product"),
     "passwordFieldHint" : MessageLookupByLibrary.simpleMessage("Password"),
     "quantity Can not be Empty" : MessageLookupByLibrary.simpleMessage("quantity Can not be Empty"),

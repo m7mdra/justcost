@@ -40,19 +40,19 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
       ..dispatch(loadDataEvent);
     _scrollController = ScrollController(keepScrollOffset: true);
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        categoryProductBloc.dispatch(LoadNextPage(
-            widget.category.name,
-            selectedAttribute.map((attribute) => attribute.id).toList(),
-            selectedBrands.map((brand) => brand.id).toList(),
-            _controller.text));
-      }
+//      if (_scrollController.position.pixels ==
+//          _scrollController.position.maxScrollExtent) {
+//        categoryProductBloc.dispatch(LoadNextPage(
+//            widget.category.name,
+//            selectedAttribute.map((attribute) => attribute.id).toList(),
+//            selectedBrands.map((brand) => brand.id).toList(),
+//            _controller.text));
+//      }
     });
   }
 
   get loadDataEvent => LoadDataEvent(
-      widget.category.name,
+      widget.category.id,
       selectedAttribute.map((attribute) => attribute.id).toList(),
       _controller.text,
       selectedBrands.map((brand) => brand.id).toList());
@@ -98,7 +98,12 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
           Card(
             child: TextField(
               onChanged: (value) {
-                categoryProductBloc.dispatch(loadDataEvent);
+                if(value.length > 2){
+                  categoryProductBloc.dispatch(loadDataEvent);
+                }
+                if(value.length == 0){
+                  categoryProductBloc.dispatch(loadDataEvent);
+                }
               },
               controller: _controller,
               decoration:

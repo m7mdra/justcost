@@ -4,6 +4,7 @@ import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
@@ -29,10 +30,19 @@ class _HomePageState extends State<HomePage>
   SliderBloc _bloc;
   CategoriesBloc _categoriesBloc;
   RecentAdsBloc _recentAdsBloc;
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
 
   @override
   void initState() {
     super.initState();
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
@@ -139,7 +149,9 @@ class _HomePageState extends State<HomePage>
                                       )));
                             },
                             child: FeatureCategoryWidget(
-                                category: state.categories[index]),
+                                category: state.categories[index],
+                                lanCode: lanCode,
+                            ),
                           );
                         },
                         itemCount: state.categories.length,
@@ -290,8 +302,9 @@ class _HomePageState extends State<HomePage>
 
 class FeatureCategoryWidget extends StatelessWidget {
   final Category category;
+  final String lanCode;
 
-  const FeatureCategoryWidget({Key key, this.category}) : super(key: key);
+  const FeatureCategoryWidget({Key key, this.category,this.lanCode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -313,7 +326,7 @@ class FeatureCategoryWidget extends StatelessWidget {
                   width: 70,
                 ),
           Text(
-            category.name,
+            lanCode == 'ar' ? category.arName : category.name,
             maxLines: 1,
             textAlign: TextAlign.center,
           )

@@ -12,20 +12,19 @@ class ProductRepository {
 
   ProductRepository(this._client);
 
-  Future<ProductResponse> getProductsFromCategory(String categoryId, int page,
+  Future<ProductResponse> getProductsFromCategory(int categoryId, int page,
       {String keyword, List<int> attributes, List<int> brands}) async {
     try {
       var queryParameters = Map<String, dynamic>();
       if (keyword != null && keyword.isNotEmpty)
-        queryParameters['search'] = keyword;
+        queryParameters['Search'] = keyword;
       if (attributes != null && attributes.isNotEmpty)
         queryParameters['selected'] = attributes.join(',');
       if (brands != null && brands.isNotEmpty)
         queryParameters['brands'] = brands.join(',');
-      queryParameters['category'] = categoryId.toString();
       queryParameters['skip'] = page;
       var response =
-          await _client.get('getAllProducts', queryParameters: queryParameters);
+          await _client.get('categoryproudects/$categoryId', queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -45,11 +44,11 @@ class ProductRepository {
   Future<ProductResponse> findProductsByName(
       String name, int cityId, int page) async {
     try {
-      var params = {'search': name};
+      var params = {'Search': name};
       if (cityId != -1) params['city'] = cityId.toString();
       params['skip'] = page.toString();
       var response =
-          await _client.get('getAllProducts', queryParameters: params);
+          await _client.get('search', queryParameters: params);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
@@ -97,7 +96,7 @@ class ProductRepository {
 
   Future<DisLikeResponse> unlikeProductById(int id) async {
     try {
-      var response = await _client.get('like/dislike?id=$id');
+      var response = await _client.post('like/dislike',queryParameters: {'id': id});
       return DisLikeResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)

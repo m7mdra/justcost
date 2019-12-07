@@ -246,6 +246,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "if you have only one product you want to offer." : MessageLookupByLibrary.simpleMessage("اذا كان لديك منتج واحد تريد عرضه"),
     "loginLoadingMessage" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار بينما يتم تسجيل دخولك"),
     "loginScreenName" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "forgetPassword" : MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور ؟"),
     "more details about the Product" : MessageLookupByLibrary.simpleMessage("تفاصيل اكثر عن المنتج"),
     "passwordFieldHint" : MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "quantity Can not be Empty" : MessageLookupByLibrary.simpleMessage("حقل الكمية لا يمكن ان يكون خالي"),

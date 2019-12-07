@@ -72,7 +72,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                     title: Text(ad.adTitle ??
                         "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
                     subtitle: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize  : MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(ad.adDescription ??

@@ -26,12 +26,12 @@ class CategoryProductsLoaded extends CategoryProductsState {
 }
 
 class LoadDataEvent extends CategoryProductsEvent {
-  final String category;
+  final int categoryId;
   final List<int> attributes;
   final List<int> brands;
   final String keyword;
 
-  LoadDataEvent(this.category, this.attributes, this.keyword, this.brands);
+  LoadDataEvent(this.categoryId, this.attributes, this.keyword, this.brands);
 }
 
 class LoadNextPage extends CategoryProductsEvent {
@@ -68,7 +68,7 @@ class CategoryProductsBloc
       try {
         int _currentPage = 0;
         var response = await repository.getProductsFromCategory(
-            event.category, _currentPage,
+            event.categoryId, _currentPage,
             keyword: event.keyword,
             attributes: event.attributes,
             brands: event.brands);
@@ -89,7 +89,7 @@ class CategoryProductsBloc
         print(error);
       }
     }
-    if (event is LoadNextPage) {
+   /* if (event is LoadNextPage) {
       try {
         if (lasPage) return;
         _currentPage += 1;
@@ -113,6 +113,6 @@ class CategoryProductsBloc
         print('error $e');
         yield ErrorState();
       }
-    }
+    }*/
   }
 }

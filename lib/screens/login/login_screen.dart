@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
@@ -29,6 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController;
   FocusNode _passwordFocusNode = FocusNode();
   LoginBloc _loginBloc;
+
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
 
   @override
   void didChangeDependencies() {
@@ -101,6 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     print(widget.navigationReason);
     _userNameController = TextEditingController();
     _passwordController = TextEditingController();
@@ -219,8 +232,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.redAccent, width: 0.5),
                                       borderRadius: BorderRadius.circular(2))),
                             ),
+                            SizedBox(height: 10,),
                             Align(
-                              alignment: Alignment.centerRight,
+                              alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
                               child: RaisedButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)),
@@ -229,6 +243,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .loginScreenName),
                                 color: Theme.of(context).accentColor,
                               ),
+                            ),
+                            SizedBox(height: 5,),
+                            Align(
+                                alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
+                              child: Text(
+                                AppLocalizations.of(context).forgetPassword,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline
+                                ),
+                              )
                             ),
                           ],
                         )),

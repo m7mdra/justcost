@@ -27,7 +27,7 @@ class CommentRepository {
       if (comment != null) data['comment'] = comment;
       if (parentId != null) data['parent_id'] = parentId;
 
-      var response = await _client.post('comments', data: data);
+      var response = await _client.post('comments/addcomment', data: data);
       return PostCommentResponse.fromJson(response.data);
     } on DioError catch (error) {
       if (error.response.statusCode == 401)

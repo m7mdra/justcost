@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/user_sessions.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CategoryWidget extends StatelessWidget {
   final Category category;
   final ValueChanged<Category> onClick;
+  final String lanCode;
 
-  const CategoryWidget({Key key, this.category, this.onClick})
+  const CategoryWidget({Key key, this.category, this.onClick,this.lanCode})
       : super(key: key);
 
   @override
@@ -35,7 +38,7 @@ class CategoryWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: Text(
-                category.name,
+                lanCode == 'ar' ? category.arName : category.name,
                 maxLines: 1,
                 style: Theme.of(context)
                     .textTheme

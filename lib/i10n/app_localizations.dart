@@ -159,6 +159,8 @@ class AppLocalizations {
 
   String get loginScreenName => Intl.message('Login', name: 'loginScreenName');
 
+  String get forgetPassword => Intl.message('Forget Password', name: 'forgetPassword');
+
   String get privacy => Intl.message('Privacy');
 
   String get notificationPanel => Intl.message('Notifications');

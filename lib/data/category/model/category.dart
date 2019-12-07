@@ -30,6 +30,7 @@ class CategoryResponse {
 class Category {
   int id;
   String name;
+  String arName;
   int lastDescendant;
   String image;
   int order;
@@ -38,6 +39,7 @@ class Category {
   Category(
       {this.id,
       this.name,
+      this.arName,
       this.lastDescendant,
       this.image,
       this.order,
@@ -46,6 +48,7 @@ class Category {
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    arName = json['name_ar'];
     lastDescendant = json['flag'];
     image = json['image'];
     order = json['sort_order'];
@@ -58,6 +61,7 @@ class Category {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['name_ar'] = this.arName;
     data['flag'] = this.lastDescendant;
     data['image'] = this.image;
     data['sort_order'] = this.order;

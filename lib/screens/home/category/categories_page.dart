@@ -1,12 +1,18 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/category_products/category_products_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/screens/settings/setting_bloc.dart';
 import 'package:justcost/widget/category_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../dependencies_provider.dart';
 
@@ -22,11 +28,22 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
   CategoriesBloc _bloc;
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
 
   @override
   void initState() {
     super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      prefix0.print('CATEGORY');
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _bloc.dispatch(FetchCategoriesEvent());
   }
 
@@ -97,6 +114,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 CategoryProductsScreen(category: category)));
                       }
                     },
+                    lanCode: lanCode,
                   );
                 },
               ),
