@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Single product" : MessageLookupByLibrary.simpleMessage("Single product"),
     "Snapchat account" : MessageLookupByLibrary.simpleMessage("Snapchat account"),
     "Sort" : MessageLookupByLibrary.simpleMessage("Sort"),
+    "Search" : MessageLookupByLibrary.simpleMessage("Search"),
     "Sort Search Result" : MessageLookupByLibrary.simpleMessage("Sort Search Result"),
     "Status" : MessageLookupByLibrary.simpleMessage("Status"),
     "Submit" : MessageLookupByLibrary.simpleMessage("Submit"),

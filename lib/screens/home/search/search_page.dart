@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
@@ -27,9 +28,21 @@ class _SearchPageState extends State<SearchPage>
   RecentAdsBloc _recentAdsBloc;
   List<Product> products;
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
   @override
   void initState() {
     super.initState();
+
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
 
@@ -118,8 +131,7 @@ class _SearchPageState extends State<SearchPage>
                                             width: 70,
                                           ),
                                     Text(
-
-                                      state.categories[index].name,
+                                      lanCode == 'ar' ? state.categories[index].arName : state.categories[index].name,
                                       maxLines: 2,
                                       textAlign: TextAlign.center,
                                     )

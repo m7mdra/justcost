@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/screens/category_products/category_products_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
 import 'package:justcost/widget/category_widget.dart';
@@ -26,6 +27,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -40,10 +45,22 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.name),
+        title: Text(lanCode == 'ar' ? widget.category.arName : widget.category.name,),
       ),
       body: BlocBuilder(
         bloc: _bloc,
@@ -77,7 +94,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: Icon(Icons.keyboard_arrow_right),
-                    title: Text(state.categories[index].name),
+                    title: Text(lanCode == 'ar' ? state.categories[index].arName : state.categories[index].name,),
                     onTap: () async {
                       var category = state.categories[index];
                       if (category.hasDescendants()) {

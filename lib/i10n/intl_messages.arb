@@ -415,7 +415,7 @@
   "Type your Email Address and will send you an Email message containing the instructions to reset your account.": "Type your Email Address and will send you an Email message containing the instructions to reset your account.",
   "@Type your Email Address and will send you an Email message containing the instructions to reset your account.": {
     "type": "text",
-    "placeholders": {}
+    "placeholders": { }
   },
   "Search": "Search",
   "@Search": {
@@ -427,6 +427,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "Search": "Search",
+  "@Search": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "Name - Ascending": "Name - Ascending",
   "@Name - Ascending": {
     "type": "text",

@@ -422,6 +422,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "Search": "Search",
+    "@Search": {
+      "type": "text",
+      "placeholders": {}
+    },
   "Name - Ascending": "Name - Ascending",
   "@Name - Ascending": {
     "type": "text",

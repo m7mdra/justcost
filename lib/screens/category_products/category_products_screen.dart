@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/category_products/category_products_bloc.dart';
@@ -32,9 +33,21 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   List chipData = [];
   ScrollController _scrollController;
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
   @override
   void initState() {
     super.initState();
+
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _controller = TextEditingController();
     categoryProductBloc = CategoryProductsBloc(DependenciesProvider.provide())
       ..dispatch(loadDataEvent);
@@ -91,7 +104,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             icon: Icon(Icons.filter_list),
           )
         ],
-        title: Text(widget.category.name),
+        title: Text(lanCode == 'ar' ? widget.category.arName : widget.category.name,),
       ),
       body: Column(
         children: <Widget>[
