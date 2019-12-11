@@ -107,7 +107,9 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                         Navigator.of(context).pop(cat);
                       } else {
                         if (widget.pickMode)
-                          Navigator.of(context).pop(category);
+                          {
+                            Navigator.of(context).pop(category);
+                          }
                         else
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>

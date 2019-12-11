@@ -29,12 +29,18 @@ class CategoryAttributeResponse {
 }
 
 class AttributeGroup {
+  int id;
+  String name;
+  int categoryId;
   String group;
   List<Attribute> attributeList;
 
-  AttributeGroup({this.group, this.attributeList});
+  AttributeGroup({this.id, this.name, this.categoryId,this.group, this.attributeList});
 
   AttributeGroup.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    categoryId = json['category_id'];
     group = json['group'];
     if (json['attributes'] != null) {
       attributeList = new List<Attribute>();
@@ -46,6 +52,9 @@ class AttributeGroup {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['category_id'] = this.categoryId;
     data['group'] = this.group;
     if (this.attributeList != null) {
       data['attributes'] = this.attributeList.map((v) => v.toJson()).toList();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justcost/data/category/model/category.dart';
 import 'package:justcost/data/user_sessions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -51,4 +52,5 @@ class CategoryWidget extends StatelessWidget {
       ),
     );
   }
+
 }

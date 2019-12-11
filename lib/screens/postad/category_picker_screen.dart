@@ -1,3 +1,6 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
@@ -76,15 +79,20 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
                     return CategoryWidget(
                       category: state.categories[index],
                       onClick: (category) async {
+                        prefix0.print('DEBUG');
+                        print(category.id);
                         if (category.hasDescendants()) {
-                          var cat = await Navigator.of(context)
-                              .push(MaterialPageRoute(
-                                  builder: (context) => CategoryDetailsScreen(
-                                        true,
-                                        category: category,
-                                      )));
+//                          var cat = await Navigator.of(context)
+//                              .push(MaterialPageRoute(
+//                                  builder: (context) => CategoryDetailsScreen(
+//                                        true,
+//                                        category: category,
+//                                      )));
+//
+//                          prefix0.print('DEBUG');
+//                          print(cat.id);
 
-                          Navigator.of(context).pop(Tuple2(category, cat));
+                          Navigator.of(context).pop(Tuple2(category, null));
                         } else {
                           Navigator.of(context).pop(Tuple2(category, null));
                         }

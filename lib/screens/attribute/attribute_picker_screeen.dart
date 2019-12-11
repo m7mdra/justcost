@@ -106,7 +106,6 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
                                 .attributeList[index];
                             print("$id\t${attribute.toJson()}");
                             if (change) {
-
                               selectedAttribute[id] = attribute;
                             } else {
                               selectedAttribute.remove(id);

@@ -1,3 +1,5 @@
+import 'package:justcost/data/attribute/model/attribute.dart';
+
 class CategoryResponse {
   String message;
   bool status;
@@ -35,6 +37,7 @@ class Category {
   String image;
   int order;
   int parentId;
+  List<Attribute> attributes;
 
   Category(
       {this.id,
@@ -43,7 +46,9 @@ class Category {
       this.lastDescendant,
       this.image,
       this.order,
-      this.parentId});
+      this.parentId,
+      this.attributes,
+      });
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -53,6 +58,12 @@ class Category {
     image = json['image'];
     order = json['sort_order'];
     parentId = json['parent_id'];
+//    if (json['attributes_group'] != null) {
+//      attributes = new List<Attribute>();
+//      json['attributes_group'].forEach((v) {
+//        attributes.add(new Attribute.fromJson(v));
+//      });
+//    }
   }
 
   bool hasDescendants() => lastDescendant != 0;
@@ -66,6 +77,9 @@ class Category {
     data['image'] = this.image;
     data['sort_order'] = this.order;
     data['parent_id'] = this.parentId;
+    if (this.attributes != null) {
+      data['attributes_group'] = this.attributes.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 

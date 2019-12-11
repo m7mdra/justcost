@@ -1,3 +1,6 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
@@ -391,6 +394,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
                       onPressed: () {
+//                        print(attributeList[0].name);
                         if (_formKey.currentState.validate()) {
                           if (_category == null) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -512,6 +516,8 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context).selectCategory)));
     else {
+      prefix0.print('Category ID');
+      print(_category.id);
       Brand brand = await Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => BrandPage(
                 categoryId: _category.id,
