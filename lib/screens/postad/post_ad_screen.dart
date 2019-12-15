@@ -69,11 +69,17 @@ class _PostAdScreenState extends State<PostAdScreen> {
     _adDetailsController = TextEditingController();
     _adPhoneNumberController = TextEditingController();
 
+
+
     _adEmailController = TextEditingController();
     _adInstagramController = TextEditingController();
     _adFacebookController = TextEditingController();
     _adSnapchatController = TextEditingController();
     _adTwitterController = TextEditingController();
+
+    _adTitleController.text = 'fsdf';
+    _adDetailsController.text = 'fsdf';
+    _adEmailController.text = 'w@w.com';
   }
 
   @override

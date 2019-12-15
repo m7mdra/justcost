@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
 import 'package:justcost/data/ad/model/post_ad_response.dart';
+import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:justcost/data/user/model/base_response.dart';
 import 'package:justcost/data/user/user_repository.dart';
@@ -64,7 +67,7 @@ class AdRepository {
       String quantity = "0",
       int isWholeSale,
       String title,
-      List<int> attributes,
+      dynamic attributes,
       List<Media> medias,
       ProgressCallback progressCallback}) async {
     try {
@@ -77,7 +80,7 @@ class AdRepository {
         'ispaided': isPaid,
         'ad_id': adId,
         'qty': quantity,
-        'attributes': attributes,
+        'attributes[]': json.encode(attributes),
         'iswholesale': isWholeSale,
         'title': title,
         'media[]': medias

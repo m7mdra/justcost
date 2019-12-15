@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:core' as prefix0;
 import 'dart:core';
 
@@ -7,6 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/ad/model/post_ad_response.dart';
+import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'ad.dart';
 import 'package:justcost/data/exception/exceptions.dart';
@@ -141,6 +143,8 @@ class AdBloc extends Bloc<AdEvent, AdState> {
             description: event.adDetails.description);
         if (response.success) {
           var products = event.products;
+//          var products = event.products;
+//          prefix0.print(object);
           yield* postProducts(products, event.isWholeSale, response.data);
         } else {
           yield PostAdFailed();
@@ -167,6 +171,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       List<AdProduct> products, bool isWholesale, int adid) async* {
     for (var i = 0; i < products.length; i++) {
       yield LoadingState(Loading.product);
+
       prefix0.print("Loading ADD POST TEST");
       prefix0.print(products[i].category.id);
       prefix0.print(products[i].details);
@@ -181,6 +186,17 @@ class AdBloc extends Bloc<AdEvent, AdState> {
       prefix0.print("Loading ADD POST TEST");
 
       try {
+
+        List<SelectedAttributes> selectedAttributes = new List();
+
+        products[i].attributes.forEach((v) {
+          selectedAttributes.add(new SelectedAttributes(
+              attribute_id: v.id,
+              attributes_group_id: v.groupId,
+              value: ''
+          ));
+        });
+
         var res = await _repository.postProduct(
             categoryId: products[i].category.id,
             description: products[i].details,
@@ -190,10 +206,7 @@ class AdBloc extends Bloc<AdEvent, AdState> {
             regularPrice: products[i].oldPrice,
             salePrice: products[i].newPrice,
             isPaid: 0,
-            attributes: products[i]
-                .attributes
-                .map((attribute) => attribute.id)
-                .toList(),
+            attributes: selectedAttributes,
             isWholeSale: isWholesale ? 1 : 0,
             adId: adid,
             medias: products[i].mediaList);

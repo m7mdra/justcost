@@ -49,6 +49,7 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
             icon: Icon(Icons.done_all),
             onPressed: () {
               Navigator.pop(context, selectedAttribute.values.toList());
+//              Navigator.pop(context, selectedAttribute.values.toList());
             },
           )
         ],

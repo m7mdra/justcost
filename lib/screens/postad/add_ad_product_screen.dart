@@ -59,7 +59,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
       _category = product.category;
       _adKeywordController.text = product.keyword;
       _brand = product.brand;
-      attributeList = product.attributes;
+      attributeList =product.attributes;
       mediaList = product.mediaList;
     }
   }
@@ -452,6 +452,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                       .mediaEmptyError)));
                             return;
                           }
+
                           var adProduct = AdProduct(
                               name: productName,
                               quantity: quantity,

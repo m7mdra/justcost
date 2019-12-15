@@ -64,10 +64,25 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                 itemBuilder: (context, index) {
                   var ad = state.ads[index];
                   return Card(
-                      child: ListTile(
-                    leading: Text(ad.iswholesale
-                        ? AppLocalizations.of(context).wholesaleAdType
-                        : AppLocalizations.of(context).normalAdType),
+                      /*child: ListTile(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
+                          );
+                        },
+//                    leading: Text(ad.iswholesale
+//                        ? AppLocalizations.of(context).wholesaleAdType
+//                        : AppLocalizations.of(context).normalAdType),
+                      leading: Column(
+                        children: <Widget>[
+                          Text('Ad Title'),
+                          Text('Ad Description'),
+                          Text('Ad Type'),
+                          Text('Ad Status'),
+                          Text('Ad Approve'),
+                        ],
+                      ),
                     trailing: _getStatusFromCode(context, ad.status),
                     title: Text(ad.adTitle ??
                         "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
@@ -89,7 +104,100 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                       ],
                     ),
                     isThreeLine: true,
-                  ));
+                  )*/
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 5,),
+                                    Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),),
+                                    SizedBox(height: 5,),
+                                    Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text('Ad Type',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text('Ad Approve',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 20,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 5,),
+                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),),
+                                    SizedBox(height: 5,),
+                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 5,),
+                                    Text('${ad.adTitle}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),),
+                                    SizedBox(height: 5,),
+                                    Text('${ad.adDescription}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                    Text(ad.status == 3 ? AppLocalizations.of(context).disable:AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                                    SizedBox(height: 5,),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 120,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Card(
+                                        color: ad.status == 1 ? Colors.red : Colors.green,
+                                        child: Container(
+                                          width: 100,
+                                          height: 40,
+                                          child: Center(
+                                            child: Text(ad.status == 1 ? 'تعطيل' : 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  );
                 },
                 itemCount: state.ads.length,
               ),

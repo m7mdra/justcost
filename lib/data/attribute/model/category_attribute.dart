@@ -88,3 +88,29 @@ class Attribute {
     return data;
   }
 }
+
+class SelectedAttributes {
+  int attribute_id;
+  int attributes_group_id;
+  dynamic value;
+
+  SelectedAttributes({
+    this.attribute_id,
+    this.attributes_group_id,
+    this.value,
+  });
+
+  SelectedAttributes.fromJson(Map<String, dynamic> json) {
+    attribute_id = json['attribute_id'];
+    attributes_group_id = json['attributes_group_id'];
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['attribute_id'] = this.attribute_id;
+    data['attributes_group_id'] = this.attributes_group_id;
+    data['value'] = this.value;
+    return data;
+  }
+}
