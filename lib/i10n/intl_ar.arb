@@ -1151,4 +1151,16 @@
                              "type": "text",
                              "placeholders": {}
                            }
+                           "Ad Approve": "قبول الاعلان",
+                           "@Ad Approve": {
+                             "type": "text",
+                             "placeholders": {}
+                           }
+                           "Ad Type": "نوع الاعلان",
+                           "@Ad Type": {
+                             "type": "text",
+                             "placeholders": {}
+                           }
+
+
 }

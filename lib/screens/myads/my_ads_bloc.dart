@@ -3,6 +3,7 @@ import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
 import 'package:justcost/data/exception/exceptions.dart';
 import 'package:dio/dio.dart';
+import 'package:justcost/data/product/model/product.dart';
 
 class MyAdsEvent {}
 
@@ -31,8 +32,9 @@ class MyAdsLoadedState extends MyAdsState {
 
 class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
   final AdRepository _repository;
+  List<Product> products;
 
-  MyAdsBloc(this._repository);
+  MyAdsBloc(this._repository,{this.products});
 
   @override
   MyAdsState get initialState => IdleState();

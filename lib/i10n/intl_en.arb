@@ -1151,5 +1151,10 @@
                  "@Single product": {
                    "type": "text",
                    "placeholders": {}
+                 },
+                 "Add Approve": "Add Approve",
+                 "@Add Approve": {
+                   "type": "text",
+                   "placeholders": {}
                  }
 }

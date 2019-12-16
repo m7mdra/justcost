@@ -28,6 +28,7 @@ class AdWidget extends StatelessWidget {
                   image: product.media.length != 0 ? product.media[0].url : 'http://185.151.29.205:8099/images/logo.png',
                   height: 120,
                   width: 150,
+                    fit: BoxFit.contain,
                 ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),

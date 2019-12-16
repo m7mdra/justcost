@@ -1,3 +1,5 @@
+import 'package:justcost/data/product/model/product.dart';
+
 class MyAdsResponse {
   bool success;
   List<Ad> ads;
@@ -45,6 +47,7 @@ class Ad {
   String deletedAt;
   String createdAt;
   String updatedAt;
+  List<Product> products;
 
   Ad(
       {this.id,
@@ -60,7 +63,9 @@ class Ad {
         this.iswholesale,
         this.deletedAt,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.products
+      });
 
   Ad.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +79,12 @@ class Ad {
     lat = json['lat'];
     lng = json['lng'];
     iswholesale = json['iswholesale'];
+    if (json['products'] != null) {
+      products = new List<Product>();
+      json['products'].forEach((v) {
+        products.add(new Product.fromJson(v));
+      });
+    }
 //    deletedAt = json['deleted_at'];
 //    createdAt = json['created_at'];
 //    updatedAt = json['updated_at'];
@@ -95,6 +106,9 @@ class Ad {
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.products != null) {
+      data['products'] = this.products.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

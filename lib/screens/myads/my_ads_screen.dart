@@ -63,55 +63,55 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   var ad = state.ads[index];
-                  return Card(
-                      /*child: ListTile(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
-                          );
-                        },
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
+                      );
+                    },
+                    child: Card(
+                        /*child: ListTile(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
+                            );
+                          },
 //                    leading: Text(ad.iswholesale
 //                        ? AppLocalizations.of(context).wholesaleAdType
 //                        : AppLocalizations.of(context).normalAdType),
-                      leading: Column(
+                        leading: Column(
+                          children: <Widget>[
+                            Text('Ad Title'),
+                            Text('Ad Description'),
+                            Text('Ad Type'),
+                            Text('Ad Status'),
+                            Text('Ad Approve'),
+                          ],
+                        ),
+                      trailing: _getStatusFromCode(context, ad.status),
+                      title: Text(ad.adTitle ??
+                          "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
+                      subtitle: Column(
+                        mainAxisSize  : MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Ad Title'),
-                          Text('Ad Description'),
-                          Text('Ad Type'),
-                          Text('Ad Status'),
-                          Text('Ad Approve'),
+                          Text(ad.adDescription ??
+                              "${AppLocalizations.of(context).adDetailsTitle} ${AppLocalizations.of(context).na}"),
+                          Text(
+                              '${AppLocalizations.of(context).status}: ${ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive}'),
+                          OutlineButton(
+                            onPressed: () {},
+                            child: ad.status == 1
+                                ? Text(AppLocalizations.of(context).disable)
+                                : Text(AppLocalizations.of(context).enable),
+                            padding: const EdgeInsets.all(0),
+                          )
                         ],
                       ),
-                    trailing: _getStatusFromCode(context, ad.status),
-                    title: Text(ad.adTitle ??
-                        "${AppLocalizations.of(context).adTitleLabel} ${AppLocalizations.of(context).na}"),
-                    subtitle: Column(
-                      mainAxisSize  : MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(ad.adDescription ??
-                            "${AppLocalizations.of(context).adDetailsTitle} ${AppLocalizations.of(context).na}"),
-                        Text(
-                            '${AppLocalizations.of(context).status}: ${ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive}'),
-                        OutlineButton(
-                          onPressed: () {},
-                          child: ad.status == 1
-                              ? Text(AppLocalizations.of(context).disable)
-                              : Text(AppLocalizations.of(context).enable),
-                          padding: const EdgeInsets.all(0),
-                        )
-                      ],
-                    ),
-                    isThreeLine: true,
-                  )*/
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MyAdDetailsScreen(ad)),
-                          );
-                        },
+                      isThreeLine: true,
+                    )*/
                         child: Container(
                           margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
                           child: Row(
@@ -122,15 +122,15 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),),
+                                    Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
                                     SizedBox(height: 5,),
-                                    Text('Ad Type',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Text('${AppLocalizations.of(context).adType}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
                                     SizedBox(height: 5,),
-                                    Text('Ad Approve',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
                                     SizedBox(height: 5,),
                                   ],
                                 ),
@@ -168,7 +168,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     SizedBox(height: 5,),
                                     Text(ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
                                     SizedBox(height: 5,),
-                                    Text(ad.status == 3 ? AppLocalizations.of(context).disable:AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                                    Text(ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
                                     SizedBox(height: 5,),
                                   ],
                                 ),
@@ -179,16 +179,36 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
-                                      Card(
-                                        color: ad.status == 1 ? Colors.red : Colors.green,
-                                        child: Container(
-                                          width: 100,
-                                          height: 40,
-                                          child: Center(
-                                            child: Text(ad.status == 1 ? 'تعطيل' : 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
-                                          ),
-                                        ),
-                                      )
+                                      ad.status == 3
+                                          ?Card(
+                                            color: ad.status == 1 ? Colors.red : Colors.green,
+                                            child: Container(
+                                              width: 100,
+                                              height: 40,
+                                              child: Center(
+                                                child: Text(ad.status == 1 ? 'تعطيل' : 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                              ),
+                                            ),
+                                          )
+                                          :ad.status == 1
+                                            ?Container(
+                                              width: 100,
+                                              height: 40,
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Center(
+                                                child: Text('الاعلان بانتظار الموافقة',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                              ),
+                                            )
+                                            : ad.status == 2
+                                             ?Container(
+                                              width: 100,
+                                              height: 40,
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Center(
+                                                child: Text('تم رفض إضافة اعلانك',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                              ),
+                                             )
+                                             :Container()
                                     ],
                                   ),
                                 ),
@@ -196,7 +216,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                             ],
                           ),
                         ),
-                      ),
+                    ),
                   );
                 },
                 itemCount: state.ads.length,

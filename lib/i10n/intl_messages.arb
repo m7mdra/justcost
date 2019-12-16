@@ -1032,6 +1032,18 @@
     "type": "text",
     "placeholders": {}
   },
+
+  "Ad Approve": "Ad Approve",
+  "@Ad Approve": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Ad Type": "Ad Type",
+   "@Ad Type": {
+     "type": "text",
+     "placeholders": {}
+  },
+
   "Single product": "Single product",
   "@Single product": {
     "type": "text",

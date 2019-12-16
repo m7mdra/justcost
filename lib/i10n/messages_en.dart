@@ -200,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "Session Expired, log in again" : MessageLookupByLibrary.simpleMessage("Session Expired, log in again"),
     "Settings" : MessageLookupByLibrary.simpleMessage("Settings"),
     "Several products" : MessageLookupByLibrary.simpleMessage("Several products"),
+    "Ad Approve" : MessageLookupByLibrary.simpleMessage("Ad Approve"),
+    "Ad Type" : MessageLookupByLibrary.simpleMessage("Ad Type"),
     "Share" : MessageLookupByLibrary.simpleMessage("Share"),
     "Single product" : MessageLookupByLibrary.simpleMessage("Single product"),
     "Snapchat account" : MessageLookupByLibrary.simpleMessage("Snapchat account"),

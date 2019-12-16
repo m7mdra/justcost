@@ -200,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "Session Expired, log in again" : MessageLookupByLibrary.simpleMessage("انتهت الجلسة الحالية, قم بتسجيل الدخول مرة اخرى"),
     "Settings" : MessageLookupByLibrary.simpleMessage("الاعدادات"),
     "Several products" : MessageLookupByLibrary.simpleMessage("بضائع متنوعة"),
+    "Ad Approve" : MessageLookupByLibrary.simpleMessage("قبول الاعلان"),
+    "Ad Type" : MessageLookupByLibrary.simpleMessage("نوع الاعلان"),
     "Share" : MessageLookupByLibrary.simpleMessage("مشاركة"),
     "Single product" : MessageLookupByLibrary.simpleMessage("بضاعة واحده"),
     "Snapchat account" : MessageLookupByLibrary.simpleMessage("حساب سنابشات"),
