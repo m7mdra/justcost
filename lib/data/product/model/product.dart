@@ -31,6 +31,7 @@ class Product {
   int productId;
   String title;
   String category;
+  String categoryAr;
   int customerId;
   String customerName;
   String description;
@@ -39,6 +40,7 @@ class Product {
   int regPrice;
   int salePrice;
   String city;
+  String cityAr;
   String brand;
   List<Media> media;
   int postedOn;
@@ -47,6 +49,7 @@ class Product {
       {this.productId,
       this.title,
       this.category,
+      this.categoryAr,
       this.customerId,
       this.customerName,
       this.description,
@@ -55,6 +58,7 @@ class Product {
       this.regPrice,
       this.salePrice,
       this.city,
+      this.cityAr,
       this.brand,
       this.media,
       this.postedOn});
@@ -62,7 +66,8 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
     title = json['title'];
-    category = json['category'];
+    category = json['category']['name'];
+    categoryAr = json['category']['name_ar'];
     customerId = json['customerId'];
     customerName = json['customerName'];
     description = json['description'];
@@ -70,8 +75,11 @@ class Product {
     location = json['location']['long'] + json['location']['lat'];
     regPrice = json['reg_price'];
     salePrice = json['sale_price'];
-    city = json['city'];
-    brand = json['brand'];
+    if(json['city'] != null){
+      city = json['city']['name'];
+      cityAr = json['city']['arName'];
+    }
+    brand = json['brand']['name'];
 
     if (json['media'] != null) {
       media = new List<Media>();
@@ -92,7 +100,8 @@ class Product {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['productId'] = this.productId;
     data['title'] = this.title;
-    data['category'] = this.category;
+    data['category']['name'] = this.category;
+    data['category']['name_ar'] = this.categoryAr;
     data['customerId'] = this.customerId;
     data['customerName'] = this.customerName;
     data['description'] = this.description;
@@ -100,8 +109,9 @@ class Product {
     data['location'] = this.location;
     data['reg_price'] = this.regPrice;
     data['sale_price'] = this.salePrice;
-    data['city'] = this.city;
-    data['brand'] = this.brand;
+    data['city']['name'] = this.city;
+    data['city']['arName'] = this.city;
+    data['brand']['name'] = this.brand;
 
     if (this.media != null) {
       data['media'] = this.media.map((v) => v.toJson()).toList();

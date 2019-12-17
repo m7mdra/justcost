@@ -36,6 +36,8 @@ class Ad {
   String mobile;
   int customerId;
   int cityId;
+  String cityName;
+  String cityNameAr;
   ///1 pending
   ///2 rejected
   ///3 approved
@@ -56,6 +58,8 @@ class Ad {
         this.mobile,
         this.customerId,
         this.cityId,
+        this.cityName,
+        this.cityNameAr,
         this.status,
         this.approvedBy,
         this.lat,
@@ -74,6 +78,8 @@ class Ad {
     mobile = json['mobile'];
     customerId = json['customerId']['id'];
     cityId = json['cityId']['id'];
+    cityName = json['cityId']['name'];
+    cityNameAr = json['cityId']['arName'];
     status = json['status']['id'];
     approvedBy = json['approved_by'];
     lat = json['lat'];
@@ -97,7 +103,9 @@ class Ad {
     data['ad_description'] = this.adDescription;
     data['mobile'] = this.mobile;
     data['customerId'] = this.customerId;
-    data['cityId'] = this.cityId;
+    data['cityId']['id'] = this.cityId;
+    data['cityId']['name'] = this.cityName;
+    data['cityId']['arName'] = this.cityNameAr;
     data['status'] = this.status;
     data['approved_by'] = this.approvedBy;
     data['lat'] = this.lat;

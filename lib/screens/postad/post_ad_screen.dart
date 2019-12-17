@@ -554,7 +554,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                               hintStyle: hintStyle),
                         ),
                       ),
-                      Card(
+                     /* Card(
                         child: TextFormField(
                           textInputAction: TextInputAction.next,
                           onEditingComplete: () {},
@@ -617,7 +617,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                                   AppLocalizations.of(context).snapChatAccount,
                               hintStyle: hintStyle),
                         ),
-                      ),
+                      ),*/
                     ],
                   ))),
           Step(

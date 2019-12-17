@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:justcost/data/product/model/product.dart';
+import 'package:justcost/i10n/app_localizations.dart';
 
 import 'discount_badge_widget.dart';
 
@@ -60,7 +61,7 @@ class AdWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      product.city,
+                      product.city != null ? product.city : 'غير محدد',
                       style: Theme.of(context)
                           .textTheme
                           .caption
