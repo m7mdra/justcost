@@ -6,11 +6,16 @@ import 'package:justcost/i10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationPickerScreen extends StatefulWidget {
+  String lat , lan;
+  LocationPickerScreen({this.lat,this.lan});
   @override
-  _LocationPickerScreenState createState() => _LocationPickerScreenState();
+  _LocationPickerScreenState createState() => _LocationPickerScreenState(this.lat,this.lan);
 }
 
 class _LocationPickerScreenState extends State<LocationPickerScreen> {
+  String lat , lan;
+  _LocationPickerScreenState(this.lat,this.lan);
+
   Completer<GoogleMapController> _controller = Completer();
   bool _isCameraMoving = false;
   var markers = Set<Marker>();

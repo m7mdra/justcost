@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     _bloc = DependenciesProvider.provide();
     _bloc.dispatch(LoadCurrentLanguage());
   }
+
   @override
   void dispose() {
     super.dispose();

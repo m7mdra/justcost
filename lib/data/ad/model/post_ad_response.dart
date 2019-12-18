@@ -1,6 +1,6 @@
 class PostAdResponse {
   bool success;
-  int data;
+  var data;
   String message;
 
   PostAdResponse({this.success, this.data, this.message});

@@ -56,6 +56,41 @@ class AdRepository {
     }
   }
 
+  Future<PostAdResponse> updateAd(
+      {
+        int adId,
+        int customerId,
+//        int cityId,
+        double lng,
+        double lat,
+        String mobile,
+        String title,
+        String description,
+        }) async {
+    try {
+      var response = await _client.post('ads/$adId', data: {
+        'customerId': customerId,
+//        'cityId': cityId,
+        'lng': lng,
+        'lat': lat,
+        'mobile': mobile,
+        'ad_title': title,
+        'ad_description': description
+      });
+
+      return PostAdResponse.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
   Future<ResponseStatus> postProduct(
       {int categoryId,
       String description,

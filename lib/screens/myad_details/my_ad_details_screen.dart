@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/i10n/app_localizations.dart';
-import 'package:justcost/myad_edit/my_ad_edit_screen.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
+import 'package:justcost/screens/myad_edit/my_ad_edit_screen.dart';
 import 'package:justcost/widget/ad_tile.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
@@ -141,7 +141,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                               SizedBox(height: 10,),
                               Text(widget.ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
                               SizedBox(height: 10,),
-                              Text(widget.ad.cityNameAr,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
+                              Text(widget.ad.cityNameAr != null ? widget.ad.cityNameAr : '',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
                               SizedBox(height: 10,),
                               SizedBox(height: 10,),
                               Text(widget.ad.mobile,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
@@ -166,15 +166,24 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                     padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          'منتجات الاعلان',
-                          style: Theme.of(context).textTheme.subtitle,
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'منتجات الاعلان',
+                            style: Theme.of(context).textTheme.subtitle,
+                          ),
                         ),
+                        InkWell(
+                          child: Icon(Icons.add_to_photos,color: Colors.amberAccent,size: 35,),
+                        )
                       ],
                     ),
                   ),
                 ),
+
+                SizedBox(height: 5,),
 
                 widget.ad.products.length == 0 ? NoDataWidget():ListView.builder(
                   primary: false,

@@ -77,9 +77,11 @@ class Ad {
     adDescription = json['ad_description'];
     mobile = json['mobile'];
     customerId = json['customerId']['id'];
-    cityId = json['cityId']['id'];
-    cityName = json['cityId']['name'];
-    cityNameAr = json['cityId']['arName'];
+    if(json['cityId'] != null){
+      cityId = json['cityId']['id'];
+      cityName = json['cityId']['name'];
+      cityNameAr = json['cityId']['arName'];
+    }
     status = json['status']['id'];
     approvedBy = json['approved_by'];
     lat = json['lat'];
