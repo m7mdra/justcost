@@ -136,6 +136,51 @@ class AdRepository {
     }
   }
 
+  Future<ResponseStatus> updateProduct(
+      {
+        int productId,
+        int categoryId,
+        String description,
+        String regularPrice,
+        String salePrice,
+        int brandId,
+        int isPaid = 0,
+        int adId,
+        int isWholeSale,
+        String title,
+        ProgressCallback progressCallback}) async {
+    try {
+      var formDataWithCategoryAndBrand = FormData.from({
+        'category_id': categoryId,
+        'description': description,
+        'reg_price': regularPrice,
+        'sale_price': salePrice,
+        'brand_id': brandId,
+        'iswholesale': 0,
+        'title': title,
+      });
+
+      var formData = FormData.from({
+        'description': description,
+        'reg_price': regularPrice,
+        'sale_price': salePrice,
+        'iswholesale': 0,
+        'title': title,
+      });
+
+      print(formData);
+      var response = await _client.post('products/$productId',data: categoryId == null || brandId == null ? formData : formDataWithCategoryAndBrand , onSendProgress: progressCallback);
+      return ResponseStatus.fromJson(response.data);
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<MyAdsResponse> getMyAds() async {
     try {
       var response = await _client.get('myads');

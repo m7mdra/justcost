@@ -5,6 +5,9 @@ import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/myad_edit/my_ad_edit_screen.dart';
+import 'package:justcost/screens/postad/ad.dart' as product;
+import 'package:justcost/screens/postad/add_ad_product_screen.dart';
+import 'package:justcost/screens/postad/addition_type.dart';
 import 'package:justcost/widget/ad_tile.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
@@ -79,51 +82,28 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                       Expanded(
                         child: Container(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).adType}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).city}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).phoneNumberField}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-//                              SizedBox(height: 10,),
-//                              Container(height:40,child: Text('${AppLocalizations.of(context).emailFieldLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)))),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-                              SizedBox(height: 10,),
-                              Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-                              SizedBox(height: 10,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),),
+                              Container(
+                                height: 30,
+                                  child: Center(child: Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(
+                                  height: 30,
+                                  child: Center(child: Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(height: 30,child: Center(child: Text('${AppLocalizations.of(context).adType}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(height: 30,child: Center(child: Text('${AppLocalizations.of(context).city}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(height: 30,child: Center(child: Text('${AppLocalizations.of(context).phoneNumberField}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
 //                              SizedBox(height: 5,),
-//                              Container(height:40,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))))),
+//                              Container(height:40,child: Text('${AppLocalizations.of(context).emailFieldLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(height: 30,child: Center(child: Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                               SizedBox(height: 5,),
-                              Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))),
+                              Container(height: 30,child: Center(child: Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                               SizedBox(height: 5,),
                             ],
                           ),
@@ -134,24 +114,50 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              SizedBox(height: 10,),
-                              Text('${widget.ad.adTitle}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),),
-                              SizedBox(height: 10,),
-                              Text('${widget.ad.adDescription}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                              SizedBox(height: 10,),
-                              Text(widget.ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                              SizedBox(height: 10,),
-                              Text(widget.ad.cityNameAr != null ? widget.ad.cityNameAr : '',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                              SizedBox(height: 10,),
-                              SizedBox(height: 10,),
-                              Text(widget.ad.mobile,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
-//                              SizedBox(height: 10,),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+//                              SizedBox(height: 5,),
+//                              Container(height:40,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20))))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),))),
+                              SizedBox(height: 5,),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text('${widget.ad.adTitle}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text('${widget.ad.adDescription}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),textAlign: TextAlign.center,))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(widget.ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Text(widget.ad.cityNameAr != null ? widget.ad.cityNameAr : '',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)))),
+                              SizedBox(height: 5,),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(widget.ad.mobile,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
+//                              SizedBox(height: 5,),
 //                              Container(height:40,child: Text(widget.ad.,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)))),
-                              SizedBox(height: 10,),
-                              Text(widget.ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                              SizedBox(height: 10,),
-                              Text(widget.ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: widget.ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : widget.ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                              SizedBox(height: 10,),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(widget.ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                              SizedBox(height: 5,),
+                              Container(height: 30,child: Center(child: Text(widget.ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: widget.ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : widget.ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                              SizedBox(height: 5,),
                             ],
                           ),
                         ),
@@ -175,8 +181,19 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                             style: Theme.of(context).textTheme.subtitle,
                           ),
                         ),
-                        InkWell(
-                          child: Icon(Icons.add_to_photos,color: Colors.amberAccent,size: 35,),
+                        Visibility(
+                          visible: widget.ad.iswholesale ? true : true,
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute<product.AdProduct>(
+                                  builder: (context) => AddAdProductScreen(
+                                    from: 'edit',
+                                    adId: widget.ad.id,
+                                  )));
+                            },
+                            child: Icon(Icons.add_to_photos,color: Colors.amberAccent,size: 35,),
+                          ),
                         )
                       ],
                     ),
@@ -196,6 +213,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                             builder: (BuildContext context) =>
                                 AdDetailsScreen(
                                   product: widget.ad.products[index],
+                                  from: 'edit',
                                 )));
                       },
                     );

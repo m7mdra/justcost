@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:justcost/bloc/like_product_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:justcost/screens/ad_details/product_comments.dart';
 import 'package:justcost/screens/ad_details/rate_bloc.dart';
 import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
+import 'package:justcost/screens/myad_edit/my_product_edit.dart';
 import 'package:justcost/widget/comment_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/icon_text.dart';
@@ -26,8 +28,10 @@ import 'comment_replay_screen.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   final Product product;
+  final String from;
 
-  const AdDetailsScreen({Key key, this.product}) : super(key: key);
+
+  const AdDetailsScreen({Key key, this.product,this.from}) : super(key: key);
 
   @override
   _AdDetailsScreenState createState() => _AdDetailsScreenState();
@@ -148,6 +152,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 icon: Icon(Icons.flag),
                 text: Text(AppLocalizations.of(context).reportButton),
               ),
+              Visibility(visible: widget.from != 'edit' ? true : false,child: Container()),
               BlocBuilder(
                 bloc: _likeProductBloc,
                 builder: (BuildContext context, LikeState state) {
@@ -188,12 +193,23 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   );
                 },
               ),
+              Visibility(visible: widget.from != 'edit' ? true : false,child: Container()),
               IconText(
                 onPressed: () async {
                   await Share.share('Checkout hot sales at Justcost');
                 },
                 icon: Icon(Icons.share),
                 text: Text(AppLocalizations.of(context).shareButton),
+              ),
+              Visibility(
+                visible: widget.from == 'edit' ? true : false,
+                child: IconText(
+                  onPressed: () async {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyProductEdit(product: product,from: 'edit',)));
+                  },
+                  icon: Icon(Icons.mode_edit),
+                  text: Text(AppLocalizations.of(context).editButton,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
+                ),
               ),
             ],
           ),

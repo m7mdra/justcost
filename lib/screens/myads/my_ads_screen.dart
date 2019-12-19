@@ -122,15 +122,25 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),),
+                                    Container(
+                                      height: 30,
+                                        child: Center(child: Text('${AppLocalizations.of(context).adTitleLabel}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),))),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text('${AppLocalizations.of(context).adDetailsTitle}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adType}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text('${AppLocalizations.of(context).adType}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                                     SizedBox(height: 5,),
-                                    Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                                     SizedBox(height: 5,),
                                   ],
                                 ),
@@ -141,36 +151,57 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(height: 5,),
-                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
-                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
-                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
-                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
-                                    Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15))),
+                                    Container(
+                                        height: 30,
+                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
                                   ],
                                 ),
                               ),
-                              Container(
-                                width: 120,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(height: 5,),
-                                    Text('${ad.adTitle}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),),
-                                    SizedBox(height: 5,),
-                                    Text('${ad.adDescription}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                                    SizedBox(height: 5,),
-                                    Text(ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                                    SizedBox(height: 5,),
-                                    Text(ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                                    SizedBox(height: 5,),
-                                    Text(ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),
-                                    SizedBox(height: 5,),
-                                  ],
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(height: 5,),
+                                      Container(
+                                          height: 30,
+                                          child: Center(child: Text('${ad.adTitle}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                          height: 30,
+                                          child: Center(child: Text('${ad.adDescription}',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)),textAlign: TextAlign.center,))),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                          height: 30,
+                                          child: Center(child: Text(ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                          height: 30,
+                                          child: Center(child: Text(ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                          height: 30,
+                                          child: Center(child: Text(ad.status == 4 ? AppLocalizations.of(context).adReview : ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
+                                      SizedBox(height: 5,),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Expanded(
@@ -200,7 +231,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                               ),
                                             )
                                             : ad.status == 2
-                                             ?Container(
+                                             ? Container(
                                               width: 100,
                                               height: 40,
                                               margin: EdgeInsets.only(left: 10),
@@ -208,6 +239,15 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                                 child: Text('تم رفض إضافة اعلانك',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
                                               ),
                                              )
+                                            : ad.status == 4
+                                            ?Container(
+                                              width: 100,
+                                              height: 40,
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Center(
+                                                child: Text('تعديل الاعلان تحت المراجعة',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                              ),
+                                            )
                                              :Container()
                                     ],
                                   ),
