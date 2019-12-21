@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/dependencies_provider.dart';
+import 'package:justcost/screens/about_us/about_us_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/liked_products/liked_products_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/screens/myads/my_ads_screen.dart';
+import 'package:justcost/screens/terms/terms_screen.dart';
 import 'package:justcost/widget/default_user_avatar.dart';
 import 'package:justcost/widget/guest_user_widget.dart';
 import 'package:justcost/widget/settings_widget.dart';
@@ -150,6 +152,26 @@ class _ProfilePageState extends State<ProfilePage>
         ),
         divider(),
         _settingsTile(context),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.info),
+          title: Text(AppLocalizations.of(context).aboutUs),
+          dense: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AboutUs()));
+          },
+        ),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.lock),
+          title: Text('الشروط و الاحكام'),
+          dense: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Terms()));
+          },
+        ),
         divider(),
         _logoutTile(context)
 

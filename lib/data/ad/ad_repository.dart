@@ -89,8 +89,6 @@ class AdRepository {
     }
   }
 
-
-
   Future<ResponseStatus> postProduct(
       {int categoryId,
       String description,
@@ -194,4 +192,34 @@ class AdRepository {
       throw error;
     }
   }
+
+  Future<dynamic> getAboutData() async {
+    try {
+      var response = await _client.get('aboutes');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<dynamic> getTermsData() async {
+    try {
+      var response = await _client.get('terms');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
 }
