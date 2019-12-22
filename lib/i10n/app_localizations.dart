@@ -333,6 +333,10 @@ class AppLocalizations {
 
   String get myAds => Intl.message('My Ads');
 
+  String get terms => Intl.message('Terms');
+
+  String get fqa => Intl.message('FQA');
+
   String get favoriteAds => Intl.message('Favorite Ads');
 
   String get selectBrand => Intl.message('Select brand');

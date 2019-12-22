@@ -122,6 +122,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "Max Media uploads for this ad is 4 photos/videos. For videos max is length is 20 seconds" : MessageLookupByLibrary.simpleMessage("الحد الاقصى للصور او الفيديوهات هو ٤ . الطول الاقصى للفيديو هو ٢٠ ثانية"),
     "Max media upload is 4" : MessageLookupByLibrary.simpleMessage("الحد الاعلى للصور او الفيديوهات هو ٤"),
     "My Ads" : MessageLookupByLibrary.simpleMessage("اعلاناتي"),
+    "Terms" : MessageLookupByLibrary.simpleMessage("الشروط و الاحكام"),
+    "FQA" : MessageLookupByLibrary.simpleMessage("الاسئلة الشائعة"),
     "Name" : MessageLookupByLibrary.simpleMessage("الاسم"),
     "Name - Ascending" : MessageLookupByLibrary.simpleMessage("الاسم - تصاعديا"),
     "Name - Descending" : MessageLookupByLibrary.simpleMessage("الاسم تنازليا"),

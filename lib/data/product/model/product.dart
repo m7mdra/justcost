@@ -42,6 +42,7 @@ class Product {
   String city;
   String cityAr;
   String brand;
+  dynamic rating;
   List<Media> media;
   int postedOn;
 
@@ -60,6 +61,7 @@ class Product {
       this.city,
       this.cityAr,
       this.brand,
+      this.rating,
       this.media,
       this.postedOn});
 
@@ -80,6 +82,8 @@ class Product {
       cityAr = json['city']['arName'];
     }
     brand = json['brand']['name'];
+
+    rating = json['ratings'];
 
     if (json['media'] != null) {
       media = new List<Media>();
@@ -112,6 +116,7 @@ class Product {
     data['city']['name'] = this.city;
     data['city']['arName'] = this.city;
     data['brand']['name'] = this.brand;
+    data['ratings'] = this.rating;
 
     if (this.media != null) {
       data['media'] = this.media.map((v) => v.toJson()).toList();

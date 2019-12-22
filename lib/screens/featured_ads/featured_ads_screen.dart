@@ -24,19 +24,19 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     _recentAdsBloc.dispatch(LoadRecentAds());
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _recentAdsBloc.dispatch(LoadNextPage());
-      }
-    });
+//    _scrollController.addListener(() {
+//      if (_scrollController.position.pixels ==
+//          _scrollController.position.maxScrollExtent) {
+//        _recentAdsBloc.dispatch(LoadNextPage());
+//      }
+//    });
   }
 
   @override
   void dispose() {
     super.dispose();
     _recentAdsBloc.dispose();
-    _scrollController.dispose();
+//    _scrollController.dispose();
   }
 
   @override

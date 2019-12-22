@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/about_us/about_us_bloc.dart';
@@ -19,9 +20,26 @@ class AboutUs extends StatefulWidget {
 class _AboutUsState extends State<AboutUs> {
   AboutBloc _bloc;
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
+  var aboutShow = false;
+  var ourMissionShow = false;
+  var ourVisionShow = false;
+  var whyShow = false;
+
   @override
   void initState() {
     super.initState();
+
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _bloc = AboutBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadAboutData());
   }
@@ -60,25 +78,55 @@ class _AboutUsState extends State<AboutUs> {
                   SizedBox(height: 20,),
                   Center(
                     child: GestureDetector(
-                      onTap: (){
-
+                      onTap:(){
+                        setState(() {
+                          aboutShow ? aboutShow = false : aboutShow = true;
+                        });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 100 * 90,
-                        height: 45,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey[800],width: 1),
                           borderRadius: BorderRadius.circular(5)
                         ),
                         margin: EdgeInsets.all(4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            IconButton(icon: Icon(Icons.add,color: Colors.black,), onPressed: null),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                              child: Text(state.response['about_us']  != null ? state.response['about_us'] : 'terms',style: TextStyle(fontSize: 18),),
-                            ),
+                        child: aboutShow
+                            ? Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                      child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                    ),
+                                    IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10,left: 10),
+                                  child: Divider(
+                                    height: 1,
+                                    thickness: 2,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
+                                  margin: EdgeInsets.all(4),
+                                  child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                )
+                              ],
+                            )
+                            :Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                  child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                              ),
+                            IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                           ],
                         ),
                       ),
@@ -88,26 +136,57 @@ class _AboutUsState extends State<AboutUs> {
                   Center(
                     child: GestureDetector(
                       onTap: (){
-
+                        setState(() {
+                          ourMissionShow ? ourMissionShow = false : ourMissionShow = true;
+                        });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 100 * 90,
-                        height: 45,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey[800],width: 1),
                           borderRadius: BorderRadius.circular(5)
                         ),
                         margin: EdgeInsets.all(4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            IconButton(icon: Icon(Icons.add,color: Colors.black,), onPressed: null),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                              child: Text(state.response['our_misson']  != null ? state.response['our_misson'] : 'terms',style: TextStyle(fontSize: 18),),
+                        child: ourMissionShow
+                            ? Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                      child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                    ),
+                                    IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10,left: 10),
+                                  child: Divider(
+                                    height: 1,
+                                    thickness: 2,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
+                                  margin: EdgeInsets.all(4),
+                                  child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                )
+
+                              ],
+                            )
+                            :Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                  child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                ),
+                                IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
+                              ],
                             ),
-                          ],
-                        ),
                       ),
                     ),
                   ),
@@ -115,26 +194,57 @@ class _AboutUsState extends State<AboutUs> {
                   Center(
                     child: GestureDetector(
                       onTap: (){
-
+                        setState(() {
+                          ourVisionShow ? ourVisionShow = false : ourVisionShow = true;
+                        });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 100 * 90,
-                        height: 45,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey[800],width: 1),
                           borderRadius: BorderRadius.circular(5)
                         ),
                         margin: EdgeInsets.all(4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: ourVisionShow
+                            ? Column(
                           children: <Widget>[
-                            IconButton(icon: Icon(Icons.add,color: Colors.black,), onPressed: null),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                              child: Text(state.response['our_vission']  != null ? state.response['our_vission'] : 'terms',style: TextStyle(fontSize: 18),),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                  child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                                ),
+                                IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
+                              ],
                             ),
+                            SizedBox(height: 5,),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10,left: 10),
+                              child: Divider(
+                                height: 1,
+                                thickness: 2,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              margin: EdgeInsets.all(4),
+                              child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                            )
+
                           ],
-                        ),
+                        )
+                            :Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                  child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                                ),
+                                IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
+                              ],
+                            ),
                       ),
                     ),
                   ),
@@ -142,27 +252,58 @@ class _AboutUsState extends State<AboutUs> {
                   Center(
                     child: GestureDetector(
                       onTap: (){
-
+                        setState(() {
+                          whyShow ? whyShow = false : whyShow = true;
+                        });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 100 * 90,
-                        height: 45,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey[800],width: 1),
                           borderRadius: BorderRadius.circular(5)
                         ),
                         margin: EdgeInsets.all(4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            IconButton(icon: Icon(Icons.add,color: Colors.black,), onPressed: null),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                              child: Text(state.response['why_us']  != null ? state.response['why_us'] : 'terms',style: TextStyle(fontSize: 18),),
+                        child: whyShow
+                            ? Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                      child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                    ),
+                                    IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10,left: 10),
+                                  child: Divider(
+                                    height: 1,
+                                    thickness: 2,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
+                                  margin: EdgeInsets.all(4),
+                                  child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                )
+
+                              ],
+                            )
+                            :Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
+                                  child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                ),
+                                IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          )
                     ),
                   ),
                 ],

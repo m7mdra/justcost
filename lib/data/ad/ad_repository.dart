@@ -221,5 +221,19 @@ class AdRepository {
     }
   }
 
+  Future<dynamic> getFQAData() async {
+    try {
+      var response = await _client.get('fqas');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
 }

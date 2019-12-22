@@ -7,6 +7,7 @@ import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/about_us/about_us_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
+import 'package:justcost/screens/fqa/fqa_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
 import 'package:justcost/screens/liked_products/liked_products_screen.dart';
 import 'package:justcost/screens/login/login_screen.dart';
@@ -154,6 +155,16 @@ class _ProfilePageState extends State<ProfilePage>
         _settingsTile(context),
         divider(),
         ListTile(
+          leading: Icon(Icons.list),
+          title: Text(AppLocalizations.of(context).fqa),
+          dense: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FQAScreen()));
+          },
+        ),
+        divider(),
+        ListTile(
           leading: Icon(Icons.info),
           title: Text(AppLocalizations.of(context).aboutUs),
           dense: true,
@@ -165,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage>
         divider(),
         ListTile(
           leading: Icon(Icons.lock),
-          title: Text('الشروط و الاحكام'),
+          title: Text(AppLocalizations.of(context).terms),
           dense: true,
           onTap: () {
             Navigator.push(context,

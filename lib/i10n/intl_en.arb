@@ -637,6 +637,16 @@
     "type": "text",
     "placeholders": {}
   },
+  "Terms": "Terms",
+  "@Terms": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "FQA": "FQA",
+  "@FQA": {
+    "type": "text",
+    "placeholders": {}
+  },
   "Favorite Ads": "Favorite Ads",
   "@Favorite Ads": {
     "type": "text",

@@ -30,10 +30,24 @@ GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
 class _MyAppState extends State<MyApp> {
   SettingBloc _bloc;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String,dynamic> message) async{
+
+      },
+      onLaunch: (Map<String,dynamic> message) async{
+
+      },
+      onResume: (Map<String,dynamic> message) async{
+
+      },
+    );
+
     _bloc = DependenciesProvider.provide();
     _bloc.dispatch(LoadCurrentLanguage());
   }

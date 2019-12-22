@@ -637,6 +637,16 @@
     "type": "text",
     "placeholders": {}
   },
+  "Terms": "ألشروط و الاحكام",
+  "@Terms": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "FQA": "ألاسئلة ألشائعة",
+  "@FQA": {
+    "type": "text",
+    "placeholders": {}
+  },
   "Favorite Ads": "الاعلانات المفضلة",
   "@Favorite Ads": {
     "type": "text",

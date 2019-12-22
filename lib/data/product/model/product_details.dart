@@ -40,7 +40,7 @@ class ProductDeatils {
   int salePrice;
   String city;
   String postedOn;
-  double rating;
+  dynamic rating;
   String brand;
   String brandImage;
   List<String> media;
@@ -76,7 +76,7 @@ class ProductDeatils {
     salePrice = json['sale_price'];
     city = json['city'];
     postedOn = json['postedOn'];
-    rating = json['rating'];
+    rating = json['ratings'];
     brand = json['brand'];
     brandImage = json['brand_image'];
     if (json['media'] != null) {
@@ -101,7 +101,7 @@ class ProductDeatils {
     data['sale_price'] = this.salePrice;
     data['city'] = this.city;
     data['postedOn'] = this.postedOn;
-    data['rating'] = this.rating;
+    data['ratings'] = this.rating;
     data['brand'] = this.brand;
     data['brand_image'] = this.brandImage;
     if (this.media != null) {

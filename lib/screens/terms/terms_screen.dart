@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
 import 'package:justcost/data/ad/model/my_ads_response.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/myad_details/my_ad_details_screen.dart';
@@ -19,9 +20,20 @@ class Terms extends StatefulWidget {
 class _TermsState extends State<Terms> {
   TermsBloc _bloc;
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
   @override
   void initState() {
     super.initState();
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _bloc = TermsBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadTermsData());
   }
@@ -30,7 +42,7 @@ class _TermsState extends State<Terms> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('الشروط و الاحكام'),
+        title: Text(AppLocalizations.of(context).terms),
       ),
       body: BlocBuilder(
         bloc: _bloc,
@@ -60,7 +72,7 @@ class _TermsState extends State<Terms> {
                   SizedBox(height: 20,),
                   Container(
                     margin: EdgeInsets.all(10),
-                    child: Text(state.response['terms']  != null ? state.response['terms'] : 'term'),
+                    child: Text(state.response['terms'] != null ? lanCode == 'ar' ? state.response['ar_terms'] : state.response['terms'] : 'Not Found'),
                   )
                 ],
               ),

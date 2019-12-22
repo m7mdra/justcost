@@ -51,13 +51,14 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
 
   @override
   void initState() {
+
     super.initState();
     product = widget.product;
     print(product.media.map((media) => media.toJson()).join());
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
-    _rateBloc = RateBloc(DependenciesProvider.provide());
-    _rateBloc.dispatch(LoadRates(product.productId));
+//    _rateBloc = RateBloc(DependenciesProvider.provide());
+//    _rateBloc.dispatch(LoadRates(product.productId));
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
     _likeProductBloc = LikeProductBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
@@ -196,7 +197,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
               Visibility(visible: widget.from != 'edit' ? true : false,child: Container()),
               IconText(
                 onPressed: () async {
-                  await Share.share('Checkout hot sales at Justcost');
+                  await Share.share('منصة جست كوست للاعلانات المبوبة رابط الاعلان' + '\nhttp://just-cost.com/product/${product.productId}');
                 },
                 icon: Icon(Icons.share),
                 text: Text(AppLocalizations.of(context).shareButton),
@@ -231,7 +232,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         style: Theme.of(context).textTheme.title,
                         maxLines: 2,
                       ),
-                      BlocBuilder(
+                      /*BlocBuilder(
                           bloc: _rateBloc,
                           builder: (context, state) {
                             if (state is RateLoaded)
@@ -239,17 +240,24 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                                 itemSize: 15,
                                 itemPadding: const EdgeInsets.all(2),
                                 emptyColor:
-                                    Theme.of(context).accentColor.withAlpha(30),
+                                    Theme.of(context).accentColor.withAlpha(80),
                                 rating: state.rate.toDouble(),
                               );
                             return FlutterRatingBarIndicator(
                               itemSize: 15,
                               itemPadding: const EdgeInsets.all(2),
-                              rating: 0,
+                              rating: 3,
                               emptyColor:
-                                  Theme.of(context).accentColor.withAlpha(30),
+                                  Theme.of(context).accentColor.withAlpha(90),
                             );
-                          })
+                          })*/
+                      FlutterRatingBarIndicator(
+                        itemSize: 15,
+                        itemPadding: const EdgeInsets.all(2),
+                        emptyColor:
+                        Theme.of(context).accentColor.withAlpha(80),
+                        rating: product.rating.toDouble(),
+                      )
                     ],
                   ),
                 ),
@@ -587,7 +595,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
       onPressed: () {
         _likeProductBloc.dispatch(ToggleLike(product.productId));
       },
-      icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+      icon: isLiked ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_border) ,
       text: Text(AppLocalizations.of(context).saveButton),
     );
   }
