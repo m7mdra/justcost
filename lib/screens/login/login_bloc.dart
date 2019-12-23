@@ -48,8 +48,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   LoginState get initialState => LoginIdle();
 
-
-
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is GuestLogin) {

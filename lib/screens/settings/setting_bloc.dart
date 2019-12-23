@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:justcost/data/exception/exceptions.dart';
+import 'package:justcost/data/user/user_repository.dart';
 import 'package:justcost/data/user_sessions.dart';
 
 class SettingEvent {}
@@ -37,4 +42,5 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       yield LanguageChanged(await _session.getCurrentLanguage());
     }
   }
+
 }

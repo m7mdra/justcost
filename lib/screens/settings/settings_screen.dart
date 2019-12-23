@@ -1,26 +1,38 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/screens/home/home/home_page.dart';
 import 'package:justcost/screens/home/main_screen.dart';
+import 'package:justcost/screens/settings/notification_bloc.dart' as prefix0;
+import 'package:justcost/screens/settings/notification_bloc.dart';
 import 'package:justcost/screens/settings/setting_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
+  var token;
+  SettingsScreen({this.token});
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState(this.token);
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
   SettingBloc _bloc;
+  NotificationBloc _notificationBloc;
+  bool isSwitched = true;
+
+  var token;
+  _SettingsScreenState(this.token);
 
   @override
-  void initState() {
+  Future initState() {
     super.initState();
     _bloc = DependenciesProvider.provide();
-
+    _notificationBloc = NotificationBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadCurrentLanguage());
+     _notificationBloc.dispatch(LoadNotificationState(token: token));
+
   }
 
   @override
@@ -52,8 +64,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     onTap: () {
                                       _bloc.dispatch(ChangeLanguage('ar'));
                                       Navigator.pop(context);
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => MainScreen()));
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MainScreen()));
                                     },
                                     dense: true,
                                     selected: state.languageCode == "ar",
@@ -64,8 +78,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     onTap: () {
                                       _bloc.dispatch(ChangeLanguage('en'));
                                       Navigator.pop(context);
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => MainScreen()));
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MainScreen()));
                                     },
                                     dense: true,
                                     selected: state.languageCode == "en",
@@ -90,11 +106,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           divider(),
-          ListTile(
-            dense: true,
-            title: Text(AppLocalizations.of(context).notifications),
-            leading: Icon(Icons.notifications),
-            onTap: () {},
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ListTile(
+                  dense: true,
+                  title: Text(AppLocalizations.of(context).notifications),
+                  leading: Icon(Icons.notifications),
+                  onTap: () {},
+                ),
+              ),
+              BlocBuilder(
+                bloc: _notificationBloc,
+                builder: (context, state) {
+                  if (state is LoadingState) {
+                    return Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(left: 25),
+                        child: CircularProgressIndicator()
+                    );
+                  }
+                  if (state is ActiveNotificationState) {
+                    return Container(
+                      width: 60,
+                      margin: EdgeInsets.only(left: 20),
+                      child: Switch(
+                        value: true,
+                        onChanged: (value) {
+                            isSwitched = value;
+                            if (isSwitched) {
+                              _notificationBloc.dispatch(
+                                  ActiveNotificationEvent(token: token));
+                            } else {
+                              _notificationBloc.dispatch(
+                                  DisActiveNotificationEvent(token: token));
+                            }
+                        },
+                        activeTrackColor: Color(0xffE7ECED),
+                        activeColor: Color(0xff34C961),
+                      ),
+                    );
+                  }
+                  if (state is DisActiveNotificationState) {
+                    return Container(
+                      width: 60,
+                      margin: EdgeInsets.only(left: 20),
+                      child: Switch(
+                        value: false,
+                        onChanged: (value) {
+                            isSwitched = value;
+                            if (isSwitched) {
+                              _notificationBloc.dispatch(
+                                  ActiveNotificationEvent(token: token));
+                            } else {
+                              _notificationBloc.dispatch(
+                                  DisActiveNotificationEvent(token: token));
+                            }
+                        },
+                        activeTrackColor: Color(0xffE7ECED),
+                        activeColor: Color(0xff34C961),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              )
+            ],
           ),
           divider(),
         ],

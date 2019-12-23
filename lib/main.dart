@@ -38,13 +38,13 @@ class _MyAppState extends State<MyApp> {
 
     _firebaseMessaging.configure(
       onMessage: (Map<String,dynamic> message) async{
-
+        print('OnMessage  $message');
       },
       onLaunch: (Map<String,dynamic> message) async{
-
+        print('onLaunch  $message');
       },
       onResume: (Map<String,dynamic> message) async{
-
+        print('onResume  $message');
       },
     );
 

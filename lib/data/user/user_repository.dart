@@ -211,4 +211,61 @@ class UserRepository {
         .post('jc-member/update/msg-token', data: {'msg_id': newToken});
     return ResponseStatus.fromJson(response.data);
   }
+
+  Future<dynamic> loadNotificationState(String firebaseToken) async {
+    try {
+      var response = await _client.post('check_firebase_tokens',
+          data: {
+            "firebaseToken": firebaseToken
+          });
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      print(error);
+
+      throw error;
+    }
+  }
+
+  Future<dynamic> registerFirebaseToken(String firebaseToken) async {
+    try {
+      var response = await _client.post('firebase_tokens',
+          data: {
+            "firebaseToken": firebaseToken
+          });
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      print(error);
+
+      throw error;
+    }
+  }
+
+  Future<dynamic> removeFirebaseToken(String firebaseToken) async {
+    try {
+      var response = await _client.post('remove_firebase_tokens',
+          data: {
+            "firebaseToken": firebaseToken
+          });
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      print(error);
+
+      throw error;
+    }
+  }
 }

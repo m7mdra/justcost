@@ -5,6 +5,7 @@ import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:justcost/screens/home/main_screen.dart';
 import 'package:justcost/screens/register/register_screen.dart';
+import 'package:justcost/screens/reset_password/reset_account_screen.dart';
 import 'package:justcost/screens/verification/account_verification_screen.dart';
 import 'package:justcost/widget/progress_dialog.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
@@ -247,11 +248,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 5,),
                             Align(
                                 alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
-                              child: Text(
-                                AppLocalizations.of(context).forgetPassword,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                      builder: (context) => ResetPasswordScreen()));
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context).forgetPassword,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline
+                                  ),
                                 ),
                               )
                             ),
@@ -284,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
     FocusScope.of(context).requestFocus(FocusNode());
     if (_formKey.currentState.validate()) {
       var token = await FirebaseMessaging().getToken();
-      print(token);
+      print('FirebaseToken  $token');
       _loginBloc.dispatch(
           UserLogin(_userNameController.text, _passwordController.text, token));
     }

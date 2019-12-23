@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/user.dart';
@@ -90,9 +91,10 @@ class _ProfilePageState extends State<ProfilePage>
                 leading: Icon(Icons.settings),
                 title: Text(AppLocalizations.of(context).settings),
                 dense: true,
-                onTap: () {
+                onTap: () async {
+                  var token = await FirebaseMessaging().getToken();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SettingsScreen()));
+                      MaterialPageRoute(builder: (context) => SettingsScreen(token: token,)));
                 },
               );
   }

@@ -35,6 +35,7 @@ class AboutBloc extends Bloc<GetAboutDataEvent, GetAboutDataState> {
 
   @override
   GetAboutDataState get initialState => IdleState();
+
   @override
   void onError(Object error, StackTrace stacktrace) {
     super.onError(error, stacktrace);
