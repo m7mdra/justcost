@@ -250,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
                               child: GestureDetector(
                                 onTap: (){
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ResetPasswordScreen()));
                                 },
                                 child: Text(

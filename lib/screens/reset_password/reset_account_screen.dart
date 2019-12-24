@@ -1,8 +1,13 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:justcost/screens/login/login_screen.dart';
 import 'package:justcost/widget/rounded_edges_alert_dialog.dart';
+import 'package:pinput/pin_put/pin_put.dart';
+import 'package:pinput/pin_put/pin_put_bloc.dart';
+import 'package:pinput/pin_put/pin_put_state.dart';
 
 import 'reset_account_bloc.dart';
 
@@ -20,13 +25,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController _phoneNumberTextController;
   TextEditingController _emailTextController;
   TextEditingController _resetCodeTextController;
+  TextEditingController _codeTextController;
+  TextEditingController _newPasswordTextController;
+
+  var selectedState = 1;
+
+  var backPress = 0;
+  Future<bool> _onWillPop() {
+    var result = showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context){}
+    );
+
+    result.then((value){backPress = value;});
+    return result ?? false;
+  }
 
   @override
   void initState() {
     super.initState();
+
+    BackButtonInterceptor.add(myInterceptor);
+
+
     _phoneNumberTextController = TextEditingController();
     _emailTextController = TextEditingController();
     _resetCodeTextController = TextEditingController();
+    _codeTextController = TextEditingController();
+    _newPasswordTextController = TextEditingController();
+
     _formKey = GlobalKey<FormState>();
     _bloc = ResetAccountBloc(DependenciesProvider.provide());
     _bloc.state.listen((state) {
@@ -54,10 +82,40 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   void dispose() {
     super.dispose();
+    BackButtonInterceptor.remove(myInterceptor);
     _bloc.dispose();
     _phoneNumberTextController.dispose();
     _emailTextController.dispose();
     _resetCodeTextController.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    _bloc = ResetAccountBloc(DependenciesProvider.provide());
+    print("BACK BUTTON!");
+    if(selectedState == 1){
+      Navigator.pop(context);
+    }
+    else if(selectedState == 2){
+      print('backed  $selectedState');
+      setState(() {
+        selectedState--;
+      });
+    }
+    else if(selectedState == 3){
+      setState(() {
+        selectedState--;
+      });
+    }
+    else if(selectedState == 4){
+      setState(() {
+        selectedState--;
+      });
+    }
+//    backPress++;// Do some stuff.
+//    if(backPress == 2){
+//      _onWillPop();
+//    }
+    return true;
   }
 
   @override
@@ -69,11 +127,39 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           child: BlocBuilder(
             bloc: _bloc,
             builder: (context, state) {
+
+              if (state is ResetLoadingState)
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                );
+
               if (state is PhoneNumberResetSelectedState)
                 return buildPhoneNumberResetState(context);
+
               if (state is EmailResetSelectedState)
                 return buildEmailResetState(context);
-              return buildSelectState();
+
+              if(state is ResetSuccessState){
+                return buildPhoneCodeForm(context,state.phone);
+              }
+
+              if(state is SendCodeSuccessState) {
+                return buildNewPassword(context,state.token);
+              }
+
+              if(state is PasswordChangedSuccess) {
+                return SuccessfullyChangePassword(context);
+              }
+
+              if(state is ResetEmailSuccessState) {
+                return SendResetEmail(context);
+              }
+
+              return selectedState == 1 ? buildSelectState() : selectedState == 2 ? buildPhoneNumberResetState(context) : selectedState == 3 ? buildEmailResetState(context) : Container();
             },
           ),
         ),
@@ -81,12 +167,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  Column buildPhoneCodeForm(BuildContext context) {
+  Column buildPhoneCodeForm(BuildContext context,String phone) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(
           Icons.sms,
           size: 60,
+        ),
+        SizedBox(
+          height: 5,
         ),
         Text(
           AppLocalizations.of(context).resetSuccessTitle,
@@ -101,12 +192,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               text: AppLocalizations.of(context).weSentMessageTo,
             ),
             TextSpan(
-                text: '+1231231231',
-                style: TextStyle(decoration: TextDecoration.underline)),
+                text: '+$phone',
+                style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w700)),
             TextSpan(text: ' ${AppLocalizations.of(context).containing} '),
             TextSpan(
-                text: '5',
-                style: TextStyle(decoration: TextDecoration.underline)),
+                text: '6',
+                style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w700)),
             TextSpan(text: AppLocalizations.of(context).fiveDigitCode)
           ]),
           textAlign: TextAlign.center,
@@ -117,21 +208,184 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 64, right: 64),
-          child: TextField(
-            maxLength: 5,
-            maxLines: 1,
-            maxLengthEnforced: true,
-            autofocus: true,
-            decoration: InputDecoration(border: OutlineInputBorder()),
+          child: Container(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextField(
+                controller: _codeTextController,
+                maxLength: 6,
+                maxLines: 1,
+                maxLengthEnforced: true,
+                autofocus: true,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
         ),
         SizedBox(
           height: 8,
         ),
-        OutlineButton(
-          onPressed: () {},
+
+        RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onPressed: () {
+            var code = _codeTextController.text;
+            if (code.length > 5) _bloc.dispatch(SendCodeEvent(code,phone));
+          },
           child: Text(AppLocalizations.of(context).submitButton),
-        )
+          color: Theme.of(context).accentColor,
+        ),
+
+      ],
+    );
+  }
+
+  Column buildNewPassword(BuildContext context,String token) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          Icons.lock,
+          size: 60,
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          AppLocalizations.of(context).changePassword,
+          style: Theme.of(context).textTheme.title,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text.rich(
+          TextSpan(children: [
+            TextSpan(
+              text: AppLocalizations.of(context).changePasswordSubtitle,
+            ),
+          ]),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.body1,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text.rich(
+          TextSpan(children: [
+            TextSpan(
+              text: 'قم بادخال كلمة المرور الجديده',
+            ),
+          ]),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.body1,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 34, right: 34),
+          child: Container(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextField(
+                controller: _newPasswordTextController,
+                maxLines: 1,
+                maxLengthEnforced: true,
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onPressed: () {
+            var form = _formKey.currentState;
+            var password = _newPasswordTextController.text;
+            if (password.length > 0) _bloc.dispatch(InsertNewPassword(password: password,token: token));
+          },
+          child: Text(AppLocalizations.of(context).submitButton),
+          color: Theme.of(context).accentColor,
+        ),
+
+      ],
+    );
+  }
+
+  Column SuccessfullyChangePassword(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          Icons.check,
+          size: 60,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          AppLocalizations.of(context).passwordChangedSuccessfully,
+          style: Theme.of(context).textTheme.title,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+
+        RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(NavigationReason.password_change)));
+          },
+          child: Text(AppLocalizations.of(context).loginScreenName),
+          color: Theme.of(context).accentColor,
+        ),
+
+      ],
+    );
+  }
+
+  Column SendResetEmail(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          Icons.check,
+          size: 60,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          'تم ارسال رسالة نصية قصيرة الي ايميلك تحتوي علي رابط لاستعادة كلمة المرور',
+          style: Theme.of(context).textTheme.title,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+
+        RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(NavigationReason.none)));
+          },
+          child: Text('الرجوع الي تسجيل الدخول'),
+          color: Theme.of(context).accentColor,
+        ),
+
       ],
     );
   }
@@ -221,6 +475,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Expanded(
                 child: RaisedButton(
                   onPressed: () {
+                    setState(() {
+                      selectedState++;
+                      print('phoneNumber  $selectedState');
+                    });
                     _bloc.dispatch(PhoneNumberResetSelected());
                   },
                   child:
@@ -235,6 +493,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Expanded(
                 child: RaisedButton(
                   onPressed: () {
+                    selectedState++;
+                    print('email  $selectedState');
                     _bloc.dispatch(EmailResetSelected());
                   },
                   child: Text(AppLocalizations.of(context).useEmailOption),
@@ -283,14 +543,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 labelText: AppLocalizations.of(context).phoneNumberField,
                 contentPadding: const EdgeInsets.all(12),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16))),
+                    borderRadius: BorderRadius.circular(5))),
           ),
         ),
         SizedBox(
           height: 16,
         ),
         RaisedButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () {
             var form = _formKey.currentState;
             var phone = _phoneNumberTextController.text;

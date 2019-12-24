@@ -110,11 +110,65 @@ class UserRepository {
     }
   }
 
-  Future<ResponseStatus> reset(String email) async {
+  Future<ResponseStatus> resetPhoneRequest(String phone) async {
     try {
       var response =
-          await _client.post('jc-member/reset', data: {"email": email});
+          await _client.post('password_resets', data: {"accountKey": phone});
+      print('RESET PHONE NUMBER  : ${response.data}');
       return ResponseStatus.fromJson(response.data);
+    } on DioError catch (error) {
+      throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<dynamic> sendCodeRequest(String code,String mobile) async {
+    try {
+      var response =
+      await _client.post('password_resets_cheack',
+          data: {
+          'activation_code': code,
+          'mobile' : mobile
+        });
+      print('RESET PHONE NUMBER CODE  : ${response.data}');
+      return response.data;
+    } on DioError catch (error) {
+      throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<ResponseStatus> sendNewPasswordRequest(String password,String token) async {
+    try {
+      var response =
+      await _client.post('resets',
+          data: {
+        'password': password,
+        'token': token,
+
+      });
+      print('RESET PHONE NUMBER CODE  : ${response.data}');
+      return ResponseStatus.fromJson(response.data);
+    } on DioError catch (error) {
+      throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  Future<dynamic> resetEmailRequest(String email) async {
+    try {
+      var response =
+      await _client.post('password_resets',
+          data:
+          {
+            "accountKey": email,
+            "FromWeb" : 1
+          });
+      return response.data;
     } on DioError catch (error) {
       throw error;
     } catch (error) {
