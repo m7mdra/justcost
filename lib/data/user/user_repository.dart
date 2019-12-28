@@ -128,9 +128,9 @@ class UserRepository {
       var response =
       await _client.post('password_resets_cheack',
           data: {
-          'activation_code': code,
-          'mobile' : mobile
-        });
+            'activation_code': code,
+            'mobile' : mobile
+          });
       print('RESET PHONE NUMBER CODE  : ${response.data}');
       return response.data;
     } on DioError catch (error) {

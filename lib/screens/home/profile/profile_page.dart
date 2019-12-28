@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/user/model/user.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/about_us/about_us_screen.dart';
+import 'package:justcost/screens/contact_us/contact_us_screen.dart';
 import 'package:justcost/screens/edit_profile/edit_user_profiile_screen.dart';
 import 'package:justcost/screens/fqa/fqa_screen.dart';
 import 'package:justcost/screens/home/profile/profile_bloc.dart';
@@ -52,28 +53,30 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder(
-      builder: (context, state) {
-        if (state is GuestUserState)
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                GuestUserWidget(),
-                _settingsTile(context),
-                divider(),
-                _logoutTile(context)
+    return SingleChildScrollView(
+      child: BlocBuilder(
+        builder: (context, state) {
+          if (state is GuestUserState)
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  GuestUserWidget(),
+                  _settingsTile(context),
+                  divider(),
+                  _logoutTile(context)
 
-              ],
-            ),
-          );
-        if (state is ProfileLoadedSuccessState) return _loadUser(state.user);
-        if (state is ProfileReloadFailedState) return _loadUser(state.user);
-        if (state is LogoutLoading)
-          return Center(child: CircularProgressIndicator());
-        return Container();
-      },
-      bloc: _bloc,
+                ],
+              ),
+            );
+          if (state is ProfileLoadedSuccessState) return _loadUser(state.user);
+          if (state is ProfileReloadFailedState) return _loadUser(state.user);
+          if (state is LogoutLoading)
+            return Center(child: CircularProgressIndicator());
+          return Container();
+        },
+        bloc: _bloc,
+      ),
     );
   }
 
@@ -173,6 +176,16 @@ class _ProfilePageState extends State<ProfilePage>
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AboutUs()));
+          },
+        ),
+        divider(),
+        ListTile(
+          leading: Icon(Icons.contacts),
+          title: Text('تواصل معنا'),
+          dense: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ContactUs()));
           },
         ),
         divider(),

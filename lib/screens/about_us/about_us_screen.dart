@@ -132,7 +132,6 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 0,),
                   Center(
                     child: GestureDetector(
                       onTap: (){
@@ -190,7 +189,6 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 0,),
                   Center(
                     child: GestureDetector(
                       onTap: (){
@@ -248,7 +246,6 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 0,),
                   Center(
                     child: GestureDetector(
                       onTap: (){
@@ -306,6 +303,102 @@ class _AboutUsState extends State<AboutUs> {
                           )
                     ),
                   ),
+
+                  SizedBox(height: 20,),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('تواصل معنا بواسطة : ',style: TextStyle(color: Colors.grey[900],fontSize: 18,fontWeight: FontWeight.w700),),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20,),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('رقم الهاتف',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(':',style: TextStyle(fontSize: 20),),
+                        ),
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(state.responseContact['phone'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
+                        )),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(' البريد الالكتروني',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(':',style: TextStyle(fontSize: 20),),
+                        ),
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(state.responseContact['email'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
+                        )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('موقعنا',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(':',style: TextStyle(fontSize: 20),),
+                        ),
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(state.responseContact['location'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
+                        )),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 30,),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 10,left: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(child: Text(state.responseLinks[0]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        Expanded(child: Text(state.responseLinks[1]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        Expanded(child: Text(state.responseLinks[2]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        Expanded(child: Text(state.responseLinks[3]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        Expanded(child: Text(state.responseLinks[4]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        Expanded(child: Text(state.responseLinks[5]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+
+                      ],
+                    ),
+                  ),
+
+
+
                 ],
               ),
             );

@@ -21,9 +21,9 @@ class ErrorState extends GetAboutDataState {}
 class SessionExpiredState extends GetAboutDataState {}
 
 class AboutDataLoadedState extends GetAboutDataState {
-  dynamic response;
+  dynamic response,responseContact,responseLinks;
 
-  AboutDataLoadedState({this.response});
+  AboutDataLoadedState({this.response,this.responseContact,this.responseLinks});
 }
 
 
@@ -48,8 +48,10 @@ class AboutBloc extends Bloc<GetAboutDataEvent, GetAboutDataState> {
       yield LoadingState();
       try {
         var response = await _repository.getAboutData();
-        if (response['success']) {
-            yield AboutDataLoadedState(response: response['data']);
+        var responseContact = await _repository.getAboutContactData();
+        var responseLinks = await _repository.getAboutLinkData();
+        if (response['success'] && responseContact['success'] && responseLinks['success']) {
+            yield AboutDataLoadedState(response: response['data'],responseContact: responseContact['data'],responseLinks: responseLinks['data']);
         } else {
           yield ErrorState();
         }

@@ -207,6 +207,34 @@ class AdRepository {
     }
   }
 
+  Future<dynamic> getAboutContactData() async {
+    try {
+      var response = await _client.get('about_pages');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<dynamic> getAboutLinkData() async {
+    try {
+      var response = await _client.get('links');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<dynamic> getTermsData() async {
     try {
       var response = await _client.get('terms');
@@ -224,6 +252,26 @@ class AdRepository {
   Future<dynamic> getFQAData() async {
     try {
       var response = await _client.get('fqas');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<dynamic> sendReport(String name , String email , String subject , String message) async {
+    try {
+      var response = await _client.post('contact-us',
+      data: {
+        "name":name,
+        "email":email,
+        "subject":subject,
+        "message":message
+      });
       return response.data;
     } on DioError catch (error) {
       if (error.response.statusCode == UNAUTHORIZED_CODE)
