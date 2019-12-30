@@ -30,8 +30,9 @@ class LoadDataEvent extends CategoryProductsEvent {
   final List<int> attributes;
   final List<int> brands;
   final String keyword;
+  final List<Product> products;
 
-  LoadDataEvent(this.categoryId, this.attributes, this.keyword, this.brands);
+  LoadDataEvent(this.categoryId, this.attributes, this.keyword, this.brands,{this.products});
 }
 
 class LoadNextPage extends CategoryProductsEvent {
@@ -73,8 +74,15 @@ class CategoryProductsBloc
             attributes: event.attributes,
             brands: event.brands);
         if (response.success) {
-          if (response.data != null && response.data.isNotEmpty)
-            yield CategoryProductsLoaded(response.data, true);
+          if (response.data != null && response.data.isNotEmpty){
+            if(event.attributes.isEmpty && event.brands.isEmpty){
+              yield CategoryProductsLoaded(response.data, true);
+            }
+            else{
+              List<Product> filterdProducts = new List();
+              yield CategoryProductsLoaded(event.products, true);
+            }
+          }
           else
             yield EmptyState();
         } else {

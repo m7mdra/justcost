@@ -19,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 
   const LoginScreen([this.navigationReason = NavigationReason.none])
       : super(key: const Key('m'));
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

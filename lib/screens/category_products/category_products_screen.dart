@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
@@ -32,6 +33,8 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   List<Brand> selectedBrands = [];
   List chipData = [];
   ScrollController _scrollController;
+  List<Product> filteredProducts = [];
+
 
   UserSession session = new UserSession();
   Future<String> language;
@@ -68,7 +71,9 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
       widget.category.id,
       selectedAttribute.map((attribute) => attribute.id).toList(),
       _controller.text,
-      selectedBrands.map((brand) => brand.id).toList());
+      selectedBrands.map((brand) => brand.id).toList(),
+      products: filteredProducts
+  );
 
   @override
   void dispose() {
@@ -98,6 +103,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                   chipData.addAll(selectedBrands);
                   chipData.addAll(selectedAttribute);
                 });
+
                 categoryProductBloc.dispatch(loadDataEvent);
               }
             },
@@ -169,7 +175,8 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                 );
-              if (state is EmptyState) return NoDataWidget();
+              if (state is EmptyState)
+                return NoDataWidget();
               if (state is ErrorState)
                 return Center(
                   child: GeneralErrorWidget(
@@ -189,32 +196,64 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               if (state is CategoryProductsLoaded)
                 return Expanded(
                     child: ListView.builder(
-                  controller: _scrollController,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index >= state.products.length)
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    else
-                      return AdWidget(
-                        key: ValueKey(state.products[index].productId),
-                        product: state.products[index],
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  AdDetailsScreen(
-                                    product: state.products[index],
-                                  )));
+                      controller: _scrollController,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index >= state.products.length)
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        else
+                          return AdWidget(
+                            key: ValueKey(state.products[index].productId),
+                            product: state.products[index],
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AdDetailsScreen(
+                                        product: state.products[index],
+                                      )));
+                            },
+                          );
+                      },
+                      itemCount: state.hasReachedMax
+                          ? state.products.length
+                          : state.products.length + 1,
+                    ));
+              if (state is CategoryProductsLoaded)
+                {
+                  filteredProducts = state.products;
+                  return Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index >= state.products.length)
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          else
+                            return AdWidget(
+                              key: ValueKey(state.products[index].productId),
+                              product: state.products[index],
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        AdDetailsScreen(
+                                          product: state.products[index],
+                                        )));
+                              },
+                            );
                         },
-                      );
-                  },
-                  itemCount: state.hasReachedMax
-                      ? state.products.length
-                      : state.products.length + 1,
-                ));
+                        itemCount: state.hasReachedMax
+                            ? state.products.length
+                            : state.products.length + 1,
+                      ));
+                }
               return Container();
             },
           ),

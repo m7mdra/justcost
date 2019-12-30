@@ -23,8 +23,7 @@ class ProductRepository {
       if (brands != null && brands.isNotEmpty)
         queryParameters['brands'] = brands.join(',');
       queryParameters['skip'] = page;
-      var response =
-          await _client.get('categoryproudects/$categoryId', queryParameters: queryParameters);
+      var response = await _client.get('categoryproudects/$categoryId', queryParameters: queryParameters);
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;

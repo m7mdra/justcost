@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
               bloc: _bloc,
               builder: (BuildContext context, SliderState state) {
                 if (state is SliderLoaded) {
-                  return Swiper(
+                  return state.sliders.isEmpty? Image.asset('assets/icon/android/logo-500.png')  : Swiper(
                     controller: SwiperController(),
                     autoplay: true,
                     autoplayDisableOnInteraction: true,
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage>
                     itemBuilder: (context, index) {
                       return Card(
                         child: Image.network(
-                          state.sliders[index],
+                          state.sliders[index] != null ? state.sliders[index] : 'http://185.151.29.205:8099/images/logo.png',
                           fit: BoxFit.cover,
                         ),
                       );
