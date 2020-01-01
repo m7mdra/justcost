@@ -35,6 +35,23 @@ class LoadDataEvent extends CategoryProductsEvent {
   LoadDataEvent(this.categoryId, this.attributes, this.keyword, this.brands,{this.products});
 }
 
+class FilteredCategoryProductsLoaded extends CategoryProductsState {
+  final List<Product> filterProducts;
+  final bool hasReachedMax;
+
+  FilteredCategoryProductsLoaded(this.filterProducts, this.hasReachedMax);
+}
+
+class FilteredDataEvent extends CategoryProductsEvent {
+  final int categoryId;
+  final List<int> attributes;
+  final List<int> brands;
+  final String keyword;
+  final List<Product> products;
+
+  FilteredDataEvent(this.categoryId, this.attributes, this.keyword, this.brands,{this.products});
+}
+
 class LoadNextPage extends CategoryProductsEvent {
   final String category;
   final List<int> attributes;
@@ -64,6 +81,64 @@ class CategoryProductsBloc
   @override
   Stream<CategoryProductsState> mapEventToState(
       CategoryProductsEvent event) async* {
+
+    if (event is FilteredDataEvent) {
+//      yield LoadingState();
+
+      var filterdProducts = new List<Product>();
+
+
+      if(event.products.isNotEmpty){
+
+        event.products.forEach((pro) {
+
+          if(event.attributes.length > 0){
+
+            event.attributes.forEach((attr) {
+
+              pro.attributes.forEach((proAttr) {
+
+                if(attr == proAttr.attribute.id){
+                  filterdProducts.add(pro);
+                }
+
+              });
+
+            });
+
+          }
+
+          if(event.brands.length > 0){
+
+            event.brands.forEach((bran) {
+
+              if(bran.toString() == pro.brand)
+              {
+                var product = filterdProducts.firstWhere((item)=> int.parse(item.brand) == bran);
+
+                if(product == null){
+                  filterdProducts.add(product);
+                }
+
+              }
+
+            });
+
+          }
+
+        });
+      }
+
+
+
+      if (filterdProducts.length > 0){
+        yield FilteredCategoryProductsLoaded(filterdProducts, true);
+      }
+      else {
+        yield EmptyState();
+      }
+    }
+
     if (event is LoadDataEvent) {
       yield LoadingState();
       try {
@@ -75,13 +150,7 @@ class CategoryProductsBloc
             brands: event.brands);
         if (response.success) {
           if (response.data != null && response.data.isNotEmpty){
-            if(event.attributes.isEmpty && event.brands.isEmpty){
-              yield CategoryProductsLoaded(response.data, true);
-            }
-            else{
-              List<Product> filterdProducts = new List();
-              yield CategoryProductsLoaded(event.products, true);
-            }
+            yield CategoryProductsLoaded(response.data, true);
           }
           else
             yield EmptyState();
@@ -97,6 +166,7 @@ class CategoryProductsBloc
         print(error);
       }
     }
+
    /* if (event is LoadNextPage) {
       try {
         if (lasPage) return;

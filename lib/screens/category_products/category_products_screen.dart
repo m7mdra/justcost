@@ -75,6 +75,14 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
       products: filteredProducts
   );
 
+  get filterDataEvent => FilteredDataEvent(
+      widget.category.id,
+      selectedAttribute.map((attribute) => attribute.id).toList(),
+      _controller.text,
+      selectedBrands.map((brand) => brand.id).toList(),
+      products: filteredProducts
+  );
+
   @override
   void dispose() {
     super.dispose();
@@ -96,6 +104,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                 ),
               );
               if (list != null) {
+                print('Not Null');
                 setState(() {
                   selectedAttribute = list.item2;
                   selectedBrands = list.item1;
@@ -103,8 +112,13 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                   chipData.addAll(selectedBrands);
                   chipData.addAll(selectedAttribute);
                 });
-
-                categoryProductBloc.dispatch(loadDataEvent);
+                if(selectedAttribute.length > 0 || selectedBrands.length > 0){
+                  categoryProductBloc.dispatch(filterDataEvent);
+                }
+                //categoryProductBloc.dispatch(loadDataEvent);
+              }
+              else{
+                print('Null');
               }
             },
             icon: Icon(Icons.filter_list),
@@ -194,35 +208,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                   ),
                 );
               if (state is CategoryProductsLoaded)
-                return Expanded(
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index >= state.products.length)
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        else
-                          return AdWidget(
-                            key: ValueKey(state.products[index].productId),
-                            product: state.products[index],
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      AdDetailsScreen(
-                                        product: state.products[index],
-                                      )));
-                            },
-                          );
-                      },
-                      itemCount: state.hasReachedMax
-                          ? state.products.length
-                          : state.products.length + 1,
-                    ));
-              if (state is CategoryProductsLoaded)
                 {
                   filteredProducts = state.products;
                   return Expanded(
@@ -254,6 +239,35 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                             : state.products.length + 1,
                       ));
                 }
+              if (state is FilteredCategoryProductsLoaded)
+                return Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index >= state.filterProducts.length)
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        else
+                          return AdWidget(
+                            key: ValueKey(state.filterProducts[index].productId),
+                            product: state.filterProducts [index],
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AdDetailsScreen(
+                                        product: state.filterProducts[index],
+                                      )));
+                            },
+                          );
+                      },
+                      itemCount: state.hasReachedMax
+                          ? state.filterProducts.length
+                          : state.filterProducts.length + 1,
+                    ));
               return Container();
             },
           ),
