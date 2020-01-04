@@ -79,8 +79,7 @@ flutter:
   assets:
     - assets/icon/android/logo-500.png
     - assets/icon/android/justcost-title.png
-    - assets/images/default-avatar.png
-    - assets/images/loading.jpg
+    - assets/images/
     - assets/countries.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

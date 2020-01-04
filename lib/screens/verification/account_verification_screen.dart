@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,14 +17,51 @@ class AccountVerificationScreen extends StatefulWidget {
       _AccountVerificationScreenState();
 }
 
-class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
+class _AccountVerificationScreenState extends State<AccountVerificationScreen> with TickerProviderStateMixin {
   AccountVerificationBloc _accountVerificationBloc;
   TextEditingController _textEditingController;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  AnimationController controller;
+
+  String get timerString {
+    Duration duration = controller.duration * controller.value;
+    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+  }
+
+  var backPress = 0;
+  Future<bool> _onWillPop() {
+    var result = showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context){}
+    );
+
+    result.then((value){backPress = value;});
+    return result ?? false;
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+      backPress++;// Do some stuff.
+//      if(backPress == 5){
+//        Navigator.pop(context);
+//    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 60),
+    );
+
+    controller.reverse(from: 60);
+
+    BackButtonInterceptor.add(myInterceptor);
+
     _accountVerificationBloc = AccountVerificationBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _textEditingController = TextEditingController();
@@ -85,6 +123,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
   @override
   void dispose() {
     super.dispose();
+    BackButtonInterceptor.remove(myInterceptor);
     _accountVerificationBloc.dispose();
     _textEditingController.dispose();
   }
@@ -99,7 +138,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
               bloc: _accountVerificationBloc,
               builder: (context, state) {
                 if (state is VerificationSentSuccess)
-                  return buildVerificationWidget();
+                  return buildIdleState(context);
                 if (state is AccountVerifiedSuccessfully) {
                   Navigator.of(context).pop();
                   return buildSuccessState(context);
@@ -148,44 +187,54 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> {
 
   Widget buildIdleState(BuildContext context) {
     return SafeArea(
-      child: Align(
-        child: ListView(
-          children: <Widget>[
-            buildVerificationWidget(),
-            const SizedBox(
-              height: 8,
+      child: ListView(
+        children: <Widget>[
+          SizedBox(height: 100,),
+          buildVerificationWidget(),
+          const SizedBox(
+            height: 8,
+          ),
+          Center(child: Text(AppLocalizations.of(context).didntReceiveSms)),
+          const SizedBox(
+            height: 8,
+          ),
+          AnimatedBuilder(
+            animation: controller,
+            builder: (context , child){
+              return Center(
+                child: OutlineButton(
+                  highlightedBorderColor: Colors.yellow,
+                  child: Text(controller.value > 0 ? timerString : AppLocalizations.of(context).resendButton),
+                  onPressed: () {
+                    if(controller.value > 0){
+
+                    }
+                    else{
+                      controller.reverse(from: 60);
+                      _accountVerificationBloc.dispatch(ResendVerification());
+                    }
+                  },
+                  splashColor: Theme.of(context).accentColor,
+                ),
+              );
+            },
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Center(
+            child: FlatButton(
+              child: Text(AppLocalizations.of(context).logoutButton),
+              onPressed: () {
+                _accountVerificationBloc.dispatch(LogoutEvent());
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        LoginScreen(NavigationReason.logout)));
+              },
+              splashColor: Theme.of(context).accentColor,
             ),
-            Center(child: Text(AppLocalizations.of(context).didntReceiveSms)),
-            const SizedBox(
-              height: 8,
-            ),
-            Center(
-              child: OutlineButton(
-                highlightedBorderColor: Colors.yellow,
-                child: Text(AppLocalizations.of(context).resendButton),
-                onPressed: () {
-                  _accountVerificationBloc.dispatch(ResendVerification());
-                },
-                splashColor: Theme.of(context).accentColor,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Center(
-              child: FlatButton(
-                child: Text(AppLocalizations.of(context).logoutButton),
-                onPressed: () {
-                  _accountVerificationBloc.dispatch(LogoutEvent());
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          LoginScreen(NavigationReason.logout)));
-                },
-                splashColor: Theme.of(context).accentColor,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

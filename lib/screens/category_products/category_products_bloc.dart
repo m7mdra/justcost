@@ -129,8 +129,6 @@ class CategoryProductsBloc
         });
       }
 
-
-
       if (filterdProducts.length > 0){
         yield FilteredCategoryProductsLoaded(filterdProducts, true);
       }

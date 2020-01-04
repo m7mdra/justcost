@@ -205,8 +205,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "E-mail address": "E-mail address",
-  "@E-mail address": {
+  "E-mail": "E-mail",
+  "@E-mail": {
     "type": "text",
     "placeholders": {}
   },
@@ -255,6 +255,48 @@
     "type": "text",
     "placeholders": {}
   },
+  "Our mission": "Our mission",
+  "@Our mission": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Our vision": "Our vision",
+  "@Our vision": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Why us": "Why us",
+  "@Why us": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact us via": "Contact us via",
+  "@Contact us via": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact Us": "Contact Us",
+  "@Contact Us": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "Contact Us Title": "Contact us any where , any time",
+  "@Contact Us Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Title": "Title",
+  "@Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Message": "Message",
+  "@Message": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "Get Help": "Get Help",
   "@Get Help": {
     "type": "text",

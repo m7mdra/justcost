@@ -10,6 +10,7 @@ import 'package:justcost/screens/myad_details/my_ad_details_screen.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class AboutUs extends StatefulWidget {
@@ -28,6 +29,14 @@ class _AboutUsState extends State<AboutUs> {
   var ourMissionShow = false;
   var ourVisionShow = false;
   var whyShow = false;
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   void initState() {
@@ -98,7 +107,7 @@ class _AboutUsState extends State<AboutUs> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                      child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                      child: Text(AppLocalizations.of(context).aboutUs,style: TextStyle(fontSize: 18),),
                                     ),
                                     IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
                                   ],
@@ -124,7 +133,7 @@ class _AboutUsState extends State<AboutUs> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(AppLocalizations.of(context).aboutUs,style: TextStyle(fontSize: 18),),
                               ),
                             IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                           ],
@@ -154,7 +163,7 @@ class _AboutUsState extends State<AboutUs> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                      child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                      child: Text(AppLocalizations.of(context).ourMission,style: TextStyle(fontSize: 18),),
                                     ),
                                     IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
                                   ],
@@ -181,7 +190,7 @@ class _AboutUsState extends State<AboutUs> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(AppLocalizations.of(context).ourMission,style: TextStyle(fontSize: 18),),
                                 ),
                                 IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                               ],
@@ -211,7 +220,7 @@ class _AboutUsState extends State<AboutUs> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(AppLocalizations.of(context).ourVision,style: TextStyle(fontSize: 18),),
                                 ),
                                 IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
                               ],
@@ -238,7 +247,7 @@ class _AboutUsState extends State<AboutUs> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(AppLocalizations.of(context).ourVision,style: TextStyle(fontSize: 18),),
                                 ),
                                 IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                               ],
@@ -268,7 +277,7 @@ class _AboutUsState extends State<AboutUs> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                      child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                      child: Text(AppLocalizations.of(context).whyUs,style: TextStyle(fontSize: 18),),
                                     ),
                                     IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
                                   ],
@@ -295,7 +304,7 @@ class _AboutUsState extends State<AboutUs> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(AppLocalizations.of(context).whyUs,style: TextStyle(fontSize: 18),),
                                 ),
                                 IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                               ],
@@ -313,7 +322,96 @@ class _AboutUsState extends State<AboutUs> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text('تواصل معنا بواسطة : ',style: TextStyle(color: Colors.grey[900],fontSize: 18,fontWeight: FontWeight.w700),),
+                        Text(AppLocalizations.of(context).contactUsVia+'  :',style: TextStyle(color: Colors.grey[900],fontSize: 18,fontWeight: FontWeight.w700),),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 0,),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.phone_android,size: 15,color: Colors.grey[800],),
+                              SizedBox(width: 5,),
+                              Text(AppLocalizations.of(context).phoneNumberField,style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w800),),
+                            ],
+                          ),
+                        ),
+                        Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
+                        Expanded(
+                          flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Text(state.responseContact['phone'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                            )),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.email,size: 15,color: Colors.grey[800],),
+                                SizedBox(width: 5,),
+                                Text(AppLocalizations.of(context).emailFieldLabel,style: TextStyle(color: Colors.grey[700],fontSize: 13,fontWeight: FontWeight.w800),),
+                              ],
+                            )),
+                        Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
+                        Expanded(
+                          flex: 2,
+                            child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(state.responseContact['email'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                        )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 28,left: 28),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.location_on,size: 15,color: Colors.grey[800],),
+                                SizedBox(width: 5,),
+                                Text(AppLocalizations.of(context).location,style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w800),),
+                              ],
+                            )),
+                        Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
+                        Expanded(
+                          flex: 2,
+                            child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(state.responseContact['location'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                        )),
                       ],
                     ),
                   ),
@@ -321,77 +419,55 @@ class _AboutUsState extends State<AboutUs> {
                   SizedBox(height: 20,),
 
                   Container(
-                    height: 40,
-                    margin: EdgeInsets.only(right: 28,left: 28),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text('رقم الهاتف',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Text(':',style: TextStyle(fontSize: 20),),
-                        ),
-                        Expanded(child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Text(state.responseContact['phone'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
-                        )),
-                      ],
-                    ),
-                  ),
-
-                  Container(
-                    height: 40,
-                    margin: EdgeInsets.only(right: 28,left: 28),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(' البريد الالكتروني',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Text(':',style: TextStyle(fontSize: 20),),
-                        ),
-                        Expanded(child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Text(state.responseContact['email'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
-                        )),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 40,
-                    margin: EdgeInsets.only(right: 28,left: 28),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text('موقعنا',style: TextStyle(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w600),),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Text(':',style: TextStyle(fontSize: 20),),
-                        ),
-                        Expanded(child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Text(state.responseContact['location'],style: TextStyle(color: Colors.grey[900],fontSize: 15,fontWeight: FontWeight.w600),),
-                        )),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 30,),
-
-                  Container(
-                    height: 40,
+                    height: 70,
                     margin: EdgeInsets.only(right: 10,left: 10),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(child: Text(state.responseLinks[0]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
-                        Expanded(child: Text(state.responseLinks[1]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
-                        Expanded(child: Text(state.responseLinks[2]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
-                        Expanded(child: Text(state.responseLinks[3]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
-                        Expanded(child: Text(state.responseLinks[4]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
-                        Expanded(child: Text(state.responseLinks[5]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),)),
+                        GestureDetector(
+                          onTap: (){
+                            _launchURL(state.responseLinks[1]['link']);
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Image.asset('assets/images/twitter.png',width: 50,height: 50,),
+//                                Text(state.responseLinks[1]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20,),
+                        GestureDetector(
+                          onTap: (){
+                            _launchURL(state.responseLinks[2]['link']);
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Image.asset('assets/images/instagram.png',width: 50,height: 50,),
+//                                Text(state.responseLinks[2]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20,),
+                        GestureDetector(
+                          onTap: (){
+                            _launchURL(state.responseLinks[0]['link']);
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Image.asset('assets/images/facebook.png',width: 50,height: 50,),
+//                                Text(state.responseLinks[0]['link'],style: TextStyle(color: Colors.grey[700],fontSize: 11,fontWeight: FontWeight.w600),),
+                              ],
+                            ),
+                          ),
+                        ),
 
                       ],
                     ),

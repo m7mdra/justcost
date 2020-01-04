@@ -51,7 +51,7 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('تواصل معنا'),
+        title: Text(AppLocalizations.of(context).contactUs),
       ),
       body: BlocBuilder(
         bloc: _bloc,
@@ -128,9 +128,9 @@ class _ContactUsState extends State<ContactUs> {
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
                   child: Text(
-                    'لا تتردد في التواصل معنا في اي لحظه وفي اي وقت ',
+                    AppLocalizations.of(context).contactUsTitle,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
                 SizedBox(
@@ -142,7 +142,7 @@ class _ContactUsState extends State<ContactUs> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
-                  height: 50,
+                  height: 40,
                   child: TextField(
                     controller: name,
                     maxLengthEnforced: true,
@@ -150,6 +150,8 @@ class _ContactUsState extends State<ContactUs> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                       labelText: AppLocalizations.of(context).fullNameField,
+                      labelStyle: TextStyle(fontSize: 13),
+
 
                     ),
                   ),
@@ -159,7 +161,7 @@ class _ContactUsState extends State<ContactUs> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
-                  height: 50,
+                  height: 40,
                   child: TextField(
                     controller: email,
                     maxLengthEnforced: true,
@@ -167,6 +169,7 @@ class _ContactUsState extends State<ContactUs> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                       labelText: AppLocalizations.of(context).emailFieldLabel,
+                      labelStyle: TextStyle(fontSize: 13),
 
                     ),
                   ),
@@ -176,14 +179,15 @@ class _ContactUsState extends State<ContactUs> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
-                  height: 50,
+                  height: 40,
                   child: TextField(
                     controller: subject,
                     maxLengthEnforced: true,
                     autofocus: true,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                        labelText: AppLocalizations.of(context).addressField,
+                        labelText: AppLocalizations.of(context).contactTitle,
+                      labelStyle: TextStyle(fontSize: 13),
 
                     ),
                   ),
@@ -200,7 +204,7 @@ class _ContactUsState extends State<ContactUs> {
                     autofocus: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                      labelText: 'الموضوع',
+                      labelText: AppLocalizations.of(context).contactMessage,
 
                     ),
                   ),
@@ -231,8 +235,8 @@ class _ContactUsState extends State<ContactUs> {
                     ));
                   },
                   child: Container(
-                    height: 40,
-                    width: 110,
+                    height: 35,
+                    width: 100,
                     decoration: BoxDecoration(
                         color: Colors.amber,
                         borderRadius: BorderRadius.circular(20)

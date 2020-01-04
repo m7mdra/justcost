@@ -205,8 +205,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "E-mail address": "عنوان البريد الالكتروني",
-  "@E-mail address": {
+  "E-mail": "البريد الالكتروني",
+  "@E-mail": {
     "type": "text",
     "placeholders": {}
   },
@@ -255,6 +255,49 @@
     "type": "text",
     "placeholders": {}
   },
+  "Our mission": "مهمتنا",
+  "@Our mission": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact us": "تواصل معنا",
+  "@Contact us": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "Contact Us Title": "لا تتردد في التواصل معنا في اي لحظه وفي اي وقت ",
+  "@Contact Us Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Title": "العنوان",
+  "@Title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Message": "الرسالة",
+  "@Message": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "Our vision": "رؤيتنا",
+  "@Our vision": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Why us": "لماذا نحن",
+  "@Why us": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Contact us via": "تواصل معنا بواسطة",
+  "@Contact us via": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "Get Help": "اطلب المساعدة",
   "@Get Help": {
     "type": "text",

@@ -181,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage>
         divider(),
         ListTile(
           leading: Icon(Icons.contacts),
-          title: Text('تواصل معنا'),
+          title: Text(AppLocalizations.of(context).contactUs),
           dense: true,
           onTap: () {
             Navigator.push(context,

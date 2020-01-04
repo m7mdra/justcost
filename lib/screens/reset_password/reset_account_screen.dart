@@ -48,7 +48,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     BackButtonInterceptor.add(myInterceptor);
 
-
     _phoneNumberTextController = TextEditingController();
     _emailTextController = TextEditingController();
     _resetCodeTextController = TextEditingController();
@@ -111,10 +110,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         selectedState--;
       });
     }
-//    backPress++;// Do some stuff.
-//    if(backPress == 2){
-//      _onWillPop();
-//    }
+    else{
+      backPress++;// Do some stuff.
+      if(backPress == 2){
+        _onWillPop();
+      }
+    }
     return true;
   }
   @override

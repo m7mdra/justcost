@@ -127,7 +127,7 @@ class AppLocalizations {
 
   String get emailFieldInvalidError => Intl.message('Email field is invalid');
 
-  String get emailFieldLabel => Intl.message('E-mail address');
+  String get emailFieldLabel => Intl.message('E-mail');
 
   String get emailFieldHint => Intl.message('Contact Email Address');
 
@@ -265,6 +265,22 @@ class AppLocalizations {
   String get notifications => Intl.message('Notifications');
 
   String get aboutUs => Intl.message('About us');
+
+  String get ourMission => Intl.message('Our mission');
+
+  String get ourVision => Intl.message('Our vision');
+
+  String get whyUs => Intl.message('Why us');
+
+  String get contactUsVia => Intl.message('Contact us via');
+
+  String get contactUs => Intl.message('Contact us');
+
+  String get contactUsTitle => Intl.message('Contact Us Title');
+
+  String get contactTitle => Intl.message('Title');
+
+  String get contactMessage => Intl.message('Message');
 
   String get logout => Intl.message('Logout');
 
