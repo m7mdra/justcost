@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
@@ -13,17 +14,29 @@ import 'package:justcost/widget/network_error_widget.dart';
 import 'package:justcost/widget/no_data_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 class CategoryPickerScreen extends StatefulWidget {
+  String lanCode;
+  CategoryPickerScreen({this.lanCode});
   @override
   _CategoryPickerScreenState createState() => _CategoryPickerScreenState();
 }
 
 class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
   CategoriesBloc _bloc;
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
 
   @override
   void initState() {
     super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      prefix0.print('CATEGORY');
+      setState(() {
+        lanCode = onValue;
+      });
+    });
     _bloc.dispatch(FetchCategoriesEvent());
   }
 
@@ -82,21 +95,22 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
                         prefix0.print('DEBUG');
                         print(category.id);
                         if (category.hasDescendants()) {
-//                          var cat = await Navigator.of(context)
-//                              .push(MaterialPageRoute(
-//                                  builder: (context) => CategoryDetailsScreen(
-//                                        true,
-//                                        category: category,
-//                                      )));
-//
-//                          prefix0.print('DEBUG');
-//                          print(cat.id);
+                          var cat = await Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) => CategoryDetailsScreen(
+                                        true,
+                                        category: category,
+                                      )));
 
-                          Navigator.of(context).pop(Tuple2(category, null));
+                          prefix0.print('DEBUG');
+                          print(cat.id);
+
+                          Navigator.of(context).pop(Tuple2(category, cat));
                         } else {
                           Navigator.of(context).pop(Tuple2(category, null));
                         }
                       },
+                      lanCode: lanCode,
                     );
                   },
                 ),

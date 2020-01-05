@@ -53,6 +53,10 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                 },
               ),
             );
+          if(state is EnableSuccess)
+            _bloc.dispatch(LoadMyAds());
+          if(state is DisableSuccess)
+            _bloc.dispatch(LoadMyAds());
           if (state is MyAdsLoadedState) {
             return RefreshIndicator(
               onRefresh: () {
@@ -136,10 +140,6 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     SizedBox(height: 5,),
                                     Container(
                                         height: 30,
-                                        child: Center(child: Text('${AppLocalizations.of(context).status}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
-                                    SizedBox(height: 5,),
-                                    Container(
-                                        height: 30,
                                         child: Center(child: Text('${AppLocalizations.of(context).adApproveStatus}',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
                                     SizedBox(height: 5,),
                                   ],
@@ -150,10 +150,6 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(height: 5,),
-                                    Container(
-                                        height: 30,
-                                        child: Center(child: Text(':',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15)),))),
                                     SizedBox(height: 5,),
                                     Container(
                                         height: 30,
@@ -194,10 +190,6 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                       SizedBox(height: 5,),
                                       Container(
                                           height: 30,
-                                          child: Center(child: Text(ad.status == 1 ? AppLocalizations.of(context).active : AppLocalizations.of(context).inactive,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
-                                      SizedBox(height: 5,),
-                                      Container(
-                                          height: 30,
                                           child: Center(child: Text(ad.status == 4 ? AppLocalizations.of(context).adReview : ad.status == 3 ? AppLocalizations.of(context).adApprovedStatus: ad.status == 2 ? AppLocalizations.of(context).adRejectedStatus : ad.status == 1 ? AppLocalizations.of(context).adPendingStatus : AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
                                       SizedBox(height: 5,),
                                     ],
@@ -212,12 +204,33 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     children: <Widget>[
                                       ad.status == 3
                                           ?Card(
-                                            color: ad.status == 1 ? Colors.red : Colors.green,
-                                            child: Container(
-                                              width: 100,
-                                              height: 40,
-                                              child: Center(
-                                                child: Text(ad.status == 1 ? 'تعطيل' : 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                            color: Colors.green ,
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                  _bloc.dispatch(DisableAds(id: ad.id));
+                                              },
+                                              child: Container(
+                                                width: 100,
+                                                height: 40,
+                                                child: Center(
+                                                  child: Text('تعطيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          :ad.status == 5
+                                          ?Card(
+                                            color:  Colors.red,
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                  _bloc.dispatch(EnableAds(id: ad.id));
+                                              },
+                                              child: Container(
+                                                width: 100,
+                                                height: 40,
+                                                child: Center(
+                                                  child: Text( 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                                ),
                                               ),
                                             ),
                                           )

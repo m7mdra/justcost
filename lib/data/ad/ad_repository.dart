@@ -263,6 +263,34 @@ class AdRepository {
     }
   }
 
+  Future<dynamic> enableAds(int id) async {
+    try {
+      var response = await _client.post('ads/$id/enable');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<dynamic> disableAds(int id) async {
+    try {
+      var response = await _client.post('ads/$id/disable');
+      return response.data;
+    } on DioError catch (error) {
+      if (error.response.statusCode == UNAUTHORIZED_CODE)
+        throw SessionExpired();
+      else
+        throw error;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<dynamic> sendReport(String name , String email , String subject , String message) async {
     try {
       var response = await _client.post('contact-us',

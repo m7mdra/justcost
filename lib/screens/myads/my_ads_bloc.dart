@@ -9,6 +9,16 @@ class MyAdsEvent {}
 
 class LoadMyAds extends MyAdsEvent {}
 
+class EnableAds extends MyAdsEvent {
+  int id;
+  EnableAds({this.id});
+}
+
+class DisableAds extends MyAdsEvent {
+  int id;
+  DisableAds({this.id});
+}
+
 class MyAdsState {}
 
 class IdleState extends MyAdsState {}
@@ -19,6 +29,10 @@ class NetworkErrorState extends MyAdsState {}
 
 class EmptyState extends MyAdsState {}
 
+class EnableSuccess extends MyAdsState {}
+
+class DisableSuccess extends MyAdsState {}
+
 class ErrorState extends MyAdsState {}
 
 class SessionExpiredState extends MyAdsState {}
@@ -28,7 +42,6 @@ class MyAdsLoadedState extends MyAdsState {
 
   MyAdsLoadedState(this.ads);
 }
-
 
 class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
   final AdRepository _repository;
@@ -67,6 +80,55 @@ class MyAdsBloc extends Bloc<MyAdsEvent, MyAdsState> {
         print(error);
         yield ErrorState();
       }
+    }
+    else if(event is EnableAds){
+        yield LoadingState();
+        try {
+          var response = await _repository.enableAds(event.id);
+          print(response.toString());
+          yield EnableSuccess();
+
+//          if () {
+//            if (response.ads.isEmpty)
+//              yield EmptyState();
+//            else
+//              yield MyAdsLoadedState(response.ads);
+//          } else {
+//            yield ErrorState();
+//          }
+        } on SessionExpired {
+          yield SessionExpiredState();
+        } on DioError catch(error){
+          yield NetworkErrorState();
+          print(error);
+        } catch (error) {
+          print(error);
+          yield ErrorState();
+        }
+    }
+    else if(event is DisableAds){
+        yield LoadingState();
+        try {
+          var response = await _repository.disableAds(event.id);
+          print('${response.toString()}');
+          yield DisableSuccess();
+//          if (response.) {
+//            if (response.ads.isEmpty)
+//              yield EmptyState();
+//            else
+//              yield MyAdsLoadedState(response.ads);
+//          } else {
+//            yield ErrorState();
+//          }
+        } on SessionExpired {
+          yield SessionExpiredState();
+        } on DioError catch(error){
+          yield NetworkErrorState();
+          print(error);
+        } catch (error) {
+          print(error);
+          yield ErrorState();
+        }
     }
   }
 }

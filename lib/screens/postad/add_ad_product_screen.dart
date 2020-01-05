@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/attribute/model/category_attribute.dart';
 import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/category/model/category.dart';
+import 'package:justcost/data/user_sessions.dart';
 import 'package:justcost/model/media.dart';
 import 'package:justcost/screens/attribute/attribute_picker_screeen.dart';
 import 'package:justcost/screens/brand/brand_page.dart';
@@ -57,9 +58,22 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   FocusNode _adKeywordFocusNode = FocusNode();
   List<media.Media> mediaList = [];
 
+  UserSession session = new UserSession();
+  Future<String> language;
+  String lanCode;
+
   @override
   void initState() {
     super.initState();
+
+    language = session.getCurrentLanguage();
+    language.then((onValue){
+      prefix0.print('CATEGORY');
+      setState(() {
+        lanCode = onValue;
+      });
+    });
+
     _bloc =
         UpdateAdBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
 
@@ -754,29 +768,29 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     ),
                   ],
                 ),
-                Card(
-                  child: TextFormField(
-                    focusNode: _adKeywordFocusNode,
-                    textInputAction: TextInputAction.next,
-                    validator: (keyword) {
-                      return keyword.isEmpty
-                          ? AppLocalizations.of(context).keywordEmptyError
-                          : null;
-                    },
-                    maxLines: 1,
-                    controller: _adKeywordController,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(
-                            left: 16, right: 16, top: 10, bottom: 10),
-                        border: InputBorder.none,
-                        helperText:
-                        AppLocalizations.of(context).keywordFieldHelper,
-                        hintText: AppLocalizations.of(context).keywordFieldHint,
-                        labelText:
-                        AppLocalizations.of(context).keywordFieldLabel,
-                        hintStyle: hintStyle),
-                  ),
-                ),
+//                Card(
+//                  child: TextFormField(
+//                    focusNode: _adKeywordFocusNode,
+//                    textInputAction: TextInputAction.next,
+//                    validator: (keyword) {
+//                      return keyword.isEmpty
+//                          ? AppLocalizations.of(context).keywordEmptyError
+//                          : null;
+//                    },
+//                    maxLines: 1,
+//                    controller: _adKeywordController,
+//                    decoration: InputDecoration(
+//                        contentPadding: const EdgeInsets.only(
+//                            left: 16, right: 16, top: 10, bottom: 10),
+//                        border: InputBorder.none,
+//                        helperText:
+//                        AppLocalizations.of(context).keywordFieldHelper,
+//                        hintText: AppLocalizations.of(context).keywordFieldHint,
+//                        labelText:
+//                        AppLocalizations.of(context).keywordFieldLabel,
+//                        hintStyle: hintStyle),
+//                  ),
+//                ),
                 Card(
                   child: ListTile(
                     dense: true,
@@ -784,7 +798,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     title: Text(
                       AppLocalizations.of(context).selectCategory,
                     ),
-                    subtitle: Text(_category != null ? _category.name : ''),
+                    subtitle: Text(_category != null ? lanCode == 'ar' ? _category.arName : _category.name : ''),
                     trailing: IconButton(
                       icon: Icon(Icons.keyboard_arrow_right),
                       onPressed: _onCategoryPickerClicked,
@@ -922,6 +936,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                       .mediaEmptyError)));
                             return;
                           }
+                          print(_category.id);
 
                           var adProduct = AdProduct(
                             mediaList: mediaList,
@@ -953,7 +968,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   Future _onCategoryPickerClicked() async {
     Tuple2 category = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
+        .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen(lanCode: lanCode,)));
     setState(() {
       _parentCategory = category.item1;
 

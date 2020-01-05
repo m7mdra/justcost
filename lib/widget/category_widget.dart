@@ -14,6 +14,7 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('LANGUAGE  $lanCode');
     return GestureDetector(
       onTap: () {
         onClick(category);
@@ -39,7 +40,7 @@ class CategoryWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: Text(
-                lanCode == 'ar' ? category.arName : category.name,
+                lanCode == null ? '' : lanCode == 'ar' ? category.arName : category.name,
                 maxLines: 1,
                 style: Theme.of(context)
                     .textTheme
