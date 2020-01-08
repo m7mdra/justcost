@@ -22,7 +22,6 @@ class RecentAdsLoaded extends RecentAdsState {
       hasReachedMax ?? this.hasReachedMax,
     );
   }
-
 }
 
 class RecentAdsError extends RecentAdsState {}
@@ -56,7 +55,6 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         if (response.success){
           yield RecentAdsLoaded(response.data, true);
           print(response.data);
-
         }
         else
           yield RecentAdsError();

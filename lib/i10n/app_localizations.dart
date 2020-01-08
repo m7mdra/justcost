@@ -54,6 +54,10 @@ class AppLocalizations {
 
   String get logoutButton => Intl.message("Logout");
 
+//  String get logoutButton => Intl.message("Logout");
+//
+//  String get logoutButton => Intl.message("Logout");
+
   String get continueButton => Intl.message('Continue');
 
   String get pickCity => Intl.message('Pick City');
@@ -169,6 +173,8 @@ class AppLocalizations {
 
   String get generalError => Intl.message('Error Occurred');
 
+  String get generalInfo => Intl.message('Gernral Info');
+
   String get addressFieldEmptyError =>
       Intl.message("Address Field can not be empty");
 
@@ -256,7 +262,7 @@ class AppLocalizations {
 
   String get recentAds => Intl.message('Recent Ads');
 
-  String get featuredAds => Intl.message('Recent Ads');
+  String get featuredAds => Intl.message('Featured Ads');
 
   String get editProfile => Intl.message('Edit Profile');
 

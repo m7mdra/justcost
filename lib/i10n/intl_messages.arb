@@ -534,6 +534,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "Featured Ads": "Featured Ads",
+  "@Featured Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "Edit Profile": "Edit Profile",
   "@Edit Profile": {
     "type": "text",

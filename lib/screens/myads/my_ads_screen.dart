@@ -213,7 +213,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                                 width: 100,
                                                 height: 40,
                                                 child: Center(
-                                                  child: Text('تعطيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                                  child: Text(AppLocalizations.of(context).disable,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
                                                 ),
                                               ),
                                             ),
@@ -229,7 +229,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                                 width: 100,
                                                 height: 40,
                                                 child: Center(
-                                                  child: Text( 'تفعيل',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
+                                                  child: Text( AppLocalizations.of(context).enable,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white))),
                                                 ),
                                               ),
                                             ),
@@ -240,7 +240,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                               height: 40,
                                               margin: EdgeInsets.only(left: 10),
                                               child: Center(
-                                                child: Text('الاعلان بانتظار الموافقة',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                                child: Text(AppLocalizations.of(context).adPendingStatus,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
                                               ),
                                             )
                                             : ad.status == 2
@@ -249,7 +249,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                               height: 40,
                                               margin: EdgeInsets.only(left: 10),
                                               child: Center(
-                                                child: Text('تم رفض إضافة اعلانك',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                                child: Text(AppLocalizations.of(context).adRejectedStatus,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
                                               ),
                                              )
                                             : ad.status == 4
@@ -258,7 +258,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                               height: 40,
                                               margin: EdgeInsets.only(left: 10),
                                               child: Center(
-                                                child: Text('تعديل الاعلان تحت المراجعة',style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
+                                                child: Text(AppLocalizations.of(context).adReview,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.grey[700])),textAlign: TextAlign.center,),
                                               ),
                                             )
                                              :Container()

@@ -80,7 +80,7 @@ class _MyAdEditScreenState extends State<MyAdEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('تعديل الاعلان'),
+        title: Text(AppLocalizations.of(context).editButton),
       actions: <Widget>[
         Container(
           margin: EdgeInsets.only(left: 5),

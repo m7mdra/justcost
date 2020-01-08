@@ -185,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Profile" : MessageLookupByLibrary.simpleMessage("حساب"),
     "Quantity" : MessageLookupByLibrary.simpleMessage("Quantity"),
     "Recent Ads" : MessageLookupByLibrary.simpleMessage("الاعلانات الجديدة"),
+    "Featured Ads" : MessageLookupByLibrary.simpleMessage("الاعلانات المميزة"),
     "Rejected" : MessageLookupByLibrary.simpleMessage("مرفوض"),
     "Replay" : MessageLookupByLibrary.simpleMessage("رد"),
     "Report" : MessageLookupByLibrary.simpleMessage("تبليغ"),

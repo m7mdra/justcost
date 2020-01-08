@@ -530,6 +530,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "Featured Ads": "الاعلانات المميزة",
+  "@Featured Ads": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "Edit Profile": "تعديل الملف الشخصي",
   "@Edit Profile": {
     "type": "text",

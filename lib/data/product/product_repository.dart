@@ -40,6 +40,17 @@ class ProductRepository {
     }
   }
 
+  Future<ProductResponse> getFeaturedProducts({int page = 0}) async {
+    try {
+      var response =
+          await _client.get('getfeaturedProducts', queryParameters: {'skip': page});
+      return ProductResponse.fromJson(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
   Future<ProductResponse> findProductsByName(
       String name, int cityId, int page) async {
     try {

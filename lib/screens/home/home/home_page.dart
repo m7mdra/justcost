@@ -10,6 +10,7 @@ import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/featured_ads/featured_ads_screen.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/screens/home/home/featured_ads_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/screens/home/home/slider_bloc.dart';
 import 'package:justcost/screens/recentads/recent_ad_screen.dart';
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage>
   SliderBloc _bloc;
   CategoriesBloc _categoriesBloc;
   RecentAdsBloc _recentAdsBloc;
+  FeaturedAdsBloc _featuredAdsBloc;
   UserSession session = new UserSession();
   Future<String> language;
   String lanCode;
@@ -45,6 +47,7 @@ class _HomePageState extends State<HomePage>
     });
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
+    _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     fetchData();
   }
@@ -52,6 +55,7 @@ class _HomePageState extends State<HomePage>
   void fetchData() {
     _bloc.dispatch(LoadSlider());
     _categoriesBloc.dispatch(FetchCategoriesEvent());
+    _featuredAdsBloc.dispatch(LoadFeaturedAds());
     _recentAdsBloc.dispatch(LoadRecentAds());
   }
 
@@ -164,9 +168,9 @@ class _HomePageState extends State<HomePage>
             },
           ),
           BlocBuilder(
-            bloc: _recentAdsBloc,
-            builder: (BuildContext context, RecentAdsState state) {
-              if (state is RecentAdsLoaded) {
+            bloc: _featuredAdsBloc,
+            builder: (BuildContext context, FeaturedAdsState state) {
+              if (state is FeaturedAdsLoaded) {
                 return Column(
                   children: <Widget>[
                     Padding(

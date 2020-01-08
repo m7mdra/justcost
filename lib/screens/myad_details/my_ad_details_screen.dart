@@ -26,23 +26,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('تفاصيل الاعلان'),
-//        Row(
-//          children: <Widget>[
-//            Text('تفاصيل الاعلان'),
-////            Container(
-////              height: 2,
-////              width: 10,
-////              color: Colors.white,
-////            ),
-////            Text(
-////              '${widget.ad.adTitle}',
-////            )
-//          ],
-//          mainAxisSize: MainAxisSize.min,
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          mainAxisAlignment: MainAxisAlignment.start,
-//        ),
+        title: Text(AppLocalizations.of(context).adDetailsTitle),
       actions: <Widget>[
         GestureDetector(
           onTap: (){
@@ -67,7 +51,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          'تفاصيل عامة',
+                          AppLocalizations.of(context).adDetailsTitle,
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
@@ -147,7 +131,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                               SizedBox(height: 5,),
                               Container(height: 30,child: Center(child: Text(widget.ad.iswholesale ? AppLocalizations.of(context).wholesaleAdType : AppLocalizations.of(context).normalAdType,style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))))),
                               SizedBox(height: 5,),
-                              Container(height: 30,child: Text(widget.ad.cityNameAr != null ? widget.ad.cityNameAr : '',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15)))),
+                              Container(height: 30,child: Center(child: Text(Localizations.localeOf(context).languageCode == 'ar' ? widget.ad.cityNameAr != null ? widget.ad.cityName : '' : widget.ad.cityName != null ? widget.ad.cityName : '',style: (TextStyle(fontWeight: FontWeight.normal,fontSize: 15))),)),
                               SizedBox(height: 5,),
                               SizedBox(height: 5,),
                               Container(height: 30,child: Center(child: Text(widget.ad.mobile,style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 16))))),
@@ -177,7 +161,7 @@ class _MyAdDetailsScreenState extends State<MyAdDetailsScreen> {
                         Container(
                           margin: EdgeInsets.only(top: 5),
                           child: Text(
-                            'منتجات الاعلان',
+                            AppLocalizations.of(context).adProducts,
                             style: Theme.of(context).textTheme.subtitle,
                           ),
                         ),
