@@ -7,14 +7,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 class CategoryWidget extends StatelessWidget {
   final Category category;
   final ValueChanged<Category> onClick;
-  final String lanCode;
 
-  const CategoryWidget({Key key, this.category, this.onClick,this.lanCode})
+  const CategoryWidget({Key key, this.category, this.onClick})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('LANGUAGE  $lanCode');
     return GestureDetector(
       onTap: () {
         onClick(category);
@@ -40,7 +38,7 @@ class CategoryWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: Text(
-                lanCode == null ? '' : lanCode == 'ar' ? category.arName : category.name,
+                Localizations.localeOf(context).languageCode == 'ar' ? category.arName : category.name,
                 maxLines: 1,
                 style: Theme.of(context)
                     .textTheme

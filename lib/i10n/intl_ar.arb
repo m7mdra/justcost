@@ -535,6 +535,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "Thanks Message": "سنقوم بالرد عليك قريبا",
+  "@Thanks Message": {
+    "type": "text",
+    "placeholders": {}
+  },
 
   "Edit Profile": "تعديل الملف الشخصي",
   "@Edit Profile": {

@@ -31,9 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode _passwordFocusNode = FocusNode();
   LoginBloc _loginBloc;
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
 
   @override
   void didChangeDependencies() {
@@ -106,13 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     print(widget.navigationReason);
     _userNameController = TextEditingController();
@@ -234,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             SizedBox(height: 10,),
                             Align(
-                              alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
+                              alignment:  Localizations.localeOf(context).languageCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
                               child: RaisedButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)),
@@ -246,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             SizedBox(height: 5,),
                             Align(
-                                alignment:  lanCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
+                                alignment:  Localizations.localeOf(context).languageCode == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
                               child: GestureDetector(
                                 onTap: (){
                                   Navigator.of(context).push(MaterialPageRoute(

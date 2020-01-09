@@ -260,6 +260,10 @@ class AppLocalizations {
 
   String get discount => Intl.message('Discount');
 
+  String get thanksContact => Intl.message('Thanks Contact');
+
+  String get thanksMessage => Intl.message('Thanks Message');
+
   String get recentAds => Intl.message('Recent Ads');
 
   String get featuredAds => Intl.message('Featured Ads');

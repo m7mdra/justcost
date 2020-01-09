@@ -28,21 +28,11 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin<CategoriesPage> {
   CategoriesBloc _bloc;
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
-
+ 
   @override
   void initState() {
     super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      prefix0.print('CATEGORY');
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _bloc.dispatch(FetchCategoriesEvent());
   }
@@ -114,7 +104,6 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 CategoryProductsScreen(category: category)));
                       }
                     },
-                    lanCode: lanCode,
                   );
                 },
               ),

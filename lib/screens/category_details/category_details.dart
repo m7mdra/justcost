@@ -27,10 +27,6 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -48,19 +44,14 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
+  
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(lanCode == 'ar' ? widget.category.arName : widget.category.name,),
+        title: Text(Localizations.localeOf(context).languageCode == 'ar' ? widget.category.arName : widget.category.name,),
       ),
       body: BlocBuilder(
         bloc: _bloc,
@@ -94,7 +85,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: Icon(Icons.keyboard_arrow_right),
-                    title: Text(lanCode == 'ar' ? state.categories[index].arName : state.categories[index].name,),
+                    title: Text(Localizations.localeOf(context).languageCode == 'ar' ? state.categories[index].arName : state.categories[index].name,),
                     onTap: () async {
                       var category = state.categories[index];
                       if (category.hasDescendants()) {

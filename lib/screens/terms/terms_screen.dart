@@ -20,19 +20,9 @@ class Terms extends StatefulWidget {
 class _TermsState extends State<Terms> {
   TermsBloc _bloc;
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
-
   @override
   void initState() {
     super.initState();
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _bloc = TermsBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadTermsData());
@@ -72,7 +62,7 @@ class _TermsState extends State<Terms> {
                   SizedBox(height: 20,),
                   Container(
                     margin: EdgeInsets.all(10),
-                    child: Text(state.response['terms'] != null ? lanCode == 'ar' ? state.response['ar_terms'] : state.response['terms'] : 'Not Found'),
+                    child: Text(state.response['terms'] != null ? Localizations.localeOf(context).languageCode == 'ar' ? state.response['ar_terms'] : state.response['terms'] : 'Not Found'),
                   )
                 ],
               ),

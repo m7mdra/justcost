@@ -36,20 +36,11 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   List<Product> filteredProducts = [];
 
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
+
 
   @override
   void initState() {
     super.initState();
-
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _controller = TextEditingController();
     categoryProductBloc = CategoryProductsBloc(DependenciesProvider.provide())
@@ -124,7 +115,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             icon: Icon(Icons.filter_list),
           )
         ],
-        title: Text(lanCode == 'ar' ? widget.category.arName : widget.category.name,),
+        title: Text(Localizations.localeOf(context).languageCode == 'ar' ? widget.category.arName : widget.category.name,),
       ),
       body: Column(
         children: <Widget>[

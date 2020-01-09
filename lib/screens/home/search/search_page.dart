@@ -28,20 +28,10 @@ class _SearchPageState extends State<SearchPage>
   RecentAdsBloc _recentAdsBloc;
   List<Product> products;
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
 
   @override
   void initState() {
     super.initState();
-
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
@@ -131,7 +121,7 @@ class _SearchPageState extends State<SearchPage>
                                             width: 70,
                                           ),
                                     Text(
-                                      lanCode == 'ar' ? state.categories[index].arName : state.categories[index].name,
+                                      Localizations.localeOf(context).languageCode == 'ar' ? state.categories[index].arName : state.categories[index].name,
                                       maxLines: 2,
                                       textAlign: TextAlign.center,
                                     )

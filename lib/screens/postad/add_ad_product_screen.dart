@@ -58,21 +58,10 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   FocusNode _adKeywordFocusNode = FocusNode();
   List<media.Media> mediaList = [];
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
-
   @override
   void initState() {
     super.initState();
 
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      prefix0.print('CATEGORY');
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _bloc =
         UpdateAdBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
@@ -798,7 +787,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                     title: Text(
                       AppLocalizations.of(context).selectCategory,
                     ),
-                    subtitle: Text(_category != null ? lanCode == 'ar' ? _category.arName : _category.name : ''),
+                    subtitle: Text(_category != null ? Localizations.localeOf(context).languageCode == 'ar' ? _category.arName : _category.name : ''),
                     trailing: IconButton(
                       icon: Icon(Icons.keyboard_arrow_right),
                       onPressed: _onCategoryPickerClicked,
@@ -968,7 +957,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
 
   Future _onCategoryPickerClicked() async {
     Tuple2 category = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen(lanCode: lanCode,)));
+        .push(MaterialPageRoute(builder: (context) => CategoryPickerScreen()));
     setState(() {
       _parentCategory = category.item1;
 

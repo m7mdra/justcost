@@ -22,21 +22,12 @@ class CategoryPickerScreen extends StatefulWidget {
 
 class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
   CategoriesBloc _bloc;
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
+
 
   @override
   void initState() {
     super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      prefix0.print('CATEGORY');
-      setState(() {
-        lanCode = onValue;
-      });
-    });
     _bloc.dispatch(FetchCategoriesEvent());
   }
 
@@ -110,7 +101,6 @@ class _CategoryPickerScreenState extends State<CategoryPickerScreen> {
                           Navigator.of(context).pop(Tuple2(category, null));
                         }
                       },
-                      lanCode: lanCode,
                     );
                   },
                 ),

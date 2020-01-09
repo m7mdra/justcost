@@ -19,19 +19,11 @@ class _FQAScreenState extends State<FQAScreen> {
 
   UserSession session = new UserSession();
   Future<String> language;
-  String lanCode;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
 
     _bloc = FQABloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadFQAData());
@@ -104,7 +96,7 @@ class _FQAScreenState extends State<FQAScreen> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                      child: Text(lanCode == 'ar' ? questions[index].questionAr  != null ? questions[index].questionAr : ' ' : questions[index].question  != null ? questions[index].question : ' ',style: TextStyle(fontSize: 18),),
+                                      child: Text(Localizations.localeOf(context).languageCode == 'ar' ? questions[index].questionAr  != null ? questions[index].questionAr : ' ' : questions[index].question  != null ? questions[index].question : ' ',style: TextStyle(fontSize: 18),),
                                     ),
                                     IconButton(icon: Icon(Icons.arrow_drop_down,color: Colors.black,), onPressed: null),
                                   ],
@@ -121,7 +113,7 @@ class _FQAScreenState extends State<FQAScreen> {
                                 SizedBox(height: 10,),
                                 Container(
                                   margin: EdgeInsets.all(4),
-                                  child: Text(lanCode == 'ar' ? questions[index].answerAr  != null ? questions[index].answerAr : ' ' : questions[index].answer  != null ? questions[index].answer : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(Localizations.localeOf(context).languageCode == 'ar' ? questions[index].answerAr  != null ? questions[index].answerAr : ' ' : questions[index].answer  != null ? questions[index].answer : ' ',style: TextStyle(fontSize: 18),),
                                 )
                               ],
                             )
@@ -130,7 +122,7 @@ class _FQAScreenState extends State<FQAScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8,right: 8,top: 3),
-                                  child: Text(lanCode == 'ar' ? questions[index].questionAr  != null ? questions[index].questionAr : ' ' : questions[index].question  != null ? questions[index].question : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(Localizations.localeOf(context).languageCode == 'ar' ? questions[index].questionAr  != null ? questions[index].questionAr : ' ' : questions[index].question  != null ? questions[index].question : ' ',style: TextStyle(fontSize: 18),),
                                 ),
                                 IconButton(icon: Icon(Icons.arrow_right,color: Colors.black,), onPressed: null),
                               ],

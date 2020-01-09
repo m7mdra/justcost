@@ -539,6 +539,16 @@
     "type": "text",
     "placeholders": {}
   },
+  "Thanks Contact": "Thanks For Contacting Us",
+  "@Thanks Contact": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "Thanks Message": "We Will reply to you soon",
+  "@Thanks Message": {
+    "type": "text",
+    "placeholders": {}
+  },
 
   "Edit Profile": "Edit Profile",
   "@Edit Profile": {

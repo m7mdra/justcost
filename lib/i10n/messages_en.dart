@@ -185,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Quantity" : MessageLookupByLibrary.simpleMessage("Quantity"),
     "Recent Ads" : MessageLookupByLibrary.simpleMessage("Recent Ads"),
     "Featured Ads" : MessageLookupByLibrary.simpleMessage("Featured Ads"),
+    "Thanks Message" : MessageLookupByLibrary.simpleMessage("We Will reply to you soon"),
     "Rejected" : MessageLookupByLibrary.simpleMessage("Rejected"),
     "Replay" : MessageLookupByLibrary.simpleMessage("Replay"),
     "Report" : MessageLookupByLibrary.simpleMessage("Report"),

@@ -17,10 +17,6 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   ContactUsBloc _bloc;
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
-
   TextEditingController name , email , subject , message ;
 
   Pattern pattern =
@@ -35,13 +31,7 @@ class _ContactUsState extends State<ContactUs> {
     email = TextEditingController();
     subject = TextEditingController();
     message = TextEditingController();
-
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
+    
     _bloc = ContactUsBloc(DependenciesProvider.provide());
     regex = new RegExp(pattern);
 
@@ -85,7 +75,7 @@ class _ContactUsState extends State<ContactUs> {
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
                   child: Text(
-                    'شكرآ لتواصلك معنا',
+                    AppLocalizations.of(context).thanksContact,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.title,
                   ),
@@ -94,7 +84,7 @@ class _ContactUsState extends State<ContactUs> {
                 Container(
                   margin: EdgeInsets.only(left: 40,right: 40),
                   child: Text(
-                    'سنقوم بالرد علي رسالتك في اقرب فرصه ممكنه',
+                    AppLocalizations.of(context).thanksMessage,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.title,
                   ),
@@ -111,7 +101,7 @@ class _ContactUsState extends State<ContactUs> {
                           color: Colors.amber,
                           borderRadius: BorderRadius.circular(20)
                       ),
-                      child: Center(child: Text('موافق',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w800),),)
+                      child: Center(child: Text(AppLocalizations.of(context).submitButton,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w800),),)
                   ),
                 )
               ],

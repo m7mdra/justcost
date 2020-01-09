@@ -32,19 +32,11 @@ class _HomePageState extends State<HomePage>
   CategoriesBloc _categoriesBloc;
   RecentAdsBloc _recentAdsBloc;
   FeaturedAdsBloc _featuredAdsBloc;
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
 
   @override
   void initState() {
     super.initState();
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
+
     _bloc = SliderBloc(DependenciesProvider.provide());
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
@@ -154,7 +146,7 @@ class _HomePageState extends State<HomePage>
                             },
                             child: FeatureCategoryWidget(
                                 category: state.categories[index],
-                                lanCode: lanCode,
+                                lanCode: Localizations.localeOf(context).languageCode,
                             ),
                           );
                         },
@@ -330,7 +322,7 @@ class FeatureCategoryWidget extends StatelessWidget {
                   width: 70,
                 ),
           Text(
-            lanCode == 'ar' ? category.arName : category.name,
+            Localizations.localeOf(context).languageCode == 'ar' ? category.arName : category.name,
             maxLines: 1,
             textAlign: TextAlign.center,
           )

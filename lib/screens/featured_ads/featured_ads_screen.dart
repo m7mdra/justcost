@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/product/model/product.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
+import 'package:justcost/screens/home/home/featured_ads_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/general_error.dart';
@@ -15,14 +16,14 @@ class FeaturedAdsScreen extends StatefulWidget {
 }
 
 class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
-  RecentAdsBloc _recentAdsBloc;
+  FeaturedAdsBloc _featuredAdsBloc;
   ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
-    _recentAdsBloc.dispatch(LoadRecentAds());
+    _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
+    _featuredAdsBloc.dispatch(LoadFeaturedAds());
     _scrollController = ScrollController(keepScrollOffset: true);
 //    _scrollController.addListener(() {
 //      if (_scrollController.position.pixels ==
@@ -35,7 +36,7 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
   @override
   void dispose() {
     super.dispose();
-    _recentAdsBloc.dispose();
+    _featuredAdsBloc.dispose();
 //    _scrollController.dispose();
   }
 
@@ -46,9 +47,9 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
         title: Text(AppLocalizations.of(context).featuredAds),
       ),
       body: BlocBuilder(
-        bloc: _recentAdsBloc,
-        builder: (BuildContext context, RecentAdsState state) {
-          if (state is RecentAdsLoaded) {
+        bloc: _featuredAdsBloc,
+        builder: (BuildContext context, FeaturedAdsState state) {
+          if (state is FeaturedAdsLoaded) {
             return ListView.builder(
               controller: _scrollController,
               itemBuilder: (context, index) {
@@ -81,7 +82,7 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _recentAdsBloc.dispatch(LoadRecentAds());
+                  _featuredAdsBloc.dispatch(LoadFeaturedAds());
                 },
               ),
             );
@@ -94,7 +95,7 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _recentAdsBloc.dispatch(LoadRecentAds());
+                  _featuredAdsBloc.dispatch(LoadFeaturedAds());
                 },
               ),
             );

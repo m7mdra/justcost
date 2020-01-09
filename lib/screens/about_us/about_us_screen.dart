@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justcost/data/ad/ad_repository.dart';
@@ -21,9 +22,7 @@ class AboutUs extends StatefulWidget {
 class _AboutUsState extends State<AboutUs> {
   AboutBloc _bloc;
 
-  UserSession session = new UserSession();
-  Future<String> language;
-  String lanCode;
+
 
   var aboutShow = false;
   var ourMissionShow = false;
@@ -42,12 +41,7 @@ class _AboutUsState extends State<AboutUs> {
   void initState() {
     super.initState();
 
-    language = session.getCurrentLanguage();
-    language.then((onValue){
-      setState(() {
-        lanCode = onValue;
-      });
-    });
+  
 
     _bloc = AboutBloc(DependenciesProvider.provide());
     _bloc.dispatch(LoadAboutData());
@@ -124,7 +118,7 @@ class _AboutUsState extends State<AboutUs> {
                                 SizedBox(height: 10,),
                                 Container(
                                   margin: EdgeInsets.all(4),
-                                  child: Text(lanCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(Localizations.localeOf(context).languageCode == 'ar' ? state.response['about_us']  != null ? state.response['about_us'] : ' ' : state.response['en_about_us']  != null ? state.response['en_about_us'] : ' ',style: TextStyle(fontSize: 18),),
                                 )
                               ],
                             )
@@ -180,7 +174,7 @@ class _AboutUsState extends State<AboutUs> {
                                 SizedBox(height: 10,),
                                 Container(
                                   margin: EdgeInsets.all(4),
-                                  child: Text(lanCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(Localizations.localeOf(context).languageCode == 'ar' ? state.response['our_misson']  != null ? state.response['our_misson'] : ' ' : state.response['en_our_misson']  != null ? state.response['en_our_misson'] : ' ',style: TextStyle(fontSize: 18),),
                                 )
 
                               ],
@@ -237,7 +231,7 @@ class _AboutUsState extends State<AboutUs> {
                             SizedBox(height: 10,),
                             Container(
                               margin: EdgeInsets.all(4),
-                              child: Text(lanCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
+                              child: Text(Localizations.localeOf(context).languageCode == 'ar' ? state.response['our_vission']  != null ? state.response['our_vission'] : ' ' : state.response['en_our_vission']  != null ? state.response['en_our_vission'] : ' ',style: TextStyle(fontSize: 18),),
                             )
 
                           ],
@@ -294,7 +288,7 @@ class _AboutUsState extends State<AboutUs> {
                                 SizedBox(height: 10,),
                                 Container(
                                   margin: EdgeInsets.all(4),
-                                  child: Text(lanCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
+                                  child: Text(Localizations.localeOf(context).languageCode == 'ar' ? state.response['why_us']  != null ? state.response['why_us'] : ' ' : state.response['en_why_us']  != null ? state.response['en_why_us'] : ' ',style: TextStyle(fontSize: 18),),
                                 )
 
                               ],
@@ -327,17 +321,16 @@ class _AboutUsState extends State<AboutUs> {
                     ),
                   ),
 
-                  SizedBox(height: 0,),
+                  SizedBox(height: 10,),
 
                   Container(
-                    height: 40,
                     margin: EdgeInsets.only(right: 28,left: 28),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,24 +343,23 @@ class _AboutUsState extends State<AboutUs> {
                         ),
                         Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                             child: Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: Text(state.responseContact['phone'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                              child: Text(state.responseContact['phone'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),textAlign: TextAlign.center),
                             )),
                       ],
                     ),
                   ),
-
+                  SizedBox(height: 10,),
                   Container(
-                    height: 40,
                     margin: EdgeInsets.only(right: 28,left: 28),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -379,23 +371,23 @@ class _AboutUsState extends State<AboutUs> {
                             )),
                         Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                             child: Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: Text(state.responseContact['email'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                          child: Text(state.responseContact['email'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),textAlign: TextAlign.center,),
                         )),
                       ],
                     ),
                   ),
+                  SizedBox(height: 10,),
                   Container(
-                    height: 40,
                     margin: EdgeInsets.only(right: 28,left: 28),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -407,10 +399,10 @@ class _AboutUsState extends State<AboutUs> {
                             )),
                         Container(width:5,child: Text(':',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)),
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                             child: Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: Text(state.responseContact['location'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),),
+                          child: Text(state.responseContact['location'],style: TextStyle(letterSpacing: 1,color: Colors.black87,fontSize: 15,fontWeight: FontWeight.w800),textAlign: TextAlign.center),
                         )),
                       ],
                     ),
