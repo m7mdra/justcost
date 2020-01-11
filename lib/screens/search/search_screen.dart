@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:justcost/data/attribute/model/attribute.dart';
+import 'package:justcost/data/brand/model/brand.dart';
 import 'package:justcost/data/city/model/city.dart';
 import 'package:justcost/data/city/model/country.dart';
 import 'package:justcost/dependencies_provider.dart';
 import 'package:justcost/screens/ad_details/ad_details_screen.dart';
+import 'package:justcost/screens/category_products/search_filters_dialog.dart';
 import 'package:justcost/screens/city/city_picker_screen.dart';
 import 'package:justcost/screens/search/search_bloc.dart';
+import 'package:justcost/util/tuple.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/general_error.dart';
 import 'package:justcost/widget/network_error_widget.dart';
@@ -39,14 +43,14 @@ class _SearchScreenState extends State<SearchScreen> {
       _bloc.dispatch(SearchProductByName(widget.keyword, -1));
     _searchTextEditingController = TextEditingController();
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _bloc.dispatch(LoadNextPage(
-            _searchTextEditingController.value.text.toString(),
-            city != null ? city.id : -1));
-      }
-    });
+//    _scrollController.addListener(() {
+//      if (_scrollController.position.pixels ==
+//          _scrollController.position.maxScrollExtent) {
+//        _bloc.dispatch(LoadNextPage(
+//            _searchTextEditingController.value.text.toString(),
+//            city != null ? city.id : -1));
+//      }
+//    });
   }
 
   @override
@@ -61,26 +65,55 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: Card(
-          child: TextField(
-            controller: _searchTextEditingController,
-            onChanged: (value) {
-              if (value.isNotEmpty)
-                _bloc.dispatch(
-                    SearchProductByName(value, city != null ? city.id : -1));
-            },
-            decoration: InputDecoration.collapsed(
-                    hintText: AppLocalizations.of(context).search)
-                .copyWith(
-              contentPadding: const EdgeInsets.all(10),
-              icon: Icon(Icons.search),
+        title: Container(
+          margin: EdgeInsets.only(left: 40),
+          child: Card(
+            child: TextField(
+              controller: _searchTextEditingController,
+              onChanged: (value) {
+                if (value.isNotEmpty)
+                  _bloc.dispatch(
+                      SearchProductByName(value, city != null ? city.id : -1));
+              },
+              decoration: InputDecoration.collapsed(
+                      hintText: AppLocalizations.of(context).search)
+                  .copyWith(
+                contentPadding: const EdgeInsets.all(10),
+                icon: Icon(Icons.search),
+              ),
             ),
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () {},
+          Visibility(
+            visible: false,
+            child: IconButton(
+              icon: Icon(Icons.filter_list),
+              onPressed: () async {
+                Tuple2<List<Brand>, List<Attribute>> list = await showDialog(
+                  context: context,
+                  builder: (context) => AttributeFilterDialog(
+                  ),
+                );
+                if (list != null) {
+                  print('Not Null LENGTH $list');
+//                setState(() {
+//                  selectedAttribute = list.item2;
+//                  selectedBrands = list.item1;
+//                  chipData.clear();
+//                  chipData.addAll(selectedBrands);
+//                  chipData.addAll(selectedAttribute);
+//                });
+//                if(selectedAttribute.length > 0 || selectedBrands.length > 0){
+//                  categoryProductBloc.dispatch(filterDataEvent);
+//                }
+                  //categoryProductBloc.dispatch(loadDataEvent);
+                }
+                else{
+                  print('Null');
+                }
+              },
+            ),
           )
         ],
       ),

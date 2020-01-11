@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage>
                     viewportFraction: 0.9,
                     indicatorLayout: PageIndicatorLayout.SCALE,
                     curve: Curves.fastOutSlowIn,
-                    itemCount: 3,
+                    itemCount: state.sliders.length,
                     duration: 500,
                     itemBuilder: (context, index) {
                       return Card(

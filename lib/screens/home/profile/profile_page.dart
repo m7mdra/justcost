@@ -63,6 +63,47 @@ class _ProfilePageState extends State<ProfilePage>
                 children: <Widget>[
                   GuestUserWidget(),
                   _settingsTile(context),
+//                  divider(),
+                  divider(),
+                  ListTile(
+                    leading: Icon(Icons.list),
+                    title: Text(AppLocalizations.of(context).fqa),
+                    dense: true,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => FQAScreen()));
+                    },
+                  ),
+                  divider(),
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text(AppLocalizations.of(context).aboutUs),
+                    dense: true,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AboutUs()));
+                    },
+                  ),
+                  divider(),
+                  ListTile(
+                    leading: Icon(Icons.contacts),
+                    title: Text(AppLocalizations.of(context).contactUs),
+                    dense: true,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ContactUs()));
+                    },
+                  ),
+                  divider(),
+                  ListTile(
+                    leading: Icon(Icons.lock),
+                    title: Text(AppLocalizations.of(context).terms),
+                    dense: true,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Terms()));
+                    },
+                  ),
                   divider(),
                   _logoutTile(context)
 
@@ -101,6 +142,7 @@ class _ProfilePageState extends State<ProfilePage>
                 },
               );
   }
+
 
   @override
   bool get wantKeepAlive => true;

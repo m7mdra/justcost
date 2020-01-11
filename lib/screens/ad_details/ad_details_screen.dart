@@ -148,11 +148,11 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              IconText(
-                onPressed: () {},
-                icon: Icon(Icons.flag),
-                text: Text(AppLocalizations.of(context).reportButton),
-              ),
+//              IconText(
+//                onPressed: () {},
+//                icon: Icon(Icons.flag),
+//                text: Text(AppLocalizations.of(context).reportButton),
+//              ),
               Visibility(visible: widget.from != 'edit' ? true : false,child: Container()),
               BlocBuilder(
                 bloc: _likeProductBloc,
