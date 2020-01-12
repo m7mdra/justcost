@@ -28,7 +28,6 @@ class _SearchPageState extends State<SearchPage>
   RecentAdsBloc _recentAdsBloc;
   List<Product> products;
 
-
   @override
   void initState() {
     super.initState();
@@ -36,9 +35,9 @@ class _SearchPageState extends State<SearchPage>
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
 
-    _categoriesBloc.dispatch(FetchCategoriesEvent());
-    _recentAdsBloc.dispatch(LoadRecentAds());
-    _recentAdsBloc.state.listen((state) {
+    _categoriesBloc.add(FetchCategoriesEvent());
+    _recentAdsBloc.add(LoadRecentAds());
+    _recentAdsBloc.forEach((state){
       if (state is RecentAdsLoaded)
         setState(() {
           products = state.products;
@@ -47,10 +46,10 @@ class _SearchPageState extends State<SearchPage>
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _categoriesBloc.dispose();
-    _recentAdsBloc.dispose();
+    _categoriesBloc.close();
+    _recentAdsBloc.close();
   }
 
   @override
@@ -58,8 +57,8 @@ class _SearchPageState extends State<SearchPage>
     super.build(context);
     return RefreshIndicator(
       onRefresh: () {
-        _categoriesBloc.dispatch(FetchCategoriesEvent());
-        _recentAdsBloc.dispatch(LoadRecentAds());
+        _categoriesBloc.add(FetchCategoriesEvent());
+        _recentAdsBloc.add(LoadRecentAds());
         return Future.value(null);
       },
       child: ListView(

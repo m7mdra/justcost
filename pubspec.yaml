@@ -20,14 +20,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_swiper: any
+  flutter_bloc: ^3.1.0
   flutter_page_indicator: any
   google_maps_flutter: 0.5.21+8
   cupertino_icons: ^0.1.2
   image_picker: ^0.6.0+17
   video_player: ^0.10.0+2
   shared_preferences: ^0.5.1+2
-  dio: ^2.1.13
-  flutter_bloc: ^0.19.0
+  dio: ^3.0.3
   equatable: ^0.1.0
   firebase_messaging: ^5.1.0
   sqflite:
@@ -38,19 +38,19 @@ dependencies:
   device_info: ^0.4.0+1
   flutter_html: ^0.9.6
   url_launcher: ^5.0.3
-  flutter_rating_bar: ^1.1.0
+  flutter_rating_bar: ^3.0.1+1
   flutter_localizations:
     sdk: flutter
   intl:
   intl_translation:
   flutter_video_compress: ^0.3.7+8
   flutter_cache_manager: ^1.0.0
-  share: ^0.5.2
+  share: ^0.6.3+5
   webview_flutter: ^0.3.10+3
   flutter_local_notifications: ^0.8.0
   font_awesome_flutter:
   permission_handler: '^3.2.0'
-  cached_network_image: ^1.1.2+1
+  cached_network_image: ^2.0.0
   back_button_interceptor: ^4.2.2
   pinput: ^0.1.10
 

@@ -26,7 +26,7 @@ class _FQAScreenState extends State<FQAScreen> {
     super.initState();
 
     _bloc = FQABloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadFQAData());
+    _bloc.add(LoadFQAData());
   }
 
   @override
@@ -45,14 +45,14 @@ class _FQAScreenState extends State<FQAScreen> {
           if (state is NetworkErrorState)
             return Center(
               child: NetworkErrorWidget(onRetry: () {
-                _bloc.dispatch(LoadFQAData());
+                _bloc.add(LoadFQAData());
               }),
             );
           if (state is ErrorState)
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadFQAData());
+                  _bloc.add(LoadFQAData());
                 },
               ),
             );

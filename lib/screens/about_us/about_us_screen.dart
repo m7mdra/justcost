@@ -44,7 +44,7 @@ class _AboutUsState extends State<AboutUs> {
   
 
     _bloc = AboutBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadAboutData());
+    _bloc.add(LoadAboutData());
   }
 
   @override
@@ -63,14 +63,14 @@ class _AboutUsState extends State<AboutUs> {
           if (state is NetworkErrorState)
             return Center(
               child: NetworkErrorWidget(onRetry: () {
-                _bloc.dispatch(LoadAboutData());
+                _bloc.add(LoadAboutData());
               }),
             );
           if (state is ErrorState)
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadAboutData());
+                  _bloc.add(LoadAboutData());
                 },
               ),
             );

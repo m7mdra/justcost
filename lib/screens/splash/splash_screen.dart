@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
           if (state is AuthenticationFailed) {
             return SplashFailedWidget(
               onPressed: () {
-                _authenticationBloc.dispatch(AppStarted());
+                _authenticationBloc.add(AppStarted());
               },
             );
           }
@@ -53,8 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     initNotificationAndListen();
     _authenticationBloc = BlocProvider.of(context);
-    _authenticationBloc.dispatch(AppStarted());
-    _authenticationBloc.state.listen((state) {
+    _authenticationBloc.add(AppStarted());
+    _authenticationBloc.forEach((state){
       if (state is UserAuthenticated || state is UserUnauthenticated)
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
@@ -70,9 +70,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _authenticationBloc.dispose();
+    _authenticationBloc.close();
   }
 
   Future onSelectNotification(String payload) async {

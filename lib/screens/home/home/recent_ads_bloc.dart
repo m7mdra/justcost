@@ -74,7 +74,7 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         if (response.success) {
           lasPage = response.data.isEmpty;
           yield RecentAdsLoaded(
-              (currentState as RecentAdsLoaded).products..addAll(response.data),
+              (state as RecentAdsLoaded).products..addAll(response.data),
               response.data.isEmpty);
         } else
           yield RecentAdsError();

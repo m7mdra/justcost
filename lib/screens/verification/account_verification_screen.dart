@@ -65,66 +65,66 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> w
     _accountVerificationBloc = AccountVerificationBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _textEditingController = TextEditingController();
-    _accountVerificationBloc.state.listen((state) {
-      if (state is VerificationLoading)
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => ProgressDialog(
-                  message:
-                      AppLocalizations.of(context).verificationLoadingMessage,
-                ));
-      if (state is ResendVerificationFailed) {
-        Navigator.of(context).pop();
-        showDialog(
-            context: context,
-            builder: (context) => RoundedAlertDialog(
-                  title: Text(AppLocalizations.of(context).generalError),
-                  content:
-                      Text(AppLocalizations.of(context).failedToVerifyAccount),
-                  actions: <Widget>[
-                    FlatButton(
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
-      }
-      if (state is VerificationSentSuccess) Navigator.of(context).pop();
+   _accountVerificationBloc.forEach((state){
+     if (state is VerificationLoading)
+       showDialog(
+           context: context,
+           barrierDismissible: false,
+           builder: (context) => ProgressDialog(
+             message:
+             AppLocalizations.of(context).verificationLoadingMessage,
+           ));
+     if (state is ResendVerificationFailed) {
+       Navigator.of(context).pop();
+       showDialog(
+           context: context,
+           builder: (context) => RoundedAlertDialog(
+             title: Text(AppLocalizations.of(context).generalError),
+             content:
+             Text(AppLocalizations.of(context).failedToVerifyAccount),
+             actions: <Widget>[
+               FlatButton(
+                 child:
+                 Text(MaterialLocalizations.of(context).okButtonLabel),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           ));
+     }
+     if (state is VerificationSentSuccess) Navigator.of(context).pop();
 
-      if (state is AccountVerificationFailed) {
-        Navigator.of(context).pop();
-        showDialog(
-            context: context,
-            builder: (context) => RoundedAlertDialog(
-                    title: Text(AppLocalizations.of(context).generalError),
-                    content: Text(state.message),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text(
-                            MaterialLocalizations.of(context).okButtonLabel),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ]));
-      }
-      if (state is SessionExpiredState) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) =>
-                LoginScreen(NavigationReason.session_expired)));
-      }
-    });
+     if (state is AccountVerificationFailed) {
+       Navigator.of(context).pop();
+       showDialog(
+           context: context,
+           builder: (context) => RoundedAlertDialog(
+               title: Text(AppLocalizations.of(context).generalError),
+               content: Text(state.message),
+               actions: <Widget>[
+                 FlatButton(
+                   child: Text(
+                       MaterialLocalizations.of(context).okButtonLabel),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                   },
+                 )
+               ]));
+     }
+     if (state is SessionExpiredState) {
+       Navigator.of(context).pushReplacement(MaterialPageRoute(
+           builder: (context) =>
+               LoginScreen(NavigationReason.session_expired)));
+     }
+   });
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     BackButtonInterceptor.remove(myInterceptor);
-    _accountVerificationBloc.dispose();
+    _accountVerificationBloc.close();
     _textEditingController.dispose();
   }
 
@@ -211,7 +211,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> w
                     }
                     else{
                       controller.reverse(from: 60);
-                      _accountVerificationBloc.dispatch(ResendVerification());
+                      _accountVerificationBloc.add(ResendVerification());
                     }
                   },
                   splashColor: Theme.of(context).accentColor,
@@ -226,7 +226,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> w
             child: FlatButton(
               child: Text(AppLocalizations.of(context).logoutButton),
               onPressed: () {
-                _accountVerificationBloc.dispatch(LogoutEvent());
+                _accountVerificationBloc.add(LogoutEvent());
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (BuildContext context) =>
                         LoginScreen(NavigationReason.logout)));
@@ -310,7 +310,7 @@ class _AccountVerificationScreenState extends State<AccountVerificationScreen> w
           onPressed: () {
             var code = _textEditingController.text;
             if (_formKey.currentState.validate())
-              _accountVerificationBloc.dispatch(SubmitVerificationCode(code));
+              _accountVerificationBloc.add(SubmitVerificationCode(code));
           },
           child: Text(AppLocalizations.of(context).submitButton),
         ),

@@ -41,25 +41,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         DependenciesProvider.provide(),
         DependenciesProvider.provide(),
         BlocProvider.of<UserProfileBloc>(context));
-    _bloc.state.listen((state) {
+    _bloc.forEach((state){
       if (state is ErrorState) {
         showDialog(
             context: context,
             barrierDismissible: false,
             builder: (context) => RoundedAlertDialog(
-                  title: Text(AppLocalizations.of(context).generalError),
-                  content:
-                      Text(AppLocalizations.of(context).failedToUpdateProfile),
-                  actions: <Widget>[
-                    FlatButton(
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+              title: Text(AppLocalizations.of(context).generalError),
+              content:
+              Text(AppLocalizations.of(context).failedToUpdateProfile),
+              actions: <Widget>[
+                FlatButton(
+                  child:
+                  Text(MaterialLocalizations.of(context).okButtonLabel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
       if (state is PasswordChangedSuccess) {
         Navigator.of(context).pop();
@@ -75,7 +75,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 LoginScreen(NavigationReason.session_expired)));
       }
     });
-    _bloc.dispatch(LoadUserDataEvent());
+//    _bloc.state.listen((state) async {
+//
+//    });
+    _bloc.add(LoadUserDataEvent());
   }
 
   @override
@@ -175,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           PersonalInformation(
                               user.name, user.gender, user.city))));
               if (newInformation != null)
-                _bloc.dispatch(UpdatePersonalInformationEvent(
+                _bloc.add(UpdatePersonalInformationEvent(
                     fullName: newInformation.fullName,
                     city: newInformation.city.id,
                     gender: newInformation.gender));
@@ -212,7 +215,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       builder: (context) => UpdateAccountInformationScreen(
                           AccountInformation(user.username, user.email))));
               if (information != null)
-                _bloc.dispatch(UpdateAccountInformationEvent(
+                _bloc.add(UpdateAccountInformationEvent(
                     username: information.username,
                     password: information.currentPassword,
                     email: information.email));
@@ -234,7 +237,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   MaterialPageRoute(
                       builder: (context) => UpdatePasswordScreen()));
               if (information != null)
-                _bloc.dispatch(UpdatePasswordEvent(
+                _bloc.add(UpdatePasswordEvent(
                     confirmNewPassword: information.confrimPassword,
                     currentPassword: information.currentPassword,
                     newPassword: information.password));
@@ -289,7 +292,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       originalFile = image;
 
       if (image != null && croppedImage != null) {
-        _bloc.dispatch(UpdateProfileAvatarEvent(
+        _bloc.add(UpdateProfileAvatarEvent(
             originalImage: image, croppedImage: croppedImage));
       }
     }

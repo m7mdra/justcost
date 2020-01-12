@@ -104,22 +104,28 @@ class AdRepository {
       List<Media> medias,
       ProgressCallback progressCallback}) async {
     try {
-      var formData = FormData.from({
-        'category_id': categoryId,
-        'description': description,
-        'reg_price': regularPrice,
-        'sale_price': salePrice,
-        'brand_id': brandId,
-        'ispaided': isPaid,
-        'ad_id': adId,
-        'qty': quantity,
-        'attributes[]': json.encode(attributes),
-        'iswholesale': isWholeSale,
-        'title': title,
-        'media[]': medias
-            .map((media) => UploadFileInfo(media.file, media.file.path))
-            .toList()
-      });
+//      var formData = FormData.from();
+      var formData = new FormData.fromMap(
+          {
+            'category_id': categoryId,
+            'description': description,
+            'reg_price': regularPrice,
+            'sale_price': salePrice,
+            'brand_id': brandId,
+            'ispaided': isPaid,
+            'ad_id': adId,
+            'qty': quantity,
+            'attributes[]': json.encode(attributes),
+            'iswholesale': isWholeSale,
+            'title': title,
+//            'media[]': medias
+//                .map((media) => UploadFileInfo(media.file, media.file.path))
+//                .toList(),
+            'media[]': medias
+                .map((media) async => MultipartFile.fromFile(media.file.path, filename: media.file.path))
+                .toList(),
+          }
+      );
       print(formData);
       var response = await _client.post('products',
           data: formData, onSendProgress: progressCallback);
@@ -148,7 +154,7 @@ class AdRepository {
         String title,
         ProgressCallback progressCallback}) async {
     try {
-      var formDataWithCategoryAndBrand = FormData.from({
+      var formDataWithCategoryAndBrand = FormData.fromMap({
         'category_id': categoryId,
         'description': description,
         'reg_price': regularPrice,
@@ -158,7 +164,7 @@ class AdRepository {
         'title': title,
       });
 
-      var formData = FormData.from({
+      var formData = FormData.fromMap({
         'description': description,
         'reg_price': regularPrice,
         'sale_price': salePrice,

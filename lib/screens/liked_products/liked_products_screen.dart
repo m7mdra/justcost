@@ -21,13 +21,13 @@ class _LikedProductsScreenState extends State<LikedProductsScreen> {
   void initState() {
     super.initState();
     _bloc = LikedProductBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadMyLikes());
+    _bloc.add(LoadMyLikes());
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -68,7 +68,7 @@ class _LikedProductsScreenState extends State<LikedProductsScreen> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadMyLikes());
+                  _bloc.add(LoadMyLikes());
                 },
               ),
             );
@@ -77,7 +77,7 @@ class _LikedProductsScreenState extends State<LikedProductsScreen> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadMyLikes());
+                  _bloc.add(LoadMyLikes());
                 },
               ),
             );

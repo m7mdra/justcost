@@ -53,14 +53,14 @@ class _ContactUsState extends State<ContactUs> {
           if (state is NetworkErrorState)
             return Center(
               child: NetworkErrorWidget(onRetry: () {
-                _bloc.dispatch(SendReport());
+                _bloc.add(SendReport());
               }),
             );
           if (state is ErrorState)
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(SendReport());
+                  _bloc.add(SendReport());
                 },
               ),
             );
@@ -217,7 +217,7 @@ class _ContactUsState extends State<ContactUs> {
                     else if(message.text.trim().length < 1){
                       return;
                     }
-                    _bloc.dispatch(SendReport(
+                    _bloc.add(SendReport(
                       name: name.text,
                       email: email.text,
                       subject: subject.text,

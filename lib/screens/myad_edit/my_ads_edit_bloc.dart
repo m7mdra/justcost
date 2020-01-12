@@ -67,11 +67,6 @@ class UpdateAdBloc extends Bloc<UpdateAdEvent, UpdateAdState> {
   UpdateAdState get initialState => IdleState();
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Stream<UpdateAdState> mapEventToState(UpdateAdEvent event) async* {
     if (event is UpdateAd) {
       yield Loading();

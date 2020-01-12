@@ -44,12 +44,12 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
 
     _controller = TextEditingController();
     categoryProductBloc = CategoryProductsBloc(DependenciesProvider.provide())
-      ..dispatch(loadDataEvent);
+      ..add(loadDataEvent);
     _scrollController = ScrollController(keepScrollOffset: true);
     _scrollController.addListener(() {
 //      if (_scrollController.position.pixels ==
 //          _scrollController.position.maxScrollExtent) {
-//        categoryProductBloc.dispatch(LoadNextPage(
+//        categoryProductBloc.add(LoadNextPage(
 //            widget.category.name,
 //            selectedAttribute.map((attribute) => attribute.id).toList(),
 //            selectedBrands.map((brand) => brand.id).toList(),
@@ -75,9 +75,9 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   );
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    categoryProductBloc.dispose();
+    categoryProductBloc.close();
     _controller.dispose();
   }
 
@@ -104,9 +104,9 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                   chipData.addAll(selectedAttribute);
                 });
                 if(selectedAttribute.length > 0 || selectedBrands.length > 0){
-                  categoryProductBloc.dispatch(filterDataEvent);
+                  categoryProductBloc.add(filterDataEvent);
                 }
-                //categoryProductBloc.dispatch(loadDataEvent);
+                //categoryProductBloc.add(loadDataEvent);
               }
               else{
                 print('Null');
@@ -123,10 +123,10 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             child: TextField(
               onChanged: (value) {
                 if(value.length > 2){
-                  categoryProductBloc.dispatch(loadDataEvent);
+                  categoryProductBloc.add(loadDataEvent);
                 }
                 if(value.length == 0){
-                  categoryProductBloc.dispatch(loadDataEvent);
+                  categoryProductBloc.add(loadDataEvent);
                 }
               },
               controller: _controller,
@@ -149,7 +149,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                       chipData.remove(item);
                       selectedBrands.remove(item);
                       setState(() {});
-                      categoryProductBloc.dispatch(loadDataEvent);
+                      categoryProductBloc.add(loadDataEvent);
                     },
                   ),
                 );
@@ -163,7 +163,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                       chipData.remove(item);
                       selectedAttribute.remove(item);
                       setState(() {});
-                      categoryProductBloc.dispatch(loadDataEvent);
+                      categoryProductBloc.add(loadDataEvent);
                     },
                   ),
                 );
@@ -186,7 +186,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                 return Center(
                   child: GeneralErrorWidget(
                     onRetry: () {
-                      categoryProductBloc.dispatch(loadDataEvent);
+                      categoryProductBloc.add(loadDataEvent);
                     },
                   ),
                 );
@@ -194,7 +194,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                 return Center(
                   child: NetworkErrorWidget(
                     onRetry: () {
-                      categoryProductBloc.dispatch(loadDataEvent);
+                      categoryProductBloc.add(loadDataEvent);
                     },
                   ),
                 );

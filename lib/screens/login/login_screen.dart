@@ -37,54 +37,54 @@ class _LoginScreenState extends State<LoginScreen> {
     super.didChangeDependencies();
     _loginBloc = LoginBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
-    _loginBloc.state.listen((state) {
+    _loginBloc.forEach((state){
       if (state is LoginLoading)
         showDialog(
             barrierDismissible: false,
             context: context,
             builder: (context) => ProgressDialog(
-                  message: AppLocalizations.of(context).loginLoadingMessage,
-                ));
+              message: AppLocalizations.of(context).loginLoadingMessage,
+            ));
       if (state is UserNameOrPasswordInvalid) {
         Navigator.of(context).pop();
 
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title:
-                      Text(AppLocalizations.of(context).loginErrorMessageTitle),
-                  content: Text(
-                      AppLocalizations.of(context).loginErrorMessageMessage),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text(
-                        MaterialLocalizations.of(context).okButtonLabel,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+              title:
+              Text(AppLocalizations.of(context).loginErrorMessageTitle),
+              content: Text(
+                  AppLocalizations.of(context).loginErrorMessageMessage),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    MaterialLocalizations.of(context).okButtonLabel,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
       if (state is LoginError) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text(
-                        MaterialLocalizations.of(context).okButtonLabel,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+              title: Text(AppLocalizations.of(context).generalError),
+              content: Text(state.message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    MaterialLocalizations.of(context).okButtonLabel,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
       if (state is LoginSuccess) {
         Navigator.of(context).pop();
@@ -133,12 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
-    _loginBloc.dispose();
+    _loginBloc.close();
   }
 
   @override
@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               FlatButton(
                 onPressed: () {
-                  _loginBloc.dispatch(GuestLogin());
+                  _loginBloc.add(GuestLogin());
                 },
                 child: Text(AppLocalizations.of(context).continueAsGuestButton),
               ),
@@ -281,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState.validate()) {
       var token = await FirebaseMessaging().getToken();
       print('FirebaseToken  $token');
-      _loginBloc.dispatch(
+      _loginBloc.add(
           UserLogin(_userNameController.text, _passwordController.text, token));
     }
   }

@@ -36,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage>
     super.initState();
     _bloc = UserProfileBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
-    _bloc.dispatch(LoadProfileEvent());
-    _bloc.state.listen((state) {
+    _bloc.add(LoadProfileEvent());
+    _bloc.forEach((state){
       if (state is LogoutSuccessState) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => LoginScreen(NavigationReason.logout)));
@@ -48,6 +48,9 @@ class _ProfilePageState extends State<ProfilePage>
                 LoginScreen(NavigationReason.session_expired)));
       }
     });
+//    _bloc.state.listen((state) {
+//
+//    });
   }
 
   @override
@@ -252,6 +255,6 @@ class _ProfilePageState extends State<ProfilePage>
       );
 
   _onLogout() {
-    _bloc.dispatch(LogoutEvent());
+    _bloc.add(LogoutEvent());
   }
 }

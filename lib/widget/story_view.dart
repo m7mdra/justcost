@@ -128,7 +128,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
+  void close() {
     animationController?.dispose();
     super.dispose();
   }
@@ -220,7 +220,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
     }
   }
 
-  _disposeStory(StoryItem storyItem) {
+  _closeStory(StoryItem storyItem) {
     (storyItem.view.key as GlobalKey).currentState.dispose();
   }
 

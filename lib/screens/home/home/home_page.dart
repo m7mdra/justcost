@@ -45,18 +45,18 @@ class _HomePageState extends State<HomePage>
   }
 
   void fetchData() {
-    _bloc.dispatch(LoadSlider());
-    _categoriesBloc.dispatch(FetchCategoriesEvent());
-    _featuredAdsBloc.dispatch(LoadFeaturedAds());
-    _recentAdsBloc.dispatch(LoadRecentAds());
+    _bloc.add(LoadSlider());
+    _categoriesBloc.add(FetchCategoriesEvent());
+    _featuredAdsBloc.add(LoadFeaturedAds());
+    _recentAdsBloc.add(LoadRecentAds());
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
-    _categoriesBloc.dispose();
-    _recentAdsBloc.dispose();
+    _bloc.close();
+    _categoriesBloc.close();
+    _recentAdsBloc.close();
   }
 
   @override

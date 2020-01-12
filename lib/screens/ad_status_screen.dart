@@ -29,7 +29,7 @@ class _AdStatusScreenState extends State<AdStatusScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _pageController?.dispose();
   }
@@ -126,9 +126,9 @@ class _StoryState extends State<Story> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _globalKey?.currentState?.dispose();
+    _globalKey?.currentState?.close();
     print("||||||||||||DISPOSING A STATUS||||||||||||||");
   }
 
@@ -260,9 +260,9 @@ class VideoStatusState extends State<VideoStatus> {
   VideoPlayerController controller;
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    disposeVideo();
+    closeVideo();
   }
 
   Future<void> pause() {
@@ -273,7 +273,7 @@ class VideoStatusState extends State<VideoStatus> {
     return controller?.play();
   }
 
-  disposeVideo() async {
+  closeVideo() async {
     await controller?.pause();
     await controller?.dispose();
   }

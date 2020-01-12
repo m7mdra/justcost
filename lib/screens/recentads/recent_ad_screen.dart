@@ -22,21 +22,21 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
   void initState() {
     super.initState();
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
-    _recentAdsBloc.dispatch(LoadRecentAds());
+    _recentAdsBloc.add(LoadRecentAds());
     _scrollController = ScrollController(keepScrollOffset: true);
 //    _scrollController.addListener(() {
 //      if (_scrollController.position.pixels ==
 //          _scrollController.position.maxScrollExtent) {
-//        _recentAdsBloc.dispatch(LoadNextPage());
+//        _recentAdsBloc.add(LoadNextPage());
 //      }
 //    });
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _recentAdsBloc.dispose();
-//    _scrollController.dispose();
+    _recentAdsBloc.close();
+//    _scrollController.close();
   }
 
   @override
@@ -82,7 +82,7 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _recentAdsBloc.dispatch(LoadRecentAds());
+                  _recentAdsBloc.add(LoadRecentAds());
                 },
               ),
             );
@@ -95,7 +95,7 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _recentAdsBloc.dispatch(LoadRecentAds());
+                  _recentAdsBloc.add(LoadRecentAds());
                 },
               ),
             );

@@ -62,8 +62,8 @@ class _PostAdScreenState extends State<PostAdScreen> {
     loadData();
     _bloc =
         AdBloc(DependenciesProvider.provide(), DependenciesProvider.provide());
-    _bloc.dispatch(CheckUserType());
-    _bloc.dispatch(CheckIfDraftExists());
+    _bloc.add(CheckUserType());
+    _bloc.add(CheckIfDraftExists());
     regex = new RegExp(_pattern);
     _adTitleController = TextEditingController();
     _adDetailsController = TextEditingController();
@@ -78,9 +78,9 @@ class _PostAdScreenState extends State<PostAdScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
     _adTitleController.dispose();
     _adDetailsController.dispose();
     _adPhoneNumberController.dispose();
@@ -147,7 +147,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
               return Center(
                 child: NetworkErrorWidget(
                   onRetry: () {
-                    _bloc.dispatch(PostAdEvent(
+                    _bloc.add(PostAdEvent(
                         AdDetails(
                             title: _adTitleController.text,
                             description: _adDetailsController.text),
@@ -181,7 +181,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        _bloc.dispatch(RetryPostProduct(
+                        _bloc.add(RetryPostProduct(
                             productList, state.adId, state.isWholeSale));
                       },
                       child: Text(AppLocalizations.of(context).retryButton),
@@ -254,7 +254,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                       ),
                       /*FlatButton(
                         onPressed: () {
-                          _bloc.dispatch(SavePostAsDraft(
+                          _bloc.add(SavePostAsDraft(
                               AdDetails(
                                   title: _adTitleController.text,
                                   description: _adDetailsController.text),
@@ -728,7 +728,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
                             onPressed: () {
                               Navigator.pop(context);
 
-                              _bloc.dispatch(PostAdEvent(
+                              _bloc.add(PostAdEvent(
                                   AdDetails(
                                       title: _adTitleController.text,
                                       description: _adDetailsController.text),

@@ -85,7 +85,7 @@ class _MyAdEditScreenState extends State<MyAdEditScreen> {
         Container(
           margin: EdgeInsets.only(left: 5),
             child: IconButton(icon: Icon(Icons.done_all,size: 25,color: Colors.white,), onPressed: (){
-              _bloc.dispatch(UpdateAd(
+              _bloc.add(UpdateAd(
                   adId: widget.ad.id,
                   adTitle: _adTitleController.text,
                   adDescription: _adDetailsController.text,
@@ -144,7 +144,7 @@ class _MyAdEditScreenState extends State<MyAdEditScreen> {
                   return Center(
                     child: NetworkErrorWidget(
                       onRetry: () {
-                        _bloc.dispatch(UpdateAd(
+                        _bloc.add(UpdateAd(
                           adId: widget.ad.id,
                           adTitle: _adTitleController.text,
                           adDescription: _adDetailsController.text,

@@ -61,16 +61,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   SearchState get initialState => SearchIdle();
 
-  @override
-  Stream<SearchState> transform(Stream<SearchEvent> events,
-      Stream<SearchState> Function(SearchEvent event) next) {
-    return super.transform(
-      (events as Observable<SearchEvent>).debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+//  @override
+//  Stream<SearchState> transformEvents(Stream<SearchEvent> events, Stream<SearchState> Function(SearchEvent) next) {
+//    // TODO: implement transformEvents
+//    return super.transformEvents(events, next);
+//  }
+
+//  @override
+//  Stream<SearchState> transform(Stream<SearchEvent> events,
+//      Stream<SearchState> Function(SearchEvent event) next) {
+//    return super.transform(
+//      (events as Observable<SearchEvent>).debounceTime(
+//        Duration(milliseconds: 500),
+//      ),
+//      next,
+//    );
+//  }
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
@@ -99,12 +105,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         if (response.success) {
           lasPage = response.data.isEmpty;
           yield SearchFound(
-              (currentState as SearchFound).products..addAll(response.data),
+              (state as SearchFound).products..addAll(response.data),
               response.data.isEmpty);
         } else {
           yield SearchError();
         }
-      } on DioError {
+      } on Dio {
         yield SearchNetworkError();
       } catch (error) {
         yield SearchError();
@@ -112,8 +118,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     if (event is SortByDiscountDescending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) =>
             p2.calculateDiscount().compareTo(p1.calculateDiscount()));
 
@@ -121,8 +127,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     }
     if (event is SortByDiscountAscending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) =>
             p1.calculateDiscount().compareTo(p2.calculateDiscount()));
 
@@ -130,32 +136,32 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     }
     if (event is SortByNameAscending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) => p1.title.compareTo(p2.title));
 
         yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByNameDescending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) => p2.title.compareTo(p1.title));
 
         yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByPriceAscending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) => p1.salePrice.compareTo(p2.salePrice));
 
         yield SearchFound(products, products.isEmpty);
       }
     }
     if (event is SortByPriceDescending) {
-      if (currentState is SearchFound) {
-        var products = (currentState as SearchFound).products;
+      if (state is SearchFound) {
+        var products = (state as SearchFound).products;
         products.sort((p1, p2) => p2.salePrice.compareTo(p1.salePrice));
 
         yield SearchFound(products, products.isEmpty);

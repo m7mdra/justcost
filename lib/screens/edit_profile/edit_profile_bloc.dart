@@ -28,12 +28,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             event.username, event.email, event.password);
         if (response.success) {
           await _userSession.save(response);
-          userProfileBloc.dispatch(LoadProfileEvent());
+          userProfileBloc.add(LoadProfileEvent());
           yield AccountInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdateAccountInformationEvent>(
               response.message, ErrorType.account, event);
-          dispatch(LoadUserDataEvent());
+          add(LoadUserDataEvent());
         }
       }
       if (event is LoadUserDataEvent) {
@@ -53,7 +53,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         } else {
           yield ErrorState<UpdatePasswordEvent>(
               response.message, ErrorType.password, event);
-          dispatch(LoadUserDataEvent());
+          add(LoadUserDataEvent());
         }
       }
       if (event is UpdateProfileAvatarEvent) {
@@ -62,12 +62,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             event.originalImage, event.croppedImage);
         if (response.success) {
           await _userSession.saveAvater(response);
-          userProfileBloc.dispatch(LoadProfileEvent());
+          userProfileBloc.add(LoadProfileEvent());
           yield AvatarUpdateSuccess(response.data.user);
         } else {
           yield ErrorState<UpdateProfileAvatarEvent>(
               response.message, ErrorType.avatar, event);
-          dispatch(LoadUserDataEvent());
+          add(LoadUserDataEvent());
         }
       }
       if (event is UpdatePersonalInformationEvent) {
@@ -76,12 +76,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             event.fullName, event.gender, event.city);
         if (response.success) {
           await _userSession.save(response);
-          userProfileBloc.dispatch(LoadProfileEvent());
+          userProfileBloc.add(LoadProfileEvent());
           yield PersonalInformationUpdateSuccessState(response.data.user);
         } else {
           yield ErrorState<UpdatePersonalInformationEvent>(
               response.message, ErrorType.personal, event);
-          dispatch(LoadUserDataEvent());
+          add(LoadUserDataEvent());
         }
       }
     } on DioError catch (error) {
@@ -113,7 +113,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           break;
       }
       print(error);
-      dispatch(LoadUserDataEvent());
+      add(LoadUserDataEvent());
     } on SessionExpired catch (error) {
       await _userSession.clear();
       await _userSession.refresh();
@@ -123,7 +123,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       yield ErrorState("Unknown error: $error}", ErrorType.none, null);
       print(error);
 
-      dispatch(LoadUserDataEvent());
+      add(LoadUserDataEvent());
     }
   }
 }

@@ -30,16 +30,16 @@ class _AttributeFilterDialogState extends State<AttributeFilterDialog> {
   void initState() {
     super.initState();
     _brandBloc = BrandBloc(DependenciesProvider.provide())
-      ..dispatch(LoadBrands(widget.categoryId));
+      ..add(LoadBrands(widget.categoryId));
     _bloc = FilterAttributeBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadAttributes(widget.categoryId));
+    _bloc.add(LoadAttributes(widget.categoryId));
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
-    _brandBloc.dispose();
+    _bloc.close();
+    _brandBloc.close();
   }
 
   @override
@@ -74,15 +74,15 @@ class _AttributeFilterDialogState extends State<AttributeFilterDialog> {
                 if (state is AttributesNetworkErrorState)
                   return NetworkErrorWidget(
                     onRetry: () {
-                      _bloc.dispatch(LoadAttributes(widget.categoryId));
-                      _brandBloc.dispatch(LoadBrands(widget.categoryId));
+                      _bloc.add(LoadAttributes(widget.categoryId));
+                      _brandBloc.add(LoadBrands(widget.categoryId));
                     },
                   );
                 if (state is AttributesErrorState)
                   return GeneralErrorWidget(
                     onRetry: () {
-                      _bloc.dispatch(LoadAttributes(widget.categoryId));
-                      _brandBloc.dispatch(LoadBrands(widget.categoryId));
+                      _bloc.add(LoadAttributes(widget.categoryId));
+                      _brandBloc.add(LoadBrands(widget.categoryId));
                     },
                   );
                 if (state is AttributesEmptyState) return Container();

@@ -37,7 +37,7 @@ class _UpdateAccountInformationScreenState
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _usernameController.dispose();
     _passwordController.dispose();

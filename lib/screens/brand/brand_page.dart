@@ -25,13 +25,13 @@ class _BrandPageState extends State<BrandPage> {
   void initState() {
     super.initState();
     _bloc = BrandBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadBrands(widget.categoryId));
+    _bloc.add(LoadBrands(widget.categoryId));
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -66,13 +66,13 @@ class _BrandPageState extends State<BrandPage> {
           if (state is BrandsError)
             return GeneralErrorWidget(
               onRetry: () {
-                _bloc.dispatch(LoadBrands(widget.categoryId));
+                _bloc.add(LoadBrands(widget.categoryId));
               },
             );
           if (state is BrandsNetworkError)
             return NetworkErrorWidget(
               onRetry: () {
-                _bloc.dispatch(LoadBrands(widget.categoryId));
+                _bloc.add(LoadBrands(widget.categoryId));
               },
             );
           if (state is BrandsLoaded)

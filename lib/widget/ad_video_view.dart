@@ -91,7 +91,7 @@ class _AdVideoViewState extends State<AdVideoView> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _videoPlayerController.dispose();
   }

@@ -56,7 +56,7 @@ class _AdMediaScreenState extends State<AdMediaScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _subscription.unsubscribe();
   }

@@ -31,24 +31,24 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
     _formNode = FocusNode();
     _commentTextEditingController = TextEditingController();
     _bloc = PostCommentBloc(DependenciesProvider.provide(),DependenciesProvider.provide());
-    _bloc.dispatch(CheckIfUserIsGoat());
+    _bloc.add(CheckIfUserIsGoat());
 
-    _bloc.state.listen((state) {
-      if (state is PostCommentSuccess) {
-        _commentTextEditingController.clear();
-        BlocProvider.of<CommentsBloc>(context)
-            .dispatch(LoadComments(widget.product.productId));
-        Navigator.of(context).pop();
-      }
-    });
+//    _bloc.state.listen((state) {
+//      if (state is PostCommentSuccess) {
+//        _commentTextEditingController.clear();
+//        BlocProvider.of<CommentsBloc>(context)
+//            .add(LoadComments(widget.product.productId));
+//        Navigator.of(context).pop();
+//      }
+//    });
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _commentTextEditingController.dispose();
     _formNode.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -126,7 +126,7 @@ class _CommentReplayScreenState extends State<CommentReplayScreen> {
           alignment: Alignment.centerRight,
           child: OutlineButton(
             onPressed: () {
-              _bloc.dispatch(PostComment(
+              _bloc.add(PostComment(
                   widget.product.productId,
                   widget.comment.commentId,
                   _commentTextEditingController.text.trim()));

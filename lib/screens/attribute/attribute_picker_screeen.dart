@@ -30,13 +30,13 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
 
     _bloc = FilterAttributeBloc(
         DependenciesProvider.provide<AttributeRepository>());
-    _bloc.dispatch(LoadAttributes(widget.categoryId));
+    _bloc.add(LoadAttributes(widget.categoryId));
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -67,13 +67,13 @@ class _AttributePickerScreenState extends State<AttributePickerScreen> {
           if (state is AttributesNetworkErrorState)
             return NetworkErrorWidget(
               onRetry: () {
-                _bloc.dispatch(LoadAttributes(widget.categoryId));
+                _bloc.add(LoadAttributes(widget.categoryId));
               },
             );
           if (state is AttributesErrorState)
             return GeneralErrorWidget(
               onRetry: () {
-                _bloc.dispatch(LoadAttributes(widget.categoryId));
+                _bloc.add(LoadAttributes(widget.categoryId));
               },
             );
           if (state is AttributesEmptyState) return NoDataWidget();

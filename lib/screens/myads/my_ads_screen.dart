@@ -23,7 +23,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
   void initState() {
     super.initState();
     _bloc = MyAdsBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadMyAds());
+    _bloc.add(LoadMyAds());
   }
 
   @override
@@ -42,25 +42,25 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
           if (state is NetworkErrorState)
             return Center(
               child: NetworkErrorWidget(onRetry: () {
-                _bloc.dispatch(LoadMyAds());
+                _bloc.add(LoadMyAds());
               }),
             );
           if (state is ErrorState)
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadMyAds());
+                  _bloc.add(LoadMyAds());
                 },
               ),
             );
           if(state is EnableSuccess)
-            _bloc.dispatch(LoadMyAds());
+            _bloc.add(LoadMyAds());
           if(state is DisableSuccess)
-            _bloc.dispatch(LoadMyAds());
+            _bloc.add(LoadMyAds());
           if (state is MyAdsLoadedState) {
             return RefreshIndicator(
               onRefresh: () {
-                _bloc.dispatch(LoadMyAds());
+                _bloc.add(LoadMyAds());
 
                 return Future.value(null);
               },
@@ -207,7 +207,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                             color: Colors.green ,
                                             child: GestureDetector(
                                               onTap: (){
-                                                  _bloc.dispatch(DisableAds(id: ad.id));
+                                                  _bloc.add(DisableAds(id: ad.id));
                                               },
                                               child: Container(
                                                 width: 100,
@@ -223,7 +223,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                             color:  Colors.red,
                                             child: GestureDetector(
                                               onTap: (){
-                                                  _bloc.dispatch(EnableAds(id: ad.id));
+                                                  _bloc.add(EnableAds(id: ad.id));
                                               },
                                               child: Container(
                                                 width: 100,

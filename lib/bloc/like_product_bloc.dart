@@ -87,14 +87,14 @@ class LikeProductBloc extends Bloc<LikeEvent, LikeState> {
           var response = await _repository.unlikeProductById(event.productId);
           if (response.success) {
             yield LikeToggled(true);
-            dispatch(CheckLikeEvent(event.productId));
+            add(CheckLikeEvent(event.productId));
           } else
             yield LikeError();
         } else {
           var response = await _repository.likeProductById(event.productId);
 
           if (response.success) {
-            dispatch(CheckLikeEvent(event.productId));
+            add(CheckLikeEvent(event.productId));
 
             yield LikeToggled(false);
           } else

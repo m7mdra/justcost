@@ -84,7 +84,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
   bool isEditMode() => widget.adProduct != null;
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _nameController.dispose();
     _quantityController.dispose();
@@ -147,7 +147,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                 return Center(
                   child: NetworkErrorWidget(
                     onRetry: () {
-                      _bloc.dispatch(AddProductEdit(
+                      _bloc.add(AddProductEdit(
                             adId: widget.adId,
                             mediaList: mediaList,
                             name: _nameController.text,
@@ -167,7 +167,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                 return Center(
                   child: GeneralErrorWidget(
                     onRetry: () {
-                      _bloc.dispatch(AddProductEdit(
+                      _bloc.add(AddProductEdit(
                           adId: widget.adId,
                           mediaList: mediaList,
                           name: _nameController.text,
@@ -538,7 +538,7 @@ class _AddAdProductScreenState extends State<AddAdProductScreen> {
                                     return;
                                   }
 
-                                  _bloc.dispatch(AddProductEdit(
+                                  _bloc.add(AddProductEdit(
                                       adId: widget.adId,
                                       mediaList: mediaList,
                                       name: _nameController.text,

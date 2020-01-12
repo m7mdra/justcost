@@ -40,13 +40,13 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _bloc = SearchBloc(DependenciesProvider.provide());
     if (widget.keyword.isNotEmpty)
-      _bloc.dispatch(SearchProductByName(widget.keyword, -1));
+      _bloc.add(SearchProductByName(widget.keyword, -1));
     _searchTextEditingController = TextEditingController();
     _scrollController = ScrollController(keepScrollOffset: true);
 //    _scrollController.addListener(() {
 //      if (_scrollController.position.pixels ==
 //          _scrollController.position.maxScrollExtent) {
-//        _bloc.dispatch(LoadNextPage(
+//        _bloc.add(LoadNextPage(
 //            _searchTextEditingController.value.text.toString(),
 //            city != null ? city.id : -1));
 //      }
@@ -54,9 +54,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
     _searchTextEditingController.dispose();
   }
 
@@ -72,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: _searchTextEditingController,
               onChanged: (value) {
                 if (value.isNotEmpty)
-                  _bloc.dispatch(
+                  _bloc.add(
                       SearchProductByName(value, city != null ? city.id : -1));
               },
               decoration: InputDecoration.collapsed(
@@ -105,9 +105,9 @@ class _SearchScreenState extends State<SearchScreen> {
 //                  chipData.addAll(selectedAttribute);
 //                });
 //                if(selectedAttribute.length > 0 || selectedBrands.length > 0){
-//                  categoryProductBloc.dispatch(filterDataEvent);
+//                  categoryProductBloc.add(filterDataEvent);
 //                }
-                  //categoryProductBloc.dispatch(loadDataEvent);
+                  //categoryProductBloc.add(loadDataEvent);
                 }
                 else{
                   print('Null');
@@ -196,7 +196,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void retrySearch() => _bloc.dispatch(SearchProductByName(
+  void retrySearch() => _bloc.add(SearchProductByName(
       _searchTextEditingController.text.trim(), city != null ? city.id : -1));
 
   Widget buildSort() {
@@ -295,7 +295,7 @@ class _SearchScreenState extends State<SearchScreen> {
         setState(() {
           this.city = city;
         });
-        _bloc.dispatch(SearchProductByName(
+        _bloc.add(SearchProductByName(
             _searchTextEditingController.text.trim(),
             city != null ? city.id : -1));
       },
@@ -315,27 +315,27 @@ class _SearchScreenState extends State<SearchScreen> {
       switch (sortType) {
         case 1:
           sortName = AppLocalizations.of(context).name;
-          _bloc.dispatch(SortByNameAscending());
+          _bloc.add(SortByNameAscending());
           break;
         case 2:
           sortName = AppLocalizations.of(context).name;
-          _bloc.dispatch(SortByNameDescending());
+          _bloc.add(SortByNameDescending());
           break;
         case 3:
           sortName = AppLocalizations.of(context).price;
-          _bloc.dispatch(SortByPriceAscending());
+          _bloc.add(SortByPriceAscending());
           break;
         case 4:
           sortName = AppLocalizations.of(context).price;
-          _bloc.dispatch(SortByPriceDescending());
+          _bloc.add(SortByPriceDescending());
           break;
         case 5:
           sortName = AppLocalizations.of(context).discount;
-          _bloc.dispatch(SortByDiscountAscending());
+          _bloc.add(SortByDiscountAscending());
           break;
         case 6:
           sortName = AppLocalizations.of(context).discount;
-          _bloc.dispatch(SortByDiscountDescending());
+          _bloc.add(SortByDiscountDescending());
           break;
       }
     });

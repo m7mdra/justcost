@@ -51,13 +51,13 @@ class _ProductCommentsState extends State<ProductComments> {
             if (state is CommentsError)
               return GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadComments(product.productId));
+                  _bloc.add(LoadComments(product.productId));
                 },
               );
             if (state is CommentsNetworkError)
               return NetworkErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadComments(product.productId));
+                  _bloc.add(LoadComments(product.productId));
                 },
               );
             if (state is NoComments)

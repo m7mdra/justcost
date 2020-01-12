@@ -23,7 +23,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _currentPasswordController.dispose();
     _passwordController.dispose();

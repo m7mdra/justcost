@@ -189,9 +189,8 @@ class UserRepository {
       print("");
       print("");
       var response = await _client.post('customer/uploadImage',
-          data: FormData.from({
-            "image": UploadFileInfo(
-                downSampledFile, downSampledFile.path),
+          data: FormData.fromMap({
+          "image": MultipartFile.fromFile(downSampledFile.path, filename: downSampledFile.path)
           }));
       return AuthenticationResponse.fromJson(response.data);
     } on DioError catch (error) {

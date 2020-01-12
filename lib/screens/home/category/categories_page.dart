@@ -34,13 +34,13 @@ class _CategoriesPageState extends State<CategoriesPage>
     super.initState();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
 
-    _bloc.dispatch(FetchCategoriesEvent());
+    _bloc.add(FetchCategoriesEvent());
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -48,7 +48,7 @@ class _CategoriesPageState extends State<CategoriesPage>
     super.build(context);
     return RefreshIndicator(
       onRefresh: () {
-        _bloc.dispatch(FetchCategoriesEvent());
+        _bloc.add(FetchCategoriesEvent());
         return Future.value();
       },
       child: BlocBuilder(
@@ -58,13 +58,13 @@ class _CategoriesPageState extends State<CategoriesPage>
           if (state is CategoriesNetworkError) {
             return NetworkErrorWidget(
               onRetry: () {
-                _bloc.dispatch(FetchCategoriesEvent());
+                _bloc.add(FetchCategoriesEvent());
               },
             );
           }
           if (state is CategoriesError) {
             return GeneralErrorWidget(onRetry: () {
-              _bloc.dispatch(FetchCategoriesEvent());
+              _bloc.add(FetchCategoriesEvent());
             });
           }
           if (state is CategoriesLoadingState)
@@ -108,7 +108,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                 },
               ),
               onRefresh: () {
-                _bloc.dispatch(FetchCategoriesEvent());
+                _bloc.add(FetchCategoriesEvent());
               },
             );
           }

@@ -71,9 +71,8 @@ class _MyProductEditState extends State<MyProductEdit> {
 
   }
 
-
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _nameController.dispose();
     _oldPriceController.dispose();
@@ -149,7 +148,7 @@ class _MyProductEditState extends State<MyProductEdit> {
 //                            return;
 //                          }
 
-//                          _bloc.dispatch(AddProductEdit(
+//                          _bloc.add(AddProductEdit(
 ////                              adId: widget.adId,
 ////                              mediaList: mediaList,
 ////                              name: _nameController.text,
@@ -170,7 +169,7 @@ class _MyProductEditState extends State<MyProductEdit> {
                 print('${_brand.id}');
                 print('${_detailsController.text}');
 
-                _bloc.dispatch(UpdateProduct(
+                _bloc.add(UpdateProduct(
                     productId: widget.product.productId,
                     title: _nameController.text,
                     regularPrice: _oldPriceController.text,
@@ -227,7 +226,7 @@ class _MyProductEditState extends State<MyProductEdit> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(UpdateProduct(
+                  _bloc.add(UpdateProduct(
                       productId: widget.product.productId,
                       title: _nameController.text,
                       regularPrice: _oldPriceController.text,
@@ -245,7 +244,7 @@ class _MyProductEditState extends State<MyProductEdit> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(UpdateProduct(
+                  _bloc.add(UpdateProduct(
                       productId: widget.product.productId,
                       title: _nameController.text,
                       regularPrice: _oldPriceController.text,
@@ -592,7 +591,7 @@ class _MyProductEditState extends State<MyProductEdit> {
 //                            return;
 //                          }
 
-//                          _bloc.dispatch(AddProductEdit(
+//                          _bloc.add(AddProductEdit(
 ////                              adId: widget.adId,
 ////                              mediaList: mediaList,
 ////                              name: _nameController.text,
@@ -664,7 +663,7 @@ class _MyProductEditState extends State<MyProductEdit> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(AddProductEdit(
+                  _bloc.add(AddProductEdit(
                       mediaList: mediaList,
                       name: _nameController.text,
                       oldPrice: _oldPriceController.text,
@@ -683,7 +682,7 @@ class _MyProductEditState extends State<MyProductEdit> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(AddProductEdit(
+                  _bloc.add(AddProductEdit(
                       mediaList: mediaList,
                       name: _nameController.text,
                       oldPrice: _oldPriceController.text,
@@ -1032,7 +1031,7 @@ class _MyProductEditState extends State<MyProductEdit> {
 //                            return;
 //                          }
 
-//                          _bloc.dispatch(AddProductEdit(
+//                          _bloc.add(AddProductEdit(
 ////                              adId: widget.adId,
 ////                              mediaList: mediaList,
 ////                              name: _nameController.text,

@@ -60,7 +60,7 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _timer.cancel();
   }

@@ -30,8 +30,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _bloc = DependenciesProvider.provide();
     _notificationBloc = NotificationBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadCurrentLanguage());
-     _notificationBloc.dispatch(LoadNotificationState(token: token));
+    _bloc.add(LoadCurrentLanguage());
+     _notificationBloc.add(LoadNotificationState(token: token));
 
   }
 
@@ -62,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     title: Text(
                                         AppLocalizations.of(context).arabic),
                                     onTap: () {
-                                      _bloc.dispatch(ChangeLanguage('ar'));
+                                      _bloc.add(ChangeLanguage('ar'));
                                       Navigator.pop(context);
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     title: Text(
                                         AppLocalizations.of(context).english),
                                     onTap: () {
-                                      _bloc.dispatch(ChangeLanguage('en'));
+                                      _bloc.add(ChangeLanguage('en'));
                                       Navigator.pop(context);
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -136,10 +136,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                             isSwitched = value;
                             if (isSwitched) {
-                              _notificationBloc.dispatch(
+                              _notificationBloc.add(
                                   ActiveNotificationEvent(token: token));
                             } else {
-                              _notificationBloc.dispatch(
+                              _notificationBloc.add(
                                   DisActiveNotificationEvent(token: token));
                             }
                         },
@@ -157,10 +157,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                             isSwitched = value;
                             if (isSwitched) {
-                              _notificationBloc.dispatch(
+                              _notificationBloc.add(
                                   ActiveNotificationEvent(token: token));
                             } else {
-                              _notificationBloc.dispatch(
+                              _notificationBloc.add(
                                   DisActiveNotificationEvent(token: token));
                             }
                         },

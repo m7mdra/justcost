@@ -56,33 +56,33 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     _formKey = GlobalKey<FormState>();
     _bloc = ResetAccountBloc(DependenciesProvider.provide());
-    _bloc.state.listen((state) {
+    _bloc.forEach((state){
       if (state is ResetErrorState) {
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
-                  actions: <Widget>[
-                    FlatButton(
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+              title: Text(AppLocalizations.of(context).generalError),
+              content: Text(state.message),
+              actions: <Widget>[
+                FlatButton(
+                  child:
+                  Text(MaterialLocalizations.of(context).okButtonLabel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
     });
     regex = new RegExp(pattern);
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     BackButtonInterceptor.remove(myInterceptor);
-    _bloc.dispose();
+    _bloc.close();
     _phoneNumberTextController.dispose();
     _emailTextController.dispose();
     _resetCodeTextController.dispose();
@@ -233,7 +233,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () {
             var code = _codeTextController.text;
-            if (code.length > 5) _bloc.dispatch(SendCodeEvent(code,phone));
+            if (code.length > 5) _bloc.add(SendCodeEvent(code,phone));
           },
           child: Text(AppLocalizations.of(context).submitButton),
           color: Theme.of(context).accentColor,
@@ -312,7 +312,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           onPressed: () {
             var form = _formKey.currentState;
             var password = _newPasswordTextController.text;
-            if (password.length > 0) _bloc.dispatch(InsertNewPassword(password: password,token: token));
+            if (password.length > 0) _bloc.add(InsertNewPassword(password: password,token: token));
           },
           child: Text(AppLocalizations.of(context).submitButton),
           color: Theme.of(context).accentColor,
@@ -479,7 +479,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       selectedState++;
                       print('phoneNumber  $selectedState');
                     });
-                    _bloc.dispatch(PhoneNumberResetSelected());
+                    _bloc.add(PhoneNumberResetSelected());
                   },
                   child:
                       Text(AppLocalizations.of(context).usePhoneNumberOption),
@@ -495,7 +495,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   onPressed: () {
                     selectedState++;
                     print('email  $selectedState');
-                    _bloc.dispatch(EmailResetSelected());
+                    _bloc.add(EmailResetSelected());
                   },
                   child: Text(AppLocalizations.of(context).useEmailOption),
                   textColor: Colors.white,
@@ -554,7 +554,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           onPressed: () {
             var form = _formKey.currentState;
             var phone = _phoneNumberTextController.text;
-            if (form.validate()) _bloc.dispatch(SubmitPhoneNumber(phone));
+            if (form.validate()) _bloc.add(SubmitPhoneNumber(phone));
           },
           child: Text(AppLocalizations.of(context).submitButton),
           color: Theme.of(context).accentColor,
@@ -610,7 +610,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           onPressed: () {
             var form = _formKey.currentState;
             var email = _emailTextController.text;
-            if (form.validate()) _bloc.dispatch(SubmitEmailEvent(email));
+            if (form.validate()) _bloc.add(SubmitEmailEvent(email));
           },
           child: Text(AppLocalizations.of(context).submitButton),
           color: Theme.of(context).accentColor,

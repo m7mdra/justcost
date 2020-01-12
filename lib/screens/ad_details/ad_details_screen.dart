@@ -58,56 +58,56 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
     _commentTextEditingController = TextEditingController();
     _bloc = AdDetailsBloc(DependenciesProvider.provide());
 //    _rateBloc = RateBloc(DependenciesProvider.provide());
-//    _rateBloc.dispatch(LoadRates(product.productId));
+//    _rateBloc.add(LoadRates(product.productId));
     _commentsBloc = CommentsBloc(DependenciesProvider.provide());
     _likeProductBloc = LikeProductBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _postCommentBloc = PostCommentBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
     _attributesBloc = AttributesBloc(DependenciesProvider.provide());
-    _commentsBloc.dispatch(LoadComments(product.productId));
-    _bloc.dispatch(LoadEvent(product.productId));
-    _postCommentBloc.dispatch(CheckIfUserIsGoat());
-    _likeProductBloc.dispatch(CheckLikeEvent(product.productId));
-    _attributesBloc.dispatch(LoadProductAttribute(product.productId));
-    _postCommentBloc.state.listen((state) {
-      if (state is ShowRatingAfterSuccess) {
-        if (state.show)
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  actions: <Widget>[
-                    FlatButton(
-                        onPressed: () {
-                          if (_rating != 0)
-                            _rateBloc.dispatch(
-                                RateProduct(widget.product.productId, _rating));
-                          Navigator.pop(context);
-                        },
-                        child: Text('Submit'))
-                  ],
-                  title: Text('Rate this product'),
-                  content: FlutterRatingBar(onRatingUpdate: (rate) {
-                    setState(() {
-                      _rating = rate.toInt();
-                    });
-                  }),
-                );
-              });
-        _commentTextEditingController.clear();
-        _commentsBloc.dispatch(LoadComments(product.productId));
-      }
-    });
+    _commentsBloc.add(LoadComments(product.productId));
+    _bloc.add(LoadEvent(product.productId));
+    _postCommentBloc.add(CheckIfUserIsGoat());
+    _likeProductBloc.add(CheckLikeEvent(product.productId));
+    _attributesBloc.add(LoadProductAttribute(product.productId));
+//    _postCommentBloc.state.listen((state) {
+//      if (state is ShowRatingAfterSuccess) {
+//        if (state.show)
+//          showDialog(
+//              context: context,
+//              builder: (context) {
+//                return AlertDialog(
+//                  actions: <Widget>[
+//                    FlatButton(
+//                        onPressed: () {
+//                          if (_rating != 0)
+//                            _rateBloc.add(
+//                                RateProduct(widget.product.productId, _rating));
+//                          Navigator.pop(context);
+//                        },
+//                        child: Text('Submit'))
+//                  ],
+//                  title: Text('Rate this product'),
+//                  content: RatingBar(onRatingUpdate: (rate) {
+//                    setState(() {
+//                      _rating = rate.toInt();
+//                    });
+//                  }),
+//                );
+//              });
+//        _commentTextEditingController.clear();
+//        _commentsBloc.add(LoadComments(product.productId));
+//      }
+//    });
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
-    _commentsBloc.dispose();
-    _likeProductBloc.dispose();
-    _postCommentBloc.dispose();
+    _bloc.close();
+    _commentsBloc.close();
+    _likeProductBloc.close();
+    _postCommentBloc.close();
   }
 
   @override
@@ -236,14 +236,14 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                           bloc: _rateBloc,
                           builder: (context, state) {
                             if (state is RateLoaded)
-                              return FlutterRatingBarIndicator(
+                              return RatingBar(
                                 itemSize: 15,
                                 itemPadding: const EdgeInsets.all(2),
                                 emptyColor:
                                     Theme.of(context).accentColor.withAlpha(80),
                                 rating: state.rate.toDouble(),
                               );
-                            return FlutterRatingBarIndicator(
+                            return RatingBar(
                               itemSize: 15,
                               itemPadding: const EdgeInsets.all(2),
                               rating: 3,
@@ -251,12 +251,15 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                                   Theme.of(context).accentColor.withAlpha(90),
                             );
                           })*/
-                      FlutterRatingBarIndicator(
+                      RatingBar(
+                        initialRating: product.rating.toDouble(),
                         itemSize: 15,
                         itemPadding: const EdgeInsets.all(2),
-                        emptyColor:
-                        Theme.of(context).accentColor.withAlpha(80),
-                        rating: product.rating.toDouble(),
+                        allowHalfRating: true,
+//                        emptyColor:
+//                        Theme.of(context).accentColor.withAlpha(80),
+                        itemCount: 5,
+                        onRatingUpdate: (rating){},
                       )
                     ],
                   ),
@@ -317,14 +320,14 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   return NetworkErrorWidget(
                     onRetry: () {
                       _attributesBloc
-                          .dispatch(LoadProductAttribute(product.productId));
+                          .add(LoadProductAttribute(product.productId));
                     },
                   );
                 if (state is AttributesError)
                   return GeneralErrorWidget(
                     onRetry: () {
                       _attributesBloc
-                          .dispatch(LoadProductAttribute(product.productId));
+                          .add(LoadProductAttribute(product.productId));
                     },
                   );
                 if (state is AttributesLoaded) {
@@ -471,7 +474,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   );
                 if (state is PostCommentSuccess){
                   _commentTextEditingController.clear();
-                  _commentsBloc.dispatch(LoadComments(product.productId));
+                  _commentsBloc.add(LoadComments(product.productId));
 //                  return Column(
 //                    children: <Widget>[
 //                      commentBox(),
@@ -499,13 +502,13 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 if (state is CommentsError)
                   return GeneralErrorWidget(
                     onRetry: () {
-                      _commentsBloc.dispatch(LoadComments(product.productId));
+                      _commentsBloc.add(LoadComments(product.productId));
                     },
                   );
                 if (state is CommentsNetworkError)
                   return NetworkErrorWidget(
                     onRetry: () {
-                      _commentsBloc.dispatch(LoadComments(product.productId));
+                      _commentsBloc.add(LoadComments(product.productId));
                     },
                   );
                 if (state is NoComments)
@@ -593,7 +596,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
   IconText likeWidget(bool isLiked) {
     return IconText(
       onPressed: () {
-        _likeProductBloc.dispatch(ToggleLike(product.productId));
+        _likeProductBloc.add(ToggleLike(product.productId));
       },
       icon: isLiked ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_border) ,
       text: Text(AppLocalizations.of(context).saveButton),
@@ -619,7 +622,7 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           alignment: Alignment.centerRight,
           child: OutlineButton(
             onPressed: () {
-              _postCommentBloc.dispatch(PostComment(product.productId, null,
+              _postCommentBloc.add(PostComment(product.productId, null,
                   _commentTextEditingController.text.trim()));
             },
             child: Text(AppLocalizations.of(context).postButton),

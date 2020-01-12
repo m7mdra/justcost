@@ -31,13 +31,13 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = CategoriesBloc(DependenciesProvider.provide());
-    _bloc.dispatch(FetchCategoriesDescendant(widget.category.id));
+    _bloc.add(FetchCategoriesDescendant(widget.category.id));
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -60,13 +60,13 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
           if (state is CategoriesNetworkError) {
             return NetworkErrorWidget(
               onRetry: () {
-                _bloc.dispatch(FetchCategoriesDescendant(widget.category.id));
+                _bloc.add(FetchCategoriesDescendant(widget.category.id));
               },
             );
           }
           if (state is CategoriesError) {
             return GeneralErrorWidget(onRetry: () {
-              _bloc.dispatch(FetchCategoriesDescendant(widget.category.id));
+              _bloc.add(FetchCategoriesDescendant(widget.category.id));
             });
           }
           if (state is CategoriesLoadingState)
@@ -115,7 +115,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 },
               ),
               onRefresh: () {
-                _bloc.dispatch(FetchCategoriesDescendant(widget.category.id));
+                _bloc.add(FetchCategoriesDescendant(widget.category.id));
                 return null;
               },
             );

@@ -111,11 +111,6 @@ class AdBloc extends Bloc<AdEvent, AdState> {
   AdState get initialState => IdleState();
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Stream<AdState> mapEventToState(AdEvent event) async* {
     if (event is CheckUserType) {
       if (await _session.isUserAGoat())

@@ -41,7 +41,7 @@ class _UpdatePersonalInformationScreenState
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _fullNameController.dispose();
     _cityController.dispose();

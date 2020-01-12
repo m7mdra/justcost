@@ -23,7 +23,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
         var responseStatus =
             await _repository.rateProduct(event.productId, event.rate);
         if (responseStatus.status) {
-          dispatch(LoadRates(event.productId));
+          add(LoadRates(event.productId));
           yield RatedSuccess();
         }
       } catch (error) {}

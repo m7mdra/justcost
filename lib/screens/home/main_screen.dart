@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen>
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
     _pageController.dispose();
   }

@@ -23,21 +23,21 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
   void initState() {
     super.initState();
     _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
-    _featuredAdsBloc.dispatch(LoadFeaturedAds());
+    _featuredAdsBloc.add(LoadFeaturedAds());
     _scrollController = ScrollController(keepScrollOffset: true);
 //    _scrollController.addListener(() {
 //      if (_scrollController.position.pixels ==
 //          _scrollController.position.maxScrollExtent) {
-//        _recentAdsBloc.dispatch(LoadNextPage());
+//        _recentAdsBloc.add(LoadNextPage());
 //      }
 //    });
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _featuredAdsBloc.dispose();
-//    _scrollController.dispose();
+    _featuredAdsBloc.close();
+//    _scrollController.close();
   }
 
   @override
@@ -82,7 +82,7 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {
-                  _featuredAdsBloc.dispatch(LoadFeaturedAds());
+                  _featuredAdsBloc.add(LoadFeaturedAds());
                 },
               ),
             );
@@ -95,7 +95,7 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _featuredAdsBloc.dispatch(LoadFeaturedAds());
+                  _featuredAdsBloc.add(LoadFeaturedAds());
                 },
               ),
             );

@@ -25,7 +25,7 @@ class _TermsState extends State<Terms> {
     super.initState();
 
     _bloc = TermsBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadTermsData());
+    _bloc.add(LoadTermsData());
   }
 
   @override
@@ -44,14 +44,14 @@ class _TermsState extends State<Terms> {
           if (state is NetworkErrorState)
             return Center(
               child: NetworkErrorWidget(onRetry: () {
-                _bloc.dispatch(LoadTermsData());
+                _bloc.add(LoadTermsData());
               }),
             );
           if (state is ErrorState)
             return Center(
               child: GeneralErrorWidget(
                 onRetry: () {
-                  _bloc.dispatch(LoadTermsData());
+                  _bloc.add(LoadTermsData());
                 },
               ),
             );

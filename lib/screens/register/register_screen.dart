@@ -55,32 +55,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     _registerBloc = RegisterBloc(
         DependenciesProvider.provide(), DependenciesProvider.provide());
-    _registerBloc.state.listen((state) {
+    _registerBloc.forEach((state){
       if (state is RegisterLoading)
         showDialog(
             context: context,
             barrierDismissible: false,
             builder: (context) => ProgressDialog(
-                  message:
-                      AppLocalizations.of(context).createAccountLoadingMessage,
-                ));
+              message:
+              AppLocalizations.of(context).createAccountLoadingMessage,
+            ));
       if (state is RegisterError) {
         Navigator.of(context).pop();
         showDialog(
             context: context,
             builder: (context) => RoundedAlertDialog(
-                  title: Text(AppLocalizations.of(context).generalError),
-                  content: Text(state.message),
-                  actions: <Widget>[
-                    FlatButton(
-                      child:
-                          Text(MaterialLocalizations.of(context).okButtonLabel),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+              title: Text(AppLocalizations.of(context).generalError),
+              content: Text(state.message),
+              actions: <Widget>[
+                FlatButton(
+                  child:
+                  Text(MaterialLocalizations.of(context).okButtonLabel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
       }
       if (state is RegisterSuccess) {
         Navigator.of(context).pop();
@@ -104,10 +104,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
 
-    _registerBloc.dispose();
+    _registerBloc.close();
     _usernameFocusNode.dispose();
     _mailFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -489,7 +489,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future _attemptRegister() async {
     if (_formKey.currentState.validate()) {
-      _registerBloc.dispatch(UserRegister(
+      _registerBloc.add(UserRegister(
           name: _nameController.text.trim(),
           username: _userNameController.text.trim(),
           email: _emailController.text.trim(),

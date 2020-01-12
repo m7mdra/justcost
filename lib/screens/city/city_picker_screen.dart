@@ -18,13 +18,13 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
   void initState() {
     super.initState();
     _bloc = CitiesBloc(DependenciesProvider.provide());
-    _bloc.dispatch(LoadCities());
+    _bloc.add(LoadCities());
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+    _bloc.close();
   }
 
   @override
@@ -45,7 +45,7 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
           if (state is NetworkErrorState)
             return NetworkErrorWidget(
               onRetry: () {
-                _bloc.dispatch(LoadCities());
+                _bloc.add(LoadCities());
               },
             );
           if (state is NoDataState) return NoDataWidget();

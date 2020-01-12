@@ -49,13 +49,15 @@ class _MyAppState extends State<MyApp> {
     );
 
     _bloc = DependenciesProvider.provide();
-    _bloc.dispatch(LoadCurrentLanguage());
+//    _bloc.add(LoadCurrentLanguage());
+    _bloc.add(LoadCurrentLanguage());
   }
 
   @override
-  void dispose() {
+  void close() {
     super.dispose();
-    _bloc.dispose();
+//    _bloc.close();
+    _bloc.close();
   }
 
   @override
@@ -102,7 +104,7 @@ class _MyAppState extends State<MyApp> {
               child: SplashScreen(),
               providers: <BlocProvider>[
                 BlocProvider<AuthenticationBloc>(
-                  builder: (context) => AuthenticationBloc(
+                  create: (context) => AuthenticationBloc(
                       session: getIt.get(), repository: getIt.get()),
                 ),
 
