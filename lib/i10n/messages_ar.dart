@@ -270,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "this proccess Requires you to relogin after chaning." : MessageLookupByLibrary.simpleMessage("هذه العملية تتطلب اعادة تسجيل الدخول"),
     "try again or contact support." : MessageLookupByLibrary.simpleMessage("حاول مجددا او قم بالتواصل مع الدعم الفني"),
     "usernameFieldHint" : MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
-    "verificationLoadingMessage" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار بينما يتم التحقق من حسابك")
+    "verificationLoadingMessage" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار بينما يتم التحقق من حسابك"),
+    "Ok" : MessageLookupByLibrary.simpleMessage("حسنا")
   };
 }

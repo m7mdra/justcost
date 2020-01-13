@@ -268,6 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "this proccess Requires you to relogin after chaning." : MessageLookupByLibrary.simpleMessage("this proccess Requires you to relogin after chaning."),
     "try again or contact support." : MessageLookupByLibrary.simpleMessage("try again or contact support."),
     "usernameFieldHint" : MessageLookupByLibrary.simpleMessage("Username"),
-    "verificationLoadingMessage" : MessageLookupByLibrary.simpleMessage("Please wait while trying to verify your account.")
+    "verificationLoadingMessage" : MessageLookupByLibrary.simpleMessage("Please wait while trying to verify your account."),
+    "Ok" : MessageLookupByLibrary.simpleMessage("Ok")
   };
 }

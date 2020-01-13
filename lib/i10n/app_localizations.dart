@@ -604,6 +604,8 @@ class AppLocalizations {
   String get cropYourImage => Intl.message('Crop your image');
 
   String get cropButton => Intl.message('Crop');
+
+  String get ok => Intl.message('Ok');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

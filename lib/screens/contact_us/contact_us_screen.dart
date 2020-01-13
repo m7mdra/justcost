@@ -18,6 +18,7 @@ class _ContactUsState extends State<ContactUs> {
   ContactUsBloc _bloc;
 
   TextEditingController name , email , subject , message ;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -40,6 +41,7 @@ class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).contactUs),
       ),
@@ -70,38 +72,44 @@ class _ContactUsState extends State<ContactUs> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 20,),
-                Icon(Icons.check,size: 40,),
+                Center(child: Icon(Icons.check,size: 40,)),
                 SizedBox(height: 15,),
-                Container(
-                  margin: EdgeInsets.only(left: 40,right: 40),
-                  child: Text(
-                    AppLocalizations.of(context).thanksContact,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.title,
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 40,right: 40),
+                    child: Text(
+                      AppLocalizations.of(context).thanksContact,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.title,
+                    ),
                   ),
                 ),
                 SizedBox(height: 15,),
-                Container(
-                  margin: EdgeInsets.only(left: 40,right: 40),
-                  child: Text(
-                    AppLocalizations.of(context).thanksMessage,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.title,
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 40,right: 40),
+                    child: Text(
+                      AppLocalizations.of(context).thanksMessage,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.title,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20,),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                      height: 40,
-                      width: 110,
-                      decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Center(child: Text(AppLocalizations.of(context).submitButton,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w800),),)
+                Center(
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                        height: 40,
+                        width: 110,
+                        decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Center(child: Text(AppLocalizations.of(context).ok,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w800),),)
+                    ),
                   ),
                 )
               ],
@@ -203,18 +211,38 @@ class _ContactUsState extends State<ContactUs> {
                 GestureDetector(
                   onTap: (){
                     if(name.text.trim().length < 1){
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(AppLocalizations.of(context).nameValidationEmptyError),
+                      ));
                       return;
                     }
                     else if(email.text.trim().length < 1){
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(AppLocalizations.of(context).emailFieldEmptyError),
+                      ));
                       return;
                     }
                     else if(!regex.hasMatch(email.text)){
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(AppLocalizations.of(context).emailFieldInvalidError),
+                      ));
                       return;
                     }
                     else if(subject.text.trim().length < 1){
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(AppLocalizations.of(context).titleEmptyError),
+                      ));
                       return;
                     }
                     else if(message.text.trim().length < 1){
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(AppLocalizations.of(context).detailsEmptyError),
+                      ));
                       return;
                     }
                     _bloc.add(SendReport(

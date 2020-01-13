@@ -1220,4 +1220,10 @@
                    "type": "text",
                    "placeholders": {}
                  }
+                 "Ok": "Ok",
+                 "@Ok": {
+                   "type": "text",
+                   "placeholders": {}
+                 }
+
 }
