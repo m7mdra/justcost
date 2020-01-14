@@ -35,9 +35,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   ScrollController _scrollController;
   List<Product> filteredProducts = [];
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -47,14 +44,13 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
       ..add(loadDataEvent);
     _scrollController = ScrollController(keepScrollOffset: true);
     _scrollController.addListener(() {
-//      if (_scrollController.position.pixels ==
-//          _scrollController.position.maxScrollExtent) {
-//        categoryProductBloc.add(LoadNextPage(
-//            widget.category.name,
-//            selectedAttribute.map((attribute) => attribute.id).toList(),
-//            selectedBrands.map((brand) => brand.id).toList(),
-//            _controller.text));
-//      }
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      categoryProductBloc.add(LoadNextPage(
+          widget.category.name,
+          selectedAttribute.map((attribute) => attribute.id).toList(),
+          selectedBrands.map((brand) => brand.id).toList(),
+          _controller.text));
+    }
     });
   }
 

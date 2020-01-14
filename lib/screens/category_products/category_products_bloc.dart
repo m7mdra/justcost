@@ -81,55 +81,38 @@ class CategoryProductsBloc
   @override
   Stream<CategoryProductsState> mapEventToState(
       CategoryProductsEvent event) async* {
-
     if (event is FilteredDataEvent) {
 //      yield LoadingState();
-
       var filterdProducts = new List<Product>();
 
-
-      if(event.products.isNotEmpty){
-
+      if (event.products.isNotEmpty) {
         event.products.forEach((pro) {
-
-          if(event.attributes.length > 0){
-
+          if (event.attributes.length > 0) {
             event.attributes.forEach((attr) {
-
               pro.attributes.forEach((proAttr) {
-
-                if(attr == proAttr.attribute.id){
+                if (attr == proAttr.attribute.id) {
                   filterdProducts.add(pro);
                 }
-
               });
-
             });
-
           }
 
-          if(event.brands.length > 0){
-
+          if (event.brands.length > 0) {
             event.brands.forEach((bran) {
+              if (bran.toString() == pro.brand) {
+                var product = filterdProducts.firstWhere((item) =>
+                int.parse(item.brand) == bran);
 
-              if(bran.toString() == pro.brand)
-              {
-                var product = filterdProducts.firstWhere((item)=> int.parse(item.brand) == bran);
-
-                if(product == null){
+                if (product == null) {
                   filterdProducts.add(product);
                 }
-
               }
-
             });
-
           }
-
         });
       }
 
-      if (filterdProducts.length > 0){
+      if (filterdProducts.length > 0) {
         yield FilteredCategoryProductsLoaded(filterdProducts, true);
       }
       else {
@@ -147,7 +130,7 @@ class CategoryProductsBloc
             attributes: event.attributes,
             brands: event.brands);
         if (response.success) {
-          if (response.data != null && response.data.isNotEmpty){
+          if (response.data != null && response.data.isNotEmpty) {
             yield CategoryProductsLoaded(response.data, true);
           }
           else
@@ -165,30 +148,31 @@ class CategoryProductsBloc
       }
     }
 
-   /* if (event is LoadNextPage) {
-      try {
-        if (lasPage) return;
-        _currentPage += 1;
-        var response = await repository.getProductsFromCategory(
-            event.category, _currentPage,
-            keyword: event.keyword,
-            attributes: event.attributes,
-            brands: event.brands);
-        if (response.success) {
-          lasPage = response.data.isEmpty;
-          yield CategoryProductsLoaded(
-              (currentState as CategoryProductsLoaded).products
-                ..addAll(response.data),
-              response.data.isEmpty);
-        } else
-          yield ErrorState();
-      } on DioError catch (e) {
-        print('error $e');
-        yield NetworkErrorState();
-      } catch (e) {
-        print('error $e');
-        yield ErrorState();
-      }
-    }*/
+//    if (event is LoadNextPage) {
+//      try {
+//        if (lasPage) return;
+//        _currentPage += 1;
+//        var response = await repository.getProductsFromCategory(
+//            event.category, _currentPage,
+//            keyword: event.keyword,
+//            attributes: event.attributes,
+//            brands: event.brands);
+//        if (response.success) {
+//          lasPage = response.data.isEmpty;
+//          yield CategoryProductsLoaded(
+//              (currentState as CategoryProductsLoaded).products
+//                ..addAll(response.data),
+//              response.data.isEmpty);
+//        } else
+//          yield ErrorState();
+//      } on DioError catch (e) {
+//        print('error $e');
+//        yield NetworkErrorState();
+//      } catch (e) {
+//        print('error $e');
+//        yield ErrorState();
+//      }
+//    }
+//  }
   }
 }

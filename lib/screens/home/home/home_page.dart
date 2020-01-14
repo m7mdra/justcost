@@ -17,6 +17,7 @@ import 'package:justcost/screens/recentads/recent_ad_screen.dart';
 import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 class HomePage extends StatefulWidget {
   final ValueChanged<ScrollNotification> onScroll;
 
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage>
   CategoriesBloc _categoriesBloc;
   RecentAdsBloc _recentAdsBloc;
   FeaturedAdsBloc _featuredAdsBloc;
+  var isLoading = false;
 
   @override
   void initState() {
@@ -250,24 +252,31 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      primary: false,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return AdWidget(
-                          product: state.products[index],
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AdDetailsScreen(
-                                      product: state.products[index],
-                                    )));
-                          },
-                        );
+                    LazyLoadScrollView(
+                      isLoading: isLoading,
+                      onEndOfPage: () {
+                        _recentAdsBloc.add(LoadRecentNextPage());
                       },
-                      itemCount: state.products.length,
-                      shrinkWrap: true,
+                      child: ListView.builder(
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return AdWidget(
+                            product: state.products[index],
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AdDetailsScreen(
+                                        product: state.products[index],
+                                      )));
+                            },
+                          );
+                        },
+                        itemCount: state.products.length,
+                        shrinkWrap: true,
+                      ),
                     ),
+
                   ],
                 );
               }
@@ -279,7 +288,7 @@ class _HomePageState extends State<HomePage>
             color: Colors.grey,
           ),
           const SizedBox(
-            height: 100,
+            height: 50,
           )
         ],
       ),

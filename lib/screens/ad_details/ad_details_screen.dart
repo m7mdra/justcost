@@ -256,8 +256,10 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                         itemSize: 15,
                         itemPadding: const EdgeInsets.all(2),
                         allowHalfRating: true,
-//                        emptyColor:
-//                        Theme.of(context).accentColor.withAlpha(80),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
                         itemCount: 5,
                         onRatingUpdate: (rating){},
                       )

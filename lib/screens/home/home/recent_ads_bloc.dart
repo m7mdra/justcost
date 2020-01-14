@@ -7,6 +7,8 @@ abstract class RecentAdsEvent {}
 
 class LoadRecentAds extends RecentAdsEvent {}
 
+class LoadRecentNextPage extends RecentAdsEvent {}
+
 class RecentAdsLoaded extends RecentAdsState {
   final List<Product> products;
   final bool hasReachedMax;
@@ -32,7 +34,6 @@ class RecentAdsNetworkError extends RecentAdsState {}
 
 class RecentAdsIdle extends RecentAdsState {}
 
-class LoadNextPage extends RecentAdsEvent {}
 
 abstract class RecentAdsState {}
 
@@ -66,7 +67,7 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
         yield RecentAdsError();
       }
     }
-    if (event is LoadNextPage) {
+    if (event is LoadRecentNextPage) {
       try {
         if (lasPage) return;
         _currentPage += 1;

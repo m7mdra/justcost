@@ -53,6 +53,7 @@ dependencies:
   cached_network_image: ^2.0.0
   back_button_interceptor: ^4.2.2
   pinput: ^0.1.10
+  lazy_load_scrollview: ^1.0.1
 
 dev_dependencies:
   flutter_test:

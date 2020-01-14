@@ -8,6 +8,7 @@ import 'package:justcost/screens/ad_details/ad_details_screen.dart';
 import 'package:justcost/screens/ad_status_screen.dart';
 import 'package:justcost/screens/category_details/category_details.dart';
 import 'package:justcost/screens/home/category/categores_bloc.dart';
+import 'package:justcost/screens/home/home/featured_ads_bloc.dart';
 import 'package:justcost/screens/home/home/recent_ads_bloc.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
@@ -25,7 +26,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin<SearchPage> {
   CategoriesBloc _categoriesBloc;
-  RecentAdsBloc _recentAdsBloc;
+  FeaturedAdsBloc _featuredAdsBloc;
   List<Product> products;
 
   @override
@@ -33,12 +34,12 @@ class _SearchPageState extends State<SearchPage>
     super.initState();
 
     _categoriesBloc = CategoriesBloc(DependenciesProvider.provide());
-    _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
+    _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
 
     _categoriesBloc.add(FetchCategoriesEvent());
-    _recentAdsBloc.add(LoadRecentAds());
-    _recentAdsBloc.forEach((state){
-      if (state is RecentAdsLoaded)
+    _featuredAdsBloc.add(LoadFeaturedAds());
+    _featuredAdsBloc.forEach((state){
+      if (state is FeaturedAdsLoaded)
         setState(() {
           products = state.products;
         });
@@ -49,7 +50,7 @@ class _SearchPageState extends State<SearchPage>
   void close() {
     super.dispose();
     _categoriesBloc.close();
-    _recentAdsBloc.close();
+    _featuredAdsBloc.close();
   }
 
   @override
@@ -58,7 +59,7 @@ class _SearchPageState extends State<SearchPage>
     return RefreshIndicator(
       onRefresh: () {
         _categoriesBloc.add(FetchCategoriesEvent());
-        _recentAdsBloc.add(LoadRecentAds());
+        _featuredAdsBloc.add(LoadFeaturedAds());
         return Future.value(null);
       },
       child: ListView(
@@ -141,9 +142,9 @@ class _SearchPageState extends State<SearchPage>
             },
           ),
           BlocBuilder(
-            bloc: _recentAdsBloc,
-            builder: (BuildContext context, RecentAdsState state) {
-              if (state is RecentAdsLoaded) {
+            bloc: _featuredAdsBloc,
+            builder: (BuildContext context, FeaturedAdsState state) {
+              if (state is FeaturedAdsLoaded) {
                 return GridView.builder(
                   primary: false,
                   itemBuilder: (context, index) {
