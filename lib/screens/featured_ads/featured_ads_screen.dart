@@ -18,6 +18,13 @@ class FeaturedAdsScreen extends StatefulWidget {
 class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
   FeaturedAdsBloc _featuredAdsBloc;
   ScrollController _scrollController;
+  List<Product> featuredProducts;
+  var loadNextLoading = false;
+
+  loadData() async {
+    await new Future.delayed(new Duration(seconds: 1));
+    _featuredAdsBloc.add(LoadFeaturedNextPage());
+  }
 
   @override
   void initState() {
@@ -25,19 +32,22 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
     _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
     _featuredAdsBloc.add(LoadFeaturedAds());
     _scrollController = ScrollController(keepScrollOffset: true);
-//    _scrollController.addListener(() {
-//      if (_scrollController.position.pixels ==
-//          _scrollController.position.maxScrollExtent) {
-//        _recentAdsBloc.add(LoadNextPage());
-//      }
-//    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          loadNextLoading = true;
+        });
+        loadData();
+      }
+    });
   }
 
   @override
   void close() {
     super.dispose();
     _featuredAdsBloc.close();
-//    _scrollController.close();
+    _scrollController.dispose();
   }
 
   @override
@@ -50,35 +60,57 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
         bloc: _featuredAdsBloc,
         builder: (BuildContext context, FeaturedAdsState state) {
           if (state is FeaturedAdsLoaded) {
-            return ListView.builder(
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                if (index >= state.products.length)
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                else
-                  return AdWidget(
-                    key: ValueKey(state.products[index].productId),
-                    product: state.products[index],
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => AdDetailsScreen(
-                            product: state.products[index],
-                          )));
+            loadNextLoading = false;
+            featuredProducts = state.products;
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      if (index >= state.products.length)
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      else
+                        return AdWidget(
+                          key: ValueKey(state.products[index].productId),
+                          product: state.products[index],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => AdDetailsScreen(
+                                  product: state.products[index],
+                                )));
+                          },
+                        );
                     },
-                  );
-              },
-              itemCount: state.hasReachedMax
-                  ? state.products.length
-                  : state.products.length + 1,
+                    itemCount: state.hasReachedMax
+                        ? state.products.length
+                        : state.products.length + 1,
+                  ),
+                ),
+                Visibility(
+                  visible: loadNextLoading ? true : false,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 20,),
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        SizedBox(height: 20,),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             );
           }
 
-          if (state is RecentAdsNetworkError)
+          if (state is FeaturedAdsNetworkError)
             return Center(
               child: NetworkErrorWidget(
                 onRetry: () {

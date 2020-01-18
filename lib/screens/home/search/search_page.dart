@@ -28,6 +28,9 @@ class _SearchPageState extends State<SearchPage>
   CategoriesBloc _categoriesBloc;
   FeaturedAdsBloc _featuredAdsBloc;
   List<Product> products;
+  ScrollController _scrollController;
+  List<Product> featuredProducts;
+  var loadNextLoading = false;
 
   @override
   void initState() {
@@ -43,6 +46,17 @@ class _SearchPageState extends State<SearchPage>
         setState(() {
           products = state.products;
         });
+    });
+
+    _scrollController = ScrollController(keepScrollOffset: true);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          loadNextLoading = true;
+        });
+        _featuredAdsBloc.add(LoadFeaturedNextPage());
+      }
     });
   }
 
@@ -63,6 +77,7 @@ class _SearchPageState extends State<SearchPage>
         return Future.value(null);
       },
       child: ListView(
+        controller: _scrollController,
         children: <Widget>[
           BlocBuilder(
             bloc: _categoriesBloc,

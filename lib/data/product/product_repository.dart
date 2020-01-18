@@ -30,25 +30,24 @@ class ProductRepository {
     }
   }
 
-  Future<ProductResponse> getProducts({int page = 0}) async {
+  Future<ProductResponse> getProducts({int skip , int limit}) async {
     try {
       var response =
-          await _client.get('getAllProducts', queryParameters: {'skip': page});
+          await _client.get('getAllProducts', queryParameters: {'skip': skip , 'take': limit});
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
     }
   }
 
-  Future<ProductResponse> getFeaturedProducts({int page = 0}) async {
+  Future<ProductResponse> getFeaturedProducts({int skip , int limit}) async {
     try {
-      var response = await _client.get('getfeaturedProducts', queryParameters: {'skip': page});
+      var response = await _client.get('getfeaturedProducts', queryParameters: {'skip': skip , 'take': limit});
       return ProductResponse.fromJson(response.data);
     } catch (error) {
       throw error;
     }
   }
-
 
   Future<ProductResponse> findProductsByName(
       String name, int cityId, int page) async {

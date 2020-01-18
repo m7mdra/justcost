@@ -42,16 +42,18 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
     _controller = TextEditingController();
     categoryProductBloc = CategoryProductsBloc(DependenciesProvider.provide())
       ..add(loadDataEvent);
-    _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      categoryProductBloc.add(LoadNextPage(
-          widget.category.name,
-          selectedAttribute.map((attribute) => attribute.id).toList(),
-          selectedBrands.map((brand) => brand.id).toList(),
-          _controller.text));
-    }
-    });
+//    _scrollController = ScrollController(keepScrollOffset: true);
+//    _scrollController.addListener(() {
+//    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+//      print('reached 221');
+//      categoryProductBloc.add(LoadNextPage(
+//          widget.category.name,
+//          selectedAttribute.map((attribute) => attribute.id).toList(),
+//          selectedBrands.map((brand) => brand.id).toList(),
+//          _controller.text)
+//      );
+//    }
+//    });
   }
 
   get loadDataEvent => LoadDataEvent(

@@ -17,6 +17,13 @@ class RecentAdsScreen extends StatefulWidget {
 class _RecentAdsScreenState extends State<RecentAdsScreen> {
   RecentAdsBloc _recentAdsBloc;
   ScrollController _scrollController;
+  var loadNextLoading = false;
+  List<Product> _recentProducts;
+
+  loadData() async {
+    await new Future.delayed(new Duration(seconds: 1));
+    _recentAdsBloc.add(LoadRecentNextPage());
+  }
 
   @override
   void initState() {
@@ -24,16 +31,19 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     _recentAdsBloc.add(LoadRecentAds());
     _scrollController = ScrollController(keepScrollOffset: true);
-//    _scrollController.addListener(() {
-//      if (_scrollController.position.pixels ==
-//          _scrollController.position.maxScrollExtent) {
-//        _recentAdsBloc.add(LoadNextPage());
-//      }
-//    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          loadNextLoading = true;
+        });
+        loadData();
+      }
+    });
   }
 
   @override
-  void close() {
+  void dispose() {
     super.dispose();
     _recentAdsBloc.close();
 //    _scrollController.close();
@@ -50,31 +60,53 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
         builder: (BuildContext context, RecentAdsState state) {
 
           if (state is RecentAdsLoaded) {
-            return ListView.builder(
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                if (index >  state.products.length)
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                else
-                  return AdWidget(
-                    key: ValueKey(state.products[index].productId),
-                    product: state.products[index],
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => AdDetailsScreen(
-                                product: state.products[index],
-                              )));
+            loadNextLoading = false;
+            _recentProducts = state.products;
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      if (index >  state.products.length)
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      else
+                        return AdWidget(
+                          key: ValueKey(state.products[index].productId),
+                          product: state.products[index],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => AdDetailsScreen(
+                                      product: state.products[index],
+                                    )));
+                          },
+                        );
                     },
-                  );
-              },
-              itemCount: state.hasReachedMax
-                  ? state.products.length
-                  : state.products.length + 1,
+                    itemCount: state.hasReachedMax
+                        ? state.products.length
+                        : state.products.length,
+                  ),
+                ),
+                Visibility(
+                  visible: loadNextLoading ? true : false,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 20,),
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        SizedBox(height: 20,),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             );
           }
 

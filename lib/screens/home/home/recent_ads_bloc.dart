@@ -52,7 +52,7 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
     if (event is LoadRecentAds) {
       try {
         yield RecentAdsLoading();
-        var response = await repository.getProducts(page: _currentPage);
+        var response = await repository.getProducts(skip: 0,limit: 15);
         if (response.success){
           yield RecentAdsLoaded(response.data, true);
           print(response.data);
@@ -69,9 +69,12 @@ class RecentAdsBloc extends Bloc<RecentAdsEvent, RecentAdsState> {
     }
     if (event is LoadRecentNextPage) {
       try {
-        if (lasPage) return;
+        if (lasPage) {
+          print('end');
+          return;
+        }
         _currentPage += 1;
-        var response = await repository.getProducts(page: _currentPage);
+        var response = await repository.getProducts(skip: (state as RecentAdsLoaded).products.length , limit: 15);
         if (response.success) {
           lasPage = response.data.isEmpty;
           yield RecentAdsLoaded(

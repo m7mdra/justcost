@@ -33,7 +33,9 @@ class FeaturedAdsNetworkError extends FeaturedAdsState {}
 
 class FeaturedAdsIdle extends FeaturedAdsState {}
 
-class LoadNextPage extends FeaturedAdsEvent {}
+class LoadFeaturedNextPage extends FeaturedAdsEvent {
+
+}
 
 abstract class FeaturedAdsState {}
 
@@ -52,12 +54,35 @@ class FeaturedAdsBloc extends Bloc<FeaturedAdsEvent, FeaturedAdsState> {
     if (event is LoadFeaturedAds) {
       try {
         yield FeaturedAdsLoading();
-        var response = await repository.getFeaturedProducts(page: _currentPage);
+        var response = await repository.getFeaturedProducts(skip: 0,limit: 15);
         if (response.success) {
           yield FeaturedAdsLoaded(response.data, true);
           print(response.data);
         }
         else
+          yield FeaturedAdsError();
+      } on DioError catch (e) {
+        print('error $e');
+        yield FeaturedAdsNetworkError();
+      } catch (e) {
+        print('error $e');
+        yield FeaturedAdsError();
+      }
+    }
+    if (event is LoadFeaturedNextPage) {
+      try {
+        if (lasPage) {
+          print('end');
+          return;
+        }
+        _currentPage += 1;
+        var response = await repository.getFeaturedProducts(skip: (state as FeaturedAdsLoaded).products.length,limit: 15);
+        if (response.success) {
+          lasPage = response.data.isEmpty;
+          yield FeaturedAdsLoaded(
+              (state as FeaturedAdsLoaded).products..addAll(response.data),
+              response.data.isEmpty);
+        } else
           yield FeaturedAdsError();
       } on DioError catch (e) {
         print('error $e');

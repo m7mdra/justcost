@@ -148,31 +148,30 @@ class CategoryProductsBloc
       }
     }
 
-//    if (event is LoadNextPage) {
-//      try {
-//        if (lasPage) return;
-//        _currentPage += 1;
-//        var response = await repository.getProductsFromCategory(
-//            event.category, _currentPage,
-//            keyword: event.keyword,
-//            attributes: event.attributes,
-//            brands: event.brands);
-//        if (response.success) {
-//          lasPage = response.data.isEmpty;
-//          yield CategoryProductsLoaded(
-//              (currentState as CategoryProductsLoaded).products
-//                ..addAll(response.data),
-//              response.data.isEmpty);
-//        } else
-//          yield ErrorState();
-//      } on DioError catch (e) {
-//        print('error $e');
-//        yield NetworkErrorState();
-//      } catch (e) {
-//        print('error $e');
-//        yield ErrorState();
-//      }
-//    }
-//  }
+    if (event is LoadNextPage) {
+      try {
+        if (lasPage) return;
+        _currentPage += 1;
+        var response = await repository.getProductsFromCategory(
+            int.parse(event.category), _currentPage,
+            keyword: event.keyword,
+            attributes: event.attributes,
+            brands: event.brands);
+        if (response.success) {
+          lasPage = response.data.isEmpty;
+          yield CategoryProductsLoaded(
+              (state as CategoryProductsLoaded).products
+                ..addAll(response.data),
+              response.data.isEmpty);
+        } else
+          yield ErrorState();
+      } on DioError catch (e) {
+        print('error $e');
+        yield NetworkErrorState();
+      } catch (e) {
+        print('error $e');
+        yield ErrorState();
+      }
+    }
   }
 }

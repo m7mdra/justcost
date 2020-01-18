@@ -18,6 +18,7 @@ import 'package:justcost/widget/ad_widget.dart';
 import 'package:justcost/widget/discount_badge_widget.dart';
 import 'package:justcost/i10n/app_localizations.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+
 class HomePage extends StatefulWidget {
   final ValueChanged<ScrollNotification> onScroll;
 
@@ -34,6 +35,13 @@ class _HomePageState extends State<HomePage>
   RecentAdsBloc _recentAdsBloc;
   FeaturedAdsBloc _featuredAdsBloc;
   var isLoading = false;
+  var loadNextLoading = false;
+  ScrollController _scrollController;
+
+  loadData() {
+      loadNextLoading = true;
+    _recentAdsBloc.add(LoadRecentNextPage());
+  }
 
   @override
   void initState() {
@@ -44,6 +52,14 @@ class _HomePageState extends State<HomePage>
     _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     fetchData();
+
+    _scrollController = ScrollController(keepScrollOffset: true);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        print('reached 221');
+        loadData();
+      }
+    });
   }
 
   void fetchData() {
@@ -66,6 +82,7 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return RefreshIndicator(
       child: ListView(
+        controller: _scrollController,
         children: <Widget>[
           Container(
             key: UniqueKey(),
@@ -75,25 +92,29 @@ class _HomePageState extends State<HomePage>
               bloc: _bloc,
               builder: (BuildContext context, SliderState state) {
                 if (state is SliderLoaded) {
-                  return state.sliders.isEmpty? Image.asset('assets/icon/android/logo-500.png')  : Swiper(
-                    controller: SwiperController(),
-                    autoplay: true,
-                    autoplayDisableOnInteraction: true,
-                    pagination: SwiperPagination(),
-                    viewportFraction: 0.9,
-                    indicatorLayout: PageIndicatorLayout.SCALE,
-                    curve: Curves.fastOutSlowIn,
-                    itemCount: state.sliders.length,
-                    duration: 500,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Image.network(
-                          state.sliders[index] != null ? state.sliders[index] : 'http://185.151.29.205:8099/images/logo.png',
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    },
-                  );
+                  return state.sliders.isEmpty
+                      ? Image.asset('assets/icon/android/logo-500.png')
+                      : Swiper(
+                          controller: SwiperController(),
+                          autoplay: true,
+                          autoplayDisableOnInteraction: true,
+                          pagination: SwiperPagination(),
+                          viewportFraction: 0.9,
+                          indicatorLayout: PageIndicatorLayout.SCALE,
+                          curve: Curves.fastOutSlowIn,
+                          itemCount: state.sliders.length,
+                          duration: 500,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Image.network(
+                                state.sliders[index] != null
+                                    ? state.sliders[index]
+                                    : 'http://185.151.29.205:8099/images/logo.png',
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        );
                 }
                 if (state is SliderError) {
                   return Column(
@@ -147,8 +168,9 @@ class _HomePageState extends State<HomePage>
                                       )));
                             },
                             child: FeatureCategoryWidget(
-                                category: state.categories[index],
-                                lanCode: Localizations.localeOf(context).languageCode,
+                              category: state.categories[index],
+                              lanCode:
+                                  Localizations.localeOf(context).languageCode,
                             ),
                           );
                         },
@@ -185,7 +207,8 @@ class _HomePageState extends State<HomePage>
                                         builder: (context) =>
                                             FeaturedAdsScreen()));
                               },
-                              child: Text(AppLocalizations.of(context).seeMoreButton),
+                              child: Text(
+                                  AppLocalizations.of(context).seeMoreButton),
                               textTheme: ButtonTextTheme.accent,
                             )
                           ],
@@ -224,6 +247,7 @@ class _HomePageState extends State<HomePage>
             bloc: _recentAdsBloc,
             builder: (BuildContext context, RecentAdsState state) {
               if (state is RecentAdsLoaded) {
+                loadNextLoading = false;
                 return Column(
                   children: <Widget>[
                     Padding(
@@ -244,7 +268,8 @@ class _HomePageState extends State<HomePage>
                                         builder: (context) =>
                                             RecentAdsScreen()));
                               },
-                              child: Text(AppLocalizations.of(context).seeMoreButton),
+                              child: Text(
+                                  AppLocalizations.of(context).seeMoreButton),
                               textTheme: ButtonTextTheme.accent,
                             )
                           ],
@@ -252,43 +277,46 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                     ),
-                    LazyLoadScrollView(
-                      isLoading: isLoading,
-                      onEndOfPage: () {
-                        _recentAdsBloc.add(LoadRecentNextPage());
+                    ListView.builder(
+                      primary: false,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return AdWidget(
+                          product: state.products[index],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AdDetailsScreen(
+                                      product: state.products[index],
+                                    )));
+                          },
+                        );
                       },
-                      child: ListView.builder(
-                        primary: false,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          return AdWidget(
-                            product: state.products[index],
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      AdDetailsScreen(
-                                        product: state.products[index],
-                                      )));
-                            },
-                          );
-                        },
-                        itemCount: state.products.length,
-                        shrinkWrap: true,
-                      ),
+                      itemCount: state.products.length,
+                      shrinkWrap: true,
                     ),
-
+                    Visibility(
+                      visible: loadNextLoading ? true : false,
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 20,),
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            SizedBox(height: 20,),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 );
               }
               return Container();
             },
           ),
-          Icon(
-            Icons.more_horiz,
-            color: Colors.grey,
-          ),
           const SizedBox(
-            height: 50,
+            height: 30,
           )
         ],
       ),
@@ -301,15 +329,30 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  Future _loadData() async {
+    // perform fetching data delay
+    await new Future.delayed(new Duration(seconds: 2));
+
+    print("load more");
+    // update data and loading status
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+
   @override
   bool get wantKeepAlive => true;
 }
+
+
 
 class FeatureCategoryWidget extends StatelessWidget {
   final Category category;
   final String lanCode;
 
-  const FeatureCategoryWidget({Key key, this.category,this.lanCode}) : super(key: key);
+  const FeatureCategoryWidget({Key key, this.category, this.lanCode})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -331,7 +374,9 @@ class FeatureCategoryWidget extends StatelessWidget {
                   width: 70,
                 ),
           Text(
-            Localizations.localeOf(context).languageCode == 'ar' ? category.arName : category.name,
+            Localizations.localeOf(context).languageCode == 'ar'
+                ? category.arName
+                : category.name,
             maxLines: 1,
             textAlign: TextAlign.center,
           )
@@ -362,20 +407,17 @@ class FeaturedAdsWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               children: <Widget>[
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16)),
-                  child:
-                  FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/loading.jpg',
-                    image: product.media.length != 0 ? product.media[0].url : 'http://185.151.29.205:8099/images/logo.png',
-                    height: 120,
-                    width: 150,
-                  )
-
-
-
-                ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/loading.jpg',
+                      image: product.media.length != 0
+                          ? product.media[0].url
+                          : 'http://185.151.29.205:8099/images/logo.png',
+                      height: 120,
+                      width: 150,
+                    )),
                 DiscountPercentageBannerWidget(
                   regularPrice: product.regPrice,
                   salePrice: product.salePrice,
