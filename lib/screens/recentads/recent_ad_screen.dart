@@ -18,12 +18,6 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
   RecentAdsBloc _recentAdsBloc;
   ScrollController _scrollController;
   var loadNextLoading = false;
-  List<Product> _recentProducts;
-
-  loadData() async {
-    await new Future.delayed(new Duration(seconds: 1));
-    _recentAdsBloc.add(LoadRecentNextPage());
-  }
 
   @override
   void initState() {
@@ -31,13 +25,20 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
     _recentAdsBloc = RecentAdsBloc(DependenciesProvider.provide());
     _recentAdsBloc.add(LoadRecentAds());
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
+    _scrollController.addListener(() async {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        setState(() {
-          loadNextLoading = true;
-        });
-        loadData();
+        if(!loadNextLoading){
+          setState(() {
+            loadNextLoading = true;
+          });
+          await new Future.delayed(new Duration(seconds: 2));
+          _recentAdsBloc.add(LoadRecentNextPage());
+          setState(() {
+            print('iiii');
+            loadNextLoading = false;
+          });
+        }
       }
     });
   }
@@ -46,7 +47,7 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
   void dispose() {
     super.dispose();
     _recentAdsBloc.close();
-//    _scrollController.close();
+    _scrollController.dispose();
   }
 
   @override
@@ -60,8 +61,6 @@ class _RecentAdsScreenState extends State<RecentAdsScreen> {
         builder: (BuildContext context, RecentAdsState state) {
 
           if (state is RecentAdsLoaded) {
-            loadNextLoading = false;
-            _recentProducts = state.products;
             return Column(
               children: <Widget>[
                 Expanded(

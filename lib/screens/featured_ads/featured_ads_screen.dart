@@ -21,30 +21,34 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
   List<Product> featuredProducts;
   var loadNextLoading = false;
 
-  loadData() async {
-    await new Future.delayed(new Duration(seconds: 1));
-    _featuredAdsBloc.add(LoadFeaturedNextPage());
-  }
-
   @override
   void initState() {
     super.initState();
     _featuredAdsBloc = FeaturedAdsBloc(DependenciesProvider.provide());
     _featuredAdsBloc.add(LoadFeaturedAds());
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
+    _scrollController.addListener(() async {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        setState(() {
-          loadNextLoading = true;
-        });
-        loadData();
+        if(!loadNextLoading){
+          setState(() {
+            loadNextLoading = true;
+          });
+
+          await new Future.delayed(new Duration(seconds: 2));
+          _featuredAdsBloc.add(LoadFeaturedNextPage());
+
+          setState(() {
+            print('iiii');
+            loadNextLoading = false;
+          });
+        }
       }
     });
   }
 
   @override
-  void close() {
+  void dispose() {
     super.dispose();
     _featuredAdsBloc.close();
     _scrollController.dispose();
@@ -60,7 +64,6 @@ class _FeaturedAdsScreenState extends State<FeaturedAdsScreen> {
         bloc: _featuredAdsBloc,
         builder: (BuildContext context, FeaturedAdsState state) {
           if (state is FeaturedAdsLoaded) {
-            loadNextLoading = false;
             featuredProducts = state.products;
             return Column(
               children: <Widget>[

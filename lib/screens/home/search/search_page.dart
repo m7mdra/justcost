@@ -49,19 +49,25 @@ class _SearchPageState extends State<SearchPage>
     });
 
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
+    _scrollController.addListener(() async {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         setState(() {
           loadNextLoading = true;
         });
+
+        await Future.delayed(Duration(seconds: 2));
         _featuredAdsBloc.add(LoadFeaturedNextPage());
+
+        setState(() {
+          loadNextLoading = false;
+        });
       }
     });
   }
 
   @override
-  void close() {
+  void dispose() {
     super.dispose();
     _categoriesBloc.close();
     _featuredAdsBloc.close();
@@ -214,6 +220,20 @@ class _SearchPageState extends State<SearchPage>
               return Container();
             },
           ),
+          Visibility(
+            visible: loadNextLoading ? true : false,
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 5,),
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  SizedBox(height: 20,),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

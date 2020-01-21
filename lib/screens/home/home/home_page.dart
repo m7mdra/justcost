@@ -37,10 +37,10 @@ class _HomePageState extends State<HomePage>
   var isLoading = false;
   var loadNextLoading = false;
   ScrollController _scrollController;
+  List<Product> recentProducts;
 
   loadData() {
-      loadNextLoading = true;
-    _recentAdsBloc.add(LoadRecentNextPage());
+
   }
 
   @override
@@ -54,27 +54,38 @@ class _HomePageState extends State<HomePage>
     fetchData();
 
     _scrollController = ScrollController(keepScrollOffset: true);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        print('reached 221');
-        loadData();
+    _scrollController.addListener(() async {
+      if(!loadNextLoading){
+        if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+          print('reached 221');
+          setState(() {
+            print('eeeee');
+            loadNextLoading = true;
+          });
+          await Future.delayed(Duration(seconds: 2));
+          _recentAdsBloc.add(LoadRecentNextPage());
+
+          setState(() {
+            print('iiii');
+            loadNextLoading = false;
+          });
+        }
       }
     });
   }
-
   void fetchData() {
     _bloc.add(LoadSlider());
     _categoriesBloc.add(FetchCategoriesEvent());
     _featuredAdsBloc.add(LoadFeaturedAds());
     _recentAdsBloc.add(LoadRecentAds());
   }
-
   @override
-  void close() {
+  void dispose() {
     super.dispose();
     _bloc.close();
     _categoriesBloc.close();
     _recentAdsBloc.close();
+    _scrollController.dispose();
   }
 
   @override
@@ -247,7 +258,7 @@ class _HomePageState extends State<HomePage>
             bloc: _recentAdsBloc,
             builder: (BuildContext context, RecentAdsState state) {
               if (state is RecentAdsLoaded) {
-                loadNextLoading = false;
+                recentProducts = state.products;
                 return Column(
                   children: <Widget>[
                     Padding(
@@ -300,7 +311,7 @@ class _HomePageState extends State<HomePage>
                       child: Container(
                         child: Column(
                           children: <Widget>[
-                            SizedBox(height: 20,),
+                            SizedBox(height: 10,),
                             Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -316,7 +327,7 @@ class _HomePageState extends State<HomePage>
             },
           ),
           const SizedBox(
-            height: 30,
+            height: 50,
           )
         ],
       ),
