@@ -27,11 +27,11 @@ dependencies:
   image_picker: ^0.6.0+17
   video_player: ^0.10.0+2
   shared_preferences: ^0.5.1+2
-  dio: ^3.0.3
+  dio: ">=3.0.3 <6.0.0"
   equatable: ^0.1.0
-  firebase_messaging: ^5.1.0
-  sqflite:
-  path:
+  firebase_messaging: ">=5.1.0 <8.0.0"
+  sqflite: any
+  path: any
   preload_page_view: ^0.1.4
   get_it: ^1.0.3
   image_crop: 0.3.0
@@ -41,13 +41,13 @@ dependencies:
   flutter_rating_bar: ^3.0.1+1
   flutter_localizations:
     sdk: flutter
-  intl:
-  intl_translation:
+  intl: any
+  intl_translation: any
   flutter_video_compress: ^0.3.7+8
-  flutter_cache_manager: ^1.0.0
+  flutter_cache_manager: ">=1.0.0 <3.0.0"
   share: ^0.6.3+5
   webview_flutter: ^0.3.10+3
-  flutter_local_notifications: ^0.8.0
+  flutter_local_notifications: ">=0.8.0 <5.0.0"
   font_awesome_flutter:
   permission_handler: '^3.2.0'
   cached_network_image: ^2.0.0
@@ -58,7 +58,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.7.2"
+  flutter_launcher_icons: ">=0.7.2 <0.12.0"
 
 flutter_icons:
   image_path: "assets/icon/android/logo.jpg"
